@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}SIGs{% endblock %}
+
+{% block content %}
+<h3>Special Interest Groups (SIGS)</h3>
+<p>SIGs are ACM sub-groups that bind members togethor with common interests. New SIGs are started every year, while some become defunct.  This is a list of all of the SIGs:
+
+<ul id="sig_list">
+{% for sig in sigs %}
+<li>
+<a href="{{ sig.url }}">
+<h4>{{ sig.name }}</h4>
+</a>
+<span class="sig_time">{{ sig.meeting_time }}</span>
+<p class="sig_desc">{{ sig.description }}</p>
+</li>
+{% endfor %}
+
+{% endblock %}
