@@ -22,7 +22,7 @@ The jobs app should allow companies to post available positions the possible als
 This app will manage the SIGs/Groups and their projects.  To begin with, it should support project urls and descriptions, but in the future should be a fully featured project management system.
 
 ### Tutoring
-Tutoring is a supposed to be an implementation of the /mentoring project, designed to connect students, faculty, and the general public together for a collaborative learning effort.  For more information, check out [/mentoring](http://http://blog.dianakimball.com/mentoring).
+Tutoring is a supposed to be an implementation of the /mentoring project, designed to connect students, faculty, and the general public together for a collaborative learning effort.  For more information, check out [/mentoring](http://blog.dianakimball.com/mentoring).
 
 Helping Out
 -----------
