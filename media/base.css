@@ -1,0 +1,36 @@
+/* General HTML elements */
+body {
+	background: #f5f5f5;
+	font-size: 16px;
+}
+
+/* Wrapper and site formatting */
+#wrap {
+	width: 960px;
+	margin: auto;
+}
+
+/* Header */
+#header {
+	height: 150px;
+	background: #202B30;
+	color: #f5f5f5;
+	border-bottom: 2px solid #f5f5f5;
+}
+
+#nav {
+	display: inline;
+}
+
+#nav li {
+	margin: 5px;
+	padding: 2px 5px 2px 5px;
+	display: inline;
+	style: none;
+}
+
+#nav a {
+	color: #f5f5f5;
+	text-decoration: none;
+	font-weight: bold;
+}
