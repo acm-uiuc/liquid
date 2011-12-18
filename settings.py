@@ -69,6 +69,7 @@ ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
+"/Users/cole/code/acm/media/",
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -146,3 +147,7 @@ LOGGING = {
         },
     }
 }
+
+
+# Append slashes if not found in URLConf
+APPEND_SLASH = True

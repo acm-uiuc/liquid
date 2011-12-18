@@ -8,31 +8,34 @@
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         
         <title>ACM@UIUC - {% block title %}{% endblock %}</title>
-        
-        <link rel="stylesheet" href="media/css/base.css"/>
-        
+        <link rel="stylesheet" type="text/css" href="static/base.css" />
+
         <!--[if lt IE 9]>
             <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
-        <![endif]-->
+			<![endif]-->
     </head>
     
-    <body lang="en">
-
+  <body lang="en">
+	
+	<div id="wrap">
 	  <div id="header">
 		<h1 id="title">ACM@UIUC</h1>
 		<h2 id="subtitle">Association for Computing Macinery at Urbana-Champaign</h2>
 		<div id="nav">
 		  <ul>
 			<a href="/"><li>Home</li></a>
-			<a href="/about/"><li>About</li></a>
-			<a href="/blog/"><li>Blog</li></a>
+			  <a href="/about/"><li>About</li></a>
+			  <a href="/blog/"><li>Blog</li></a>
+			  <a href="/sigs"><li>SIGs</li></a>
 		  </ul>
 		</div>
-
+	  </div>
+		
 	  <div id="content">
 		{% block content %}
 		{% endblock %}
 	  </div>
-    </body>
-    
+	</div>
+  </body>
+  
 </html>
