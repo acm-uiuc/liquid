@@ -6,7 +6,7 @@ class Job(models.Model):
   job_title = models.CharField(max_length=255)
   company = models.CharField(max_length=255)
   contact_name = models.CharField(max_length=255)
-  contact_email = models.CharField(max_length=255)
+  contact_email = models.EmailField(max_length=255)
   contact_phone = models.CharField(max_length=255)
   type_full = models.BooleanField()
   type_part = models.BooleanField()

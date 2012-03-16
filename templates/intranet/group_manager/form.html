@@ -38,6 +38,14 @@
     </div>
   </div>
   
+  <div class="control-group{% if form.mailing_list.errors %} error {% endif %}">
+    <label class="control-label" for="input">Mailing List:</label>
+    <div class="controls">
+      <input type="text" class="span5" value="{% if form.mailing_list.value %}{{ form.mailing_list.value }}{% endif %}" name="mailing_list">
+      <span class="help-inline">{{ form.mailing_list.errors }}</span>
+    </div>
+  </div>
+  
   <div class="control-group{% if form.logo.errors %} error {% endif %}">
     <label class="control-label" for="input">Logo:</label>
     <div class="controls">

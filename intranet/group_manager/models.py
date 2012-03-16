@@ -15,6 +15,7 @@ class Group(models.Model):
 	url = models.URLField()
 	active = models.BooleanField()
 	logo = models.FileField(upload_to=settings.MEDIA_ROOT)
+	mailing_list = models.EmailField(max_length=60)
 	type = models.CharField(max_length=1, choices=TYPE_CHOICES)
 	
 class GroupMember(models.Model):
