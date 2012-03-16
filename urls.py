@@ -7,8 +7,13 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = patterns('',
     # Examples:
-    url(r'^$', 'acm.views.main'),
-    url(r'about/^$', 'acm.views.about'),
+    url(r'^$', 'views.main'),
+    url(r'^about/$', 'abouta.views.about'),
+    url(r'^about/join/$', 'abouta.views.join'),
+    url(r'^about/committees/$', 'abouta.views.committees'),
+    url(r'^about/corporate/$', 'abouta.views.corporate'),
+    url(r'^about/corporate/job/$', 'abouta.views.job'),
+    url(r'^about/members/$', 'abouta.views.members'),
 )
 
 urlpatterns += staticfiles_urlpatterns()
