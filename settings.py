@@ -132,7 +132,7 @@ INSTALLED_APPS = (
      #'django.contrib.admindocs',
      'abouta',
      'intranet',
-     'intranet.sig_manager'
+     'intranet.group_manager'
 )
 
 # A sample logging configuration. The only tangible logging

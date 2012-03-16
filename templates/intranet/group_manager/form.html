@@ -7,7 +7,7 @@
   {% csrf_token %}
   {{ form.non_field_errors }}
   <div class="control-group{% if form.name.errors %} error {% endif %}">
-    <label class="control-label" for="textarea">SIG Name:</label>
+    <label class="control-label" for="textarea">Group Name:</label>
     <div class="controls">
       <input type="text" class="span5" value="{% if form.name.value %}{{ form.name.value }}{% endif %}" name="name">
      <span class="help-inline">{{ form.name.errors }}</span>

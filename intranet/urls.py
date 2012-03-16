@@ -4,7 +4,7 @@ urlpatterns = patterns('',
     # Examples:
     url(r'^$', 'intranet.views.main'),
     url(r'^faq/$', 'intranet.views.faq'),
-    url(r'^sig/', include('intranet.sig_manager.urls')),
+    url(r'^group/', include('intranet.group_manager.urls')),
 )
 
 
