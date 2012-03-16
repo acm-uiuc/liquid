@@ -1,107 +1,10 @@
 {% extends "intranet/base.html" %}
+{% load bootstrap %}
 {% block intranet_content %}
 <header class="page-header">
 <h1>{{ page_title }}</h1>
 </header>
 <form class="well" method="post" enctype="multipart/form-data">
-  {% csrf_token %}
-  {{ form.non_field_errors }}
-  <div class="control-group{% if form.type.errors %} error {% endif %}">
-    <label class="control-label" for="textarea">Group Type:</label>
-    <div class="controls">
-      
-     <span class="help-inline">{{ form.type.errors }}</span>
-    </div>
-  </div>
-  
-  <div class="control-group{% if form.name.errors %} error {% endif %}">
-    <label class="control-label" for="textarea">Group Name:</label>
-    <div class="controls">
-      <input type="text" class="span5" value="{% if form.name.value %}{{ form.name.value }}{% endif %}" name="name">
-     <span class="help-inline">{{ form.name.errors }}</span>
-    </div>
-  </div>
- 
-  <div class="control-group{% if form.date_formed.errors %} error {% endif %}">
-    <label class="control-label" for="input">Date Formed:</label>
-    <div class="controls">
-      <input type="text" class="span5" value="{% if form.date_formed.value %}{{ form.date_formed.value }}{% endif %}" name="date_formed">
-      <span class="help-inline">{{ form.date_formed.errors }}</span>
-    </div>
-  </div>
-  
-  <div class="control-group{% if form.meeting_time.errors %} error {% endif %}">
-    <label class="control-label" for="input">Meeting Time:</label>
-    <div class="controls">
-      <input type="text" class="span5" value="{% if form.meeting_time.value %}{{ form.meeting_time.value }}{% endif %}" name="meeting_time">
-      <span class="help-inline">{{ form.meeting_time.errors }}</span>
-    </div>
-  </div>
-  
-  <div class="control-group{% if form.url.errors %} error {% endif %}">
-    <label class="control-label" for="input">URL:</label>
-    <div class="controls">
-      <input type="text" class="span5" value="{% if form.url.value %}{{ form.url.value }}{% endif %}" name="url">
-      <span class="help-inline">{{ form.url.errors }}</span>
-    </div>
-  </div>
-  
-  <div class="control-group{% if form.mailing_list.errors %} error {% endif %}">
-    <label class="control-label" for="input">Mailing List:</label>
-    <div class="controls">
-      <input type="text" class="span5" value="{% if form.mailing_list.value %}{{ form.mailing_list.value }}{% endif %}" name="mailing_list">
-      <span class="help-inline">{{ form.mailing_list.errors }}</span>
-    </div>
-  </div>
-  
-  <div class="control-group{% if form.logo.errors %} error {% endif %}">
-    <label class="control-label" for="input">Logo:</label>
-    <div class="controls">
-      <input class="input-file" type="file" value="{% if form.logo.value %}{{ form.logo.value }}{% endif %}" name="logo">
-      <span class="help-inline">{{ form.logo.errors }}</span>
-    </div>
-  </div>
-  
-  <div class="control-group{% if form.description.errors %} error {% endif %}">
-    <label class="control-label" for="input">Description:</label>
-    <div class="controls">
-      <textarea class="input-xlarge span5" id="textarea" rows="3" name="description">{% if form.description.value %}{{ form.description.value }}{% endif %}</textarea>
-      <span class="help-inline">{{ form.description.errors }}</span>
-    </div>
-  </div>
-  
-  <div class="control-group{% if form.active.errors %} error {% endif %}">
-    <div class="controls">
-      <label class="checkbox inline">
-        <input type="checkbox" name="active" value="True"{% if form.active.value %} checked="checked"{% endif %}> Active
-      </label>
-    </div>
-  </div>
-  
-  <hr>
-  <!--
-  <div class="control-group{% if form.chair.errors %} error {% endif %}">
-    <label class="control-label" for="input">Chair(s):</label>
-    <div class="controls">
-      <input type="text" class="span5" value="{% if form.chair.value %}{{ form.chair.value }}{% endif %}" name="chair">
-    </div>
-  </div>
-  
-  <hr>
-  
-  <div class="control-group{% if form.members.errors %} error {% endif %}">
-    <label class="control-label" for="input">Members:</label>
-    <div class="controls">
-      <input type="text" class="span5" value="{% if form.members.value %}{{ form.members.value }}{% endif %}" name="members">
-    </div>
-  </div>
-  -->
-  <hr>
-  
-  <div class="control-group">
-    <div class="controls">
-      <button type="submit" class="btn btn-primary">Save</button>
-    </div>
-  </div>
+  {{ form|bootstrap }}
 </form>
 {% endblock %}
