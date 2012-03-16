@@ -13,10 +13,10 @@ def new(request):
   c = {}
   c.update(csrf(request))
   if request.method == 'POST': # If the form has been submitted...
-      form = GroupForm(request.POST) # A form bound to the POST data
+      form = GroupForm(request.POST,request.FILES) # A form bound to the POST data
       if form.is_valid(): # All validation rules pass
+          handle_uploaded_file(request.FILES['logo'])
           form.save()
-          
           return HttpResponseRedirect('/') # Redirect after POST
   else:
       form = GroupForm() # An unbound form

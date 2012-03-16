@@ -8,8 +8,8 @@ TYPE_CHOICES = (('S', 'SIG'),('C', 'Committee'))
 # Create your models here.
 class Group(models.Model):
 	name = models.CharField(max_length=30)
-	chair = models.ManyToManyField(User, related_name="group_chair_set")
-	members = models.ManyToManyField(User, through="GroupMember")
+	chair = models.ManyToManyField(User, related_name="group_chair_set",blank=True)
+	members = models.ManyToManyField(User, through="GroupMember",blank=True)
 	date_formed = models.DateField()
 	description = models.TextField()
 	meeting_time = models.DateTimeField()
