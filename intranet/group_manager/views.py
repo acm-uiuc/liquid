@@ -2,7 +2,8 @@ from django.shortcuts import render_to_response, HttpResponseRedirect
 from django.http import HttpResponse
 from django.template import RequestContext
 from django.core.context_processors import csrf
-from intranet.group_manager.models import Group, GroupMember, Project, GroupForm
+from intranet.group_manager.models import Group, GroupMember, Project
+from intranet.group_manager.forms import GroupForm
 
 # Create your views here.
 def main(request):

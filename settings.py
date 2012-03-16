@@ -132,7 +132,8 @@ INSTALLED_APPS = (
      #'django.contrib.admindocs',
      'abouta',
      'intranet',
-     'intranet.group_manager'
+     'intranet.group_manager',
+     'bootstrapform'
 )
 
 # A sample logging configuration. The only tangible logging

@@ -1,5 +1,4 @@
 from django.db import models
-from django.forms import ModelForm
 from django.contrib.auth.models import User
 import settings
 
@@ -35,6 +34,3 @@ class Project(models.Model):
 	url = models.URLField()
 	
 	
-class GroupForm(ModelForm):
-  class Meta:
-      model = Group
