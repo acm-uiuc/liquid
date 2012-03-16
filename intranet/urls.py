@@ -5,6 +5,7 @@ urlpatterns = patterns('',
     url(r'^$', 'intranet.views.main'),
     url(r'^faq/$', 'intranet.views.faq'),
     url(r'^group/', include('intranet.group_manager.urls')),
+    url(r'^treasure_chest/', 'intranet.views.treasure_chest'),
 )
 
 
