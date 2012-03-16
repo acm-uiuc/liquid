@@ -25,8 +25,8 @@ def job(request):
   if request.method == 'POST': # If the form has been submitted...
       form = JobForm(request.POST) # A form bound to the POST data
       if form.is_valid(): # All validation rules pass
-          job_title = form.cleaned_data['job_title']
-          print job_title
+          form.save()
+          
           return HttpResponseRedirect('/about/corporate/job/thanks/') # Redirect after POST
   else:
       form = JobForm() # An unbound form

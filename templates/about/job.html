@@ -55,13 +55,13 @@ members looking for employment.</p>
     Type:
     <div class="controls">
       <label class="checkbox inline">
-        <input type="checkbox" id="inlineCheckbox1" value="type_full"> Full-time
+        <input type="checkbox" name="type_full" value="True"{% if form.type_full.value %} checked="checked"{% endif %}> Full-time
       </label>
       <label class="checkbox inline">
-        <input type="checkbox" id="inlineCheckbox2" value="type_part"> Part-time
+        <input type="checkbox" name="type_part" value="True"{% if form.type_part.value %} checked="checked"{% endif %}> Part-time
       </label>
       <label class="checkbox inline">
-        <input type="checkbox" id="inlineCheckbox3" value="type_intern"> Intern/Co-op
+        <input type="checkbox" name="type_intern" value="True"{% if form.type_intern.value %} checked="checked"{% endif %}> Intern/Co-op
       </label>
     </div>
   </div>
