@@ -1,4 +1,5 @@
 from django.db import models
+from django.forms import ModelForm
 from django.contrib.auth.models import User
 import settings
 
@@ -32,3 +33,8 @@ class Project(models.Model):
 	members = models.ManyToManyField(User, blank=True, related_name="project_members_set")
 	description = models.TextField(blank=True)
 	url = models.URLField()
+	
+	
+class GroupForm(ModelForm):
+  class Meta:
+      model = Group
