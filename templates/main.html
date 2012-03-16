@@ -1,4 +1,28 @@
 {% extends "base.html" %}
 {% block content %}
-Home page, yo.
+<!-- Main hero unit for a primary marketing message or call to action -->
+<div class="hero-unit">
+  <h1>Welcome to ACM@UIUC!</h1>
+  <p>The Association for Computing Machinery (ACM) is a student group consisting of a variety of people with diverse backgrounds who share a common interest in computers. ACM is open to students, faculty, and staff in all fields at the University of Illinois. Within ACM, we have a variety of special interest groups (SIGs) that focus on specific areas of computing. From computer graphics to mobile computing, we have groups that cover everything.</p>
+  <p><a class="btn btn-primary btn-large" href="/about">Learn more &raquo;</a></p>
+</div>
+
+<!-- Example row of columns -->
+<div class="row">
+  <div class="span4">
+    <h2>Calendar</h2>
+     <p>Calendar events that are today or in the near future</p>
+    <p><a class="btn" href="/calendar">More &raquo;</a></p>
+  </div>
+  <div class="span4">
+    <h2>SIGs</h2>
+     <p>ACM has many Special Interest Groups (SIGs) that work on projects in a wide variety of areas. All SIGs are open to all students, no previous knowledge required!</p>
+    <p><a class="btn" href="/sigs">View details &raquo;</a></p>
+ </div>
+  <div class="span4">
+    <h2>Join ACM</h2>
+    <p>As an ACM member you get access to our computer clusters, free unlimited printing, Acoustics, Caffeine, and many other member perks.</p>
+    <p><a class="btn" href="/about/join">Join now &raquo;</a></p>
+  </div>
+</div>
 {% endblock %}

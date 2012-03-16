@@ -7,15 +7,8 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = patterns('',
     # Examples:
-    url(r'^$', 'acm.views.main', name='main'),
-	url(r'^sigs$', 'acm.projects.views.sig_list', name='sig-list'),
-    # url(r'^acm/', include('acm.foo.urls')),
-
-    # Uncomment the admin/doc line below to enable admin documentation:
-    # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-
-    # Uncomment the next line to enable the admin:
-    # url(r'^admin/', include(admin.site.urls)),
+    url(r'^$', 'acm.views.main'),
+    url(r'about/^$', 'acm.views.about'),
 )
 
 urlpatterns += staticfiles_urlpatterns()

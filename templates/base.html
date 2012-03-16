@@ -1,41 +1,60 @@
-<!doctype html>
-<!--[if lt IE 9]><html class="ie"><![endif]-->
-<!--[if gte IE 9]><!--><html><!--<![endif]-->
-    
-    <head>
-        <meta charset="utf-8"/>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        
-        <title>ACM@UIUC - {% block title %}{% endblock %}</title>
-        <link rel="stylesheet" type="text/css" href="static/base.css" />
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>ACM - University of Illinois at Urbana-Champaign</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <!--[if lt IE 9]>
-            <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
-			<![endif]-->
-    </head>
-    
-  <body lang="en">
-	
-	<div id="wrap">
-	  <div id="header">
-		<h1 id="title">ACM@UIUC</h1>
-		<h2 id="subtitle">Association for Computing Macinery at Urbana-Champaign</h2>
-		<div id="nav">
-		  <ul>
-			<a href="/"><li>Home</li></a>
-			  <a href="/about/"><li>About</li></a>
-			  <a href="/blog/"><li>Blog</li></a>
-			  <a href="/sigs"><li>SIGs</li></a>
-		  </ul>
-		</div>
-	  </div>
-		
-	  <div id="content">
-		{% block content %}
-		{% endblock %}
-	  </div>
-	</div>
+    <!-- Le styles -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="/static/favicon.ico">
+  </head>
+  <body>
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="/">ACM@UIUC</span></a>
+            <ul class="nav">
+              <li><a href="/about">About</a></li>
+              <li><a href="/calendar">Calendar</a></li>
+              <li><a href="/sigs">Sigs</a></li>
+              <li><a href="/banks">Banks</a></li>
+              <li><a href="/conference">Conference</a></li>
+              <li><a href="/contact">Contact</a></li>
+              <li><a href="/intra">Intranet</a></li>
+            </ul>
+            <form class="navbar-search pull-right" action="">
+              <input type="text" class="search-query span2" placeholder="Search">
+            </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      {% block content %}
+      {% endblock %}
+      <hr>
+
+      <footer>
+        © ACM@UICU | <a href="mailto:webmaster@acm.uiuc.edu">webmaster@acm.uiuc.edu</a> | office phone (217) 333-5828 | email <a href="acm@uiuc.edu">acm@uiuc.edu</a>
+      </footer>
+
+    </div> <!-- /container -->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/static/jquery-1.7.1.min.js"></script>
+    <script src="/static/bootstrap.min.js"></script>
+
+
   </body>
-  
 </html>
