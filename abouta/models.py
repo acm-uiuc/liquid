@@ -12,6 +12,7 @@ class Job(models.Model):
   type_part = models.BooleanField()
   type_intern = models.BooleanField() 
   description = models.TextField()
+  timestamp = models.DateTimeField(auto_now_add=True)
   
 class JobForm(ModelForm):
   class Meta:
