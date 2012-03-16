@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="row">
+  <div class="span3">
+            <div class="well sidebar-nav">
+              <ul class="nav nav-list">
+                <li class="nav-header">Intranet</li>
+                <li>
+                  <a href="https://www-s.acm.uiuc.edu/mailman/listinfo">Mailing Lists</a>
+                </li>
+                <li>
+                  <a href="http://www.acm.uiuc.edu/caffeine/">Caffeine</a>
+                </li> 
+                <li>
+                  <a href="http://amp.acm.uiuc.edu">Acoustics</a>
+                </li>
+                <li{% if page == 'faq' %} class='active'{% endif %}>
+                  <a href="/intranet/faq">FAQ</a>
+                </li>
+                <li>
+                  <a href="https://www-s.acm.uiuc.edu/confluence/">Wiki</a>
+                </li>
+                
+                <li{% if page == 'members' %} class='active'{% endif %}>
+                  <a href="/intranet/members">Member Manager</a>
+                </li> 
+                <li{% if page == 'jobs' %} class='active'{% endif %}>
+                  <a href="/intranet/jobs">Jobs Manager</a>
+                </li> 
+                <li{% if page == 'calendar' %} class='active'{% endif %}>
+                  <a href="/intranet/calendar">Calendar Manager</a>
+                </li>
+                <li{% if page == 'sig' %} class='active'{% endif %}>
+                  <a href="/intranet/sig">SIG Manager</a>
+                </li>   
+                <li{% if page == 'office_hours' %} class='active'{% endif %}>
+                  <a href="/intranet/office_hours">Office Hours Manager</a>
+                </li>
+                <li{% if page == 'banks' %} class='active'{% endif %}>
+                  <a href="/intranet/banks">Banks Manager</a>
+                </li>      
+                <li{% if page == 'treasure_chest' %} class='active'{% endif %}>
+                  <a href="/intranet/treasure_chest">Treasure Chest</a>
+                </li>
+              </ul>
+            </div><!--/.well -->
+          </div>
+    <div class="span9">
+      {% block intranet_content %}
+      {% endblock %}
+    </div>
+</div>
+{% endblock %}

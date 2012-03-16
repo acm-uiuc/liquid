@@ -7,8 +7,8 @@ from abouta.models import JobForm
 
 
 # Create your views here.
-def about(request):
-  return render_to_response('about/about.html',{"page":'about'})
+def main(request):
+  return render_to_response('about/main.html',{"page":'main'})
   
 def join(request):
   return render_to_response('about/join.html',{"page":'join'})
