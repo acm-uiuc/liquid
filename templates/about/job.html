@@ -8,61 +8,69 @@ members looking for employment.</p>
 
 <p>All fields are required. Please do not enter HTML (or anything enclosed in angle brackets).</p>
 
-<form class="well">
-  <div class="control-group">
+<form class="well" method="post" action="/about/corporate/job/">
+  {% csrf_token %}
+  {{ form.non_field_errors }}
+  <div class="control-group{% if form.job_title.errors %} error {% endif %}">
     <label class="control-label" for="textarea">Job Title:</label>
     <div class="controls">
-      <input type="text" class="span5" placeholder="">
+      <input type="text" class="span5" value="{% if form.job_title.value %}{{ form.job_title.value }}{% endif %}" name="job_title">
+     <span class="help-inline">{{ form.job_title.errors }}</span>
     </div>
   </div>
  
-  <div class="control-group">
+  <div class="control-group{% if form.company.errors %} error {% endif %}">
     <label class="control-label" for="input">Company:</label>
     <div class="controls">
-      <input type="text" class="span5" placeholder="">
+      <input type="text" class="span5" value="{% if form.company.value %}{{ form.company.value }}{% endif %}" name="company">
+      <span class="help-inline">{{ form.company.errors }}</span>
     </div>
   </div>
   
-  <div class="control-group">
+  <div class="control-group{% if form.contact_name.errors %} error {% endif %}">
     <label class="control-label" for="input">Contact Name:</label>
     <div class="controls">
-      <input type="text" class="span5" placeholder="">
+      <input type="text" class="span5" value="{% if form.contact_name.value %}{{ form.contact_name.value }}{% endif %}" name="contact_name">
+      <span class="help-inline">{{ form.contact_name.errors }}</span>
     </div>
   </div>
   
-  <div class="control-group">
+  <div class="control-group{% if form.contact_email.errors %} error {% endif %}">
     <label class="control-label" for="input">Contact Email:</label>
     <div class="controls">
-      <input type="text" class="span5" placeholder="">
+      <input type="text" class="span5" value="{% if form.contact_email.value %}{{ form.contact_email.value }}{% endif %}" name="contact_email">
+      <span class="help-inline">{{ form.contact_email.errors }}</span>
     </div>
   </div>
   
-  <div class="control-group">
+  <div class="control-group{% if form.contact_phone.errors %} error {% endif %}">
     <label class="control-label" for="input">Contact Phone:</label>
     <div class="controls">
-      <input type="text" class="span5" placeholder="">
+      <input type="text" class="span5" value="{% if form.contact_phone.value %}{{ form.contact_phone.value }}{% endif %}"  name="contact_phone">
+      <span class="help-inline">{{ form.contact_phone.errors }}</span>
     </div>
   </div>
   
-  <div class="control-group">
+  <div class="control-group{% if form.type_full.errors %} error {% endif %}">
     Type:
     <div class="controls">
       <label class="checkbox inline">
-        <input type="checkbox" id="inlineCheckbox1" value="option1"> Full-time
+        <input type="checkbox" id="inlineCheckbox1" value="type_full"> Full-time
       </label>
       <label class="checkbox inline">
-        <input type="checkbox" id="inlineCheckbox2" value="option2"> Part-time
+        <input type="checkbox" id="inlineCheckbox2" value="type_part"> Part-time
       </label>
       <label class="checkbox inline">
-        <input type="checkbox" id="inlineCheckbox3" value="option3"> Intern/Co-op
+        <input type="checkbox" id="inlineCheckbox3" value="type_intern"> Intern/Co-op
       </label>
     </div>
   </div>
   
-  <div class="control-group">
-    <label class="control-label" for="input">Contact Phone:</label>
+  <div class="control-group{% if form.description.errors %} error {% endif %}">
+    <label class="control-label" for="input">Description:</label>
     <div class="controls">
-      <textarea class="input-xlarge span5" id="textarea" rows="3"></textarea>
+      <textarea class="input-xlarge span5" id="textarea" rows="3" name="description">{% if form.description.value %}{{ form.description.value }}{% endif %}</textarea>
+      <span class="help-inline">{{ form.description.errors }}</span>
     </div>
   </div>
   
