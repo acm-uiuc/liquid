@@ -7,6 +7,3 @@ def main(request):
   
 def faq(request):
   return render_to_response('intranet/faq.html',{"page":'faq'})
-
-def sig(request):
-  return render_to_response('intranet/sig.html',{"page":'sig'})

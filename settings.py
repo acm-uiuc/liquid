@@ -110,7 +110,6 @@ ROOT_URLCONF = 'urls'
 
 TEMPLATE_DIRS = (
 	os.path.join(SITE_ROOT, 'templates/'),
-	os.path.join(SITE_ROOT, 'templates/about'),
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -121,7 +120,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 )
 
 INSTALLED_APPS = (
-    #'django.contrib.auth',
+    'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     #'django.contrib.sites',
@@ -132,6 +131,8 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
      #'django.contrib.admindocs',
      'abouta',
+     'intranet',
+     'intranet.sig_manager'
 )
 
 # A sample logging configuration. The only tangible logging
