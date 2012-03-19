@@ -1,2 +1,4 @@
 *.pyc
 database
+env/
+fabfile.py
