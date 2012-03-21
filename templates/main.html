@@ -18,15 +18,26 @@
 <!-- Example row of columns -->
 <div class="row">
   <div class="span4">
-    <h2>Calendar</h2>
-     <p>Calendar events that are today or in the near future</p>
-    <p><a class="btn" href="/calendar">More &raquo;</a></p>
-  </div>
+    <h2>GitHub</h2>
+    <p>Code straight from the ACM@UIUC GitHub</p>
+    <ul class="unstyled">
+     {% for e in events %}
+     {% if e.type == "PushEvent" %}
+    <li>
+    <a href="https://github.com/{{e.actor.login}}">{{e.actor.login}}</a> pushed to <a href="http://github.com/{{e.repo.name}}">{{e.repo.name}}</a>.
+    </li>
+    {% endif %}
+    {% endfor %}
+   </ul>
+    <p><a class="btn" href="http://github.com/acm-uiuc/">View GitHub &raquo;</a></p>
+   </div>
+
   <div class="span4">
     <h2>SIGs</h2>
      <p>ACM has many Special Interest Groups (SIGs) that work on projects in a wide variety of areas. All SIGs are open to all students, no previous knowledge required!</p>
     <p><a class="btn" href="/sigs">View details &raquo;</a></p>
- </div>
+   </div>
+
   <div class="span4">
     <h2>Join ACM</h2>
     <p>As an ACM member you get access to our computer clusters, free unlimited printing, Acoustics, Caffeine, and many other member perks.</p>
