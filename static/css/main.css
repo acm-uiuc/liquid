@@ -2,3 +2,12 @@ body {
   padding-top: 60px;
   padding-bottom: 40px;
 }
+
+.carousel-control {
+  display:none;
+}
+
+div.carousel-inner:hover ~ a.carousel-control {
+  display:block;
+}
+
