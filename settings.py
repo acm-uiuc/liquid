@@ -132,6 +132,7 @@ INSTALLED_APPS = (
      #'django.contrib.admindocs',
      'abouta',
      'intranet',
+     'account',
      'intranet.group_manager',
      'bootstrapform'
 )
