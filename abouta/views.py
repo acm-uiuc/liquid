@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.template import RequestContext
 from django.core.context_processors import csrf
 from abouta.models import JobForm
+from intranet.member_manager.models import Member
 
 
 
@@ -41,4 +42,10 @@ def thanks(request):
   return render_to_response('about/thanks.html',{"section":"about",'page':'corporate'})
   
 def members(request):
-  return render_to_response('about/members.html',{"section":"about","page":'members'})
+  n = 3
+  
+  members = Member.objects.filter(status='active').order_by('last_name', 'first_name')
+  p = len(members) / n
+  members  = [members[p*i:p*(i+1)] for i in range(n - 1)] + [members[p*(i+1):]]
+  
+  return render_to_response('about/members.html',{"section":"about","page":'members','members':members})

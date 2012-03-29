@@ -3,5 +3,15 @@
 <header class="page-header">
 <h1>ACM@UIUC Members</h1>
 </header>
-<p>A big list of all the members.</p>
+<div class="row">
+  {% for mlist in members %}
+  <div class="span3">
+    <ul>
+    {% for m in mlist %}
+      <li>{{ m.full_name }}</li>
+    {% endfor %}
+    </ul>
+  </div>
+  {% endfor %}
+</div>
 {% endblock %}
