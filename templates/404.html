@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
+<header class="page-header">
+<h1>404 - File not found</h1>
+</header>
+
 <script language="Javascript"><!--
 var tl=new Array(
 
@@ -84,8 +88,11 @@ function type_text()
 //-->
 window.onload = function(){
   type_text();
-});
+}
 </script>
-
-<textarea rows=8 cols=60 wrap=soft></textarea>
+<p>
+<form>
+<textarea class="span12" rows="8"></textarea>
+</form>
+</p>
 {% endblock %}
