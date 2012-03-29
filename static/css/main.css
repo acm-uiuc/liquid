@@ -3,10 +3,10 @@ body {
 }
 
 .header{
-   height:135px;
+   height:137px;
    background:#ffffff;
-   width:960px;
-   margin-left:-10px;
+   width:980px;
+   margin-left:-20px;
    
    position:relative;
 }
@@ -23,7 +23,7 @@ body {
    
    height:100px;
    margin-bottom:15px;
-   width:990px;
+   width:1010px;
    margin-top:25px;
    margin-left:-15px;
 }
@@ -35,7 +35,7 @@ body {
 
 .ilogo{
    float:right;
-   margin-top:30px;
+   margin-top:25px;
    margin-right:15px;
 }
 
@@ -47,6 +47,7 @@ a.brand,a:hover.brand{
 a.brand div{
    position:relative;
    top:28px;
+   left:12px;
 }
 
 a.brand strong{
@@ -61,12 +62,12 @@ a.brand em{
 }
 
 .main_nav{
-   margin-top:-15px;
+   margin-top:-12px;
 }
 
 .main{
    background:#ffffff;
-   padding:10px;
+   padding:20px;
    border-bottom:3px solid #3dade1;
 }
 
