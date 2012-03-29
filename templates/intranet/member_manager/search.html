@@ -1,0 +1,32 @@
+{% extends "intranet/base.html" %}
+{% block intranet_content %}
+<header class="page-header">
+<h1>Member Manager</h1>
+</header>
+<form class="well form-search" method="GET" action="/intranet/members/search">
+  <input type="text" name="q" class="input-medium search-query" value="{{q}}">
+  <button type="submit" class="btn">Search</button>
+</form>
+
+<table class="table table-striped">
+  <tr>
+    <th>Netid</th>
+    <th>First Name</th>
+    <th>Last Name</th>
+    <th>Joined ACM</th>
+    <th>Left UIUC</th>
+    <th>Status</th>
+  <tr>
+  {% for m in members %}
+  <tr>
+    <td>{{m.netid}}</td>
+    <td>{{m.first_name}}</td>
+    <td>{{m.last_name}}</td>
+    <td>{{m.joined}}</td>
+    <td>{{m.left_uiuc}}</td>
+    <td>{{m.status}}</td>
+  <tr>
+  {% endfor %}
+</table>
+
+{% endblock %}

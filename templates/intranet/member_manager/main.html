@@ -1,8 +1,16 @@
 {% extends "intranet/base.html" %}
 {% block intranet_content %}
-<header class="page-header">
-<h1>Member Manager</h1>
-</header>
-<a href="/intranet/members/new" class="btn">Create New Member</a>
+<h2>Search member database</h2>
+<form class="well form-search" method="GET" action="/intranet/members/search">
+  <input type="text" name="q" class="input-medium search-query">
+  <button type="submit" class="btn">Search</button>
+</form>
 
+<p>
+<a href="/intranet/members/search">Browse all members</a> 
+</p>
+
+<p>
+<a href="/intranet/members/new">Create new members</a> 
+</p>
 {% endblock %}
