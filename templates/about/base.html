@@ -2,31 +2,31 @@
 {% block content %}
 
 <div class="row">
-  <div class="span2">
-            <div class="well sidebar-nav">
-              <ul class="nav nav-list">
-                <li{% if page == 'main' %} class='active'{% endif %}>
-                  <a href="/about">About</a>
-                </li>
-                <li{% if page == 'join' %} class='active'{% endif %}>
-                  <a href="/about/join">Join</a>
-                </li>
-                <li{% if page == 'committees' %} class='active'{% endif %}>
-                  <a href="/about/committees">Committees</a>
-                </li>
-                <li{% if page == 'corporate' %} class='active'{% endif %}>
-                  <a href="/about/corporate">Corporate</a>
-                </li>
-                <li{% if page == 'members' %} class='active'{% endif %}>
-                  <a href="/about/members">Members</a>
-                </li>
-                
-              </ul>
-            </div><!--/.well -->
-          </div>
-    <div class="span10">
+    <div class="span9">
       {% block about_content %}
       {% endblock %}
     </div>
+    <div class="span3">
+        <div class="well sidebar-nav">
+          <ul class="nav nav-list">
+            <li{% if page == 'main' %} class='active'{% endif %}>
+              <a href="/about">About</a>
+            </li>
+            <li{% if page == 'join' %} class='active'{% endif %}>
+              <a href="/about/join">Join</a>
+            </li>
+            <li{% if page == 'committees' %} class='active'{% endif %}>
+              <a href="/about/committees">Committees</a>
+            </li>
+            <li{% if page == 'corporate' %} class='active'{% endif %}>
+              <a href="/about/corporate">Corporate</a>
+            </li>
+            <li{% if page == 'members' %} class='active'{% endif %}>
+              <a href="/about/members">Members</a>
+            </li>
+
+          </ul>
+        </div><!--/.well -->
+      </div>
 </div>
 {% endblock %}

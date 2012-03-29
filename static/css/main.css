@@ -1,6 +1,78 @@
 body {
-  padding-top: 60px;
-  padding-bottom: 40px;
+   background:url("/static/img/whitey.png");
+}
+
+.header{
+   height:135px;
+   background:#ffffff;
+   width:960px;
+   margin-left:-10px;
+   
+   position:relative;
+}
+
+.header_bar{
+   background: #3dade1; /* Old browsers */
+   background: -moz-linear-gradient(top,  #3dade1 0%, #0083ba 100%); /* FF3.6+ */
+   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#3dade1), color-stop(100%,#0083ba)); /* Chrome,Safari4+ */
+   background: -webkit-linear-gradient(top,  #3dade1 0%,#0083ba 100%); /* Chrome10+,Safari5.1+ */
+   background: -o-linear-gradient(top,  #3dade1 0%,#0083ba 100%); /* Opera 11.10+ */
+   background: -ms-linear-gradient(top,  #3dade1 0%,#0083ba 100%); /* IE10+ */
+   background: linear-gradient(top,  #3dade1 0%,#0083ba 100%); /* W3C */
+   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3dade1', endColorstr='#0083ba',GradientType=0 ); /* IE6-9 */
+   
+   height:100px;
+   margin-bottom:15px;
+   width:990px;
+   margin-top:25px;
+   margin-left:-15px;
+}
+
+.logo{
+   margin-top:-25px;
+   float:left;
+}
+
+.ilogo{
+   float:right;
+   margin-top:30px;
+   margin-right:15px;
+}
+
+a.brand,a:hover.brand{
+   color:#FFFFFF;
+   text-decoration:none;
+}
+
+a.brand div{
+   position:relative;
+   top:28px;
+}
+
+a.brand strong{
+   margin-top:15px;
+   font-size:24px;
+   font-weight:normal;
+}
+
+a.brand em{
+   font-style:normal;
+   font-size:18px;
+}
+
+.main_nav{
+   margin-top:-15px;
+}
+
+.main{
+   background:#ffffff;
+   padding:10px;
+   border-bottom:3px solid #3dade1;
+}
+
+footer{
+   margin-top:15px;
+   margin-bottom:15px;
 }
 
 .carousel-control {
@@ -10,4 +82,6 @@ body {
 div.carousel-inner:hover ~ a.carousel-control {
   display:block;
 }
+
+
 

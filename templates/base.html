@@ -18,36 +18,40 @@
     <link rel="shortcut icon" href="/static/favicon.ico">
   </head>
   <body>
-    <div class="navbar navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
-          <a class="brand" href="/">ACM@UIUC</span></a>
-            <ul class="nav">
-              <li><a href="/about">About</a></li>
-              <li><a href="/calendar">Calendar</a></li>
-              <li><a href="/sigs">SIGs</a></li>
-              <li><a href="/banks">Banks</a></li>
-              <li><a href="http://www.acm.uiuc.edu/conference/">Conference</a></li>
-              <li><a href="/contact">Contact</a></li>
-              <li><a href="/intranet">Intranet</a></li>
-            </ul>
-            <form class="navbar-search pull-right" action="">
-              <input type="text" class="search-query span2" placeholder="Search">
-            </form>
+    <div class="container">
+      <div class="header">
+        <div class="header_bar">
+          <img src="/static/img/ilogo.png" class="ilogo">
+          <a class="brand" href="/">
+            <img src="/static/img/logo.png" class="logo">
+            <div>
+              <strong>Association for Computing Machinery</strong><br>
+              <em>University of Illinois at Urbana-Champaign</em>
+            </div>
+          </a>
+          
         </div>
+        <ul class="nav nav-pills main_nav">
+          <li><a href="/about">About</a></li>
+          <li><a href="/calendar">Calendar</a></li>
+          <li><a href="/sigs">SIGs</a></li>
+          <li><a href="/banks">Banks</a></li>
+          <li><a href="http://www.acm.uiuc.edu/conference/">Conference</a></li>
+          <li><a href="/contact">Contact</a></li>
+          <li><a href="/intranet">Intranet</a></li>
+        </ul>
       </div>
     </div>
+    
 
-    <div class="container">
-      {% block content %}
-      {% endblock %}
-      <hr>
-
-      <footer>
-        © ACM@UIUC | <a href="mailto:webmaster@acm.uiuc.edu">webmaster@acm.uiuc.edu</a> | office phone (217) 333-5828 | email <a href="acm@uiuc.edu">acm@uiuc.edu</a>
-      </footer>
-
+    <div class="container main">
+        {% block content %}
+        {% endblock %}
     </div> <!-- /container -->
+    
+    <footer class="container">
+      © ACM@UIUC | <a href="mailto:webmaster@acm.uiuc.edu">webmaster@acm.uiuc.edu</a> | office phone (217) 333-5828 | email <a href="acm@uiuc.edu">acm@uiuc.edu</a>
+    </footer>
 
     <!-- Le javascript
     ================================================== -->
