@@ -20,15 +20,6 @@
   <div class="span4">
     <h2>GitHub</h2>
     <p>Code straight from the ACM@UIUC GitHub</p>
-    <ul class="unstyled">
-     {% for e in events %}
-     {% if e.type == "PushEvent" %}
-    <li>
-    <a href="https://github.com/{{e.actor.login}}">{{e.actor.login}}</a> pushed to <a href="http://github.com/{{e.repo.name}}">{{e.repo.name}}</a>.
-    </li>
-    {% endif %}
-    {% endfor %}
-   </ul>
     <p><a class="btn" href="http://github.com/acm-uiuc/">View GitHub &raquo;</a></p>
    </div>
 

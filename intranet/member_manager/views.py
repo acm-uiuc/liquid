@@ -13,10 +13,18 @@ def main(request):
 def search(request):
   q = request.GET.get('q')
   if q:
-    members = Member.objects.filter(Q(netid__icontains=q) | Q(first_name__icontains=q) | Q(last_name__icontains=q)).order_by('last_name', 'first_name')
+    members = Member.objects.filter(Q(netid__icontains=q) | \
+                                    Q(first_name__icontains=q) | \
+                                    Q(last_name__icontains=q)) \
+                            .order_by('last_name', 'first_name')
   else:
     members = Member.objects.order_by('last_name', 'first_name')
-  return render_to_response('intranet/member_manager/search.html',{"section":"intranet","page":'members','members':members,'q':q})
+  
+  return render_to_response('intranet/member_manager/search.html',{
+    "section":"intranet",
+    "page":'members',
+    'members':members,
+    'q':q})
   
 def new(request):
   c = {}

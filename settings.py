@@ -131,13 +131,7 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    #'django.contrib.sites',
-    #'django.contrib.messages',
-    'django.contrib.staticfiles',
-    # Uncomment the next line to enable the admin:
-     #'django.contrib.admin',
-    # Uncomment the next line to enable admin documentation:
-     #'django.contrib.admindocs',
+
      'abouta',
      'intranet',
      'account',
@@ -173,3 +167,13 @@ LOGGING = {
 
 # Append slashes if not found in URLConf
 APPEND_SLASH = True
+
+SERVE_STATIC = True
+
+if SERVE_STATIC:
+  INSTALLED_APPS += ('django.contrib.staticfiles',)
+
+try:
+  from local_settings import *
+except ImportError, exp:
+  pass
