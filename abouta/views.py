@@ -8,16 +8,16 @@ from abouta.models import JobForm
 
 # Create your views here.
 def main(request):
-  return render_to_response('about/main.html',{"page":'main'})
+  return render_to_response('about/main.html',{"section":"about","page":'main'})
   
 def join(request):
-  return render_to_response('about/join.html',{"page":'join'})
+  return render_to_response('about/join.html',{"section":"about","page":'join'})
   
 def committees(request):
-  return render_to_response('about/committees.html',{"page":'committees'})
+  return render_to_response('about/committees.html',{"section":"about","page":'committees'})
   
 def corporate(request):
-  return render_to_response('about/corporate.html',{"page":'corporate'})
+  return render_to_response('about/corporate.html',{"section":"about","page":'corporate'})
   
 def job(request):
   c = {}
@@ -33,11 +33,12 @@ def job(request):
 
   return render_to_response('about/job.html',{
       'form': form,
+      "section":"about",
       "page":'corporate'
   },context_instance=RequestContext(request))
 
 def thanks(request):
-  return render_to_response('about/thanks.html',{'page':'corporate'})
+  return render_to_response('about/thanks.html',{"section":"about",'page':'corporate'})
   
 def members(request):
-  return render_to_response('about/members.html',{"page":'members'})
+  return render_to_response('about/members.html',{"section":"about","page":'members'})

@@ -32,13 +32,13 @@
           
         </div>
         <ul class="nav nav-pills main_nav">
-          <li><a href="/about">About</a></li>
-          <li><a href="/calendar">Calendar</a></li>
-          <li><a href="/sigs">SIGs</a></li>
-          <li><a href="/banks">Banks</a></li>
+          <li{% if section == 'about' %} class='active'{% endif %}><a href="/about">About</a></li>
+          <li{% if section == 'calendar' %} class='active'{% endif %}><a href="/calendar">Calendar</a></li>
+          <li{% if section == 'sigs' %} class='active'{% endif %}><a href="/sigs">SIGs</a></li>
+          <li{% if section == 'banks' %} class='active'{% endif %}><a href="/banks">Banks</a></li>
           <li><a href="http://www.acm.uiuc.edu/conference/">Conference</a></li>
-          <li><a href="/contact">Contact</a></li>
-          <li><a href="/intranet">Intranet</a></li>
+          <li{% if section == 'contact' %} class='active'{% endif %}><a href="/contact">Contact</a></li>
+          <li{% if section == 'intranet' %} class='active'{% endif %}><a href="/intranet">Intranet</a></li>
         </ul>
       </div>
     </div>

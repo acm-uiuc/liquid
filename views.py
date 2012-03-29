@@ -10,6 +10,6 @@ def main(request):
   return render_to_response('main.html', {'events':events})
 	
 def contact(request):
-  return render_to_response('contact.html')
+  return render_to_response('contact.html',{"section":"contact"})
 	
 

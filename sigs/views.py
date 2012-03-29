@@ -5,4 +5,4 @@ from intranet.group_manager.models import Group, GroupMember, Project
 # Create your views here.
 def main(request):
   sigs = Group.objects.all()
-  return render_to_response('sigs/main.html',{'sigs':sigs})
+  return render_to_response('sigs/main.html',{"section":"sigs",'sigs':sigs})
