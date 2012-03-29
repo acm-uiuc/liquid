@@ -170,10 +170,12 @@ APPEND_SLASH = True
 
 SERVE_STATIC = True
 
-if SERVE_STATIC:
-  INSTALLED_APPS += ('django.contrib.staticfiles',)
 
 try:
   from local_settings import *
 except ImportError, exp:
   pass
+  
+
+if SERVE_STATIC:
+  INSTALLED_APPS += ('django.contrib.staticfiles',)
