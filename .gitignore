@@ -2,3 +2,5 @@
 database
 env/
 fabfile.py
+local_settings.py
+
