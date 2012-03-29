@@ -1,10 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Page Not Found{% endblock %}
-
-{% blcok content %}
-<form>
-  <textarea rows=8 cols=60 wrap=soft></textarea>
-</form>
+{% block content %}
 <script language="Javascript"><!--
 var tl=new Array(
 
@@ -86,5 +81,11 @@ function type_text()
     setTimeout("type_text()",speed);
  
 }
-//--></script>
+//-->
+$(document).ready(function(){
+  type_text();
+});
+</script>
+
+<textarea rows=8 cols=60 wrap=soft></textarea>
 {% endblock %}
