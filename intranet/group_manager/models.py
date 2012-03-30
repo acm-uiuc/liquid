@@ -14,7 +14,7 @@ class Group(models.Model):
 	meeting_time = models.DateTimeField()
 	url = models.URLField()
 	active = models.BooleanField()
-	logo = models.FileField(upload_to=settings.MEDIA_ROOT)
+	logo = models.URLField()
 	mailing_list = models.EmailField(max_length=60)
 	type = models.CharField(max_length=1, choices=TYPE_CHOICES)
 	

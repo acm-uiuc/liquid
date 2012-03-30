@@ -4,6 +4,7 @@ import urllib
 import simplejson
 
 def main(request):
+  print request.user
   return render_to_response('main.html')
 	
 def contact(request):
