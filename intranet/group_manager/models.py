@@ -20,10 +20,10 @@ class Group(models.Model):
 	
 class GroupMember(models.Model):
 	group = models.ForeignKey(Group)
-  member = models.ForeignKey(Member)
-  date_joined = models.DateField()
-  is_admin = models.BooleanField()
-  is_banks_editor = models.BooleanField()
+	member = models.ForeignKey(Member)
+	date_joined = models.DateField()
+	is_admin = models.BooleanField()
+	is_banks_editor = models.BooleanField()
 
 class Project(models.Model):
 	name = models.CharField(max_length=30)
