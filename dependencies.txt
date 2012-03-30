@@ -4,4 +4,4 @@ South==0.7.3
 django-bootstrap-form==2.0.3
 simplejson==2.4.0
 wsgiref==0.1.2
-python-ldap=2.4.9
+python-ldap==2.4.9

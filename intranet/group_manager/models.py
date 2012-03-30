@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from intranet.member_manager.models.Member
 import settings
 
 TYPE_CHOICES = (('S', 'SIG'),('C', 'Committee'))
@@ -7,8 +7,8 @@ TYPE_CHOICES = (('S', 'SIG'),('C', 'Committee'))
 # Create your models here.
 class Group(models.Model):
 	name = models.CharField(max_length=30)
-	chair = models.ManyToManyField(User, related_name="group_chair_set",blank=True)
-	members = models.ManyToManyField(User, through="GroupMember",blank=True)
+	chairs = models.ManyToManyField(Member, related_name="group_chair_set",blank=True)
+	members = models.ManyToManyField(Member, through="GroupMember",blank=True)
 	date_formed = models.DateField()
 	description = models.TextField()
 	meeting_time = models.DateTimeField()
@@ -19,17 +19,17 @@ class Group(models.Model):
 	type = models.CharField(max_length=1, choices=TYPE_CHOICES)
 	
 class GroupMember(models.Model):
-  SIG = models.ForeignKey(Group)
-  user = models.ForeignKey(User)
+	group = models.ForeignKey(Group)
+  member = models.ForeignKey(Member)
   date_joined = models.DateField()
   is_admin = models.BooleanField()
   is_banks_editor = models.BooleanField()
 
 class Project(models.Model):
 	name = models.CharField(max_length=30)
-	lead = models.ForeignKey(User, related_name="project_lead_set")
-	sigs = models.ManyToManyField(Group, blank=True, related_name="project_group_set")
-	members = models.ManyToManyField(User, blank=True, related_name="project_members_set")
+	lead = models.ForeignKey(Member, related_name="project_lead_set")
+	groups = models.ManyToManyField(Group, blank=True, related_name="project_group_set")
+	members = models.ManyToManyField(Member, blank=True, related_name="project_members_set")
 	description = models.TextField(blank=True)
 	url = models.URLField()
 	
