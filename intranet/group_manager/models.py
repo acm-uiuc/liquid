@@ -1,5 +1,5 @@
 from django.db import models
-from intranet.member_manager.models.Member
+from intranet.member_manager.models import Member
 import settings
 
 TYPE_CHOICES = (('S', 'SIG'),('C', 'Committee'))
