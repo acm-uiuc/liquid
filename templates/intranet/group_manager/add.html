@@ -3,12 +3,37 @@
 <header class="page-header">
 <h1>{{group}} - Add members</h1>
 </header>
-{% if members %}
-  <ul>
-  {% for m in members %}
-    <li>{{m.full_name}} ({{m.netid}})</li>
-  {% endfor %}
+{% if added %}
+  <div class="alert alert-success">
+    <strong>Members added:</strong>
+    <ul>
+    {% for m in added %}
+      <li>{{m.full_name}} ({{m.netid}})</li>
+    {% endfor %}
   </ul>
+  </div>
+{% endif %}
+{% if badid %}
+  <div class="alert alert-error">
+    <strong>Bad ids:</strong>
+    <ul>
+    {% for m in badid %}
+      <li>{{m}}</li>
+    {% endfor %}
+    </ul>
+  </div>
+{% endif %}
+{% if duplicate %}
+  <div class="alert alert-info">
+    <strong>Duplicate members:</strong>
+    <ul>
+    {% for m in duplicate %}
+      <li>{{m.full_name}} ({{m.netid}})</li>
+    {% endfor %}
+    </ul>
+  </div>
+{% endif %}
+{% if added or badid or duplicate %}
   <p><a href="/intranet/group/manage/{{group.id}}" class="btn">Back</a></p>
 {% endif %}
 
