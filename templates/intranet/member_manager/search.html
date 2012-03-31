@@ -9,6 +9,7 @@
 </form>
 
 <table class="table table-striped">
+  <thead>
   <tr>
     <th>Netid</th>
     <th>First Name</th>
@@ -17,6 +18,8 @@
     <th>Left UIUC</th>
     <th>Status</th>
   <tr>
+  </thea>
+  <tbody>
   {% for m in members %}
   <tr>
     <td>{{m.netid}}</td>
@@ -24,9 +27,10 @@
     <td>{{m.last_name}}</td>
     <td>{{m.joined}}</td>
     <td>{{m.left_uiuc}}</td>
-    <td>{{m.status}}</td>
-  <tr>
+    <td>{{m.get_status_display}}</td>
+  </tr>
   {% endfor %}
+  </tbody>
 </table>
 
 {% endblock %}

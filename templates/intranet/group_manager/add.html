@@ -1,0 +1,32 @@
+{% extends "intranet/base.html" %}
+{% block intranet_content %}
+<header class="page-header">
+<h1>{{group}} - Add members</h1>
+</header>
+{% if members %}
+  <ul>
+  {% for m in members %}
+    <li>{{m.full_name}} ({{m.netid}})</li>
+  {% endfor %}
+  </ul>
+  <p><a href="/intranet/group/manage/{{group.id}}" class="btn">Back</a></p>
+{% endif %}
+
+<form class="well" method="post">
+  {% csrf_token %}
+  <div class="control-group">
+    <label class="control-label" for="input">List netid's seperated by commas:</label>
+    <div class="controls">
+      <textarea class="input-xlarge span5" id="textarea" rows="3" name="netids"></textarea>
+      <span class="help-inline"></span>
+    </div>
+  </div>
+  <div class="control-group">
+    <div class="controls">
+      <button type="submit" class="btn btn-primary" name="add">Add</button>
+    </div>
+  </div>
+</form>
+
+
+{% endblock %}

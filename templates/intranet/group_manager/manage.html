@@ -1,0 +1,51 @@
+{% extends "intranet/base.html" %}
+{% load bootstrap %}
+{% load user_lookup %}
+{% block intranet_content %}
+<header class="page-header">
+<h1>{{group}}</h1>
+</header>
+<p>
+<a href="/intranet/group/manage/{{group.id}}/add" class="btn">Add members</a>
+</p>
+<form method="post">
+  {% csrf_token %}
+  {{ forms.management_form }}
+
+<div class="control-group">
+  <div class="controls">
+    <button type="submit" class="btn btn-primary pull-right" name="Save">Save</button>
+  </div>
+</div>
+<table class="table table-striped">
+  <thead>
+  <tr>
+  	<th>Netid</th>
+    <th>Name</th>
+    <th>Date Joined</th>
+    <th>Chair</th>
+    <th>Admin</th>
+    <th>Status</th>
+  <tr>
+  </thead>
+  <tbody>
+  {% for m in forms %}
+  <tr>
+  	<td>{{m.id}}{{m.id.value|pk_to_full_name}}</td>
+    <td>{{m.id.value|pk_to_netid}}</td>
+    <td>{{m.id.value|pk_to_date_joined}}</td>
+    <td>{{m.is_chair}}</td>
+    <td>{{m.is_admin}}</td>
+    <td>{{m.status}}</td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+<div class="control-group">
+  <div class="controls">
+    <button type="submit" class="btn btn-primary pull-right" name="Save">Save</button>
+  </div>
+</div>
+</form>
+{% endblock %}

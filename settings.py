@@ -134,7 +134,6 @@ INSTALLED_APPS = (
 
      'abouta',
      'intranet',
-     'account',
      'intranet.group_manager',
      'intranet.member_manager',
      'bootstrapform',
