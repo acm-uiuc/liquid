@@ -132,13 +132,25 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
 
-     'abouta',
-     'intranet',
-     'intranet.group_manager',
-     'intranet.member_manager',
-     'bootstrapform',
-     'south',
-     )
+    'abouta',
+    'banks',
+    'calendara',
+
+    'intranet',
+    'intranet.banks_manager',
+    'intranet.event_manager',
+    'intranet.group_manager',
+    'intranet.job_manager',
+    'intranet.member_manager',
+    'intranet.office_hours_manager',
+
+    'profile',
+    'sigs',
+
+
+    'bootstrapform',
+    'south',
+  )
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

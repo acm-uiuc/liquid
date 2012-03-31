@@ -1,0 +1,35 @@
+{% extends "intranet/base.html" %}
+{% block intranet_content %}
+<header class="page-header">
+<h1>Event Manager</h1>
+</header>
+<p>
+  <a href="/intranet/event/new" class="btn">Create new Event</a>
+</p>
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>Edit</td>
+    <th>Type</th>
+    <th>Name</th>
+    <th>Start Time</th>
+    <th>End Time</th>
+    <th>Sponsors</th>
+    <th>Delete</th>
+  <tr>
+  </thead>
+  <tbody>
+  {% for e in events %}
+  <tr>
+    <td><a href="/intranet/event/edit/{{e.id}}"><i class="icon-edit"></i> Edit</a></td>
+    <td>{{e.get_type_display}}</td>
+    <td>{{e.name}}</td>
+    <td>{{e.starttime}}</td>
+    <td>{{e.endtime}}</td>
+    <td>{{e.all_sponsors}}</td>
+    <td><a href="/intranet/event/delete/{{e.id}}"><i class="icon-trash"></i> Delete</a></td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

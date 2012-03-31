@@ -14,8 +14,6 @@ def main(request):
   return render_to_response('intranet/group_manager/main.html',{"section":"intranet","page":'group','groups':groups})
   
 def new(request):
-  c = {}
-  c.update(csrf(request))
   if request.method == 'POST': # If the form has been submitted...
       form = GroupForm(request.POST) # A form bound to the POST data
       if form.is_valid(): # All validation rules pass
