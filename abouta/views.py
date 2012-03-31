@@ -4,6 +4,7 @@ from django.template import RequestContext
 from django.core.context_processors import csrf
 from abouta.models import JobForm
 from intranet.member_manager.models import Member
+from intranet.group_manager.models import Group
 
 
 
@@ -15,7 +16,12 @@ def join(request):
   return render_to_response('about/join.html',{"section":"about","page":'join'})
   
 def committees(request):
-  return render_to_response('about/committees.html',{"section":"about","page":'committees'})
+  committees = Group.objects.filter(type='C')
+  return render_to_response('about/committees.html',{"section":"about","page":'committees',"committees":committees})
+
+def committees_details(request,id):
+  c = Group.objects.get(id=id)
+  return render_to_response('about/committees_details.html',{"section":"about","page":'committees',"c":c})
   
 def corporate(request):
   return render_to_response('about/corporate.html',{"section":"about","page":'corporate'})

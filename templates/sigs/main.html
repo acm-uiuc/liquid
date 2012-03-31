@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <header class="page-header">
-<h1>SIGs</h1>
+<h1>Special Interest Groups</h1>
 </header>
 {% for s in sigs %}
 <div class="row">
@@ -17,7 +17,7 @@
 			{{s.meeting_location}}
 		</p>
 		<p>
-			<a href="/groups/{{s.id}}">More info</a>
+			<a href="/sigs/{{s.id}}">More info</a>
 		</p>
 	</div>
 </div>
