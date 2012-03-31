@@ -4,7 +4,7 @@ import settings
 import datetime
 
 TYPE_CHOICES = (('S', 'SIG'),('C', 'Committee'),('O','Other'))
-DAY_CHOICES = ((0,'Sunday'),(1,'Monday'),(2,'Tuesday'),(3,'Wednesay'),(4,'Thursday'),(5,'Friday'),(6,'Saturday'))
+DAY_CHOICES = ((0,'Sunday'),(1,'Monday'),(2,'Tuesday'),(3,'Wednesday'),(4,'Thursday'),(5,'Friday'),(6,'Saturday'))
 STATUS_CHOICES = (('active','active'),('inactive','inactive'),('frozen','frozen'))
 
 # Create your models here.
@@ -16,6 +16,7 @@ class Group(models.Model):
 	description = models.TextField()
 	meeting_time = models.TimeField(null=True,blank=True)
 	meeting_day = models.IntegerField(null=True,blank=True,choices=DAY_CHOICES)
+	meeting_location = models.CharField(max_length=255,null=True,blank=True)
 	url = models.URLField(null=True,blank=True)
 	logo = models.URLField(null=True,blank=True)
 	mailing_list = models.EmailField(max_length=60)
@@ -23,6 +24,9 @@ class Group(models.Model):
 
 	def __unicode__(self):
 		return self.name
+
+	def chairs(self):
+		return self.members.filter(groupmember__is_chair=True)
 	
 class GroupMember(models.Model):
 	class Meta:

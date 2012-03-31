@@ -3,4 +3,38 @@
 <header class="page-header">
 <h1>SIGs</h1>
 </header>
+{% for s in sigs %}
+<div class="row">
+	<img src="{{s.logo}}" class="span3"/>
+	<div class="span9">
+		<h2>{{s.name}}</h2>
+		<p>{{s.description}}</p>
+		<p>
+			{{s.members.count}} members
+		</p>
+		<p>
+			<strong>Meetings:</strong><br>
+			{{s.get_meeting_day_display}} {{s.meeting_time}}<br>
+			{{s.meeting_location}}
+		</p>
+		<p>
+			<strong>Chairs</strong><br>
+			<ul>
+			{% for c in s.chairs %}
+				<li>{{ c.full_name }}</li>
+			{% endfor %}
+			</ul>
+		</p>
+		<p>
+			<strong>Website:</strong><br>
+			{{ s.url }}
+		</p>
+		<p>
+			<strong>Mailing List:</strong><br>
+			{{ s.mailing_list }}
+		<p>
+	</div>
+</div>
+<hr>
+{% endfor %}
 {% endblock %}
