@@ -1,6 +1,8 @@
 {% extends "base.html" %}
+{% load gencal %}
 {% block content %}
 <header class="page-header">
 <h1>Calendar</h1>
 </header>
+{{events|month_calendar}}
 {% endblock %}
