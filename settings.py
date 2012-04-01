@@ -134,7 +134,7 @@ INSTALLED_APPS = (
 
     'abouta',
     'banks',
-    'calendara',
+    'cal',
 
     'intranet',
     'intranet.banks_manager',

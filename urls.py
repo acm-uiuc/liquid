@@ -9,7 +9,7 @@ urlpatterns = patterns('',
     # Examples:
     url(r'^$', 'views.main'),
     url(r'^about/', include('abouta.urls')),
-    url(r'^calendar/', include('calendara.urls')),
+    url(r'^calendar/', include('cal.urls')),
     url(r'^sigs/', include('sigs.urls')),
     url(r'^banks/', include('banks.urls')),
     url(r'^contact/', 'views.contact'),
