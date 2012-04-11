@@ -4,10 +4,10 @@ from intranet.member_manager.models import Member
 
 
 class ActiveDirectoryGroupMembershipSSLBackend:
-  supports_object_permissions = False
-  supports_anonymous_user = False
-  supports_inactive_user = False
-  def authenticate(self,username=None,password=None):
+   supports_object_permissions = False
+   supports_anonymous_user = False
+   supports_inactive_user = False
+   def authenticate(self,username=None,password=None):
       try:
          if len(password) == 0:
             return None
@@ -22,7 +22,7 @@ class ActiveDirectoryGroupMembershipSSLBackend:
       except ldap.INVALID_CREDENTIALS:
          pass
 
-  def get_or_create_user(self, username, password):
+   def get_or_create_user(self, username, password):
       try:
          user = self.user_class.objects.get(username=username)
       except self.user_class.DoesNotExist:
