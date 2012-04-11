@@ -24,7 +24,7 @@
     <td>{{g.get_type_display}}</td>
     <td>{{g.name}}</td>
     <td>{{g.status}}</td>
-    <td>{{g.members.count}}</td>
+    <td>{{g.members.count}} ({{g.active_members.count}} active)</td>
     <td><a href="/intranet/group/manage/{{g.id}}"><i class="icon-cog"></i> Manage</a>
   </tr>
   {% endfor %}

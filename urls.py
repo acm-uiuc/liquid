@@ -13,7 +13,8 @@ urlpatterns = patterns('',
     url(r'^sigs/', include('sigs.urls')),
     url(r'^banks/', include('banks.urls')),
     url(r'^contact/', 'views.contact'),
-    url(r'^login/', 'views.login'),
+    url(r'^login/', 'django.contrib.auth.views.login'),
+    url(r'^logout/', 'django.contrib.auth.views.logout'),
     url(r'^intranet/', include('intranet.urls')),
 )
 

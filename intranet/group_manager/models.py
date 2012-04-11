@@ -27,6 +27,9 @@ class Group(models.Model):
 
 	def chairs(self):
 		return self.members.filter(groupmember__is_chair=True)
+
+	def active_members(self):
+		return self.members.filter(groupmember__status='active')
 	
 class GroupMember(models.Model):
 	class Meta:

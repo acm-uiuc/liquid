@@ -15,22 +15,22 @@ ADMINS = (
 MANAGERS = ADMINS
 
 DATABASES = {
-#    'default': {
-#        'ENGINE': 'sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-#        'NAME': os.path.join(SITE_ROOT, 'database'),                      # Or path to database file if using sqlite3.
-#        'USER': '',                      # Not used with sqlite3.
-#        'PASSWORD': '',                  # Not used with sqlite3.
-#        'HOST': 'localhost',                      # Set to empty string for localhost. Not used with sqlite3.
-#        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
-#    }
     'default': {
-        'ENGINE': 'mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'acm',                      # Or path to database file if using sqlite3.
-        'USER': 'root',                      # Not used with sqlite3.
+        'ENGINE': 'sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': os.path.join(SITE_ROOT, 'database'),                      # Or path to database file if using sqlite3.
+        'USER': '',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.
         'HOST': 'localhost',                      # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     }
+#    'default': {
+#        'ENGINE': 'mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+#        'NAME': 'acm',                      # Or path to database file if using sqlite3.
+#        'USER': 'root',                      # Not used with sqlite3.
+#        'PASSWORD': '',                  # Not used with sqlite3.
+#        'HOST': 'localhost',                      # Set to empty string for localhost. Not used with sqlite3.
+#        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+#    }
 }
 
 # Local time zone for this installation. Choices can be found here:
@@ -185,6 +185,25 @@ LOGGING = {
 APPEND_SLASH = True
 
 SERVE_STATIC = True
+
+
+## LDAP STUFF ## should be in local_settings for security
+
+#AD_DNS_NAME='your-ldap-server.com'
+# If using non-SSL use these
+#AD_LDAP_PORT=389
+#AD_LDAP_URL='ldap://%s:%s' % (AD_DNS_NAME,AD_LDAP_PORT)
+# If using SSL use these:
+#AD_LDAP_PORT=636
+#AD_LDAP_URL='ldaps://%s:%s' % (AD_DNS_NAME,AD_LDAP_PORT)
+#AD_SEARCH_DN='dc=mygroup,dc=net,dc=com'
+#AD_NT4_DOMAIN='YOURDOMAIN'
+#AD_SEARCH_FIELDS= ['mail','givenName','sn','sAMAccountName','memberOf']
+#AD_MEMBERSHIP_REQ=['Group_Required','Alternative_Group']
+#AD_CERT_FILE='/path/to/your/cert.txt'
+#AD_DEBUG=True
+#AD_DEBUG_FILE='/path/to/writable/log/file/ldap.debug'
+AUTHENTICATION_BACKENDS = ('accounts.backends.ActiveDirectoryGroupMembershipSSLBackend','django.contrib.auth.backends.ModelBackend')
 
 
 try:
