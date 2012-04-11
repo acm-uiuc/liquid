@@ -17,7 +17,7 @@ class Member(User):
   status = models.CharField(max_length=255,choices=STATUS_CHOICES,default='active')
   
   def save(self, *args, **kwargs):
-    if not self.uid:
+    if not self.id:
       l = ldap.initialize('ldap://ldap.uiuc.edu')
       u = l.search_s('ou=people,dc=uiuc,dc=edu',ldap.SCOPE_SUBTREE,'uid=%s'%self.netid)
       try:
