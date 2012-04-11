@@ -195,7 +195,7 @@ SERVE_STATIC = True
 #AD_CERT_FILE='/path/to/your/cert.txt'
 #AD_DEBUG=True
 #AD_DEBUG_FILE='/path/to/writable/log/file/ldap.debug'
-AUTHENTICATION_BACKENDS = ('accounts.backends.ActiveDirectoryGroupMembershipSSLBackend',)
+AUTHENTICATION_BACKENDS = ('utils.ldapauth.ActiveDirectoryGroupMembershipSSLBackend',)
 
 CUSTOM_USER_MODEL = 'intranet.member_manager.models.Member'
 
