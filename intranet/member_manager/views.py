@@ -38,7 +38,7 @@ def new(request):
             form.save()
             return HttpResponseRedirect('/') # Redirect after POST
           except ValueError:
-            errors = form._errors.setdefault("netid", ErrorList())
+            errors = form._errors.setdefault("username", ErrorList())
             errors.append(u"Not a valid netid")
           
   else:
