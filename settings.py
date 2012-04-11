@@ -106,9 +106,6 @@ TEMPLATE_LOADERS = (
 #     'django.template.loaders.eggs.Loader',
 )
 
-AUTHENTICATION_BACKENDS = (
-        'django.contrib.auth.backends.RemoteUserBackend',
-)
 
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/login'
@@ -198,7 +195,7 @@ SERVE_STATIC = True
 #AD_CERT_FILE='/path/to/your/cert.txt'
 #AD_DEBUG=True
 #AD_DEBUG_FILE='/path/to/writable/log/file/ldap.debug'
-AUTHENTICATION_BACKENDS = ('accounts.backends.ActiveDirectoryGroupMembershipSSLBackend','django.contrib.auth.backends.ModelBackend')
+AUTHENTICATION_BACKENDS = ('accounts.backends.ActiveDirectoryGroupMembershipSSLBackend',)
 
 CUSTOM_USER_MODEL = 'intranet.member_manager.models.Member'
 
