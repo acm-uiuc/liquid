@@ -6,7 +6,7 @@ import datetime
 
 # Create your models here.
 class Member(User):
-  Member._meta.get_field('username').verbose_name = 'netid'
+
   class Meta:
     db_table="users"
     
@@ -34,3 +34,4 @@ class Member(User):
 
   def __unicode__(self):
     return self.netid
+Member._meta.get_field('username').verbose_name = 'netid'
