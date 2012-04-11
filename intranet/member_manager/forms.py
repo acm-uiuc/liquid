@@ -9,4 +9,4 @@ class NewMemberForm(ModelForm):
 class EditMemberForm(ModelForm):
 	class Meta:
 		model = Member
-		fields = ('first_name','last_name','joined','left_uiuc','status')
+		fields = ('first_name','last_name','date_joined','left_uiuc','status')
