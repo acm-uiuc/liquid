@@ -8,5 +8,5 @@ def main(request):
   return render_to_response('main.html',{},context_instance=RequestContext(request))
 	
 def contact(request):
-  return render_to_response('contact.html',{"section":"contact"})
+  return render_to_response('contact.html',{"section":"contact"},context_instance=RequestContext(request))
 

@@ -11,7 +11,7 @@ import string
 # Create your views here.
 def main(request):
   groups = Group.objects.all()
-  return render_to_response('intranet/group_manager/main.html',{"section":"intranet","page":'group','groups':groups})
+  return render_to_response('intranet/group_manager/main.html',{"section":"intranet","page":'group','groups':groups},context_instance=RequestContext(request))
   
 def new(request):
   if request.method == 'POST': # If the form has been submitted...

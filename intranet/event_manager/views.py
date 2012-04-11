@@ -11,7 +11,7 @@ import datetime
 # Create your views here.
 def main(request):
   events = Event.objects.filter(endtime__gte=datetime.datetime.now).order_by('starttime')
-  return render_to_response('intranet/event_manager/main.html',{"section":"intranet","page":'event','events':events})# Create your views here.
+  return render_to_response('intranet/event_manager/main.html',{"section":"intranet","page":'event','events':events},context_instance=RequestContext(request))
 
 def new(request):
   if request.method == 'POST': # If the form has been submitted...

@@ -10,7 +10,7 @@ import ldap
 
 # Create your views here.
 def main(request):
-  return render_to_response('intranet/member_manager/main.html',{"section":"intranet","page":'members'})
+  return render_to_response('intranet/member_manager/main.html',{"section":"intranet","page":'members'},context_instance=RequestContext(request))
   
 def search(request):
   q = request.GET.get('q')
@@ -26,7 +26,7 @@ def search(request):
     "section":"intranet",
     "page":'members',
     'members':members,
-    'q':q})
+    'q':q},context_instance=RequestContext(request))
   
 def new(request):
   c = {}
