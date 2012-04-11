@@ -15,7 +15,7 @@ def main(request):
 def search(request):
   q = request.GET.get('q')
   if q:
-    members = Member.objects.filter(Q(netid__icontains=q) | \
+    members = Member.objects.filter(Q(username__icontains=q) | \
                                     Q(first_name__icontains=q) | \
                                     Q(last_name__icontains=q)) \
                             .order_by('last_name', 'first_name')
