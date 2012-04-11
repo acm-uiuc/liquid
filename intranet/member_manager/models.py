@@ -11,10 +11,7 @@ class Member(User):
     
   STATUS_CHOICES = (('active','active'),('inactive','inactive'),('frozen','frozen'))
   
-  uid = models.AutoField(max_length=20,primary_key=True)
-  netid = models.CharField(max_length=30,unique=True)
-  first_name = models.CharField(max_length=30,blank=True)
-  last_name = models.CharField(max_length=30,blank=True)
+  username = models.CharField(max_length=30,unique=True)
   uin = models.CharField(max_length=9)
   joined = models.DateTimeField(default=datetime.date.today)
   left_uiuc = models.DateField(null=True,blank=True)

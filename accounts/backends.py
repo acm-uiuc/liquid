@@ -24,7 +24,7 @@ class ActiveDirectoryGroupMembershipSSLBackend:
 
   def get_or_create_user(self, username, password):
       try:
-         user = self.user_class.objects.get(netid=username)
+         user = self.user_class.objects.get(username=username)
       except self.user_class.DoesNotExist:
          return None
 
