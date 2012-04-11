@@ -39,7 +39,16 @@
           <li><a href="http://www.acm.uiuc.edu/conference/">Conference</a></li>
           <li{% if section == 'contact' %} class='active'{% endif %}><a href="/contact">Contact</a></li>
           <li{% if section == 'intranet' %} class='active'{% endif %}><a href="/intranet">Intranet</a></li>
+          <ul class="nav nav-pills pull-right right_nav">
+            {% if user.is_authenticated %}
+            <li class="nav_name">Hi, {{user.first_name}}</li>
+            <li><a href="/logout">Logout</a></li>
+            {% else %}
+            <li><a href="/login">Login</a></li>
+            {% endif %}
+          </ul>
         </ul>
+        
       </div>
     </div>
     
