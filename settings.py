@@ -205,6 +205,7 @@ SERVE_STATIC = True
 #AD_DEBUG_FILE='/path/to/writable/log/file/ldap.debug'
 AUTHENTICATION_BACKENDS = ('accounts.backends.ActiveDirectoryGroupMembershipSSLBackend','django.contrib.auth.backends.ModelBackend')
 
+CUSTOM_USER_MODEL = 'intranet.member_manager.models.Member'
 
 try:
   from local_settings import *

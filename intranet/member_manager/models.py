@@ -5,7 +5,7 @@ import ldap
 import datetime
 
 # Create your models here.
-class Member(models.Model):
+class Member(User):
   class Meta:
     db_table="users"
     
