@@ -1,16 +1,19 @@
 import ldap
 import settings
+from django.contrib.auth.models import User
 
 class ActiveDirectoryGroupMembershipSSLBackend:
-
+  supports_object_permissions = False
+  supports_anonymous_user = False
+  supports_inactive_user = False
   def authenticate(self,username=None,password=None):
       try:
          if len(password) == 0:
             return None
-         ldap.set_option(ldap.OPT_X_TLS_CACERTFILE,settings.AD_CERT_FILE)
+         #ldap.set_option(ldap.OPT_X_TLS_CACERTFILE,settings.AD_CERT_FILE)
          l = ldap.initialize(settings.AD_LDAP_URL)
-         l.set_option(ldap.OPT_PROTOCOL_VERSION, 3)
-         binddn = "%s@%s" % (username,settings.AD_NT4_DOMAIN)
+         #l.set_option(ldap.OPT_PROTOCOL_VERSION, 3)
+         binddn = "uid=%s,ou=People,dc=acm,dc=uiuc,dc=edu" % (username)
          l.simple_bind_s(binddn,password)
          l.unbind_s()
          return self.get_or_create_user(username,password)
@@ -50,7 +53,7 @@ class ActiveDirectoryGroupMembershipSSLBackend:
             # search
             if debug:
                print >>debug, 'search...'
-            result = l.search_ext_s(settings.AD_SEARCH_DN,ldap.SCOPE_SUBTREE,"sAMAccountName=%s" % username,settings.AD_SEARCH_FIELDS)[0][1]
+            result = l.search_ext_s(settings.AD_SEARCH_DN,ldap.SCOPE_SUBTREE,"uid=%s" % username,settings.AD_SEARCH_FIELDS)[0][1]
             if debug:
                print >>debug, result
 
