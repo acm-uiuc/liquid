@@ -11,7 +11,6 @@ class Member(User):
     
   STATUS_CHOICES = (('active','active'),('inactive','inactive'),('frozen','frozen'))
   
-  username = models.CharField(max_length=30,unique=True)
   uin = models.CharField(max_length=9)
   joined = models.DateTimeField(default=datetime.date.today)
   left_uiuc = models.DateField(null=True,blank=True)
