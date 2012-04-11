@@ -6,6 +6,7 @@ import datetime
 
 # Create your models here.
 class Member(User):
+  Member._meta.get_field('username').verbose_name = 'netid'
   class Meta:
     db_table="users"
     
@@ -19,7 +20,7 @@ class Member(User):
   def save(self, *args, **kwargs):
     if not self.id:
       l = ldap.initialize('ldap://ldap.uiuc.edu')
-      u = l.search_s('ou=people,dc=uiuc,dc=edu',ldap.SCOPE_SUBTREE,'uid=%s'%self.netid)
+      u = l.search_s('ou=people,dc=uiuc,dc=edu',ldap.SCOPE_SUBTREE,'uid=%s'%self.username)
       try:
         self.last_name = u[0][1]['sn'][0]
         self.first_name = u[0][1]['givenName'][0]
