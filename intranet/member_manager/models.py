@@ -33,5 +33,5 @@ class Member(User):
     return self.first_name + " " + self.last_name
 
   def __unicode__(self):
-    return self.netid
+    return self.full_name()
 Member._meta.get_field('username').verbose_name = 'netid'
