@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="row">
+    <div class="span9">
+      {% block intranet_content %}
+      {% endblock %}
+    </div>
+    <div class="span3">
+      <div class="well sidebar-nav">
+        <ul class="nav nav-list">
+          <li class="nav-header">Links</li>
+            <li>
+              <a href="https://www-s.acm.uiuc.edu/mailman/listinfo">Mailing Lists</a>
+            </li>
+            <li>
+              <a href="http://www.acm.uiuc.edu/caffeine/">Caffeine</a>
+            </li> 
+            <li>
+              <a href="http://amp.acm.uiuc.edu">Acoustics</a>
+            </li>
+            <li>
+              <a href="https://www-s.acm.uiuc.edu/confluence/">Wiki</a>
+            </li>
+            
+          <li class="nav-header">Intranet</li>
+            <li{% if page == 'faq' %} class='active'{% endif %}>
+              <a href="/intranet/faq">FAQ</a>
+            </li>
+            <li{% if page == 'members' %} class='active'{% endif %}>
+              <a href="/intranet/members">Member Database</a>
+            </li> 
+            <li{% if page == 'event' %} class='active'{% endif %}>
+              <a href="/intranet/event">Event Manager</a>
+            </li>
+            <li{% if page == 'group' %} class='active'{% endif %}>
+              <a href="/intranet/group">Group Manager</a>
+            </li> 
+            <li{% if page == 'jobs' %} class='active'{% endif %}>
+              <a href="/intranet/jobs">Jobs Manager</a>
+            </li> 
+        </ul>
+      </div><!--/.well -->
+    </div>
+</div>
+{% endblock %}
