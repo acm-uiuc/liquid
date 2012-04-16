@@ -207,7 +207,8 @@ MIDDLEWARE_CLASSES = ('django.middleware.common.CommonMiddleware',
  'django.middleware.csrf.CsrfViewMiddleware',
  'django.contrib.auth.middleware.AuthenticationMiddleware',
  'django.contrib.messages.middleware.MessageMiddleware',
- 'utils.loginmiddleware.RequireLoginMiddleware',)
+ 'utils.loginmiddleware.RequireLoginMiddleware',
+ 'utils.http.Http403Middleware',)
  
 LOGIN_REQUIRED_URLS = (
   r'/intranet/(.*)$',
