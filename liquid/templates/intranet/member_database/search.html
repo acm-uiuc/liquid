@@ -11,7 +11,7 @@
 <table class="table table-striped">
   <thead>
   <tr>
-    {% if user.is_top_4 %}
+    {% if user.is_top4 %}
     <th>Edit</th>
     {% endif %}
     <th>Netid</th>
@@ -25,7 +25,7 @@
   <tbody>
   {% for m in members %}
   <tr>
-    {% if user.is_top_4 %}
+    {% if user.is_top4 %}
     <td><a href="{% url edit_member m.id %}"><i class="icon-edit"></i> Edit</a></td>
     {% endif %}
     <td>{{m.username}}</td>

@@ -1,9 +1,9 @@
-from django.forms import ModelForm
-from django import forms
+from django.forms import ModelForm, CheckboxSelectMultiple
+from utils.widgets import SplitSelectDateTimeWidget
 from intranet.models import Event
 
 class EventForm(ModelForm):
   class Meta:
     model = Event
-    widgets = {'sponsors': forms.CheckboxSelectMultiple}
+    widgets = {'sponsors': CheckboxSelectMultiple,'starttime': SplitSelectDateTimeWidget,'endtime': SplitSelectDateTimeWidget}
 

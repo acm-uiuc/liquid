@@ -6,6 +6,7 @@
 <p>
   <a href="/intranet/event/new" class="btn">Create new Event</a>
 </p>
+{% if events %}
 <table class="table table-striped">
   <thead>
   <tr>
@@ -32,4 +33,7 @@
   {% endfor %}
   </tbody>
 </table>
+{% else %}
+<p>No upcoming events for you to admin</p>
+{% endif %}
 {% endblock %}

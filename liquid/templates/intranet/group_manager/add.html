@@ -1,4 +1,8 @@
 {% extends "intranet/base.html" %}
+{% block top_styles %}
+<link href="/static/css/token-input-facebook.css" rel="stylesheet">
+<link href="/static/css/token-input.css" rel="stylesheet">
+{% endblock %}
 {% block intranet_content %}
 <header class="page-header">
 <h1>{{group}} - Add members</h1>
@@ -42,7 +46,7 @@
   <div class="control-group">
     <label class="control-label" for="input">List netid's seperated by commas:</label>
     <div class="controls">
-      <textarea class="input-xlarge span5" id="textarea" rows="3" name="netids"></textarea>
+      <textarea class="input-xlarge span5" id="netids" rows="3" name="netids"></textarea>
       <span class="help-inline"></span>
     </div>
   </div>
@@ -53,5 +57,16 @@
   </div>
 </form>
 
-
+{% endblock %}
+{% block bottom_scripts %}
+<script src="/static/js/jquery.tokeninput.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    $("#netids").tokenInput([
+        {% for m in members %}
+        {id: "{{m.username}}", name: "{{m.full_name_and_netid}}"},
+        {% endfor %}
+    ],{theme: "facebook",preventDuplicates:true});
+});
+</script>
 {% endblock %}
