@@ -23,6 +23,7 @@ for row in userReader:
       left_uiuc = row[6]
       status = row[7]
       m = Member(uin=uin,username=netid,status=status,date_joined=date_joined,left_uiuc=left_uiuc)
+      m.save()
       m.id = id
       m.first_name = first_name
       m.last_name = last_name
