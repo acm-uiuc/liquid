@@ -1,0 +1,50 @@
+{% extends "intranet/base.html" %}
+{% load bootstrap %}
+{% load job_lookup %}
+{% block intranet_content %}
+<header class="page-header">
+<h1>Job Manager</h1>
+</header>
+{% if jobs %}
+<form method="post">
+  {% csrf_token %}
+  {{ jobs.management_form }}
+
+<div class="control-group">
+  <div class="controls">
+    <button type="submit" class="btn btn-primary pull-right" name="Save">Save</button>
+  </div>
+</div>
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>Approve</th>
+    <th>Company</th>
+    <th>Type</th>
+    <th>Contact</th>
+    <th>Details</th>
+  <tr>
+  </thead>
+  <tbody>
+  {% for m in jobs %}
+  <tr>
+    <td>{{m.id}}{{m.status}}</td>
+    <td>{{m.id.value|pk_to_company}}</td>
+    <td>{{m.id.value|pk_to_types}}</td>
+    <td>{{m.id.value|pk_to_contact}}<br>{{m.id.value|pk_to_phone}}</td>
+    <td><strong>{{m.id.value|pk_to_title}}</strong><br>{{m.id.value|pk_to_description}}</td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+<div class="control-group">
+  <div class="controls">
+    <button type="submit" class="btn btn-primary pull-right" name="Save">Save</button>
+  </div>
+</div>
+</form>
+{% else %}
+No jobs!
+{% endif %}
+{% endblock %}

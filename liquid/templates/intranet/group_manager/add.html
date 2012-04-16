@@ -8,7 +8,7 @@
     <strong>Members added:</strong>
     <ul>
     {% for m in added %}
-      <li>{{m.full_name}} ({{m.netid}})</li>
+      <li>{{m.full_name}} ({{m.username}})</li>
     {% endfor %}
   </ul>
   </div>
@@ -28,7 +28,7 @@
     <strong>Duplicate members:</strong>
     <ul>
     {% for m in duplicate %}
-      <li>{{m.full_name}} ({{m.netid}})</li>
+      <li>{{m.full_name}} ({{m.username}})</li>
     {% endfor %}
     </ul>
   </div>

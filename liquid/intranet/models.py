@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 from django.contrib.auth.models import User
 import settings
 import datetime
@@ -15,33 +17,40 @@ GROUP_STATUS_CHOICES = (('active','active'),('inactive','inactive'),('frozen','f
 
 EVENT_TYPE_CHOICES = (('a','ACM General'),('g','Group'),('d','Department'))
 
-class Member(User):
-   class Meta:
-      db_table="users"
+EMAIL_STATUS_CHOICES = (('differ','Differ'),('approve','Approve'),('discard','Discard'))
 
+class Member(User):
    uin = models.CharField(max_length=9)
    left_uiuc = models.DateField(null=True,blank=True)
    status = models.CharField(max_length=255,choices=MEMBER_STATUS_CHOICES,default='active')
 
-   def save(self, *args, **kwargs):
-      if not self.id:
-         l = ldap.initialize('ldap://ldap.uiuc.edu')
-         u = l.search_s('ou=people,dc=uiuc,dc=edu',ldap.SCOPE_SUBTREE,'uid=%s'%self.username)
-         try:
-            self.last_name = u[0][1]['sn'][0]
-            self.first_name = u[0][1]['givenName'][0]
-         except IndexError:
-            raise ValueError('Bad Netid', 'Not a valid netid')
-         ## perform other first save operations (caffiene)
-      super(Member, self).save(*args, **kwargs)
-
    def full_name(self):
       return self.first_name + " " + self.last_name
-
+      
+   def is_group_chair(self):
+      is_group_chair = False
+      return is_group_chair
+      
+   def is_top_4(self):
+      return True
+      
    def __unicode__(self):
       return self.full_name()
 #change username to netid in member
 Member._meta.get_field('username').verbose_name = 'netid'
+
+@receiver(pre_save, sender=Member)
+def new_member(sender, **kwargs):
+   user = kwargs['instance']
+   if not user.id:
+      l = ldap.initialize('ldap://ldap.uiuc.edu')
+      u = l.search_s('ou=people,dc=uiuc,dc=edu',ldap.SCOPE_SUBTREE,'uid=%s'%user.username)
+      try:
+         user.last_name = u[0][1]['sn'][0]
+         user.first_name = u[0][1]['givenName'][0]
+      except IndexError:
+         raise ValueError('Bad Netid', 'Not a valid netid')
+      ## perform other first save operations (caffiene)
 
 class Group(models.Model):
    type = models.CharField(max_length=1, choices=GROUP_TYPE_CHOICES)
@@ -111,5 +120,15 @@ class Job(models.Model):
    type_intern = models.BooleanField() 
    description = models.TextField()
    timestamp = models.DateTimeField(auto_now_add=True)
-   approved = models.BooleanField(default=False)
-   sent = models.BooleanField(default=False)
+   status = models.CharField(max_length=10,choices=EMAIL_STATUS_CHOICES,default='differ')
+   sent = models.BooleanField(default=False,blank=True)
+   
+   def types(self):
+      types = []
+      if self.type_full:
+         types.append("Full time")
+      if self.type_part:
+         types.append("Part time")
+      if self.type_intern:
+         types.append("Intern/Co-op")
+      return ", ".join(types)

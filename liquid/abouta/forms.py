@@ -4,4 +4,4 @@ from intranet.models import Job
 class JobForm(ModelForm):
   class Meta:
       model = Job
-      exclude = ['approved','sent']
+      exclude = ['status','sent']

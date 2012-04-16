@@ -77,7 +77,7 @@ def add(request,id):
     for i in netids:
       if len(i) > 0:
         try:
-          m = Member.objects.get(netid=i)
+          m = Member.objects.get(username=i)
           gm = GroupMember(member=m,group=g)
           gm.save()
           added.append(m)

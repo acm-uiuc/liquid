@@ -11,6 +11,9 @@
 <table class="table table-striped">
   <thead>
   <tr>
+    {% if user.is_top_4 %}
+    <th>Edit</th>
+    {% endif %}
     <th>Netid</th>
     <th>First Name</th>
     <th>Last Name</th>
@@ -22,6 +25,9 @@
   <tbody>
   {% for m in members %}
   <tr>
+    {% if user.is_top_4 %}
+    <td><a href="{% url edit_member m.id %}"><i class="icon-edit"></i> Edit</a></td>
+    {% endif %}
     <td>{{m.username}}</td>
     <td>{{m.first_name}}</td>
     <td>{{m.last_name}}</td>
