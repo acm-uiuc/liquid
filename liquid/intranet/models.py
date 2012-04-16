@@ -20,7 +20,7 @@ EVENT_TYPE_CHOICES = (('a','ACM General'),('g','Group'),('d','Department'))
 EMAIL_STATUS_CHOICES = (('differ','Differ'),('approve','Approve'),('discard','Discard'))
 
 class Member(User):
-   uin = models.CharField(max_length=9)
+   uin = models.CharField(max_length=9,null=True)
    left_uiuc = models.DateField(null=True,blank=True)
    status = models.CharField(max_length=255,choices=MEMBER_STATUS_CHOICES,default='active')
 
