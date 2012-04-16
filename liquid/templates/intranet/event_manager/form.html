@@ -1,5 +1,8 @@
 {% extends "intranet/base.html" %}
 {% load bootstrap %}
+{% block top_styles %}
+<link href="/static/css/datepicker.css" rel="stylesheet">>
+{% endblock %}
 {% block intranet_content %}
 <header class="page-header">
 <h1>{{ page_title }}</h1>
@@ -13,4 +16,13 @@
     </div>
   </div>
 </form>
+{% endblock %}
+{% block bottom_scripts %}
+<script src="/static/js/bootstrap-datepicker.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+   $("#id_starttime_0").datepicker({ format: "mm/dd/yyyy" })
+   $("#id_endtime_0").datepicker({ format: "mm/dd/yyyy" })
+});
+</script>
 {% endblock %}

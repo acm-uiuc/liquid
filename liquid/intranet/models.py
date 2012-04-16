@@ -88,6 +88,12 @@ class GroupMember(models.Model):
    is_chair = models.BooleanField(default=False)
    is_admin = models.BooleanField(default=False)
    status = models.CharField(max_length=255,choices=GROUP_MEMBER_STATUS_CHOICES,default='active')
+   
+@receiver(pre_save, sender=GroupMember)
+def new_member(sender, **kwargs):
+   m = kwargs['instance']
+   if m.is_chair:
+      m.is_admin = True
 
 class Project(models.Model):
    name = models.CharField(max_length=30)

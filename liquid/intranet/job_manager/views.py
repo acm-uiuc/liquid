@@ -14,5 +14,4 @@ def main(request):
          formset.save()
    jobs = Job.objects.filter(sent__exact=False).filter(status__exact='differ')
    formset = JobFormSet(queryset=jobs)
-   print formset
    return render_to_response('intranet/job_manager/main.html',{"section":"intranet","page":'jobs',"job_count":len(jobs),"jobs":formset},context_instance=RequestContext(request))
