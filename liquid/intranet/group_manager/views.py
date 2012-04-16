@@ -5,13 +5,15 @@ from django.core.context_processors import csrf
 from django.db import IntegrityError
 from intranet.models import Member, Group, GroupMember, Project
 from intranet.group_manager.forms import GroupForm, GroupMemberFormSet
+from utils.group_decorator import group_admin_required
 import string
 
 # Create your views here.
 def main(request):
   groups = Group.objects.all()
   return render_to_response('intranet/group_manager/main.html',{"section":"intranet","page":'group','groups':groups},context_instance=RequestContext(request))
-  
+
+@group_admin_required(['Top4'])
 def new(request):
   if request.method == 'POST': # If the form has been submitted...
       form = GroupForm(request.POST) # A form bound to the POST data

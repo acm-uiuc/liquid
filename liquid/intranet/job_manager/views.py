@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import user_passes_test
 from utils.group_decorator import group_admin_required
 
 
-@group_admin_required(['Test'])
+@group_admin_required(['Corporate'])
 def main(request):
    if request.method == 'POST':
       formset = JobFormSet(request.POST)

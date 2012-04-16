@@ -4,7 +4,7 @@
 <h1>Member Manager</h1>
 </header>
 <form class="well form-search" method="GET" action="/intranet/members/search">
-  <input type="text" name="q" class="input-medium search-query" value="{{q}}">
+  <input type="text" name="q" class="input-medium search-query" value="{% if q %}{{q}}{% endif %}">
   <button type="submit" class="btn">Search</button>
 </form>
 

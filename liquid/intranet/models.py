@@ -27,12 +27,12 @@ class Member(User):
    def full_name(self):
       return self.first_name + " " + self.last_name
       
-   def is_group_chair(self):
-      is_group_chair = False
-      return is_group_chair
+   def is_group_chair(self,group):
+      user_groups = self.groupmember_set.filter(is_admin__exact=True).filter(group__name__iexact=group)
+      return len(user_groups) > 0
       
    def is_top_4(self):
-      return True
+      return self.is_group_chair('Top4')
       
    def __unicode__(self):
       return self.full_name()
