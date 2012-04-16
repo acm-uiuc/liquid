@@ -4,4 +4,8 @@
 <h1>Welcome, {{user.full_name}}</h1>
 </header>
 
+{% for g in groups %}
+{{g}}
+{% endfor %}
+
 {% endblock %}

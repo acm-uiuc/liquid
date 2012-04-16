@@ -2,9 +2,11 @@ from django.shortcuts import render_to_response
 from intranet.models import Job
 from django.template import RequestContext
 from intranet.job_manager.forms import JobFormSet
+from django.contrib.auth.decorators import user_passes_test
+from utils.group_decorator import group_admin_required
 
 
-# Create your views here.
+@group_admin_required(['Test'])
 def main(request):
    if request.method == 'POST':
       formset = JobFormSet(request.POST)
