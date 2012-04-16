@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.template import RequestContext
 from django.core.context_processors import csrf
 from django.db import IntegrityError
-from intranet.models import Member, Group, GroupMember, Project
+from intranet.models import Member, Group, GroupMember
 from intranet.group_manager.forms import GroupForm, GroupMemberFormSet
 from utils.group_decorator import group_admin_required, specific_group_admin_required
 import string

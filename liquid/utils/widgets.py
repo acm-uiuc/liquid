@@ -2,6 +2,40 @@ from django.forms import MultiWidget
 import re
 from django.forms.widgets import Widget, Select, DateInput
 from django.utils.safestring import mark_safe
+from django import forms
+import datetime
+
+
+
+def add_to_css_class(classes, new_class):
+  new_class = new_class.strip()
+  if new_class:
+     # Turn string into list of classes
+     classes = classes.split(" ")
+     # Strip whitespace
+     classes = [c.strip() for c in classes]
+     # Remove empty elements
+     classes = filter(None, classes)
+     # Test for existing
+     if not new_class in classes:
+        classes.append(new_class)
+        # Convert to string
+     classes = u" ".join(classes)
+  return classes
+
+class BootstrapDateInput(forms.DateInput):
+  def render(self, name, value, attrs=None):
+     if value==None:
+        value = datetime.date.today().strftime("%m/%d/%Y")
+     elif type(value) is datetime.date:
+        value = value.strftime("%m/%d/%Y")
+     if not attrs:
+        attrs = {}
+     if 'class' in attrs:
+        attrs['class'] = add_to_css_class(attrs['class'], 'datepicker')
+     else:
+        attrs['class'] = 'datepicker'
+     return super(BootstrapDateInput, self).render(name, value, attrs)
 
 
 # Attempt to match many time formats:
@@ -123,12 +157,12 @@ class SelectTimeWidget(Widget):
 
         hour_choices = [("%.2d"%i, "%.2d"%i) for i in self.hours]
         local_attrs = self.build_attrs(id=self.hour_field % id_)
-        select_html = Select(choices=hour_choices).render(self.hour_field % name, hour_val, local_attrs)
+        select_html = Select(choices=hour_choices,attrs={'class':'span1'}).render(self.hour_field % name, hour_val, local_attrs)
         output.append(select_html)
 
         minute_choices = [("%.2d"%i, "%.2d"%i) for i in self.minutes]
         local_attrs['id'] = self.minute_field % id_
-        select_html = Select(choices=minute_choices).render(self.minute_field % name, minute_val, local_attrs)
+        select_html = Select(choices=minute_choices,attrs={'class':'span1'}).render(self.minute_field % name, minute_val, local_attrs)
         output.append(select_html)
 
         if self.use_seconds:
@@ -145,7 +179,7 @@ class SelectTimeWidget(Widget):
                 meridiem_choices = [('a.m.','AM'), ('p.m.','PM')]
 
             local_attrs['id'] = local_attrs['id'] = self.meridiem_field % id_
-            select_html = Select(choices=meridiem_choices).render(self.meridiem_field % name, self.meridiem_val, local_attrs)
+            select_html = Select(choices=meridiem_choices,attrs={'class':'span1'}).render(self.meridiem_field % name, self.meridiem_val, local_attrs)
             output.append(select_html)
 
         return mark_safe(u'\n'.join(output))
@@ -183,7 +217,7 @@ class SplitSelectDateTimeWidget(MultiWidget):
     """
     def __init__(self, attrs=None, hour_step=1, minute_step=15, second_step=None, twelve_hr=True, use_seconds=False):
         """ pass all these parameters to their respective widget constructors..."""
-        widgets = (DateInput(attrs=attrs), SelectTimeWidget(attrs=attrs, hour_step=hour_step, minute_step=minute_step, second_step=second_step, twelve_hr=twelve_hr))
+        widgets = (BootstrapDateInput(attrs=attrs), SelectTimeWidget(attrs=attrs, hour_step=hour_step, minute_step=minute_step, second_step=second_step, twelve_hr=twelve_hr))
         super(SplitSelectDateTimeWidget, self).__init__(widgets, attrs)
 
     def decompress(self, value):

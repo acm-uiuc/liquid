@@ -112,8 +112,8 @@ class Event(models.Model):
       return ', '.join([str(x) for x in self.sponsors.all()])
       
 class EventSponsor(models.Model):
-   event = models.ForeignKey(Event)
-   group = models.ForeignKey(Group)
+   event = models.ForeignKey(Event,"sponsorship")
+   group = models.ForeignKey(Group,related_name="sponsorship")
    approved = models.BooleanField(default=False)
 
 class Job(models.Model):
