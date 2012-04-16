@@ -95,14 +95,6 @@ def new_member(sender, **kwargs):
    if m.is_chair:
       m.is_admin = True
 
-class Project(models.Model):
-   name = models.CharField(max_length=30)
-   lead = models.ForeignKey(Member, related_name="project_lead_set")
-   groups = models.ManyToManyField(Group, blank=True, related_name="project_group_set")
-   members = models.ManyToManyField(Member, blank=True, related_name="project_members_set")
-   description = models.TextField(blank=True)
-   url = models.URLField()
-
 class Event(models.Model):
    type = models.CharField(max_length=1,choices=EVENT_TYPE_CHOICES,default='g')
    name = models.CharField(max_length=255)
