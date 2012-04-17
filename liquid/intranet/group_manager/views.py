@@ -23,9 +23,9 @@ def new(request):
   if request.method == 'POST': # If the form has been submitted...
       form = GroupForm(request.POST) # A form bound to the POST data
       if form.is_valid(): # All validation rules pass
-          form.save()
+          g = form.save()
           messages.add_message(request, messages.SUCCESS, 'Group created')
-          return HttpResponseRedirect('/intranet/group') # Redirect after POST
+          return HttpResponseRedirect('/intranet/group/manage/' + g.id) # Redirect after POST
   else:
       form = GroupForm() # An unbound form
 
