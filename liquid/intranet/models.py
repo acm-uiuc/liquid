@@ -77,10 +77,14 @@ class Group(models.Model):
       return self.name
 
    def chairs(self):
-      return self.members.filter(groupmember__is_chair=True)
+      chairs = []
+      for c in self.members.filter(groupmember__is_chair=True):
+         chairs.append(c.full_name())
+      
+      return ", ".join(chairs)
 
    def active_members(self):
-      return self.members.filter(groupmember__status='active')
+      return self.members.filter(groupmember__status='active').order_by('last_name')
 
 class GroupMember(models.Model):
    class Meta:

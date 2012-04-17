@@ -3,5 +3,14 @@
 <header class="page-header">
 <h1>{{c.name}}</h1>
 </header>
-
+<p>{{c.description}}</p>
+<p>Chairs: {{c.chairs}}</p>
+<p>Email: <a href="mailto:{{c.mailing_list}}">{{c.mailing_list}}</a></p>
+<p>
+   Members:
+   <ul>
+      {% for m in c.active_members %}
+      <li>{{m.full_name}}</li>
+      {% endfor %}
+   </ul>
 {% endblock %}
