@@ -17,7 +17,7 @@ GROUP_STATUS_CHOICES = (('active','active'),('inactive','inactive'),('frozen','f
 
 EVENT_TYPE_CHOICES = (('a','ACM General'),('g','Group'),('d','Department'))
 
-EMAIL_STATUS_CHOICES = (('differ','Differ'),('approve','Approve'),('discard','Discard'))
+EMAIL_STATUS_CHOICES = (('defer','Defer'),('approve','Approve'),('discard','Discard'))
 
 class Member(User):
    uin = models.CharField(max_length=9,null=True)
@@ -128,7 +128,7 @@ class Job(models.Model):
    type_intern = models.BooleanField() 
    description = models.TextField()
    timestamp = models.DateTimeField(auto_now_add=True)
-   status = models.CharField(max_length=10,choices=EMAIL_STATUS_CHOICES,default='differ')
+   status = models.CharField(max_length=10,choices=EMAIL_STATUS_CHOICES,default='defer')
    sent = models.BooleanField(default=False,blank=True)
    
    def types(self):
