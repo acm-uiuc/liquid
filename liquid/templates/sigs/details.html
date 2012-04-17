@@ -1,6 +1,20 @@
 {% extends "base.html" %}
 {% block content %}
 <header class="page-header">
-<h1>{{g.name}}</h1>
+<h1>{{s.name}}</h1>
 </header>
+<p><img src="{{s.logo}}" align="right">{{s.description}}</p>
+<p>Chairs: {{s.chairs}}</p>
+<p>Email: <a href="mailto:{{s.mailing_list}}">{{s.mailing_list}}</a></p>
+<p>Website: <a href="s.url}}">{{s.url}}</a></p>
+<p>
+	Meetings: {{s.get_meeting_day_display}} {{s.meeting_time}}, {{s.meeting_location}}
+</p>
+<p>
+   Members:
+   <ul>
+      {% for m in s.active_members %}
+      <li>{{m.full_name}}</li>
+      {% endfor %}
+   </ul>
 {% endblock %}
