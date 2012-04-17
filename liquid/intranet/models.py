@@ -37,6 +37,9 @@ class Member(User):
    def is_top4(self):
       return self.is_group_admin('Top4')
       
+   def is_admin(self):
+      return len(self.groupmember_set.filter(is_admin__exact=True)) > 0
+   
    def __unicode__(self):
       return self.full_name()
 #change username to netid in member
@@ -110,6 +113,9 @@ class Event(models.Model):
 
    def all_sponsors(self):
       return ', '.join([str(x) for x in self.sponsors.all()])
+   
+   def has_sponsors(self):
+      return len(self.sponsors.all()) > 0
 
 class Job(models.Model):
    job_title = models.CharField(max_length=255)

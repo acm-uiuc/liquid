@@ -1,8 +1,10 @@
 {% extends "base.html" %}
-{% load gencal %}
 {% block content %}
 <header class="page-header">
 <h1>Calendar</h1>
 </header>
-{{events|month_calendar}}
+{% for e in events %}
+ {% ifchanged %}<h2>{{ e.starttime|date:"F j Y" }}</h2>{% endifchanged %}
+ <p>{{e.starttime|date:"f:i A"}}: <a href="{% url event_details e.id %}">{{e.name}}</a></p>
+ {% endfor %}
 {% endblock %}
