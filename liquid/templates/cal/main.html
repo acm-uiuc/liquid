@@ -11,4 +11,23 @@
 {% else %}
 <p>No events</p>
 {% endif %}
+{% if events.paginator.num_pages > 1 %}
+<hr>
+<div class="pagination">
+  <ul>
+     {% if events.has_previous %}
+    <li><a href="/calendar/{{ events.previous_page_number }}">Prev</a></li>
+    {% endif %}
+    {% for i in events.paginator.page_range %}
+    <li{% ifequal i events.number %} class="active"{% endifequal %}>
+       <a href="/calendar/{{ i }}">{{ i }}</a>
+     </li>
+
+    {% endfor %}
+    {% if events.has_next %}
+    <li><a href="/calendar/{{ events.next_page_number }}">Next</a></li>
+    {% endif %}
+  </ul>
+</div>
+{% endif %}
 {% endblock %}
