@@ -7,8 +7,7 @@ import datetime
 from intranet.models import Event
 
 def main(request):
-   futer = datetime.datetime.now() + datetime.timedelta(days=2)
-   events = Event.objects.filter(endtime__gte=datetime.datetime.now()).filter(starttime__lte=futer).order_by('starttime')
+   events = Event.objects.filter(endtime__gte=datetime.datetime.now()).order_by('starttime')[:5]
    return render_to_response('main.html',{"events":events},context_instance=RequestContext(request))
 	
 def contact(request):
