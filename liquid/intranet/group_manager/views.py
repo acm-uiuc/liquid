@@ -25,7 +25,7 @@ def new(request):
       if form.is_valid(): # All validation rules pass
           g = form.save()
           messages.add_message(request, messages.SUCCESS, 'Group created')
-          return HttpResponseRedirect('/intranet/group/manage/' + g.id) # Redirect after POST
+          return HttpResponseRedirect('/intranet/group/manage/%d'%g.id) # Redirect after POST
   else:
       form = GroupForm() # An unbound form
 
