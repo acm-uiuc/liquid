@@ -9,5 +9,5 @@ class GroupForm(ModelForm):
   class Meta:
     model = Group
     exclude = ['members']
-    widgets = {'meeting_time': SelectTimeWidget,'meeting_date':BootstrapDateInput}
+    widgets = {'meeting_time': SelectTimeWidget,'date_formed':BootstrapDateInput}
 
