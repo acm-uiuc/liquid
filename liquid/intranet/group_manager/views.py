@@ -65,6 +65,7 @@ def manage(request,id):
     if forms.is_valid(): # All validation rules pass
       forms.save()
       messages.add_message(request, messages.SUCCESS, 'Changes saved')
+      forms = GroupMemberFormSet(instance=g)
   else:
     forms = GroupMemberFormSet(instance=g)
 
