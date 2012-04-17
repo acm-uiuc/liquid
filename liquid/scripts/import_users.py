@@ -26,6 +26,8 @@ for row in userReader:
       m.id = id
       m.first_name = first_name
       m.last_name = last_name
+      if netid:
+         m.email = netid + "@illinois.edu"
       m.save()
    except Exception as inst:
       print "Error importing %s" % row

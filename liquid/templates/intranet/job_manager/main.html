@@ -5,7 +5,7 @@
 <header class="page-header">
 <h1>Job Manager</h1>
 </header>
-{% if jobs %}
+{% if job_count %}
 <form method="post">
   {% csrf_token %}
   {{ jobs.management_form }}
@@ -45,6 +45,9 @@
 </div>
 </form>
 {% else %}
-No jobs!
+<p>No jobs!</p>
+<p>Wait thats a bad thing. No jobs, no money.</p>
+<p>:(</p>
+<p>I wish we had jobs.</p>
 {% endif %}
 {% endblock %}

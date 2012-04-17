@@ -31,6 +31,7 @@ def wrap(string, width=80, ind1=0, ind2=0, prefix=''):
 
 from intranet.models import Job
 from datetime import date
+from django.core.mail import send_mail
 
 jobs = Job.objects.filter(sent__exact=False).filter(status__exact='approve')
 
@@ -53,10 +54,17 @@ if jobs:
       email += "Hiring for: " + j.types() + "\r\n"
       email += "Description:\r\n" + wrap(j.description, 72) + "\r\n";
       email += "\r\n========================================================================\r\n\r\n";
-      j.sent = True
-      j.save()
 
 
-   print email
+   try:
+      send_mail('ACM@UIUC Weekly Job Postings', email, 'ACM Corporate Committee <corporate@acm.uiuc.edu>',['reedlabotz@gmail.com'], fail_silently=False)
+      print "Email sent"
+      for j in jobs:
+         j.sent = True
+         j.save()
+   except Exception as inst:
+      print "Error sending email"
+      print inst
+
 else:
    print "No jobs to send"

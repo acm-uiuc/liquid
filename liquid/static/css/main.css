@@ -107,3 +107,14 @@ div.carousel-inner:hover ~ a.carousel-control {
 
 
 
+.controls ul li input[type='checkbox']{
+   display: inline;
+}
+
+.controls ul li{
+   list-style: none;
+}
+
+.help-block{
+   display:none;
+}

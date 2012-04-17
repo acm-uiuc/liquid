@@ -3,9 +3,12 @@
 <header class="page-header">
 <h1>Group Manager</h1>
 </header>
+{% if user.is_top4 %}
 <p>
 	<a href="/intranet/group/new" class="btn">Create New Group</a>
 </p>
+{% endif %}
+{% if groups %}
 <table class="table table-striped">
   <thead>
   <tr>
@@ -30,4 +33,7 @@
   {% endfor %}
   </tbody>
 </table>
+{% else %}
+<p>You are not the admin of any ACM group.</p>
+{% endif %}
 {% endblock %}

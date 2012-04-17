@@ -27,13 +27,19 @@ class Member(User):
    def full_name(self):
       return self.first_name + " " + self.last_name
       
-   def is_group_chair(self):
-      is_group_chair = False
-      return is_group_chair
+   def full_name_and_netid(self):
+      return self.full_name() + " (" + self.username + ")"
       
-   def is_top_4(self):
-      return True
+   def is_group_admin(self,group):
+      user_groups = self.groupmember_set.filter(is_admin__exact=True).filter(group__name__iexact=group)
+      return len(user_groups) > 0
       
+   def is_top4(self):
+      return self.is_group_admin('Top4')
+      
+   def is_admin(self):
+      return len(self.groupmember_set.filter(is_admin__exact=True)) > 0
+   
    def __unicode__(self):
       return self.full_name()
 #change username to netid in member
@@ -50,6 +56,7 @@ def new_member(sender, **kwargs):
          user.first_name = u[0][1]['givenName'][0]
       except IndexError:
          raise ValueError('Bad Netid', 'Not a valid netid')
+      user.email = username + "@illinois.edu"
       ## perform other first save operations (caffiene)
 
 class Group(models.Model):
@@ -78,36 +85,37 @@ class Group(models.Model):
 class GroupMember(models.Model):
    class Meta:
       unique_together = ('group','member')
-   group = models.ForeignKey(Group)
+   group = models.ForeignKey(Group,related_name='membership')
    member = models.ForeignKey(Member)
    date_joined = models.DateField(default=datetime.date.today)
    is_chair = models.BooleanField(default=False)
    is_admin = models.BooleanField(default=False)
    status = models.CharField(max_length=255,choices=GROUP_MEMBER_STATUS_CHOICES,default='active')
-
-class Project(models.Model):
-   name = models.CharField(max_length=30)
-   lead = models.ForeignKey(Member, related_name="project_lead_set")
-   groups = models.ManyToManyField(Group, blank=True, related_name="project_group_set")
-   members = models.ManyToManyField(Member, blank=True, related_name="project_members_set")
-   description = models.TextField(blank=True)
-   url = models.URLField()
+   
+@receiver(pre_save, sender=GroupMember)
+def new_member(sender, **kwargs):
+   m = kwargs['instance']
+   if m.is_chair:
+      m.is_admin = True
 
 class Event(models.Model):
-   type = models.CharField(max_length=1,choices=EVENT_TYPE_CHOICES)
+   type = models.CharField(max_length=1,choices=EVENT_TYPE_CHOICES,default='g')
    name = models.CharField(max_length=255)
    description = models.TextField(null=True,blank=True)
    starttime = models.DateTimeField()
    endtime = models.DateTimeField()
    location = models.CharField(max_length=255,null=True,blank=True)
-   sponsors = models.ManyToManyField(Group, blank=True)
+   sponsors = models.ManyToManyField(Group,blank=True,null=True)
+   creator = models.ForeignKey(Member)
 
    def __unicode__(self):
       return self.name
 
    def all_sponsors(self):
-      print self.sponsors.all()
       return ', '.join([str(x) for x in self.sponsors.all()])
+   
+   def has_sponsors(self):
+      return len(self.sponsors.all()) > 0
 
 class Job(models.Model):
    job_title = models.CharField(max_length=255)

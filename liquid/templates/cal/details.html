@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<header class="page-header">
+<h1>{{event.name}}</h1>
+</header>
+<p>Start time: {{event.starttime}}<br>
+   End time: {{event.endtime}}</p>
+<p>Location: {{event.location}}</p>
+{% if event.has_sponsors %}
+<p>Hosts: {{event.all_sponsors}}</p>
+{% endif %}
+<p>{{event.description}}</p>
+{% endblock %}

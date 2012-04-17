@@ -4,14 +4,14 @@
 <h1>Member Manager</h1>
 </header>
 <form class="well form-search" method="GET" action="/intranet/members/search">
-  <input type="text" name="q" class="input-medium search-query" value="{{q}}">
+  <input type="text" name="q" class="input-medium search-query" value="{% if q %}{{q}}{% endif %}">
   <button type="submit" class="btn">Search</button>
 </form>
 
 <table class="table table-striped">
   <thead>
   <tr>
-    {% if user.is_top_4 %}
+    {% if user.is_top4 %}
     <th>Edit</th>
     {% endif %}
     <th>Netid</th>
@@ -25,7 +25,7 @@
   <tbody>
   {% for m in members %}
   <tr>
-    {% if user.is_top_4 %}
+    {% if user.is_top4 %}
     <td><a href="{% url edit_member m.id %}"><i class="icon-edit"></i> Edit</a></td>
     {% endif %}
     <td>{{m.username}}</td>

@@ -4,7 +4,7 @@ from django.template import RequestContext
 from django.core.context_processors import csrf
 from django.db.models import Q
 from django.forms.util import ErrorList
-from django.core.exceptions import PermissionDenied
+from utils.group_decorator import group_admin_required
 from intranet.models import Member
 from intranet.member_database.forms import NewMemberForm, EditMemberForm
 import ldap
@@ -29,11 +29,9 @@ def search(request):
     "page":'members',
     'members':members,
     'q':q},context_instance=RequestContext(request))
-  
+
+@group_admin_required(['Top4'])  
 def new(request):
-   if not request.user.is_top_4():
-      raise PermissionDenied("You do not have rights to add new member.")
-   c = {}
    if request.method == 'POST': # If the form has been submitted...
       form = NewMemberForm(request.POST) # A form bound to the POST data
       if form.is_valid(): # All validation rules pass
@@ -53,10 +51,9 @@ def new(request):
       "page":'members',
       "page_title":"Create new Member"
     },context_instance=RequestContext(request))
-    
+
+@group_admin_required(['Top4'])
 def edit(request,id):
-   if not request.user.is_top_4():
-      raise PermissionDenied("You do not have rights to edit member.")
    g = Member.objects.get(id=id)
    forms = EditMemberForm(instance=g)
    if request.method == 'POST': # If the form has been submitted...

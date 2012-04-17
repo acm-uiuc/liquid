@@ -2,36 +2,56 @@
 {% block content %}
 <div id="myCarousel" class="carousel">
    <!-- Carousel items -->
-     <div class="carousel-inner">
-       <div class="active item hero-unit">
-         <h1>Welcome to ACM@UIUC!</h1>
-         <p>The Association for Computing Machinery (ACM) is a student group consisting of a variety of people with diverse backgrounds who share a common interest in computers. ACM is open to students, faculty, and staff in all fields at the University of Illinois. Within ACM, we have a variety of special interest groups (SIGs) that focus on specific areas of computing. From computer graphics to mobile computing, we have groups that cover everything.</p>
-         <p><a class="btn btn-primary btn-large" href="/about">Learn more &raquo;</a></p>
+   <div class="row">
+     <div class="span8">
+       <div class="carousel-inner">
+         <div class="active item">
+           <h2>Welcome to ACM@UIUC!</h2>
+           <p>The Association for Computing Machinery (ACM) is a student group consisting of a variety of people with diverse backgrounds who share a common interest in computers.</p>
+           <p><a class="btn btn-primary btn-large" href="/about">Learn more &raquo;</a></p>
+         </div>
        </div>
-     </div>
-     <!-- Carousel nav -->
-     <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
-     <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
+       <!-- Carousel nav -->
+       <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+       <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
+      </div>
+      <div class="span4">
+        <div class="well">
+          <h2>Events:</h2>
+          {% if events %}
+          {% for e in events %}
+          {% ifchanged %}<h3>{{ e.starttime|date:"F j Y" }}</h3>{% endifchanged %}
+          <p>{{e.starttime|date:"f:i A"}}: <a href="{% url event_details e.id %}">{{e.name}}</a></p>
+          {% endfor %}
+          {% else %}
+          <p>No events</p>
+          {% endif %}
+          <p><a href="/calendar">More</a></p>
+        </div>
+      </div>
+  </div>
 </div>
-
+<hr>
 <!-- Example row of columns -->
 <div class="row">
-  <div class="span4">
-    <h2>GitHub</h2>
-    <p>Code straight from the ACM@UIUC GitHub</p>
-    <p><a class="btn" href="http://github.com/acm-uiuc/">View GitHub &raquo;</a></p>
-   </div>
-
-  <div class="span4">
-    <h2>SIGs</h2>
-     <p>ACM has many Special Interest Groups (SIGs) that work on projects in a wide variety of areas. All SIGs are open to all students, no previous knowledge required!</p>
-    <p><a class="btn" href="/sigs">View details &raquo;</a></p>
-   </div>
-
   <div class="span4">
     <h2>Join ACM</h2>
     <p>As an ACM member you get access to our computer clusters, free unlimited printing, Acoustics, Caffeine, and many other member perks.</p>
     <p><a class="btn" href="/about/join">Join now &raquo;</a></p>
   </div>
+
+  <div class="span4">
+    <h2>Special Interest Groups</h2>
+     <p>ACM has many Special Interest Groups (SIGs) that work on projects in a wide variety of areas. All SIGs are open to all students, no previous knowledge required!</p>
+    <p><a class="btn" href="/sigs">View details &raquo;</a></p>
+   </div>
+   
+   <div class="span4">
+     <h2>GitHub</h2>
+     <p>Code straight from the ACM@UIUC GitHub</p>
+     <p><a class="btn" href="http://github.com/acm-uiuc/">View GitHub &raquo;</a></p>
+    </div>
+
+  
 </div>
 {% endblock %}

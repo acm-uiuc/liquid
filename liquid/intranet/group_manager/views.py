@@ -3,15 +3,21 @@ from django.http import HttpResponse
 from django.template import RequestContext
 from django.core.context_processors import csrf
 from django.db import IntegrityError
-from intranet.models import Member, Group, GroupMember, Project
+from intranet.models import Member, Group, GroupMember
 from intranet.group_manager.forms import GroupForm, GroupMemberFormSet
+from utils.group_decorator import group_admin_required, specific_group_admin_required
 import string
 
 # Create your views here.
 def main(request):
-  groups = Group.objects.all()
-  return render_to_response('intranet/group_manager/main.html',{"section":"intranet","page":'group','groups':groups},context_instance=RequestContext(request))
-  
+   if not request.user.is_top4():
+      groups = Group.objects.filter(members=request.user,membership__is_admin=True)
+   else:
+      groups = Group.objects.all()
+   
+   return render_to_response('intranet/group_manager/main.html',{"section":"intranet","page":'group','groups':groups},context_instance=RequestContext(request))
+
+@group_admin_required(['Top4'])
 def new(request):
   if request.method == 'POST': # If the form has been submitted...
       form = GroupForm(request.POST) # A form bound to the POST data
@@ -27,7 +33,8 @@ def new(request):
       "page":'group',
       "page_title":"Create new Group"
       },context_instance=RequestContext(request))
-  
+
+@specific_group_admin_required('id')
 def edit(request,id):
   g = Group.objects.get(id=id)
   forms = GroupMemberFormSet(instance=g)
@@ -47,6 +54,7 @@ def edit(request,id):
     "page_title":"Edit Group",
     },context_instance=RequestContext(request))
 
+@specific_group_admin_required('id')
 def manage(request,id):
   saved = False
   g = Group.objects.get(id=id)
@@ -66,12 +74,13 @@ def manage(request,id):
     "saved":saved
     },context_instance=RequestContext(request))
 
+@specific_group_admin_required('id')
 def add(request,id):
   g = Group.objects.get(id=id)
   added = []
   badid = []
   duplicate = []
-
+  members = Member.objects.filter(status='active')
   if request.method == 'POST':
     netids = [i.strip() for i in string.split(request.POST['netids'],",")]
     for i in netids:
@@ -93,6 +102,7 @@ def add(request,id):
     "group":g,
     "added": added,
     "badid": badid,
-    "duplicate": duplicate
+    "duplicate": duplicate,
+    "members": members
     },context_instance=RequestContext(request))
 
