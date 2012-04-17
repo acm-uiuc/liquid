@@ -34,5 +34,7 @@ def is_admin(row):
       def inner_decorator(request,*args, **kwargs):
          if request.user.is_admin():
             return func(request, *args, **kwargs)
+         else:
+            raise PermissionDenied()
       return wraps(func)(inner_decorator)
    return decorator
