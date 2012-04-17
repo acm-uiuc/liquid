@@ -29,7 +29,7 @@ def specific_group_admin_required(row):
       return wraps(func)(inner_decorator)
    return decorator
    
-def is_admin(row):
+def is_admin():
    def decorator(func):
       def inner_decorator(request,*args, **kwargs):
          if request.user.is_admin():
