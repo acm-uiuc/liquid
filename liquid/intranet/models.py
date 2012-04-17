@@ -102,19 +102,14 @@ class Event(models.Model):
    starttime = models.DateTimeField()
    endtime = models.DateTimeField()
    location = models.CharField(max_length=255,null=True,blank=True)
-   sponsors = models.ManyToManyField(Group,through="EventSponsor", blank=True)
+   sponsors = models.ManyToManyField(Group,blank=True,null=True)
+   creator = models.ForeignKey(Member)
 
    def __unicode__(self):
       return self.name
 
    def all_sponsors(self):
-      print self.sponsors.all()
       return ', '.join([str(x) for x in self.sponsors.all()])
-      
-class EventSponsor(models.Model):
-   event = models.ForeignKey(Event,"sponsorship")
-   group = models.ForeignKey(Group,related_name="sponsorship")
-   approved = models.BooleanField(default=False)
 
 class Job(models.Model):
    job_title = models.CharField(max_length=255)

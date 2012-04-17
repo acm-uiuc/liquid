@@ -18,7 +18,11 @@
       <div class="span4">
         <div class="well">
           <h2>Events:</h2>
-          
+          {% for e in events %}
+          {% ifchanged %}<h3>{{ e.starttime|date:"F j Y" }}</h3>{% endifchanged %}
+          <p>{{e.starttime|date:"f:i A"}}: {{e.name}}</p>
+          {% endfor %}
+          <p><a href="/calendar">More</a></p>
         </div>
       </div>
   </div>
