@@ -19,20 +19,21 @@
   <thead>
   <tr>
     <th>Approve</th>
-    <th>Company</th>
-    <th>Type</th>
-    <th>Contact</th>
-    <th>Details</th>
+    <th>Message</th>
   <tr>
   </thead>
   <tbody>
   {% for m in jobs %}
   <tr>
     <td>{{m.id}}{{m.status}}</td>
-    <td>{{m.id.value|pk_to_company}}</td>
-    <td>{{m.id.value|pk_to_types}}</td>
-    <td>{{m.id.value|pk_to_contact}}<br>{{m.id.value|pk_to_phone}}</td>
-    <td><strong>{{m.id.value|pk_to_title}}</strong><br>{{m.id.value|pk_to_description}}</td>
+    <td>
+      <strong>Company:</strong> {{m.id.value|pk_to_company}}<br>
+      <strong>Types:</strong> {{m.id.value|pk_to_types}}<br>
+      <strong>Contact:</strong> {{m.id.value|pk_to_contact}}, {{m.id.value|pk_to_phone}}<br>
+      <strong>Position:</strong> {{m.id.value|pk_to_title}}<br>
+      <strong>Description:</strong><br>
+      <p>{{m.id.value|pk_to_description}}</p>
+    </td>
   </tr>
   {% endfor %}
   </tbody>
