@@ -4,6 +4,7 @@ from django.template import RequestContext
 from django.core.context_processors import csrf
 from django.db.models import Q
 from django.forms.util import ErrorList
+from django.contrib import messages
 from utils.group_decorator import group_admin_required
 from intranet.models import Member
 from intranet.member_database.forms import NewMemberForm, EditMemberForm
@@ -37,7 +38,8 @@ def new(request):
       if form.is_valid(): # All validation rules pass
          try:
             form.save()
-            return HttpResponseRedirect('/') # Redirect after POST
+            messages.add_message(request, messages.SUCCESS, 'Member created')
+            return HttpResponseRedirect('intranet/members') # Redirect after POST
          except ValueError:
             errors = form._errors.setdefault("username", ErrorList())
             errors.append(u"Not a valid netid")
@@ -60,6 +62,7 @@ def edit(request,id):
       form = EditMemberForm(request.POST,instance=g) # A form bound to the POST data
       if form.is_valid(): # All validation rules pass
          form.save()
+         messages.add_message(request, messages.SUCCESS, 'Changes saved')
       return HttpResponseRedirect('/intranet/members') # Redirect after POST
    else:
       form = EditMemberForm(instance=g)

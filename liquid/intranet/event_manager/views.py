@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.template import RequestContext
 from django.core.context_processors import csrf
 from django.db import IntegrityError
+from django.contrib import messages
 from intranet.models import Event
 from intranet.event_manager.forms import EventForm
 import datetime
@@ -22,6 +23,7 @@ def new(request):
       form = EventForm(request.POST,instance=e) # A form bound to the POST data
       if form.is_valid(): # All validation rules pass
          form.save()
+         messages.add_message(request, messages.SUCCESS, 'Event created')
          return HttpResponseRedirect('/intranet/event') # Redirect after POST    
    else:
       form = EventForm() # An unbound form
@@ -40,6 +42,7 @@ def edit(request,id):
     form = EventForm(request.POST,instance=e) # A form bound to the POST data
     if form.is_valid(): # All validation rules pass
       form.save()
+      messages.add_message(request, messages.SUCCESS, 'Event changed')
       return HttpResponseRedirect('/intranet/event') # Redirect after POST
   else:
     form = EventForm(instance=e)
@@ -56,6 +59,7 @@ def edit(request,id):
 def delete(requset,id):
   e = Event.objects.get(id=id)
   e.delete()
+  messages.add_message(request, messages.SUCCESS, 'Event deleted')
   return HttpResponseRedirect('/intranet/event')
 
 

@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.template import RequestContext
 from django.core.context_processors import csrf
 from django.db import IntegrityError
+from django.contrib import messages
 from intranet.models import Member, Group, GroupMember
 from intranet.group_manager.forms import GroupForm, GroupMemberFormSet
 from utils.group_decorator import group_admin_required, specific_group_admin_required
@@ -23,6 +24,7 @@ def new(request):
       form = GroupForm(request.POST) # A form bound to the POST data
       if form.is_valid(): # All validation rules pass
           form.save()
+          messages.add_message(request, messages.SUCCESS, 'Group created')
           return HttpResponseRedirect('/intranet/group') # Redirect after POST
   else:
       form = GroupForm() # An unbound form
@@ -42,6 +44,7 @@ def edit(request,id):
       form = GroupForm(request.POST,instance=g) # A form bound to the POST data
       if form.is_valid(): # All validation rules pass
           form.save()
+          messages.add_message(request, messages.SUCCESS, 'Group saved')
           return HttpResponseRedirect('/intranet/group') # Redirect after POST
   else:
     form = GroupForm(instance=g)
@@ -56,13 +59,12 @@ def edit(request,id):
 
 @specific_group_admin_required('id')
 def manage(request,id):
-  saved = False
   g = Group.objects.get(id=id)
   if request.method == 'POST': # If the form has been submitted...
     forms = GroupMemberFormSet(request.POST,instance=g)
     if forms.is_valid(): # All validation rules pass
       forms.save()
-      saved = True
+      messages.add_message(request, messages.SUCCESS, 'Changes saved')
   else:
     forms = GroupMemberFormSet(instance=g)
 
@@ -71,38 +73,30 @@ def manage(request,id):
     "page":'group',
     "group":g,
     "forms":forms,
-    "saved":saved
     },context_instance=RequestContext(request))
 
 @specific_group_admin_required('id')
 def add(request,id):
-  g = Group.objects.get(id=id)
-  added = []
-  badid = []
-  duplicate = []
-  members = Member.objects.filter(status='active')
-  if request.method == 'POST':
-    netids = [i.strip() for i in string.split(request.POST['netids'],",")]
-    for i in netids:
-      if len(i) > 0:
-        try:
-          m = Member.objects.get(username=i)
-          gm = GroupMember(member=m,group=g)
-          gm.save()
-          added.append(m)
-        except Member.DoesNotExist:
-          badid.append(i)
-        except IntegrityError:
-          duplicate.append(m)
-
+   g = Group.objects.get(id=id)
+   if request.method == 'POST':
+      netids = [i.strip() for i in string.split(request.POST['netids'],",")]
+      for i in netids:
+         if len(i) > 0:
+            try:
+               m = Member.objects.get(username=i)
+               gm = GroupMember(member=m,group=g)
+               gm.save()
+               messages.add_message(request, messages.SUCCESS, 'Member added: %s'%m.full_name_and_netid())
+            except Member.DoesNotExist:
+               messages.add_message(request, messages.ERROR, 'Bad netid: %s'%i)
+            except IntegrityError:
+               messages.add_message(request, messages.INFO, 'Duplicate member: %s'%m.full_name_and_netid())
+   members = Member.objects.filter(status='active')
 
   return render_to_response('intranet/group_manager/add.html',{
     "section":"intranet",
     "page":'group',
     "group":g,
-    "added": added,
-    "badid": badid,
-    "duplicate": duplicate,
     "members": members
     },context_instance=RequestContext(request))
 
