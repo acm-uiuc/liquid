@@ -93,7 +93,7 @@ def add(request,id):
                messages.add_message(request, messages.INFO, 'Duplicate member: %s'%m.full_name_and_netid())
    members = Member.objects.filter(status='active')
 
-  return render_to_response('intranet/group_manager/add.html',{
+   return render_to_response('intranet/group_manager/add.html',{
     "section":"intranet",
     "page":'group',
     "group":g,
