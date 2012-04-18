@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 import settings
 import datetime
 import ldap
+from utils.django_mailman.models import List
 
 
 # Create your models here.
@@ -58,6 +59,10 @@ def new_member(sender, **kwargs):
          raise ValueError('Bad Netid', 'Not a valid netid')
       user.email = username + "@illinois.edu"
       ## perform other first save operations (caffiene)
+      membership_list = List.objects.get(name='Membership-l')
+      job_list = List.objects.get(name='Jobs-l')
+      membership.subscribe(user)
+      job_list.subscribe(user)
 
 class Group(models.Model):
    type = models.CharField(max_length=1, choices=GROUP_TYPE_CHOICES)
