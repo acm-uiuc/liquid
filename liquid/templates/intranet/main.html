@@ -3,9 +3,25 @@
 <header class="page-header">
 <h1>Welcome, {{user.full_name}}</h1>
 </header>
-
-{% for g in groups %}
-{{g}}
-{% endfor %}
+<div class="row">
+   <div class="span3">
+      <p>You are a member of:
+         <ul>
+         {% for g in groups %}
+            <li>{{g.name}}</li>
+         {% endfor %}
+         </ul>
+      </p>
+   </div>
+   <div class="span3">
+      <p>You are on the mailing lists:
+         <ul>
+         {% for l in user.list_set.all %}
+            <li>{{ l.name }}</li>
+         {% endfor %}
+         </ul>
+      </p>
+   </div>
+</div>
 
 {% endblock %}
