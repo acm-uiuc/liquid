@@ -143,7 +143,7 @@ INSTALLED_APPS = (
 
 
     'bootstrapform',
-    'django_mailman',
+    'utils.django_mailman',
     'south',
   )
 
