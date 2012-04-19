@@ -1,5 +1,5 @@
-{% extends "about/base.html" %}
-{% block about_content %}
+{% extends "base.html" %}
+{% block content %}
 <header class="page-header">
 <h1>Job Posting</h1>
 </header>
@@ -8,7 +8,7 @@ members looking for employment.</p>
 
 <p>All fields are required. Please do not enter HTML (or anything enclosed in angle brackets).</p>
 
-<form class="well" method="post" action="/about/corporate/job/">
+<form class="well" method="post" action="/corporate/job/">
   {% csrf_token %}
   {{ form.non_field_errors }}
   <div class="control-group{% if form.job_title.errors %} error {% endif %}">

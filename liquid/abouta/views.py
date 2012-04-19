@@ -24,31 +24,6 @@ def committees_details(request,id):
   c = Group.objects.get(id=id)
   return render_to_response('about/committees_details.html',{"section":"about","page":'committees',"c":c},context_instance=RequestContext(request))
   
-def corporate(request):
-  return render_to_response('about/corporate.html',{"section":"about","page":'corporate'},context_instance=RequestContext(request))
-  
-def job(request):
-  c = {}
-  c.update(csrf(request))
-  if request.method == 'POST': # If the form has been submitted...
-      form = JobForm(request.POST) # A form bound to the POST data
-      if form.is_valid(): # All validation rules pass
-          job = form.save()
-          email = "A new job post for " +  job.job_title + " at " + job.company + " was just posted.  To approve this posting, use the admin interface at http://acm.uiuc.edu/intranet/jobs/"
-          send_mail('New Job Post', email, 'ACM Corporate Committee <corporate@acm.uiuc.edu>',['reedlabotz@gmail.com'], fail_silently=False)
-          return HttpResponseRedirect('/about/corporate/job/thanks/') # Redirect after POST
-  else:
-      form = JobForm() # An unbound form
-
-  return render_to_response('about/job.html',{
-      'form': form,
-      "section":"about",
-      "page":'corporate'
-  },context_instance=RequestContext(request))
-
-def thanks(request):
-  return render_to_response('about/thanks.html',{"section":"about",'page':'corporate'},context_instance=RequestContext(request))
-  
 def members(request):
   n = 3
   
