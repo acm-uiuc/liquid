@@ -61,7 +61,7 @@ def new_member(sender, **kwargs):
       ## perform other first save operations (caffiene)
       membership_list = List.objects.get(name='Membership-l')
       job_list = List.objects.get(name='Jobs-l')
-      membership.subscribe(user)
+      membership_list.subscribe(user)
       job_list.subscribe(user)
 
 class Group(models.Model):
