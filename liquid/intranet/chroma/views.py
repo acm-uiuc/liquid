@@ -11,7 +11,7 @@ import urllib2
 
 # Create your views here.
 def main(request):
-   animations = Animation.objects.all()
+   animations = Animation.objects.order_by('name').all()
    try:
       current = Play.objects.latest('timestamp').animation
    except:
