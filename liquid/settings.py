@@ -138,6 +138,7 @@ INSTALLED_APPS = (
     'intranet.group_manager',
     'intranet.job_manager',
     'intranet.member_database',
+    'intranet.chroma',
 
     'sigs',
 

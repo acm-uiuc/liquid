@@ -1,0 +1,39 @@
+{% extends "intranet/base.html" %}
+{% block intranet_content %}
+<div class="hero-unit">
+   <p>Welcome to Chroma Controller. If you would like to create animations for the lights please see the information on github: <a href="https://github.com/acm-uiuc/chroma-scripts">https://github.com/acm-uiuc/chroma-scripts</a></p>
+</div>     
+<form action="/set" method="POST" id="options" onSubmit="apply(); return false;">
+   <p>
+      <a href="{% url animations_off %}" class="btn">Turn Off</a> <input type="text" class="input-medium search-query" id="id_search" placeholder="Search"> {% if current %}Current: {{current.name}}{% else %}Lights off{% endif %}<a href="/intranet/chroma/pull" class="btn pull-right">Pull</a>
+   </p>
+   <table class="table table-bordered" id="list">
+      <thead>
+      <tr>
+         <th></th>
+         <th>Name</th>
+         <th>Description</th>
+         <th>Creator</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for a in animations %}
+      <tr>
+         <td><a href="{% url play_animation a.id %}" class="btn">Play</a></td>
+         <td>{{a.name}}</td>
+         <td>{{a.description}}</td>
+         <td>{{a.creator}}</td>
+      </tr>
+      {% endfor %}
+      </tbody>
+   </table>
+{% endblock %}
+{% block bottom_scripts %}
+<script src="static/js/bootstrap-alert.js"></script>
+<script src="static/js/jquery.quicksearch.js"></script>
+<script>
+$(document).ready(function(){
+   $('input#id_search').quicksearch('table#list tbody tr');
+});
+</script>
+{% endblock %}
