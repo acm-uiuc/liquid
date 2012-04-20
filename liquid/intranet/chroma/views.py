@@ -24,7 +24,7 @@ def play(request,id):
    data = {}
    data['animation'] = animation.identifier
    url_values = urllib.urlencode(data)
-   url = 'http://localhost:8181/play'
+   url = 'http://lab2.acm.uiuc.edu:8181/play'
    full_url = url + '?' + url_values
    response = urllib2.urlopen(full_url).read()
    
@@ -34,7 +34,7 @@ def play(request,id):
    return HttpResponseRedirect('/intranet/chroma/') # Redirect after POST
 
 def off(request):
-   url = 'http://localhost:8181/off'
+   url = 'http://lab2.acm.uiuc.edu:8181/off'
    response = urllib2.urlopen(url).read()
    
    Play(animation=None,member=request.user).save()
@@ -48,7 +48,7 @@ def pull(request):
    for a in animations:
       identifiers.append(a.identifier)
    identifiers = Set(identifiers)
-   url = 'http://localhost:8181/pull'
+   url = 'http://lab2.acm.uiuc.edu:8181/pull'
    response = json.loads(urllib2.urlopen(url).read())
    identifiers_response = []
    for a in response['animations']:
