@@ -8,7 +8,7 @@ setup_environ(settings)
 
 from intranet.models import Group
 
-groups = Group.objects.all()
+groups = Group.objects.filter(status='active')
 
 for g in groups:
    chairs = g.members.filter(groupmember__is_chair=True)
