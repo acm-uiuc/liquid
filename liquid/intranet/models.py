@@ -83,7 +83,7 @@ class Group(models.Model):
 
    def chairs(self):
       chairs = []
-      for c in self.members.filter(groupmember__is_chair=True):
+      for c in self.members.filter(groupmember__is_chair=True).order_by('last_name'):
          chairs.append(c.full_name())
       
       return ", ".join(chairs)
