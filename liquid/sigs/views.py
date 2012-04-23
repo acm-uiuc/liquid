@@ -5,7 +5,7 @@ from intranet.models import Group
 
 # Create your views here.
 def main(request):
-  sigs = Group.objects.filter(type='S').filter(status='active')
+  sigs = Group.objects.filter(type='S').filter(status='active').order_by('name')
   return render_to_response('sigs/main.html',{"section":"sigs",'sigs':sigs},context_instance=RequestContext(request))
 
 def details(request,id):

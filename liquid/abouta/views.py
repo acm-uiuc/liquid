@@ -17,7 +17,7 @@ def join(request):
   return render_to_response('about/join.html',{"section":"about","page":'join'},context_instance=RequestContext(request))
   
 def committees(request):
-  committees = Group.objects.filter(type='C')
+  committees = Group.objects.filter(type='C').filter(status='Active').order_by('name')
   return render_to_response('about/committees.html',{"section":"about","page":'committees',"committees":committees},context_instance=RequestContext(request))
 
 def committees_details(request,id):
