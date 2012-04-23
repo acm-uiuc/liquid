@@ -15,4 +15,4 @@ for g in groups:
    chair_netids = []
    for c in chairs:
       chair_netids.append(c.full_name_and_netid())
-   print "%s: %s\n" %(g.name,", ".join(chair_netids))
+   print "%s: %s" %(g.name,", ".join(chair_netids))
