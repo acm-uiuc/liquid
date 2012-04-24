@@ -37,9 +37,9 @@ def new(request):
       form = NewMemberForm(request.POST) # A form bound to the POST data
       if form.is_valid(): # All validation rules pass
          try:
-            form.save()
+            u = form.save()
             messages.add_message(request, messages.SUCCESS, 'Member created')
-            return HttpResponseRedirect('intranet/members') # Redirect after POST
+            return HttpResponseRedirect('/intranet/members/search?q=%s' % u.username) # Redirect after POST
          except ValueError:
             errors = form._errors.setdefault("username", ErrorList())
             errors.append(u"Not a valid netid")
