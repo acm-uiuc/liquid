@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 import settings
 import datetime
 import ldap
+import logging
 from utils.django_mailman.models import List
 
 
@@ -49,6 +50,8 @@ Member._meta.get_field('username').verbose_name = 'netid'
 @receiver(pre_save, sender=Member)
 def new_member(sender, **kwargs):
    user = kwargs['instance']
+   logging.debug('user: %s' % user)
+   logging.debug('username: %s' % user.username)
    if not user.id:
       l = ldap.initialize('ldap://ldap.uiuc.edu')
       u = l.search_s('ou=people,dc=uiuc,dc=edu',ldap.SCOPE_SUBTREE,'uid=%s'%user.username)
@@ -57,10 +60,13 @@ def new_member(sender, **kwargs):
          user.first_name = u[0][1]['givenName'][0]
       except IndexError:
          raise ValueError('Bad Netid', 'Not a valid netid')
-      user.email = username + "@illinois.edu"
+      user.email = user.username + "@illinois.edu"
       ## perform other first save operations (caffiene)
-      membership_list = List.objects.get(name='Membership-l')
-      job_list = List.objects.get(name='Jobs-l')
+      try:
+         membership_list = List.objects.get(name='Membership-l')
+         job_list = List.objects.get(name='Jobs-l')
+      except:
+         pass
       membership_list.subscribe(user)
       job_list.subscribe(user)
 
@@ -102,7 +108,7 @@ class GroupMember(models.Model):
    status = models.CharField(max_length=255,choices=GROUP_MEMBER_STATUS_CHOICES,default='active')
    
 @receiver(pre_save, sender=GroupMember)
-def new_member(sender, **kwargs):
+def new_groupmember(sender, **kwargs):
    m = kwargs['instance']
    if m.is_chair:
       m.is_admin = True
