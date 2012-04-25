@@ -8,16 +8,6 @@ class Migration(SchemaMigration):
 
     def forwards(self, orm):
         
-        # Adding model 'VendingTransactions'
-        db.create_table('transactions', (
-            ('transaction_id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('time', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
-            ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['intranet.Member'])),
-            ('cost', self.gf('django.db.models.fields.DecimalField')(max_digits=10, decimal_places=2)),
-            ('item', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['intranet.Vending'])),
-        ))
-        db.send_create_signal('intranet', ['VendingTransactions'])
-
         # Adding model 'Vending'
         db.create_table('vending', (
             ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['intranet.Member'], primary_key=True, db_column='uid')),
@@ -32,9 +22,6 @@ class Migration(SchemaMigration):
 
     def backwards(self, orm):
         
-        # Deleting model 'VendingTransactions'
-        db.delete_table('transactions')
-
         # Deleting model 'Vending'
         db.delete_table('vending')
 
@@ -55,7 +42,7 @@ class Migration(SchemaMigration):
         },
         'auth.user': {
             'Meta': {'object_name': 'User'},
-            'date_joined': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2012, 4, 25, 15, 4, 34, 109215)'}),
+            'date_joined': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2012, 4, 25, 15, 15, 48, 348843)'}),
             'email': ('django.db.models.fields.EmailField', [], {'max_length': '75', 'blank': 'True'}),
             'first_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'groups': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['auth.Group']", 'symmetrical': 'False', 'blank': 'True'}),
@@ -63,7 +50,7 @@ class Migration(SchemaMigration):
             'is_active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'is_staff': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'is_superuser': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'last_login': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2012, 4, 25, 15, 4, 34, 109059)'}),
+            'last_login': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2012, 4, 25, 15, 15, 48, 348698)'}),
             'last_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'password': ('django.db.models.fields.CharField', [], {'max_length': '128'}),
             'user_permissions': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['auth.Permission']", 'symmetrical': 'False', 'blank': 'True'}),
@@ -145,14 +132,6 @@ class Migration(SchemaMigration):
             'sodas': ('django.db.models.fields.IntegerField', [], {'default': '0', 'max_length': '11'}),
             'spent': ('django.db.models.fields.DecimalField', [], {'default': '0', 'max_digits': '10', 'decimal_places': '2'}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['intranet.Member']", 'primary_key': 'True', 'db_column': "'uid'"})
-        },
-        'intranet.vendingtransactions': {
-            'Meta': {'object_name': 'VendingTransactions', 'db_table': "'transactions'"},
-            'cost': ('django.db.models.fields.DecimalField', [], {'max_digits': '10', 'decimal_places': '2'}),
-            'item': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['intranet.Vending']"}),
-            'time': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
-            'transaction_id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['intranet.Member']"})
         }
     }
 

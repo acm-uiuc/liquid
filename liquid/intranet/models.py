@@ -94,17 +94,6 @@ class Vending(models.Model):
    class Meta:
       db_table = 'vending'
 
-class VendingTransactions(models.Model):
-   transaction_id = models.AutoField(primary_key=True)
-   time = models.DateTimeField(auto_now_add=True)
-   user = models.ForeignKey(Member)
-   cost = models.DecimalField(max_digits=10, decimal_places=2)
-   item = models.ForeignKey(Vending)
-
-   class Meta:
-      db_table = 'transactions'
-   
-
 class Group(models.Model):
    type = models.CharField(max_length=1, choices=GROUP_TYPE_CHOICES)
    name = models.CharField(max_length=30)
