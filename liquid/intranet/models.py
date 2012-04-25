@@ -74,11 +74,14 @@ def new_member(sender, **kwargs):
 def new_member_post_save(sender, **kwargs):
       user = kwargs['instance']
       ## add vending account
-      v = Vending(uid=user.id,balance=5.00)
-      v.save()
+      try:
+         Vending.objects.get(user=user)
+      except Vending.DoesNotExist:
+         v = Vending(user=user,balance=5)
+         v.save()
 
 class Vending(models.Model):
-   uid = models.AutoField(primary_key=True)
+   user = models.ForeignKey(Member,primary_key=True,db_column='uid')
    balance = models.DecimalField(max_digits=10, decimal_places=2,default=0)
    calories = models.IntegerField(max_length=11,default=0)
    caffeine = models.FloatField(default=0)
