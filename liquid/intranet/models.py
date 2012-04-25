@@ -102,7 +102,7 @@ class VendingTransactions(models.Model):
    item = models.ForeignKey(Vending)
 
    class Meta:
-      db_table = 'vending_transactions'
+      db_table = 'transactions'
    
 
 class Group(models.Model):
