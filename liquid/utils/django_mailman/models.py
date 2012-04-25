@@ -179,8 +179,11 @@ class List(models.Model):
         self.subscribers.remove(*no_longer_on_web)
 
     def subscribe(self,user):
-       self.__subscribe(user.email, user.first_name, user.last_name, send_welcome_msg=True)
-       self.subscribers.add(user)
+       try:
+         self.__subscribe(user.email, user.first_name, user.last_name, send_welcome_msg=True)
+         self.subscribers.add(user)
+       except:
+          pass
    
     def unsubscribe(self,user):
        self.__unsubscribe(user.email)

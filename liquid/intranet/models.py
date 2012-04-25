@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models.signals import pre_save
+from django.db.models.signals import pre_save,post_save
 from django.dispatch import receiver
 from django.contrib.auth.models import User
 import settings
@@ -61,7 +61,7 @@ def new_member(sender, **kwargs):
       except IndexError:
          raise ValueError('Bad Netid', 'Not a valid netid')
       user.email = user.username + "@illinois.edu"
-      ## perform other first save operations (caffiene)
+      ## add to mailing lists
       try:
          membership_list = List.objects.get(name='Membership-l')
          job_list = List.objects.get(name='Jobs-l')
@@ -69,6 +69,13 @@ def new_member(sender, **kwargs):
          pass
       membership_list.subscribe(user)
       job_list.subscribe(user)
+
+@receiver(post_save, sender=Member)
+def new_member_post_save(sender, **kwargs):
+      user = kwargs['instance']
+      ## add vending account
+      v = Vending(uid=user.id,balance=5.00)
+      v.save()
 
 class Vending(models.Model):
    uid = models.AutoField(primary_key=True)
