@@ -74,7 +74,7 @@ class Vending(models.Model):
    uid = models.AutoField(primary_key=True)
    balance = models.DecimalField(max_digits=10, decimal_places=2,default=0)
    calories = models.IntegerField(max_length=11,default=0)
-   caffiene = models.FloatField(default=0)
+   caffeine = models.FloatField(default=0)
    spent = models.DecimalField(max_digits=10, decimal_places=2,default=0)
    sodas = models.IntegerField(max_length=11,default=0)
    
