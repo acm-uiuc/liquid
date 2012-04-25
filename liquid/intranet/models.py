@@ -41,7 +41,10 @@ class Member(User):
       
    def is_admin(self):
       return len(self.groupmember_set.filter(is_admin__exact=True)) > 0
-   
+  
+   def get_vending(self):
+      return self.vending_set.all()[0]
+
    def __unicode__(self):
       return self.full_name()
 #change username to netid in member
