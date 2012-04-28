@@ -21,7 +21,7 @@ def job(request):
       if form.is_valid(): # All validation rules pass
           job = form.save()
           email = "A new job post for " +  job.job_title + " at " + job.company + " was just posted.  To approve this posting, use the admin interface at http://acm.uiuc.edu/intranet/jobs/"
-          send_mail('New Job Post', email, 'ACM Corporate Committee <corporate@acm.uiuc.edu>',['reedlabotz@gmail.com'], fail_silently=False)
+          send_mail('New Job Post', email, 'ACM Corporate Committee <corporate@acm.uiuc.edu>',['corporate-l@acm.uiuc.edu'], fail_silently=False)
           return HttpResponseRedirect('/corporate/job/thanks/') # Redirect after POST
   else:
       form = JobForm() # An unbound form
