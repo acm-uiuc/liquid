@@ -9,5 +9,5 @@
 {% if event.has_sponsors %}
 <p>Hosts: {{event.all_sponsors}}</p>
 {% endif %}
-<p>{{event.description}}</p>
+<p>{{event.description|linebreaks }}</p>
 {% endblock %}
