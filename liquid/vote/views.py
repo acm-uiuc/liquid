@@ -14,10 +14,13 @@ def vote(request,netid,key):
    
    if request.method == 'POST':
       #if they are submitting their vote
-      vote.vote = request.POST['vote']
-      vote.save()
-      vote_text = "Accept" if vote.vote else "Reject"
-      return render_to_response('vote/thanks.html',{"name":vote.user.full_name(),"vote":vote_text },context_instance=RequestContext(request))
+      try:
+         vote.vote = request.POST['vote']
+         vote.save()
+         vote_text = "Accept" if vote.vote else "Reject"
+         return render_to_response('vote/thanks.html',{"name":vote.user.full_name(),"vote":vote_text },context_instance=RequestContext(request))
+      except:
+         pass
    if not vote.vote == None:
       #if they already voted
       return render_to_response('vote/error.html',context_instance=RequestContext(request))
