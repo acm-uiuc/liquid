@@ -18,6 +18,7 @@ urlpatterns = patterns('',
     url(r'^login/$', 'django.contrib.auth.views.login'),
     url(r'^logout/$', 'django.contrib.auth.views.logout'),
     url(r'^intranet/', include('intranet.urls')),
+    url(r'^vote/', include('vote.urls')),
 )
 
 handler404 = 'django.views.defaults.page_not_found'

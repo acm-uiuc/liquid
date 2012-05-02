@@ -141,6 +141,8 @@ INSTALLED_APPS = (
     'intranet.chroma',
 
     'sigs',
+    
+    'vote',
 
 
     'bootstrapform',
