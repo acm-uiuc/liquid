@@ -9,7 +9,7 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-     ('ACM Admins', 'admin@acm.uiuc.edu'),
+     ('Liquid Admins', 'liquid@acm.uiuc.edu'),
 )
 
 MANAGERS = ADMINS
