@@ -67,11 +67,11 @@ def new_member(sender, **kwargs):
       ## add to mailing lists
       try:
          membership_list = List.objects.get(name='Membership-l')
+         membership_list.subscribe(user)
          job_list = List.objects.get(name='Jobs-l')
+         job_list.subscribe(user)
       except:
          pass
-      membership_list.subscribe(user)
-      job_list.subscribe(user)
 
 @receiver(post_save, sender=Member)
 def new_member_post_save(sender, **kwargs):
