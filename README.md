@@ -3,6 +3,9 @@ Project Liquid
 
 Project Liquid is the codename of the new ACM@UIUC website.
 
+The master branch should always be an up to date working version of the website. Please do all 
+developement in a branch and merge when the feature is ready to launch. 
+
 Getting Started
 ---------------
 After cloning to your computer you need to have the following installed:
@@ -16,3 +19,5 @@ After cloning to your computer you need to have the following installed:
 
 
 Run `python setup.py`
+
+
