@@ -15,7 +15,6 @@ def vote(request,netid,key):
    if request.method == 'POST':
       #if they are submitting their vote
       try:
-         print request.POST['vote']
          vote.vote = request.POST['vote'] == "true"
          vote.save()
          vote_text = "Accept" if vote.vote else "Reject"
