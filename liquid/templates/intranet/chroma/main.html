@@ -1,7 +1,9 @@
 {% extends "intranet/base.html" %}
 {% block intranet_content %}
 <div class="hero-unit">
-   <p>Welcome to Chroma Controller. If you would like to create animations for the lights please see the information on github: <a href="https://github.com/acm-uiuc/chroma-scripts">https://github.com/acm-uiuc/chroma-scripts</a></p>
+   <p>Welcome to Chroma Controller.</p>
+   <p>If you would like to create animations for the lights please see the information on <a href="https://github.com/acm-uiuc/chroma-scripts">github</a></p>
+   <p>Not in the office? You can still <a href="http://www.acm.uiuc.edu/~marsan1/chromastream.html">view a live stream </a></p>
 </div>     
 <form action="/set" method="POST" id="options" onSubmit="apply(); return false;">
    <p>
