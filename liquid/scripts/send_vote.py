@@ -27,15 +27,15 @@ We’ve been working on updating the ACM constitution to better reflect how we c
 
 Here’s a link to the new constitution https://www-s.acm.uiuc.edu/confluence/display/general/ACM+Constitution+-+Draft; there’s also a summary of the changes below. 
 
-Amendment highlights 
-Classifying members as undergraduate members, graduate members, faculty/staff members, active members and alumni members
-Updating duties of officers
-Not allowing officers to run for a second consecutive term in the same position 
-Making it possible for individuals to get funding for a project in addition to SIGs
-Defining what committees are and how they’re run
-Requiring 5 members to start a SIG
-Allowing for a designated proxy for SIG leadership at exec meetings 
-Defining the requirements of an active SIG and what happens when they’re no longer active 
+Amendment highlights:
+-Classifying members as undergraduate members, graduate members, faculty/staff members, active members and alumni members
+-Updating duties of officers
+-Not allowing officers to run for a second consecutive term in the same position 
+-Making it possible for individuals to get funding for a project in addition to SIGs
+-Defining what committees are and how they’re run
+-Requiring 5 members to start a SIG
+-Allowing for a designated proxy for SIG leadership at exec meetings 
+-Defining the requirements of an active SIG and what happens when they’re no longer active 
 
 The vote is open for the next week, and can be accessed through this link: http://acm.uiuc.edu/vote/%s/%s. 
 
