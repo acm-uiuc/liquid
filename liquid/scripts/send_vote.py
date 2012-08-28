@@ -47,7 +47,7 @@ Brianna Birman
 ACM@UIUC Chair""" % (v.user.full_name(),v.user.username,v.key)
    
    try:
-      send_mail('ACM Constitution', email, 'Brianna Birman<top4@acm.uiuc.edu>',[m.email], fail_silently=False)
+      send_mail('ACM new constitution vote', email, 'Brianna Birman<top4@acm.uiuc.edu>',[m.email], fail_silently=False)
       print "Email sent to %s" % m.full_name()
    except Exception as inst:
       print "Error sending email to %s" % m.full_name()
