@@ -12,8 +12,7 @@ from vote.models import Vote
 from django.utils.crypto import get_random_string
 
 
-top4 = Group.objects.get(name="Top4")
-members = top4.members.all()
+members = Member.objects.all()
 
 poll=int(raw_input("Poll id: "))
 
@@ -47,7 +46,7 @@ Brianna Birman
 ACM@UIUC Chair""" % (v.user.full_name(),v.user.username,v.key)
    
    try:
-      send_mail('Vote on ACM new constitution', email, 'Brianna Birman<top4@acm.uiuc.edu>',[m.email], fail_silently=False)
+      send_mail('Vote on ACM constitution', email, 'Brianna Birman<top4@acm.uiuc.edu>',[m.email], fail_silently=False)
       print "Email sent to %s" % m.full_name()
    except Exception as inst:
       print "Error sending email to %s" % m.full_name()
