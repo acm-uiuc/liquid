@@ -51,4 +51,4 @@ ACM@UIUC Chair""" % (v.user.full_name(),v.user.username,v.key)
    except Exception as inst:
       print "Error sending email to %s" % m.full_name()
       print inst
-   time.sleep(.1)
+   time.sleep(.05)
