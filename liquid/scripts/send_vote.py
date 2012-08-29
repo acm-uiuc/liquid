@@ -1,4 +1,4 @@
-import sys,os
+import sys,os,time
 sys.path.append(os.path.abspath('..'))
 
 from django.core.management import setup_environ 
@@ -47,8 +47,9 @@ Brianna Birman
 ACM@UIUC Chair""" % (v.user.full_name(),v.user.username,v.key)
    
    try:
-      send_mail('ACM new constitution vote', email, 'Brianna Birman<top4@acm.uiuc.edu>',[m.email], fail_silently=False)
+      send_mail('Vote on ACM new constitution', email, 'Brianna Birman<top4@acm.uiuc.edu>',[m.email], fail_silently=False)
       print "Email sent to %s" % m.full_name()
    except Exception as inst:
       print "Error sending email to %s" % m.full_name()
       print inst
+   time.sleep(.1)
