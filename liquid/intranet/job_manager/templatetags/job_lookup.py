@@ -32,3 +32,9 @@ def pk_to_description(id):
    j = Job.objects.get(pk=id)
    description =  j.description
    return description
+
+@register.filter
+def pk_to_postdate(id):
+   j = Job.objects.get(pk=id)
+   timestamp =  j.timestamp
+   return timestamp

@@ -27,6 +27,7 @@
   <tr>
     <td>{{m.id}}{{m.status}}</td>
     <td>
+      <strong>Posted on:</strong> {{m.id.value|pk_to_postdate}}<br>
       <strong>Company:</strong> {{m.id.value|pk_to_company}}<br>
       <strong>Types:</strong> {{m.id.value|pk_to_types}}<br>
       <strong>Contact:</strong> {{m.id.value|pk_to_contact}}, {{m.id.value|pk_to_phone}}<br>
