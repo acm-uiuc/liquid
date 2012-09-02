@@ -17,7 +17,7 @@ GROUP_DAY_CHOICES = ((0,'Sunday'),(1,'Monday'),(2,'Tuesday'),(3,'Wednesday'),(4,
 GROUP_MEMBER_STATUS_CHOICES = (('active','active'),('inactive','inactive'),('frozen','frozen'))
 GROUP_STATUS_CHOICES = (('active','active'),('inactive','inactive'),('frozen','frozen'))
 
-EVENT_TYPE_CHOICES = (('a','ACM General'),('g','Group'),('d','Department'))
+EVENT_TYPE_CHOICES = (('a','ACM General'),('g','Group'),('d','Department'),('c','Corporate'),('o','Other'))
 
 EMAIL_STATUS_CHOICES = (('defer','Defer'),('approve','Approve'),('discard','Discard'))
 
