@@ -30,5 +30,5 @@ def pk_to_title(id):
 @register.filter
 def pk_to_description(id):
    j = Job.objects.get(pk=id)
-   description =  "<br />".join(j.description.split("\n"))
+   description =  j.description
    return description
