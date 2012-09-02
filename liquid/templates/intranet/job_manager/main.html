@@ -33,7 +33,7 @@
       <strong>Contact:</strong> {{m.id.value|pk_to_contact}}, {{m.id.value|pk_to_phone}}<br>
       <strong>Position:</strong> {{m.id.value|pk_to_title}}<br>
       <strong>Description:</strong><br>
-      <p>{{m.id.value|pk_to_description}}</p>
+      <p>{{m.id.value|pk_to_description|linebreaksbr}}</p>
     </td>
   </tr>
   {% endfor %}
