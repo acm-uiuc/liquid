@@ -26,11 +26,14 @@ def play(request,id):
    url_values = urllib.urlencode(data)
    url = 'http://lab2.acm.uiuc.edu:8181/play'
    full_url = url + '?' + url_values
-   response = urllib2.urlopen(full_url).read()
+   try:
+      response = urllib2.urlopen(full_url).read()
    
-   Play(animation=animation,member=request.user).save()
+      Play(animation=animation,member=request.user).save()
 
-   messages.add_message(request, messages.SUCCESS, response)
+      messages.add_message(request, messages.SUCCESS, response)
+   except:
+      messages.add_message(request, messages.ERROR, "Error connecting to lab2")
    return HttpResponseRedirect('/intranet/chroma/') # Redirect after POST
 
 def off(request):
