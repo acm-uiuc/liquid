@@ -56,7 +56,7 @@ def edit(request,id):
     },context_instance=RequestContext(request))
 
 @is_admin()
-def delete(requset,id):
+def delete(request,id):
   e = Event.objects.get(id=id)
   e.delete()
   messages.add_message(request, messages.SUCCESS, 'Event deleted')
