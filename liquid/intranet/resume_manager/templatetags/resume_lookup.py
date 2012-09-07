@@ -28,6 +28,11 @@ def pk_to_name(id):
    return "%s %s"%(r.person.first_name,r.person.last_name)
 
 @register.filter
+def pk_to_ldap_name(id):
+   r = Resume.objects.get(pk=id)
+   return r.person.ldap_name
+
+@register.filter
 def pk_to_thumb(id):
    r = Resume.objects.get(pk=id)
    return r.thumbnail_location

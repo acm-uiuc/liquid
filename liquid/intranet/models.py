@@ -205,6 +205,7 @@ class ResumePerson(models.Model):
    seeking = models.CharField(max_length=1,choices=RESUME_PERSON_SEEKING)
    created_at = models.DateTimeField(auto_now_add=True)
    updated_at = models.DateTimeField(auto_now=True)
+   ldap_name = models.CharField(max_length=255)
 
 @receiver(pre_save, sender=ResumePerson)
 def new_resume_person(sender, **kwargs):
@@ -213,7 +214,7 @@ def new_resume_person(sender, **kwargs):
       l = ldap.initialize('ldap://ldap.uiuc.edu')
       u = l.search_s('ou=people,dc=uiuc,dc=edu',ldap.SCOPE_SUBTREE,'uid=%s'%person.netid)
       try:
-         first_name = u[0][1]['givenName'][0]
+         person.ldap_name = u[0][1]['cn'][0]
       except IndexError:
          raise ValueError('Bad Netid', 'Not a valid netid')
 
