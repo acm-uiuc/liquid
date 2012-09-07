@@ -27,7 +27,7 @@ EMAIL_STATUS_CHOICES = (('defer','Defer'),('approve','Approve'),('discard','Disc
 
 RESUME_PERSON_LEVEL = (('u','Undergraduate'),('m','Masters'),('p','PhD'))
 
-RESUME_PERSON_SEEKING = (('f','Full Time'),('i','Internship'))
+RESUME_PERSON_SEEKING = (('f','Full Time'),('i','Internship/Co-op'))
 
 RESUME_PERSON_GRADUATION = []
 
