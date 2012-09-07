@@ -5,6 +5,7 @@ urlpatterns = patterns('',
     url(r'^$', 'corporate.views.main'),
     url(r'^job/$', 'corporate.views.job'),
     url(r'^job/thanks/$', 'corporate.views.thanks'),
+    url(r'^resume/', include('corporate.resume.urls')),
 )
 
 

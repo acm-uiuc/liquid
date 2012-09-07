@@ -41,6 +41,8 @@ MAILMAN_URL = 'https://www-s.acm.uiuc.edu/mailman/'
 MAILMAN_PASSWORD = ''
 MAILMAN_ENCODING = 'us-ascii'
 
+RESUME_STORAGE_LOCATION = '' # you should set this
+
 """%(mysql_user,mysql_pass,gmail_email,gmail_pass)
    
 FILE = open('liquid/local_settings.py',"w")

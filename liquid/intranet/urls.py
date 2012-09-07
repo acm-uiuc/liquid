@@ -8,6 +8,7 @@ urlpatterns = patterns('',
     url(r'^event/', include('intranet.event_manager.urls')),
     url(r'^jobs/', include('intranet.job_manager.urls')),
     url(r'^chroma/', include('intranet.chroma.urls')),
+    url(r'^resume/', include('intranet.resume_manager.urls')),
 )
 
 
