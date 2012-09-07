@@ -10,17 +10,17 @@ def pk_to_created_at(id):
 @register.filter
 def pk_to_graduation(id):
    r = Resume.objects.get(pk=id)
-   return r.person.graduation
+   return r.person.get_graduation_display()
 
 @register.filter
 def pk_to_seeking(id):
    r = Resume.objects.get(pk=id)
-   return r.person.seeking
+   return r.person.get_seeking_display()
 
 @register.filter
 def pk_to_level(id):
    r = Resume.objects.get(pk=id)
-   return r.person.level
+   return r.person.get_level_display()
 
 @register.filter
 def pk_to_name(id):
