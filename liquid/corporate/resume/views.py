@@ -17,8 +17,11 @@ def main(request):
   return render_to_response('corporate/resume/main.html',{"section":"corporate"},context_instance=RequestContext(request))
 
 def student_thanks(request,id):
-  r = Resume.objects.get(id=id)
-  r.generate_thumbnails()
+  try:
+    r = Resume.objects.get(id=id)
+    r.generate_thumbnails()
+  except:
+    pass
   return render_to_response('corporate/resume/student_thanks.html',{"section":"corporate"},context_instance=RequestContext(request))
 
 
