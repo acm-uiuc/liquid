@@ -10,6 +10,7 @@ import os
 from django.core.files.storage import FileSystemStorage
 from utils.fields import ContentTypeRestrictedFileField
 from utils.django_mailman.models import List
+from subprocess import check_call
 
 
 # Create your models here.
@@ -232,3 +233,18 @@ class Resume(models.Model):
                                                   content_types=['application/pdf'],
                                                   max_upload_size=1048576)
    created_at = models.DateTimeField(auto_now_add=True)
+
+   def thumbnail_location(self):
+      return "%s/thumbnails/%d.png"%(settings.RESUME_STORAGE_LOCATION, self.id)
+
+   def thumbnail_top_location(self):
+      return "%s/thumbnails/%d-top.png"%(settings.RESUME_STORAGE_LOCATION, self.id)
+
+@receiver(post_save, sender=Resume)
+def new_resume(sender, **kwargs):
+   resume = kwargs['instance']
+   pdf = resume.resume.path
+   png = resume.thumbnail_location()
+   png_top = resume.thumbnail_top_location()
+   check_call(["convert", "-quality", "100%", "-resize", "102x132", pdf, png])
+   check_call(["convert", "-quality", "100%", "-resize", "544x704", "-crop", "544x100+0+0", "+repage", pdf, png_top])
