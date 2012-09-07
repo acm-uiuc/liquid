@@ -240,11 +240,15 @@ class Resume(models.Model):
    def thumbnail_top_location(self):
       return "%s/thumbnails/%d-top.png"%(settings.RESUME_STORAGE_LOCATION, self.id)
 
+   def generate_thumbnails(self):
+      pdf = self.resume.path
+      png = self.thumbnail_location()
+      png_top = self.thumbnail_top_location()
+      check_call(["convert", "-quality", "100%", "-resize", "102x132", pdf, png])
+      check_call(["convert", "-quality", "100%", "-resize", "544x704", "-crop", "544x100+0+0", "+repage", pdf, png_top])
+
 @receiver(post_save, sender=Resume)
 def new_resume(sender, **kwargs):
    resume = kwargs['instance']
-   pdf = resume.resume.path
-   png = resume.thumbnail_location()
-   png_top = resume.thumbnail_top_location()
-   check_call(["convert", "-quality", "100%", "-resize", "102x132", pdf, png])
-   check_call(["convert", "-quality", "100%", "-resize", "544x704", "-crop", "544x100+0+0", "+repage", pdf, png_top])
+   resume.generate_thumbnails()
+   
