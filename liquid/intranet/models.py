@@ -241,11 +241,15 @@ class Resume(models.Model):
       return "%s/thumbnails/%d-top.png"%(settings.RESUME_STORAGE_LOCATION, self.id)
 
    def generate_thumbnails(self):
-      pdf = self.resume.path
-      png = self.thumbnail_location()
-      png_top = self.thumbnail_top_location()
-      check_call(["convert", "-quality", "100%", "-resize", "102x132", pdf, png])
-      check_call(["convert", "-quality", "100%", "-resize", "544x704", "-crop", "544x100+0+0", "+repage", pdf, png_top])
+      if not os.path.exists(self.thumbnail_location()):
+         try:
+            pdf = self.resume.path
+            png = self.thumbnail_location()
+            png_top = self.thumbnail_top_location()
+            check_call(["convert", "-quality", "100%", "-resize", "102x132", pdf, png])
+            check_call(["convert", "-quality", "100%", "-resize", "544x704", "-crop", "544x100+0+0", "+repage", pdf, png_top])
+         except:
+            pass
 
 @receiver(post_save, sender=Resume)
 def new_resume(sender, **kwargs):
