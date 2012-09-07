@@ -3,9 +3,13 @@ from django.http import HttpResponse
 from django.template import RequestContext
 from django.core.context_processors import csrf
 from django.core.mail import send_mail
-from corporate.forms import JobForm
+from corporate.forms import JobForm, ResumePersonForm, ResumeForm
 from intranet.models import Member
 from intranet.models import Group
+from intranet.models import ResumePerson
+from django.forms.util import ErrorList
+from subprocess import check_call
+import settings
 
 
 
@@ -33,3 +37,45 @@ def job(request):
 
 def thanks(request):
   return render_to_response('corporate/thanks.html',{"section":"corporate"},context_instance=RequestContext(request))
+
+def resume_student_thanks(request):
+  return render_to_response('corporate/resume_student_thanks.html',{"section":"corporate"},context_instance=RequestContext(request))
+
+
+def resume_student(request):
+  if request.method == 'POST':
+    resume_form = ResumeForm(request.POST,request.FILES)
+    resume_person_form = ResumePersonForm(request.POST)
+
+    if resume_person_form.is_valid() and resume_form.is_valid():
+      try:
+        rp = ResumePerson.objects.get(netid=resume_person_form.cleaned_data['netid'])
+        resume_person_form = ResumePersonForm(request.POST,instance=rp)
+      except:
+        pass
+      try:
+        resume_person = resume_person_form.save()
+          
+        resume = resume_form.save(commit=False)
+        resume.person = resume_person
+        resume.save()
+        pdf = resume.resume.path
+        jpg = "%s/thumbnails/%d.jpg"%(settings.RESUME_STORAGE_LOCATION, resume.id)
+        jpg_top = "%s/thumbnails/%d-top.jpg"%(settings.RESUME_STORAGE_LOCATION, resume.id)
+        check_call(["convert", "-quality", "100%", "-resize", "102x132", pdf, jpg])
+        check_call(["convert", "-quality", "100%", "-resize", "680x880", "-crop", "680x150+0+0", "+repage", pdf, jpg_top])
+        return HttpResponseRedirect('/corporate/resume/student/thanks/') # Redirect after POST
+      except ValueError:
+        errors = resume_person_form._errors.setdefault("netid", ErrorList())
+        errors.append(u"Not a valid netid")
+  else:
+    resume_person_form = ResumePersonForm()
+    resume_form = ResumeForm()
+
+  return render_to_response('corporate/resume_student.html',{
+      'resume_form': resume_form,
+      'resume_person_form': resume_person_form,
+      'section': "corporate",
+    },context_instance=RequestContext(request))
+      
+
