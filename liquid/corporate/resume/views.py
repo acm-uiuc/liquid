@@ -6,7 +6,7 @@ from django.core.mail import send_mail
 from corporate.resume.forms import ResumePersonForm, ResumeForm
 from intranet.models import Member
 from intranet.models import Group
-from intranet.models import ResumePerson
+from intranet.models import ResumePerson, Resume
 from django.forms.util import ErrorList
 import settings
 
@@ -16,7 +16,9 @@ import settings
 def main(request):
   return render_to_response('corporate/resume/main.html',{"section":"corporate"},context_instance=RequestContext(request))
 
-def student_thanks(request):
+def student_thanks(request,id):
+  r = Resume.objects.get(id=id)
+  r.generate_thumbnails()
   return render_to_response('corporate/resume/student_thanks.html',{"section":"corporate"},context_instance=RequestContext(request))
 
 
@@ -37,7 +39,7 @@ def student(request):
         resume = resume_form.save(commit=False)
         resume.person = resume_person
         resume.save()
-        return HttpResponseRedirect('/corporate/resume/student/thanks/') # Redirect after POST
+        return HttpResponseRedirect("/corporate/resume/student/thanks/%d"%(resume.id)) # Redirect after POST
       except ValueError:
         errors = resume_person_form._errors.setdefault("netid", ErrorList())
         errors.append(u"Not a valid netid")

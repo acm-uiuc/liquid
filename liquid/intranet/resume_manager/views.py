@@ -22,11 +22,13 @@ def main(request):
 @group_admin_required(['Corporate'])
 def thumb(request,id):
    r = Resume.objects.get(id=id)
+   r.generate_thumbnails()
    image_data = open(r.thumbnail_location(), "rb").read()
    return HttpResponse(image_data, mimetype="image/png")
 
 @group_admin_required(['Corporate'])
 def thumb_top(request,id):
    r = Resume.objects.get(id=id)
+   r.generate_thumbnails()
    image_data = open(r.thumbnail_top_location(), "rb").read()
    return HttpResponse(image_data, mimetype="image/png")

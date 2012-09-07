@@ -28,11 +28,15 @@
     <td>
       {{r.id}}
       {{r.approved}} <strong>Approve</strong><br>
-      {{r.DELETE}} <strong>Delete</strong> 
-      <img src="/intranet/resume/thumb/{{r.id.value}}.png">
+      {{r.DELETE}} <strong>Delete</strong>
+      <div class="resume-image-loader resume-thumbnail">
+        <img src="/intranet/resume/thumb/{{r.id.value}}.png">
+      </div>
     </td>
     <td>
-      <img src="/intranet/resume/thumb/top/{{r.id.value}}.png">
+      <div class="resume-image-loader resume-thumbnail-top">
+        <img src="/intranet/resume/thumb/top/{{r.id.value}}.png">
+      </div>
       <strong>Name:</strong> {{r.id.value|pk_to_name}}<br>
       <strong>Level:</strong> {{r.id.value|pk_to_level}}<br>
       <strong>Graduation:</strong> {{r.id.value|pk_to_graduation}}<br>

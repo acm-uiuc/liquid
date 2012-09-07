@@ -6,5 +6,3 @@ urlpatterns = patterns('',
     url(r'^thumb/(?P<id>\d+).png$', 'intranet.resume_manager.views.thumb'),
     url(r'^thumb/top/(?P<id>\d+).png$', 'intranet.resume_manager.views.thumb_top'),
 )
-
-
