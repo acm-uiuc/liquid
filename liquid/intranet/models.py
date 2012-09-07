@@ -6,7 +6,11 @@ import settings
 import datetime
 import ldap
 import logging
+import os
+from django.core.files.storage import FileSystemStorage
+from utils.fields import ContentTypeRestrictedFileField
 from utils.django_mailman.models import List
+from subprocess import check_call
 
 
 # Create your models here.
@@ -20,6 +24,18 @@ GROUP_STATUS_CHOICES = (('active','active'),('inactive','inactive'),('frozen','f
 EVENT_TYPE_CHOICES = (('a','ACM General'),('g','Group'),('d','Department'),('c','Corporate'),('o','Other'))
 
 EMAIL_STATUS_CHOICES = (('defer','Defer'),('approve','Approve'),('discard','Discard'))
+
+RESUME_PERSON_LEVEL = (('u','Undergraduate'),('m','Masters'),('p','PhD'))
+
+RESUME_PERSON_SEEKING = (('f','Full Time'),('i','Internship'))
+
+RESUME_PERSON_GRADUATION = []
+
+current_year = datetime.datetime.now().year
+
+for i in range(-1,6):
+   RESUME_PERSON_GRADUATION.append((datetime.date(current_year+i, 5, 1),'May %d'%(current_year+i)))
+   RESUME_PERSON_GRADUATION.append((datetime.date(current_year+i, 12, 1),'December %d'%(current_year+i)))
 
 class Member(User):
    uin = models.CharField(max_length=9,null=True)
@@ -179,3 +195,56 @@ class Job(models.Model):
       if self.type_intern:
          types.append("Intern/Co-op")
       return ", ".join(types)
+
+class ResumePerson(models.Model):
+   netid = models.CharField(max_length=255)
+   first_name = models.CharField(max_length=255)
+   last_name = models.CharField(max_length=255)
+   graduation = models.DateField(choices=RESUME_PERSON_GRADUATION)
+   level = models.CharField(max_length=1,choices=RESUME_PERSON_LEVEL)
+   seeking = models.CharField(max_length=1,choices=RESUME_PERSON_SEEKING)
+   created_at = models.DateTimeField(auto_now_add=True)
+   updated_at = models.DateTimeField(auto_now=True)
+
+@receiver(pre_save, sender=ResumePerson)
+def new_resume_person(sender, **kwargs):
+   person = kwargs['instance']
+   if not person.id:
+      l = ldap.initialize('ldap://ldap.uiuc.edu')
+      u = l.search_s('ou=people,dc=uiuc,dc=edu',ldap.SCOPE_SUBTREE,'uid=%s'%person.netid)
+      try:
+         first_name = u[0][1]['givenName'][0]
+      except IndexError:
+         raise ValueError('Bad Netid', 'Not a valid netid')
+
+# Wher to store the resumes
+fs = FileSystemStorage(location=settings.RESUME_STORAGE_LOCATION)
+
+def create_resume_file_name(instance,filename):
+   return "%s/%s-%s.pdf"%(settings.RESUME_STORAGE_LOCATION,
+                          instance.person.netid,
+                          os.urandom(16).encode('hex'))
+
+class Resume(models.Model):
+   person = models.ForeignKey(ResumePerson,null=True)
+   approved = models.BooleanField(default=False)
+   resume = ContentTypeRestrictedFileField(upload_to=create_resume_file_name,
+                                                  storage=fs,
+                                                  content_types=['application/pdf'],
+                                                  max_upload_size=1048576)
+   created_at = models.DateTimeField(auto_now_add=True)
+
+   def thumbnail_location(self):
+      return "%s/thumbnails/%d.png"%(settings.RESUME_STORAGE_LOCATION, self.id)
+
+   def thumbnail_top_location(self):
+      return "%s/thumbnails/%d-top.png"%(settings.RESUME_STORAGE_LOCATION, self.id)
+
+@receiver(post_save, sender=Resume)
+def new_resume(sender, **kwargs):
+   resume = kwargs['instance']
+   pdf = resume.resume.path
+   png = resume.thumbnail_location()
+   png_top = resume.thumbnail_top_location()
+   check_call(["convert", "-quality", "100%", "-resize", "102x132", pdf, png])
+   check_call(["convert", "-quality", "100%", "-resize", "544x704", "-crop", "544x100+0+0", "+repage", pdf, png_top])

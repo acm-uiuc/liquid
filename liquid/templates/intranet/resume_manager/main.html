@@ -1,0 +1,56 @@
+{% extends "intranet/base.html" %}
+{% load bootstrap %}
+{% load resume_lookup %}
+{% block intranet_content %}
+<header class="page-header">
+<h1>Resume Manager</h1>
+</header>
+{% if resume_count %}
+<form method="post">
+  {% csrf_token %}
+  {{ resumes.management_form }}
+
+<div class="control-group">
+  <div class="controls">
+    <button type="submit" class="btn btn-primary pull-right" name="Save">Save</button>
+  </div>
+</div>
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>Preview</th>
+    <th>Data</th>
+  <tr>
+  </thead>
+  <tbody>
+  {% for r in resumes %}
+  <tr>
+    <td>
+      {{r.id}}
+      {{r.approved}} <strong>Approve</strong><br>
+      {{r.DELETE}} <strong>Delete</strong> 
+      <img src="/intranet/resume/thumb/{{r.id.value}}.png">
+    </td>
+    <td>
+      <img src="/intranet/resume/thumb/top/{{r.id.value}}.png">
+      <strong>Name:</strong> {{r.id.value|pk_to_name}}<br>
+      <strong>Level:</strong> {{r.id.value|pk_to_level}}<br>
+      <strong>Graduation:</strong> {{r.id.value|pk_to_graduation}}<br>
+      <strong>Seeking:</strong> {{r.id.value|pk_to_seeking}}<br>
+      <strong>Posted on:</strong> {{r.id.value|pk_to_created_at}}<br>
+    </td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+<div class="control-group">
+  <div class="controls">
+    <button type="submit" class="btn btn-primary pull-right" name="Save">Save</button>
+  </div>
+</div>
+</form>
+{% else %}
+<p>No resumes!</p>
+{% endif %}
+{% endblock %}
