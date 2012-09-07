@@ -241,9 +241,9 @@ class Resume(models.Model):
       return "%s/thumbnails/%d-top.png"%(settings.RESUME_STORAGE_LOCATION, self.id)
 
    def generate_thumbnails(self):
-      if not os.path.exists(self.thumbnail_location()):
+      if not os.path.exists(self.thumbnail_location()) or not os.path.exists(self.thumbnail_top_location()):
          try:
-            pdf = self.resume.path
+            pdf = "%s[0]"%self.resume.path
             png = self.thumbnail_location()
             png_top = self.thumbnail_top_location()
             check_call(["convert", "-quality", "100%", "-resize", "102x132", pdf, png])
