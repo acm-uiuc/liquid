@@ -21,10 +21,13 @@ def main(request):
 
 @group_admin_required(['Corporate'])
 def thumb(request,id):
-   r = Resume.objects.get(id=id)
-   r.generate_thumbnails()
-   image_data = open(r.thumbnail_location(), "rb").read()
-   return HttpResponse(image_data, mimetype="image/png")
+   try:
+      r = Resume.objects.get(id=id)
+      r.generate_thumbnails()
+      image_data = open(r.thumbnail_location(), "rb").read()
+      return HttpResponse(image_data, mimetype="image/png")
+   except:
+      raise Http404
 
 @group_admin_required(['Corporate'])
 def thumb_top(request,id):
