@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models.signals import pre_save,post_save
+from django.db.models.signals import pre_save,post_save,post_delete
 from django.dispatch import receiver
 from django.contrib.auth.models import User
 import settings
@@ -11,6 +11,13 @@ from django.core.files.storage import FileSystemStorage
 from utils.fields import ContentTypeRestrictedFileField
 from utils.django_mailman.models import List
 from subprocess import check_call
+from django.db.models import Count
+
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.platypus import *
+from reportlab.lib import colors
+from reportlab.lib.units import inch
+from reportlab.lib.pagesizes import letter
 
 
 # Create your models here.
@@ -29,13 +36,7 @@ RESUME_PERSON_LEVEL = (('u','Undergraduate'),('m','Masters'),('p','PhD'))
 
 RESUME_PERSON_SEEKING = (('f','Full Time'),('i','Internship/Co-op'))
 
-RESUME_PERSON_GRADUATION = []
 
-current_year = datetime.datetime.now().year
-
-for i in range(-1,6):
-   RESUME_PERSON_GRADUATION.append((datetime.date(current_year+i, 5, 1),'May %d'%(current_year+i)))
-   RESUME_PERSON_GRADUATION.append((datetime.date(current_year+i, 12, 1),'December %d'%(current_year+i)))
 
 class Member(User):
    uin = models.CharField(max_length=9,null=True)
@@ -197,6 +198,14 @@ class Job(models.Model):
       return ", ".join(types)
 
 class ResumePerson(models.Model):
+   RESUME_PERSON_GRADUATION = []
+
+   current_year = datetime.datetime.now().year
+
+   for i in range(-1,6):
+      RESUME_PERSON_GRADUATION.append((datetime.date(current_year+i, 5, 1),'May %d'%(current_year+i)))
+      RESUME_PERSON_GRADUATION.append((datetime.date(current_year+i, 12, 1),'December %d'%(current_year+i)))
+
    netid = models.CharField(max_length=255)
    first_name = models.CharField(max_length=255)
    last_name = models.CharField(max_length=255)
@@ -206,6 +215,19 @@ class ResumePerson(models.Model):
    created_at = models.DateTimeField(auto_now_add=True)
    updated_at = models.DateTimeField(auto_now=True)
    ldap_name = models.CharField(max_length=255)
+
+   def latest_resume(self):
+      return self.resume_set.filter(approved=True).latest('created_at')
+
+   def full_name(self):
+      return "%s, %s"%(self.last_name, self.first_name)
+
+   def acm_member(self):
+      exist_count = Member.objects.filter(username=self.netid).count()
+      if exist_count > 0:
+         return "Yes"
+      else:
+         return "No"
 
 @receiver(pre_save, sender=ResumePerson)
 def new_resume_person(sender, **kwargs):
@@ -256,4 +278,144 @@ class Resume(models.Model):
 def new_resume(sender, **kwargs):
    resume = kwargs['instance']
    resume.generate_thumbnails()
-   
+
+@receiver(post_delete, sender=Resume)
+def delete_resume(sender, **kwargs):
+   resume = kwargs['instance']
+   fs.delete(resume.resume.path)
+   fs.delete(resume.thumbnail_location())
+   fs.delete(resume.thumbnail_top_location())
+   if resume.person.resume_set.count() == 0:
+      resume.person.delete()
+
+class ResumeDownloadSet(models.Model):
+   level = models.CharField(max_length=64,null=True)
+   seeking = models.CharField(max_length=64,null=True)
+   acm = models.NullBooleanField(null=True)
+   graduation_start = models.DateField(null=True)
+   graduation_end = models.DateField(null=True)
+   created_at = models.DateTimeField(auto_now_add=True)
+
+   def get_people(self,extra_filter=None):
+      level = None
+      if self.level != None:
+         level = list(self.level)
+
+      seeking = None
+      if self.seeking != None:
+         seeking = list(self.seeking)
+
+      acm = self.acm
+
+      approved_resumes = Resume.objects.filter(approved=True)
+      people = ResumePerson.objects.filter(resume__in=approved_resumes).annotate(resume_count=Count('resume')).filter(resume_count__gt=0)
+
+      if level != None and level != "":
+         people = people.filter(level__in=level)
+
+      if seeking != None and seeking != "":
+         people = people.filter(seeking__in=seeking)
+
+      if self.graduation_start != None:
+         people = people.filter(graduation__gte=self.graduation_start)
+
+      if self.graduation_end != None:
+         people = people.filter(graduation__lte=self.graduation_end)
+
+      if extra_filter != None:
+         people = people.filter(extra_filter)
+
+      people = people.order_by('last_name','first_name')
+
+      if acm == True:
+         people_out = []
+         for p in people:
+            if p.acm_member() == "Yes":
+               people_out.append(p)
+         people = people_out
+
+      return people
+
+   def show_undergraduate(self):
+      return self.level != None and self.level.find('u') >= 0
+
+   def show_masters(self):
+      return self.level != None and self.level.find('m') >= 0
+
+   def show_phd(self):
+      return self.level != None and self.level.find('p') >= 0
+
+   def show_full_time(self):
+      return self.seeking != None and self.seeking.find('f') >= 0
+
+   def show_internship(self):
+      return self.seeking != None and self.seeking.find('i') >= 0
+
+   def show_acm(self):
+      return self.acm != None and self.acm
+
+
+class ResumeDownload(models.Model):
+   set = models.ForeignKey(ResumeDownloadSet)
+   hightest_id = models.IntegerField()
+   created_at = models.DateTimeField(auto_now_add=True)
+
+   def generate(self):
+      people = self.set.get_people()
+
+      # Our container for 'Flowable' objects
+      elements = []
+
+      # A basic document for us to write to 'rl_hello_table.pdf'
+      doc = SimpleDocTemplate("%s/sample.pdf"%settings.RESUME_STORAGE_LOCATION,pagesize=letter,
+                           rightMargin=72,leftMargin=72,
+                           topMargin=72,bottomMargin=18)
+
+      styles = getSampleStyleSheet()
+      elements.append(Paragraph("ACM@UIUC Resume Book",styles['Title']))
+      elements.append(Spacer(1, .5*inch))
+
+      data = [['Name','Graduation','Level','Seeking','ACM Member']]
+
+      for p in people:
+       data.append([p.full_name(),p.get_graduation_display(),p.get_level_display(),p.get_seeking_display(),p.acm_member()])
+
+
+
+      # First the top row, with all the text centered and in Times-Bold,
+      # and one line above, one line below.
+      ts = [('ALIGN', (1,1), (-1,-1), 'LEFT'),
+          ('LINEABOVE', (0,0), (-1,0), 1, colors.blue),
+          ('LINEBELOW', (0,0), (-1,0), 1, colors.blue),
+          ('FONT', (0,0), (-1,0), 'Times-Bold')]
+
+      # Create the table with the necessary style, and add it to the
+      # elements list.
+
+
+      table = Table(data, style=ts)
+      elements.append(table)
+
+      # Write the document to disk
+      doc.build(elements)
+
+      pdf_out = pyPdf.PdfFileWriter()
+
+      pdf_in = pyPdf.PdfFileReader(file("%s/packets/%d.pdf"%(settings.RESUME_STORAGE_LOCATION,self.id),"rb"))
+      for page in xrange(pdf_in.getNumPages()):
+         pdf_out.addPage(pdf_in.getPage(page))
+
+      for p in people:
+       pdf_in = pyPdf.PdfFileReader(file(p.latest_resume().resume.path,"rb"))
+
+       for page in xrange(pdf_in.getNumPages()):
+         pdf_out.addPage(pdf_in.getPage(page))
+
+      file_out = file("%s/sample.pdf"%settings.RESUME_STORAGE_LOCATION, "wb")
+      pdf_out.write(file_out)
+      file_out.close()
+
+@receiver(post_save, sender=Resume)
+def new_resume_download(sender, **kwargs):
+   download = kwargs['instance']
+   download.generate()

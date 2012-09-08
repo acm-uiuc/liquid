@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load bootstrap %}
+{% block content %}
+<header class="page-header">
+<h1>ACM@UIUC Resume Book</h1>
+</header>
+<ul class="nav nav-tabs">
+  <li{% if page == 'download' %} class='active'{% endif %}>
+    <a href="/corporate/resume/recruiter/">Download</a>
+  </li>
+  <li{% if page == 'browse' %} class='active'{% endif %}>
+    <a href="/corporate/resume/recruiter/browse">Browse</a>
+  </li>
+</ul>
+{% block recruiter_content %}
+{% endblock %}
+{% endblock %}
