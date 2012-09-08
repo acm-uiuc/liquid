@@ -43,6 +43,7 @@
       <strong>Graduation:</strong> {{r.id.value|pk_to_graduation}}<br>
       <strong>Seeking:</strong> {{r.id.value|pk_to_seeking}}<br>
       <strong>Posted on:</strong> {{r.id.value|pk_to_created_at}}<br>
+      <a href="/intranet/resume/pdf/{{r.id.value}}.pdf">View full pdf</a>
     </td>
   </tr>
   {% endfor %}
