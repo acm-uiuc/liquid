@@ -139,3 +139,28 @@ div.carousel-inner:hover ~ a.carousel-control {
    width: 544px;
    height: 100px;
 }
+
+.calendar thead tr td{
+   text-align: center;
+   font-weight: bold;
+   background: #F9F9F9;
+}
+
+.calendar tr td.info{
+   background: #D9EDF7;
+}
+
+.calendar tr td div{
+   min-height: 100px; 
+   height:auto !important; 
+   height: 100px; 
+}
+
+.calendar .date_label{
+   color: #999;
+   border-bottom: 1px solid #ddd;
+}
+
+.event-details-inner{
+   display: none;
+}
