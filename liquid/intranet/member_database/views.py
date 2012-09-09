@@ -38,6 +38,10 @@ def new(request):
       if form.is_valid(): # All validation rules pass
          try:
             u = form.save()
+            u.set_unusable_password()
+            member_group = Group.objects.get(name='Member')
+            u.groups.add(member_group)
+            u.save()
             messages.add_message(request, messages.SUCCESS, 'Member created')
             return HttpResponseRedirect('/intranet/members/search?q=%s' % u.username) # Redirect after POST
          except ValueError:
