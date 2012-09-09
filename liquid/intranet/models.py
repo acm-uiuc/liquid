@@ -175,6 +175,14 @@ class Event(models.Model):
    def has_sponsors(self):
       return len(self.sponsors.all()) > 0
 
+   def pretty_time(self):
+      time = self.starttime.strftime('%A, %b %d, %Y %I:%M%p')
+      if self.starttime.date() == self.endtime.date():
+         time += "-%s"%(self.endtime.strftime('%I:%M%p'))
+      else:
+         time += "-%s"%(self.endtime.strftime('%A, %b %d, %Y %I:%M%p'))
+      return time
+
 class Job(models.Model):
    job_title = models.CharField(max_length=255)
    company = models.CharField(max_length=255)

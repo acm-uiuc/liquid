@@ -20,12 +20,13 @@ text = "Schedule for the week:\n"
 
 i = 1
 for e in events:
-   text += "%d. %s\n" %(i,e.name)
+   text += "%d. %s - %s\n" %(i,e.name,e.starttime.strftime('%m/%d/%y'))
    i += 1
 
 for e in events:
    text += "\n\n========================================================================\n\n"
-   text += "%s\n%s-%s\n%s\n\n%s" % (e.name,e.starttime.strftime('%b %d %Y %I:%M%p'),e.endtime.strftime('%b %d %Y %I:%M%p'),e.location,e.description)
+   
+   text += "%s\n%s\n%s\n\n%s" % (e.name,e.pretty_time(),e.location,e.description)
 text += "\n\n========================================================================\n\n"
 
 print text
