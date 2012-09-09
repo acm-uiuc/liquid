@@ -1,5 +1,5 @@
 from django.shortcuts import render_to_response, HttpResponseRedirect
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.template import RequestContext
 from django.core.context_processors import csrf
 from django.db.models import Q
@@ -64,7 +64,9 @@ def student(request):
 
 @group_admin_required(['Corporate','!Recruiter'])  
 def recruiter(request):
-  return render_to_response('corporate/resume/recruiter.html',{"section":"corporate","page":"download"},context_instance=RequestContext(request))
+  sets = ResumeDownloadSet.objects.filter(owner=request.user)
+
+  return render_to_response('corporate/resume/recruiter.html',{"section":"corporate","page":"download","sets":sets},context_instance=RequestContext(request))
 
 @group_admin_required(['Corporate','!Recruiter'])
 def recruiter_browse(request):
@@ -72,7 +74,9 @@ def recruiter_browse(request):
   if q==None:
     q = ""
   level = request.GET.getlist('level')
+  level.sort()
   seeking = request.GET.getlist('seeking')
+  seeking.sort()
   acm = request.GET.get('acm') == "yes"
   graduation_start = request.GET.get('graduation_start')
   graduation_end = request.GET.get('graduation_end')
@@ -91,7 +95,17 @@ def recruiter_browse(request):
   if len(seeking) > 0:
     seeking_str = "".join(seeking)
 
-  set = ResumeDownloadSet(level=level_str,seeking=seeking_str,acm=acm,graduation_start=graduation_start,graduation_end=graduation_end)
+  sets = ResumeDownloadSet.objects.filter(level=level_str,seeking=seeking_str,acm=acm,graduation_start=graduation_start,graduation_end=graduation_end,owner=request.user)
+  if sets.count() > 0:
+    set = sets[0]
+  else:
+    set = ResumeDownloadSet(level=level_str,seeking=seeking_str,acm=acm,graduation_start=graduation_start,graduation_end=graduation_end)
+
+  if request.GET.get('download') == "true":
+    set.owner = request.user
+    set.save()
+    download = set.generate_download()
+    return HttpResponseRedirect('/corporate/resume/recruiter/download/%d.pdf'%(download.id))
 
   if q != "":
     queries = q.split()
@@ -120,23 +134,29 @@ def recruiter_browse(request):
   return render_to_response('corporate/resume/recruiter_browse.html',{"section":"corporate","page":"browse","people":people,"q":q,"set":set,"total_people":total_people,"graduation_choices":graduation_choices,"request":request},context_instance=RequestContext(request))
 
 @group_admin_required(['Corporate','!Recruiter']) 
+def recruiter_generate(request,id):
+  try:
+    set = ResumeDownloadSet.objects.get(id=id)
+    download = set.generate_download()
+    return HttpResponseRedirect('/corporate/resume/recruiter/download/%d.pdf'%(download.id))
+  except ResumeDownloadSet.DoesNotExist:
+    raise Http404
+
+
+@group_admin_required(['Corporate','!Recruiter']) 
 def recruiter_pdf(request,netid):
-  person = ResumePerson.objects.filter(netid=netid)[0]
+  person = ResumePerson.objects.get(netid=netid)
   r = person.latest_resume()
   pdf_data = open(r.resume.path, "rb").read()
   return HttpResponse(pdf_data, mimetype="application/pdf")
 
 @group_admin_required(['Corporate','!Recruiter']) 
-def recruiter_download(request):
-  pass
-
-@group_admin_required(['Corporate','!Recruiter']) 
 def recruiter_download_pdf(request,id):
-  pdf_out = pyPdf.PdfFileWriter()
-
-  for p in people:
-    pdf_in = pyPdf.PdfFileReader(file(p.latest_resume().path,"rb"))
-
-    for page in range(pdf_in.getNumPages()):
-      pdf_out.addPage(pdf_in.getPage(page))
+  try:
+    download = ResumeDownload.objects.get(id=id)
+    download.generate()
+    pdf_data = open(download.file_path(), "rb").read()
+    return HttpResponse(pdf_data, mimetype="application/pdf")
+  except:
+    raise Http404
 

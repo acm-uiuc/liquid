@@ -12,7 +12,9 @@ from utils.fields import ContentTypeRestrictedFileField
 from utils.django_mailman.models import List
 from subprocess import check_call
 from django.db.models import Count
+from django.db.models import Q
 
+import pyPdf
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.platypus import *
 from reportlab.lib import colors
@@ -293,7 +295,7 @@ class Recruiter(User):
    objects = UserManager()
 
 class ResumeDownloadSet(models.Model):
-   owner = models.ForeignKey(Recruiter)
+   owner = models.ForeignKey(User)
    level = models.CharField(max_length=64,null=True)
    seeking = models.CharField(max_length=64,null=True)
    acm = models.NullBooleanField(null=True)
@@ -301,7 +303,7 @@ class ResumeDownloadSet(models.Model):
    graduation_end = models.DateField(null=True)
    created_at = models.DateTimeField(auto_now_add=True)
 
-   def get_people(self,extra_filter=None):
+   def get_people(self,extra_filter=None,resume_extra_filter=None):
       level = None
       if self.level != None:
          level = list(self.level)
@@ -313,6 +315,10 @@ class ResumeDownloadSet(models.Model):
       acm = self.acm
 
       approved_resumes = Resume.objects.filter(approved=True)
+
+      if resume_extra_filter != None:
+         approved_resumes = approved_resumes.filter(resume_extra_filter)
+
       people = ResumePerson.objects.filter(resume__in=approved_resumes).annotate(resume_count=Count('resume')).filter(resume_count__gt=0)
 
       if level != None and level != "":
@@ -331,7 +337,7 @@ class ResumeDownloadSet(models.Model):
          netids = Member.objects.all().values_list('username', flat=True)
          people = people.filter(netid__in=netids)
 
-      
+
       if extra_filter != None:
          people = people.filter(extra_filter)
 
@@ -357,20 +363,65 @@ class ResumeDownloadSet(models.Model):
    def show_acm(self):
       return self.acm != None and self.acm
 
+   def generate_download(self):
+      if self.get_new_count() > 0 or self.resumedownload_set.count() == 0:
+         download = ResumeDownload(set=self)
+         download.save()
+      else:
+         download = self.resumedownload_set.latest('created_at')
+      return download
+
+   def get_new_count(self):
+      query = None
+      if self.resumedownload_set.count() > 0:
+         download = self.resumedownload_set.latest('created_at')
+         query = Q(created_at__gt=download.created_at)
+      people = self.get_people(None,query)
+      return people.count()
+
+   def get_display(self):
+      out = []
+      levels = {'u':'Undergraduate','m':'Masters','p':'PhD'}
+      seekings = {'f':'Full Time','i':'Internship/Co-op'}
+      if self.level != None:
+         level_out = []
+         for l in list(self.level):
+            level_out.append(levels[l])
+         out.append(" or ".join(level_out))
+      if self.seeking != None:
+         seeking_out = []
+         for s in list(self.seeking):
+            seeking_out.append(seekings[s])
+         out.append(" or ".join(seeking_out))
+      if self.acm == True:
+         out.append("ACM@UIUC members")
+      if self.graduation_start != None:
+         out.append("Graduating after %s %d"%(graduation_start.strftime('%B'),graduation_start.year))
+      if self.graduation_end != None:
+         out.append("Graduating before %s %d"%(graduation_end.strftime('%B'),graduation_end.year))
+
+      return " and ".join(out)
+
+
 
 class ResumeDownload(models.Model):
    set = models.ForeignKey(ResumeDownloadSet)
-   hightest_id = models.IntegerField()
    created_at = models.DateTimeField(auto_now_add=True)
 
+   def file_path(self):
+      return "%s/packets/%d.pdf"%(settings.RESUME_STORAGE_LOCATION,self.id)
+
    def generate(self):
+      if os.path.exists(self.file_path()):
+         return
+
       people = self.set.get_people()
 
       # Our container for 'Flowable' objects
       elements = []
 
       # A basic document for us to write to 'rl_hello_table.pdf'
-      doc = SimpleDocTemplate("%s/sample.pdf"%settings.RESUME_STORAGE_LOCATION,pagesize=letter,
+      doc = SimpleDocTemplate(self.file_path(),pagesize=letter,
                            rightMargin=72,leftMargin=72,
                            topMargin=72,bottomMargin=18)
 
@@ -381,7 +432,7 @@ class ResumeDownload(models.Model):
       data = [['Name','Graduation','Level','Seeking','ACM Member']]
 
       for p in people:
-       data.append([p.full_name(),p.get_graduation_display(),p.get_level_display(),p.get_seeking_display(),p.acm_member()])
+         data.append([p.full_name(),p.get_graduation_display(),p.get_level_display(),p.get_seeking_display(),p.acm_member()])
 
 
 
@@ -404,7 +455,7 @@ class ResumeDownload(models.Model):
 
       pdf_out = pyPdf.PdfFileWriter()
 
-      pdf_in = pyPdf.PdfFileReader(file("%s/packets/%d.pdf"%(settings.RESUME_STORAGE_LOCATION,self.id),"rb"))
+      pdf_in = pyPdf.PdfFileReader(file(self.file_path(),"rb"))
       for page in xrange(pdf_in.getNumPages()):
          pdf_out.addPage(pdf_in.getPage(page))
 
@@ -414,11 +465,11 @@ class ResumeDownload(models.Model):
        for page in xrange(pdf_in.getNumPages()):
          pdf_out.addPage(pdf_in.getPage(page))
 
-      file_out = file("%s/sample.pdf"%settings.RESUME_STORAGE_LOCATION, "wb")
+      file_out = file(self.file_path(), "wb")
       pdf_out.write(file_out)
       file_out.close()
 
-@receiver(post_save, sender=Resume)
+@receiver(post_save, sender=ResumeDownload)
 def new_resume_download(sender, **kwargs):
    download = kwargs['instance']
    download.generate()

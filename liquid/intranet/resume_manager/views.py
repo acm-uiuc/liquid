@@ -5,7 +5,7 @@ from django.contrib import messages
 from intranet.resume_manager.forms import ResumeFormSet
 from django.contrib.auth.decorators import user_passes_test
 from utils.group_decorator import group_admin_required
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 
 
 @group_admin_required(['Corporate'])
