@@ -10,7 +10,9 @@ from intranet.models import Group
 from intranet.models import ResumePerson, Resume, ResumeDownloadSet, ResumeDownload
 from django.forms.util import ErrorList
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from utils.group_decorator import group_admin_required
 import settings
+import operator
 import pyPdf
 
 
@@ -60,9 +62,11 @@ def student(request):
     },context_instance=RequestContext(request))
 
 
+@group_admin_required(['Corporate','!Recruiter'])  
 def recruiter(request):
   return render_to_response('corporate/resume/recruiter.html',{"section":"corporate","page":"download"},context_instance=RequestContext(request))
 
+@group_admin_required(['Corporate','!Recruiter'])
 def recruiter_browse(request):
   q = request.GET.get('q')
   if q==None:
@@ -89,9 +93,12 @@ def recruiter_browse(request):
 
   set = ResumeDownloadSet(level=level_str,seeking=seeking_str,acm=acm,graduation_start=graduation_start,graduation_end=graduation_end)
 
-  people = set.get_people(Q(netid__icontains=q) | \
-                                    Q(first_name__icontains=q) | \
-                                    Q(last_name__icontains=q))
+  if q != "":
+    queries = q.split()
+    qset1 =  reduce(operator.__or__, [Q(netid__icontains=q) | Q(first_name__icontains=query) | Q(last_name__icontains=query) for query in queries])
+    people = set.get_people(qset1)
+  else:
+    people = set.get_people()
 
   paginator = Paginator(people, 25) # Show 25 contacts per page
   total_people = paginator.count
@@ -112,15 +119,18 @@ def recruiter_browse(request):
 
   return render_to_response('corporate/resume/recruiter_browse.html',{"section":"corporate","page":"browse","people":people,"q":q,"set":set,"total_people":total_people,"graduation_choices":graduation_choices,"request":request},context_instance=RequestContext(request))
 
+@group_admin_required(['Corporate','!Recruiter']) 
 def recruiter_pdf(request,netid):
   person = ResumePerson.objects.filter(netid=netid)[0]
   r = person.latest_resume()
   pdf_data = open(r.resume.path, "rb").read()
   return HttpResponse(pdf_data, mimetype="application/pdf")
 
+@group_admin_required(['Corporate','!Recruiter']) 
 def recruiter_download(request):
   pass
 
+@group_admin_required(['Corporate','!Recruiter']) 
 def recruiter_download_pdf(request,id):
   pdf_out = pyPdf.PdfFileWriter()
 

@@ -227,8 +227,9 @@ MIDDLEWARE_CLASSES = ('django.middleware.common.CommonMiddleware',
  'utils.http.Http403Middleware',
  'utils.loginmiddleware.RequireLoginMiddleware',)
  
-LOGIN_MEMBER_REQUIRED_URLS = (
-  r'/intranet/(.*)$',
+LOGIN_REQUIRED_URLS = (
+  (r'/intranet/(.*)$',True),
+  (r'/corporate/resume/recruiter/(.*)$',False),
 )
 
 

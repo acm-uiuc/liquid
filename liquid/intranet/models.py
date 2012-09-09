@@ -1,7 +1,7 @@
 from django.db import models
 from django.db.models.signals import pre_save,post_save,post_delete
 from django.dispatch import receiver
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, UserManager
 import settings
 import datetime
 import ldap
@@ -288,7 +288,12 @@ def delete_resume(sender, **kwargs):
    if resume.person.resume_set.count() == 0:
       resume.person.delete()
 
+class Recruiter(User):
+   expires = models.DateField()
+   objects = UserManager()
+
 class ResumeDownloadSet(models.Model):
+   owner = models.ForeignKey(Recruiter)
    level = models.CharField(max_length=64,null=True)
    seeking = models.CharField(max_length=64,null=True)
    acm = models.NullBooleanField(null=True)
@@ -322,17 +327,15 @@ class ResumeDownloadSet(models.Model):
       if self.graduation_end != None:
          people = people.filter(graduation__lte=self.graduation_end)
 
+      if acm == True:
+         netids = Member.objects.all().values_list('username', flat=True)
+         people = people.filter(netid__in=netids)
+
+      
       if extra_filter != None:
          people = people.filter(extra_filter)
 
       people = people.order_by('last_name','first_name')
-
-      if acm == True:
-         people_out = []
-         for p in people:
-            if p.acm_member() == "Yes":
-               people_out.append(p)
-         people = people_out
 
       return people
 

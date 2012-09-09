@@ -7,6 +7,7 @@ from django.forms.util import ErrorList
 from django.contrib import messages
 from utils.group_decorator import group_admin_required
 from intranet.models import Member
+from django.contrib.auth.models import Group
 from intranet.member_database.forms import NewMemberForm, EditMemberForm
 import ldap
 
@@ -39,6 +40,8 @@ def new(request):
          try:
             u = form.save()
             u.set_unusable_password()
+            member_group = Group.objects.get(name='Member')
+            u.groups.add(member_group)
             u.save()
             messages.add_message(request, messages.SUCCESS, 'Member created')
             return HttpResponseRedirect('/intranet/members/search?q=%s' % u.username) # Redirect after POST
