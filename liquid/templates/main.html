@@ -33,13 +33,30 @@
       </div>
    </div>
    <div class="span4">
-      <h2>Events:</h2>
-      <hr>
+      <h3>Events:</h3>
       {% if events %}
-      {% for e in events %}
-      {% ifchanged %}<h3>{{ e.starttime|date:"F j Y" }}</h3>{% endifchanged %}
-      <p>{{e.starttime|date:"g:i A"}}: <a href="{% url event_details e.id %}">{{e.name}}</a></p>
-      {% endfor %}
+        <div class="accordion" id="home_events">
+        {% for day in event_days %}
+            <div class="accordion-group">
+              <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#home_events" href="#collapse{{forloop.counter0}}">
+                  {{day.date|date:"l, N j, o"}}
+                </a>
+              </div>
+              <div id="collapse{{forloop.counter0}}" class="accordion-body collapse{% if forloop.counter0 == 0 %} in{%endif%}">
+                <div class="accordion-inner">
+                  {% if day.events %}
+                    {% for e in day.events %}
+                      <p>{{e.starttime|date:"g:i A"}}: <a href="{% url event_details e.id %}">{{e.name}}</a></p>
+                    {% endfor %}
+                  {% else %}
+                    <p>No Events</p>
+                  {% endif %}
+                </div>
+              </div>
+            </div>    
+        {% endfor %}
+        </div>
       {% else %}
       <p>No events</p>
       {% endif %}

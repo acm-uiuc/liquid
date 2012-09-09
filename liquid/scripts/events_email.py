@@ -25,12 +25,8 @@ for e in events:
 
 for e in events:
    text += "\n\n========================================================================\n\n"
-   time = e.starttime.strftime('%A, %b %d, %Y %I:%M%p')
-   if e.starttime.date() == e.endtime.date():
-      time += "-%s"%(e.endtime.strftime('%I:%M%p'))
-   else:
-      time += "-%s"%(e.endtime.strftime('%A, %b %d, %Y %I:%M%p'))
-   text += "%s\n%s\n%s\n\n%s" % (e.name,time,e.location,e.description)
+   
+   text += "%s\n%s\n%s\n\n%s" % (e.name,e.pretty_time(),e.location,e.description)
 text += "\n\n========================================================================\n\n"
 
 print text
