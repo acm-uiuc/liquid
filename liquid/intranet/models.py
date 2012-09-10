@@ -416,6 +416,9 @@ class ResumeDownloadSet(models.Model):
          out.append("Graduating after %s %d"%(self.graduation_start.strftime('%B'),self.graduation_start.year))
       if self.graduation_end != None:
          out.append("Graduating before %s %d"%(self.graduation_end.strftime('%B'),self.graduation_end.year))
+   
+      if len(out) == 0:
+         return "All resumes"
 
       return " and ".join(out)
 
