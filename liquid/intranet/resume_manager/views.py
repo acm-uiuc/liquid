@@ -83,7 +83,7 @@ def accounts_new(request):
          recruiter.set_password(password)
          recruiter.save()
          email = "Hi %s,\n\nA new account for you to access the ACM@UIUC resume book has been created.\n\nUsername: %s\nPassword: %s\n\nTo login visit http://acm.uiuc.edu/resume.\n\nThanks,\nACM@UIUC Corporate Committee"%(recruiter.first_name,recruiter.username,password)
-         send_mail('ACM@UIUC Resume Book', email, 'ACM Corporate Committee <corporate@acm.uiuc.edu>',[recruiter.email], fail_silently=False)
+         send_mail('ACM@UIUC Resume Book', email, 'ACM Corporate Committee <corporate@acm.uiuc.edu>',[recruiter.email,'corporate@acm.uiuc.edu'], fail_silently=False)
          messages.add_message(request, messages.SUCCESS, 'Recruiter created (%s, %s)'%(recruiter.username, password))
          return HttpResponseRedirect('/intranet/resume/accounts') # Redirect after POST    
    else:
