@@ -413,9 +413,9 @@ class ResumeDownloadSet(models.Model):
       if self.acm == True:
          out.append("ACM@UIUC members")
       if self.graduation_start != None:
-         out.append("Graduating after %s %d"%(graduation_start.strftime('%B'),graduation_start.year))
+         out.append("Graduating after %s %d"%(self.graduation_start.strftime('%B'),self.graduation_start.year))
       if self.graduation_end != None:
-         out.append("Graduating before %s %d"%(graduation_end.strftime('%B'),graduation_end.year))
+         out.append("Graduating before %s %d"%(self.graduation_end.strftime('%B'),self.graduation_end.year))
 
       return " and ".join(out)
 
