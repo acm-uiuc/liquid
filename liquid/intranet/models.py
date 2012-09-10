@@ -1,7 +1,7 @@
 from django.db import models
 from django.db.models.signals import pre_save,post_save,post_delete
 from django.dispatch import receiver
-from django.contrib.auth.models import User, UserManager
+from django.contrib.auth.models import User, UserManager, Group as DjangoGroup
 import settings
 import datetime
 import ldap
@@ -302,6 +302,15 @@ class Recruiter(User):
    expires = models.DateField()
    objects = UserManager()
 
+@receiver(post_save, sender=Recruiter)
+def new_recruiter(sender, **kwargs):
+   recruiter = kwargs['instance']
+   if recruiter.groups.filter(name='Recruiter').count() == 0:
+      group = DjangoGroup.objects.get(name="Recruiter")
+      recruiter.groups.add(group)
+      recruiter.save()
+
+
 class ResumeDownloadSet(models.Model):
    owner = models.ForeignKey(User)
    level = models.CharField(max_length=64,null=True)
@@ -436,6 +445,10 @@ class ResumeDownload(models.Model):
       styles = getSampleStyleSheet()
       elements.append(Paragraph("ACM@UIUC Resume Book",styles['Title']))
       elements.append(Spacer(1, .5*inch))
+      elements.append(Paragraph(self.set.get_display(),styles['Normal']))
+      elements.append(Paragraph("Generated on %s"%self.created_at.strftime("%a, %d %b %Y %H:%M:%S"),styles['Normal']))
+      elements.append(Spacer(1, .5*inch))
+
 
       data = [['Name','Graduation','Level','Seeking','ACM Member']]
 

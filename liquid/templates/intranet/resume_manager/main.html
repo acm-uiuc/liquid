@@ -5,6 +5,15 @@
 <header class="page-header">
 <h1>Resume Manager</h1>
 </header>
+<ul class="nav nav-tabs">
+  <li{% if sub_page == "resumes" %} class="active"{% endif %}>
+    <a href="/intranet/resume/">Resumes</a>
+  </li>
+  <li{% if sub_page == "accounts" %} class="active"{% endif %}>
+    <a href="/intranet/resume/accounts">Accounts</a>
+  </li>
+</ul>
+
 {% if resume_count %}
 <form method="post">
   {% csrf_token %}

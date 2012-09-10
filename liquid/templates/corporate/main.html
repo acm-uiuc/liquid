@@ -1,22 +1,46 @@
 {% extends "base.html" %}
 {% block content %}
-    <header class="page-header">
-        <h1>Corporate Connection</h1>
-    </header>
-    <p>ACM members at the University of Illinois are some of the most skillful, dedicated Computer Science and Engineering students in the world. The corporate relations committee and jobs mailing list make it easy for employers and sponsors to interact with ACM members.</p>
 
-    <section>
-        <h2>Post a job ad</h2>
-        <p>Your advertisement will automatically be included in the next issue of ACM's weekly jobs e-mail newsletter. This newsletter reaches over 600 undergraduate and graduate students in Computer Science, Electrical and Computer Engineering, and related fields.</p>
-        <ul>
-            <li><a href="/corporate/job">Create new job ad</a></li>
-            <li><a href="http://www.acm.uiuc.edu/archives/jobs-l/">Jobs mailing list archive</a></i>
-        </ul>
-    </section>
+    <div class="row">
+        <div class="span8">
+            <header class="page-header">
+                <h1>Corporate Committee</h1>
+            </header>
+            <p>ACM members at the University of Illinois are some of the most skillful, dedicated Computer Science and Engineering students in the world. The corporate relations committee and jobs mailing list make it easy for employers and sponsors to interact with ACM members.</p>
 
-    <section>
-        <h2>Contact the ACM Corporate Committee</h2>
+            <section>
+                <h2>Post a job ad</h2>
+                <p>Your advertisement will automatically be included in the next issue of ACM's weekly jobs e-mail newsletter. This newsletter reaches over 600 undergraduate and graduate students in Computer Science, Electrical and Computer Engineering, and related fields.</p>
+                <ul>
+                    <li><a href="/corporate/job">Create new job ad</a></li>
+                    <li><a href="http://www.acm.uiuc.edu/archives/jobs-l/">Jobs mailing list archive</a></i>
+                </ul>
+            </section>
 
-        <p>The Corporate Committee is ACM's central point of contact for all corporate relations activities. Please e-mail <a href="mailto:corporate@acm.uiuc.edu">corporate@acm.uiuc.edu</a> rather than an individual student to ensure that your message is properly archived and visible to the entire Corporate Committee.</p>
-    </section>
+            <section>
+                <h2>Contact the ACM Corporate Committee</h2>
+
+                <p>The Corporate Committee is ACM's central point of contact for all corporate relations activities. Please e-mail <a href="mailto:corporate@acm.uiuc.edu">corporate@acm.uiuc.edu</a> rather than an individual student to ensure that your message is properly archived and visible to the entire Corporate Committee.</p>
+            </section>
+        </div>
+        <div class="span4">
+            <div class="well">
+                <h3>Resume Book</h3>
+                <hr>
+                <h4>Students</h4>
+                <p>
+                    Want to have your resume seen by recruiters from some of the biggest companies in the tech industry? Just upload your resume and it will imediately be avalible to recruiters.
+                </p>
+                <p>
+                    <a href="/resume" class="btn btn-primary">Upload your resume</a>
+                </p>
+                <h4>Recruiters</h4>
+                <p>Want access to hundreds of resumes from some of the top students in the country?</p>
+                <p>If you would like access to the ACM@UIUC Resume Book please email <a href="mailto:corporate@acm.uiuc.edu">corporate@acm.uiuc.edu</a>.</p>
+                <p>
+                    <a href="/resume" class="btn btn-primary">Login</a>
+                </p>
+            </div>
+        </div>
+    </div>
 {% endblock %}

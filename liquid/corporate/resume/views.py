@@ -4,22 +4,20 @@ from django.template import RequestContext
 from django.core.context_processors import csrf
 from django.db.models import Q
 from django.core.mail import send_mail
-from corporate.resume.forms import ResumePersonForm, ResumeForm
+from django.contrib.auth.forms import PasswordChangeForm
+from corporate.resume.forms import ResumePersonForm, ResumeForm, EmailChangeForm
 from intranet.models import Member
 from intranet.models import Group
 from intranet.models import ResumePerson, Resume, ResumeDownloadSet, ResumeDownload
 from django.forms.util import ErrorList
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from utils.group_decorator import group_admin_required
+from django.contrib import messages
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import authenticate, login
 import settings
 import operator
 import pyPdf
-
-
-
-# Create your views here.
-def main(request):
-  return render_to_response('corporate/resume/main.html',{"section":"corporate"},context_instance=RequestContext(request))
 
 def student_thanks(request,id):
   try:
@@ -30,8 +28,12 @@ def student_thanks(request,id):
   return render_to_response('corporate/resume/student_thanks.html',{"section":"corporate"},context_instance=RequestContext(request))
 
 
-def student(request):
-  if request.method == 'POST':
+def main(request):
+  print request.user.groups.filter(name='Recruiter').count()
+  if request.user.groups.filter(name='Recruiter').count() > 0:
+    return HttpResponseRedirect("/corporate/resume/recruiter/")
+
+  if request.method == 'POST' and request.POST.get('student')=="yes":
     resume_form = ResumeForm(request.POST,request.FILES)
     resume_person_form = ResumePersonForm(request.POST)
 
@@ -55,9 +57,18 @@ def student(request):
     resume_person_form = ResumePersonForm()
     resume_form = ResumeForm()
 
-  return render_to_response('corporate/resume/student.html',{
+  if request.method == "POST" and request.POST.get('recruiter')=="yes":
+    login_form = AuthenticationForm(data=request.POST)
+    if login_form.is_valid():
+      login(request, login_form.get_user())
+      return HttpResponseRedirect("/corporate/resume/recruiter/") # Redirect after POST
+  else:
+    login_form = AuthenticationForm()
+
+  return render_to_response('corporate/resume/main.html',{
       'resume_form': resume_form,
       'resume_person_form': resume_person_form,
+      'login_form': login_form,
       'section': "corporate",
     },context_instance=RequestContext(request))
 
@@ -159,4 +170,31 @@ def recruiter_download_pdf(request,id):
     return HttpResponse(pdf_data, mimetype="application/pdf")
   except:
     raise Http404
+
+@group_admin_required(['!Recruiter'])
+def recruiter_account(request):
+  if request.method == "POST" and request.POST.get('password_change')=="yes":
+    password_form = PasswordChangeForm(request.user, data=request.POST)
+    if password_form.is_valid():
+      password_form.save()
+      messages.add_message(request, messages.SUCCESS, 'Password changed')
+  else:
+    password_form = PasswordChangeForm(request.user)
+
+  if request.method == "POST" and request.POST.get('email_change')=="yes":
+    email_form = EmailChangeForm(request.POST,instance=request.user)
+    if email_form.is_valid():
+      email_form.save()
+      messages.add_message(request, messages.SUCCESS, 'Email changed')
+  else:
+    email_form = EmailChangeForm(instance=request.user)
+  
+  return render_to_response('corporate/resume/recruiter_account.html',{
+    "section":"corporate",
+    "page":"account",
+    "account": request.user,
+    "password_form": password_form,
+    "email_form": email_form,
+  },context_instance=RequestContext(request))
+
 
