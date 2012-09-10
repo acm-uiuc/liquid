@@ -1,0 +1,14 @@
+{% extends "corporate/resume/recruiter_base.html" %}
+{% load bootstrap %}
+{% block recruiter_content %}
+{% if sets|length == 0 %}
+You don't currently have any downloads. <a href="/corporate/resume/recruiter/browse">Create one now</a>.
+{% else %}
+<p>Your saved downloads:</p>
+<ul>
+{% for s in sets %}
+   <li>{% if s.get_new_count > 0 %}<span class="label label-info">{{s.get_new_count}} new or updated</span> {% endif%}{{s.get_display}} <a href="/corporate/resume/recruiter/generate/{{s.id}}">Download All</a></li>
+{% endfor %}
+</ul>
+{% endif %}
+{% endblock %}

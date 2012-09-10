@@ -1,0 +1,26 @@
+{% extends "corporate/resume/recruiter_base.html" %}
+{% load bootstrap_pagination %}
+{% load bootstrap %}
+{% block recruiter_content %}
+<h3>Change Password</h3>
+<form class="well" method="post">
+  {% csrf_token %}
+  {{ password_form|bootstrap }}
+  <div class="control-group">
+    <div class="controls">
+      <button type="submit" class="btn btn-primary" name="password_change" value="yes">Save</button>
+    </div>
+  </div>
+</form>
+
+<h3>Change Email</h3>
+<form class="well" method="post">
+  {% csrf_token %}
+  {{ email_form|bootstrap }}
+  <div class="control-group">
+    <div class="controls">
+      <button type="submit" class="btn btn-primary" name="email_change" value="yes">Save</button>
+    </div>
+  </div>
+</form>
+{% endblock %}

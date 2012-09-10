@@ -7,6 +7,7 @@ from django.forms.util import ErrorList
 from django.contrib import messages
 from utils.group_decorator import group_admin_required
 from intranet.models import Member
+from django.contrib.auth.models import Group
 from intranet.member_database.forms import NewMemberForm, EditMemberForm
 import ldap
 

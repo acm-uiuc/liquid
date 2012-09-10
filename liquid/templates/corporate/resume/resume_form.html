@@ -1,0 +1,50 @@
+<form class="well form-search" method="GET">
+   <p>
+      <strong>Name or NetID</strong>:<br>
+      <input type="text" name="q" class="input-large" value="{% if q %}{{q}}{% endif %}">
+   </p>
+   <p>
+      <strong>Graduating</strong>:<br>
+      <select class="input-medium" name="graduation_start">
+        <option value="">-----------</option>
+        {% for value,key in graduation_choices%}
+        <option value="{{value|date:"Y-m-d"}}"{% if set.graduation_start == value|date:"Y-m-d" %}selected{%endif%}>{{key}}</option>
+        {% endfor %}
+      </select> to <select class="input-medium" name="graduation_end">
+        <option value="">-----------</option>
+        {% for value,key in graduation_choices%}
+        <option value="{{value|date:"Y-m-d"}}"{% if set.graduation_end == value|date:"Y-m-d" %}selected{%endif%}>{{key}}</option>
+        {% endfor %}
+      </select>
+   </p>
+   <p>
+      <strong>Level</strong>:<br>
+      <label class="checkbox inline">
+         <input type="checkbox" name="level" value="u" {% if set.show_undergraduate %}checked="checked"{% endif %}> Undergraduate
+      </label>
+      <label class="checkbox inline">
+         <input type="checkbox" name="level" value="m" {% if set.show_masters %}checked="checked"{% endif %}> Masters
+      </label>
+      <label class="checkbox inline">
+         <input type="checkbox" name="level" value="p" {% if set.show_phd %}checked="checked"{% endif %}> PhD
+      </label>
+   </p>
+   <p>
+      <strong>Seeking</strong>:<br>
+      <label class="checkbox inline">
+         <input type="checkbox" name="seeking" value="f" {% if set.show_full_time %}checked="checked"{% endif %}> Full Time
+      </label>
+      <label class="checkbox inline">
+         <input type="checkbox" name="seeking" value="i" {% if set.show_internship %}checked="checked"{% endif %}> Internship/Co-op
+      </label>
+   </p>
+   <p>
+      <strong>ACM Member</strong>:<br>
+      <label class="checkbox inline">
+         <input type="checkbox" name="acm" value="yes" {% if set.show_acm %}checked="checked"{% endif %}> Only ACM@UIUC members
+      </label>
+   </p>
+   <p>
+      <button type="submit" class="btn">Search</button><button class="pull-right btn btn-primary" name="download" value="true">Create Download</button>
+   </p>
+</form>

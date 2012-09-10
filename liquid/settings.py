@@ -128,6 +128,7 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+        'bootstrap-pagination',
 
     'abouta',
     'banks',
@@ -147,6 +148,7 @@ INSTALLED_APPS = (
 
 
     'bootstrapform',
+
     'utils.django_mailman',
     'south',
   )
@@ -197,9 +199,19 @@ SERVE_STATIC = True
 #AD_CERT_FILE='/path/to/your/cert.txt'
 #AD_DEBUG=True
 #AD_DEBUG_FILE='/path/to/writable/log/file/ldap.debug'
-AUTHENTICATION_BACKENDS = ('utils.ldapauth.ActiveDirectoryGroupMembershipSSLBackend',)
+AUTHENTICATION_BACKENDS = ('utils.ldapauth.ActiveDirectoryGroupMembershipSSLBackend',
+                           'django.contrib.auth.backends.ModelBackend',)
 
-CUSTOM_USER_MODEL = 'intranet.member_manager.models.Member'
+PASSWORD_HASHERS = (
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+    'django.contrib.auth.hashers.BCryptPasswordHasher',
+    'django.contrib.auth.hashers.SHA1PasswordHasher',
+    'django.contrib.auth.hashers.MD5PasswordHasher',
+    'django.contrib.auth.hashers.CryptPasswordHasher',
+)
+
+#CUSTOM_USER_MODEL = 'intranet.member_manager.models.Member'
 
 TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
 "django.core.context_processors.debug",
@@ -212,11 +224,12 @@ MIDDLEWARE_CLASSES = ('django.middleware.common.CommonMiddleware',
  'django.middleware.csrf.CsrfViewMiddleware',
  'django.contrib.auth.middleware.AuthenticationMiddleware',
  'django.contrib.messages.middleware.MessageMiddleware',
- 'utils.loginmiddleware.RequireLoginMiddleware',
- 'utils.http.Http403Middleware',)
+ 'utils.http.Http403Middleware',
+ 'utils.loginmiddleware.RequireLoginMiddleware',)
  
 LOGIN_REQUIRED_URLS = (
-  r'/intranet/(.*)$',
+  (r'/intranet/(.*)$',True),
+  (r'/corporate/resume/recruiter/(.*)$',False),
 )
 
 

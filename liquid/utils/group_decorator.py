@@ -2,13 +2,21 @@ from functools import wraps
 
 from intranet.models import Group
 from django.core.exceptions import PermissionDenied
+from django.contrib.auth.models import Group
 
 def check_group_admin(groups,request):
    groups.append('Top4')
+   if request.user.groups.filter(name='Member').count() == 0:
+      groups = [g[1:] for g in groups if g[0]=='!']
+      if request.user.groups.filter(name__in=groups).count() > 0:
+         return True
+      else:
+         raise PermissionDenied()
+         return False
    user_groups = request.user.groupmember_set.filter(is_admin__exact=True).filter(group__name__in=groups)
    if not user_groups:
       raise PermissionDenied()
-      return fales
+      return False
    return True
 
 def group_admin_required(groups=[]):    
