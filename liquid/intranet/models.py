@@ -247,6 +247,7 @@ def new_resume_person(sender, **kwargs):
       u = l.search_s('ou=people,dc=uiuc,dc=edu',ldap.SCOPE_SUBTREE,'uid=%s'%person.netid)
       try:
          person.ldap_name = u[0][1]['cn'][0]
+         person.netid = person.netid.lower()
       except IndexError:
          raise ValueError('Bad Netid', 'Not a valid netid')
 
