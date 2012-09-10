@@ -1,4 +1,5 @@
 from django.conf.urls.defaults import patterns, include, url
+from django.views.generic.simple import redirect_to
 import settings
 
 # Uncomment the next two lines to enable the admin:
@@ -19,6 +20,8 @@ urlpatterns = patterns('',
     url(r'^logout/$', 'django.contrib.auth.views.logout'),
     url(r'^intranet/', include('intranet.urls')),
     url(r'^vote/', include('vote.urls')),
+
+    url(r'^resume/$', redirect_to, {'url': '/corporate/resume/'}),
 )
 
 handler404 = 'django.views.defaults.page_not_found'

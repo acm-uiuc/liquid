@@ -1,0 +1,52 @@
+{% extends "intranet/base.html" %}
+{% load bootstrap_pagination %}
+{% load bootstrap %}
+{% load resume_lookup %}
+{% block intranet_content %}
+<header class="page-header">
+<h1>Resume Manager</h1>
+</header>
+<ul class="nav nav-tabs">
+  <li{% if sub_page == "resumes" %} class="active"{% endif %}>
+    <a href="/intranet/resume/">Resumes</a>
+  </li>
+  <li{% if sub_page == "accounts" %} class="active"{% endif %}>
+    <a href="/intranet/resume/accounts">Accounts</a>
+  </li>
+</ul>
+
+<p>
+  <em>{{total_recruiters}} {%if total_recruiters or total_recruiters < 1 %} accounts{%else%}account{%endif%}.</em>
+  <a class="pull-right btn btn-primary" href="/intranet/resume/accounts/new">Create Account</a></p>
+{% if recrutiers|length > 0 %}
+<hr>
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>Edit</th>
+    <th>Company</th>
+    <th>Username</th>
+    <th>email</th>
+    <th>Expires</th>
+    <th>Actions</th>
+  <tr>
+  </thea>
+  <tbody>
+  {% for r in recrutiers %}
+  <tr>
+    <td><a href="/intranet/resume/accounts/edit/{{r.id}}"><i class="icon-edit"></i> Edit</a></td>
+    <td>{{r.first_name}}</td>
+    <td>{{r.username}}</td>
+    <td>{{r.email}}</td>
+    <td>{{r.expires}}</td>
+    <td><a href="/intranet/resume/accounts/delete/{{r.id}}"><i class="icon-trash"></i> Delete</a></td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% if recrutiers.has_other_pages %}
+<hr>
+{% bootstrap_paginate recrutiers range=10 %}
+{% endif %}
+{% endif %}
+{% endblock %}

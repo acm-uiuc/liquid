@@ -1,0 +1,38 @@
+{% extends "corporate/resume/recruiter_base.html" %}
+{% load bootstrap_pagination %}
+{% load bootstrap %}
+{% block recruiter_content %}
+{% include "corporate/resume/resume_form.html" with search=True %}
+<p><em>{{total_people}} {%if total_people or total_people < 1 %}people match{%else%}person matches{%endif%} your query.</em></p>
+{% if people|length > 0 %}
+<hr>
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Graduation</th>
+    <th>Level</th>
+    <th>Seeking</th>
+    <th>ACM Member</th>
+    <th>Resume</th>
+  <tr>
+  </thea>
+  <tbody>
+  {% for p in people %}
+  <tr>
+    <td>{{p.full_name}}</td>
+    <td>{{p.get_graduation_display}}</td>
+    <td>{{p.get_level_display}}</td>
+    <td>{{p.get_seeking_display}}</td>
+    <td>{{p.acm_member}}</td>
+    <td><a href="/corporate/resume/recruiter/pdf/{{p.netid}}.pdf">PDF</a></td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% if people.has_other_pages %}
+<hr>
+{% bootstrap_paginate people range=10 %}
+{% endif %}
+{% endif %}
+{% endblock %}

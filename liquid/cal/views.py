@@ -12,7 +12,6 @@ def main(request,year=None,month=None,day=None):
       start_date = datetime.date.today()
    else:
       start_date = datetime.date(int(year),int(month),int(day))
-   print start_date
    this_week_monday = start_date - datetime.timedelta(days=start_date.weekday())
    two_weeks = this_week_monday + datetime.timedelta(days=14)
    events = Event.objects.filter(endtime__gte=this_week_monday,starttime__lte=two_weeks).order_by('starttime')
