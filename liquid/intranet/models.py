@@ -242,12 +242,12 @@ class ResumePerson(models.Model):
 @receiver(pre_save, sender=ResumePerson)
 def new_resume_person(sender, **kwargs):
    person = kwargs['instance']
+   person.netid = person.netid.lower()
    if not person.id:
       l = ldap.initialize('ldap://ldap.uiuc.edu')
       u = l.search_s('ou=people,dc=uiuc,dc=edu',ldap.SCOPE_SUBTREE,'uid=%s'%person.netid)
       try:
          person.ldap_name = u[0][1]['cn'][0]
-         person.netid = person.netid.lower()
       except IndexError:
          raise ValueError('Bad Netid', 'Not a valid netid')
 

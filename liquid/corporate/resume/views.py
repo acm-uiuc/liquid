@@ -39,7 +39,7 @@ def main(request):
 
     if resume_person_form.is_valid() and resume_form.is_valid():
       try:
-        rp = ResumePerson.objects.get(netid=resume_person_form.cleaned_data['netid'])
+        rp = ResumePerson.objects.get(netid=resume_person_form.cleaned_data['netid'].lower())
         resume_person_form = ResumePersonForm(request.POST,instance=rp)
       except:
         pass
