@@ -39,8 +39,8 @@
   <tr>
     <td>
       {{r.id}}
-      {{r.approved}} <strong>Approve</strong><br>
-      {{r.DELETE}} <strong>Delete</strong>
+      <label class="checkbox">{{r.approved}} <strong>Approve</strong></label>
+      <label class="checkbox">{{r.DELETE}} <strong>Delete</strong></label>
       <div class="resume-image-loader resume-thumbnail">
         <img src="/intranet/resume/thumb/{{r.id.value}}.png">
       </div>
