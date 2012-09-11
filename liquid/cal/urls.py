@@ -7,7 +7,7 @@ urlpatterns = patterns('',
     url(r'^(?P<year>\d+)/(?P<month>\d+)/(?P<day>\d+)$', 'cal.views.main'),
     url(r'^details/(?P<id>\d+)/$', 'cal.views.details',name='event_details'),
 
-    url(r'^feed$',EventFeed()),
+    url(r'^feed.ics$',EventFeed()),
 )
 
 
