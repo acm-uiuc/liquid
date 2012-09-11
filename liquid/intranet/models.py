@@ -483,12 +483,12 @@ class ResumeDownload(models.Model):
       pdf_in = pyPdf.PdfFileReader(file(self.file_path(),"rb"))
       for page in xrange(pdf_in.getNumPages()):
          pdf_out.addPage(pdf_in.getPage(page))
-      
+
       for p in people:
          pdf_in = pyPdf.PdfFileReader(file(p.latest_resume().resume.path,"rb"))
       
-      for page in xrange(pdf_in.getNumPages()):
-         pdf_out.addPage(pdf_in.getPage(page))
+         for page in xrange(pdf_in.getNumPages()):
+            pdf_out.addPage(pdf_in.getPage(page))
 
       file_out = file(self.file_path(), "wb")
       pdf_out.write(file_out)
