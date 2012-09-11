@@ -5,8 +5,8 @@ class EventFeed(ICalFeed):
     """
     A simple event calender
     """
-    product_id = '-//acm.uiuc.edu//Calendar//EN'
-    timezone = 'CDT'
+    product_id = '-//Apple Inc.//iCal 5.0.3//EN'
+    timezone = 'America/Chicago'
     title = "ACM@UIUC Calendar"
     description = "All the events happening at ACM and in the CS department"
 
@@ -20,7 +20,8 @@ class EventFeed(ICalFeed):
         return item.name
 
     def item_description(self, item):
-        return item.description
+        description_out = item.description.replace('\n'," ")
+        return description_out
 
     def item_start_datetime(self, item):
         return item.starttime
