@@ -2,7 +2,6 @@ from functools import wraps
 
 from intranet.models import Group
 from django.core.exceptions import PermissionDenied
-from django.contrib.auth.models import Group
 
 def check_group_admin(groups,request):
    groups.append('Top4')
