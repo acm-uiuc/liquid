@@ -27,6 +27,7 @@ urlpatterns = patterns('',
     url(r'^mm/$',redirect_to, {'url': '/conference/2012/mechmania.php'}),
     url(r'^attend/$',redirect_to, {'url': '/conference/2012/registration.php'}),
     url(r'^helpout/$',redirect_to, {'url': '/conference/2012/volunteers.php'}),
+    url(r'^schedule/$',redirect_to, {'url': '/conference/2012/schedule.php'}),
 )
 
 handler404 = 'django.views.defaults.page_not_found'
