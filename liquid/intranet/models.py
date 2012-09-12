@@ -479,9 +479,6 @@ class ResumeDownload(models.Model):
       table = Table(data, style=ts)
       elements.append(table)
 
-      elements.append(PageBreak())
-      elements.append(Paragraph("This Page is Blank",styles['Title']))
-
 
       # Write the document to disk
       doc.build(elements)
@@ -490,7 +487,7 @@ class ResumeDownload(models.Model):
       pdf_out = pyPdf.PdfFileWriter()
 
       pdf_in = pyPdf.PdfFileReader(buffer)
-      for page in xrange(pdf_in.getNumPages()-1):
+      for page in xrange(pdf_in.getNumPages()):
          pdf_out.addPage(pdf_in.getPage(page))
       
 
