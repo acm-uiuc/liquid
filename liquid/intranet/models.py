@@ -15,6 +15,7 @@ from django.db.models import Count
 from django.db.models import Q
 
 import pyPdf
+from StringIO import StringIO
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.platypus import *
 from reportlab.lib import colors
@@ -442,9 +443,8 @@ class ResumeDownload(models.Model):
       elements = []
 
       # A basic document for us to write to 'rl_hello_table.pdf'
-      doc = SimpleDocTemplate(self.file_path(),pagesize=letter,
-                           rightMargin=72,leftMargin=72,
-                           topMargin=72,bottomMargin=18)
+      buffer = StringIO() 
+      doc = SimpleDocTemplate(buffer,pagesize=letter)
 
       styles = getSampleStyleSheet()
       elements.append(Paragraph("ACM@UIUC Resume Book",styles['Title']))
@@ -455,10 +455,13 @@ class ResumeDownload(models.Model):
 
 
       data = [['Name','Graduation','Level','Seeking','ACM Member']]
+      
+      resumes = []
+
 
       for p in people:
          data.append([p.full_name(),p.get_graduation_display(),p.get_level_display(),p.get_seeking_display(),p.acm_member()])
-
+         resumes.append(p.latest_resume().resume.path)
 
 
       # First the top row, with all the text centered and in Times-Bold,
@@ -466,7 +469,8 @@ class ResumeDownload(models.Model):
       ts = [('ALIGN', (1,1), (-1,-1), 'LEFT'),
           ('LINEABOVE', (0,0), (-1,0), 1, colors.blue),
           ('LINEBELOW', (0,0), (-1,0), 1, colors.blue),
-          ('FONT', (0,0), (-1,0), 'Times-Bold')]
+          ('FONT', (0,0), (-1,0), 'Times-Bold'),
+          ('FONTSIZE', (0,0), (-1,-1), 8)]
 
       # Create the table with the necessary style, and add it to the
       # elements list.
@@ -475,17 +479,20 @@ class ResumeDownload(models.Model):
       table = Table(data, style=ts)
       elements.append(table)
 
+
       # Write the document to disk
       doc.build(elements)
 
+
       pdf_out = pyPdf.PdfFileWriter()
-      
-      pdf_in = pyPdf.PdfFileReader(file(self.file_path(),"rb"))
+
+      pdf_in = pyPdf.PdfFileReader(buffer)
       for page in xrange(pdf_in.getNumPages()):
          pdf_out.addPage(pdf_in.getPage(page))
+      
 
-      for p in people:
-         pdf_in = pyPdf.PdfFileReader(file(p.latest_resume().resume.path,"rb"))
+      for r in resumes:
+         pdf_in = pyPdf.PdfFileReader(file(r,"rb"))
       
          for page in xrange(pdf_in.getNumPages()):
             pdf_out.addPage(pdf_in.getPage(page))
