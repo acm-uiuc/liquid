@@ -1,5 +1,6 @@
 from django_ical.views import ICalFeed
 from intranet.models import Event
+import datetime
 
 class EventFeed(ICalFeed):
     """
@@ -11,7 +12,9 @@ class EventFeed(ICalFeed):
     description = "All the events happening at ACM and in the CS department"
 
     def items(self):
-        return Event.objects.all().order_by('-starttime')
+        today = datetime.date.today() 
+        last_week = today - datetime.timedelta(days=7)
+        return Event.objects.all().filter(endtime__gte=last_week).order_by('-starttime')
 
     def item_guid(self,item):
         return "acm.uiuc.edu:%d"%(item.id)
@@ -20,8 +23,7 @@ class EventFeed(ICalFeed):
         return item.name
 
     def item_description(self, item):
-        description_out = item.description.replace('\n'," ")
-        return description_out
+        return item.description.replace('\r\n','  ').replace('\n','  ')
 
     def item_start_datetime(self, item):
         return item.starttime
