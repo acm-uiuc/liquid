@@ -168,7 +168,7 @@ def recruiter_download_pdf(request,id):
     download.generate()
     pdf_data = open(download.file_path(), "rb").read()
     return HttpResponse(pdf_data, mimetype="application/pdf")
-  except:
+  except ResumeDownload.DoesNotExist:
     raise Http404
 
 @group_admin_required(['!Recruiter'])
