@@ -184,9 +184,15 @@ class List(models.Model):
          self.subscribers.add(user)
        except:
           pass
+
+    def subscribe_email(self,email):
+        self.__subscribe(email,"","",send_welcome_msg=False)
    
     def unsubscribe(self,user):
        self.__unsubscribe(user.email)
        self.subscribers.remove(user)
+
+    def email(self):
+        return "%s@acm.uiuc.edu"%(self.name)
 
     

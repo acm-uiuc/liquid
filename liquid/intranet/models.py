@@ -125,7 +125,7 @@ class Group(models.Model):
    meeting_location = models.CharField(max_length=255,null=True,blank=True)
    url = models.URLField(null=True,blank=True)
    logo = models.URLField(null=True,blank=True)
-   mailing_list = models.EmailField(max_length=60)
+   mailing_list = models.ForeignKey(List)
    status = models.CharField(max_length=255,choices=GROUP_STATUS_CHOICES,default='active')
 
    def __unicode__(self):
@@ -140,6 +140,10 @@ class Group(models.Model):
 
    def active_members(self):
       return self.members.filter(groupmember__status='active').order_by('last_name')
+
+   def subscribe(self,email):
+      if self.mailing_list.public:
+         self.mailing_list.subscribe_email(email)
 
 class GroupMember(models.Model):
    class Meta:
