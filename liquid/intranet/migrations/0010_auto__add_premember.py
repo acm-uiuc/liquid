@@ -8,24 +8,22 @@ class Migration(SchemaMigration):
 
     def forwards(self, orm):
         
-        # Renaming column for 'Group.mailing_list' to match new field type.
-        db.rename_column('intranet_group', 'mailing_list', 'mailing_list_id')
-        # Changing field 'Group.mailing_list'
-        db.alter_column('intranet_group', 'mailing_list_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['django_mailman.List']))
-
-        # Adding index on 'Group', fields ['mailing_list']
-        db.create_index('intranet_group', ['mailing_list_id'])
+        # Adding model 'PreMember'
+        db.create_table('intranet_premember', (
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('first_name', self.gf('django.db.models.fields.CharField')(max_length=32)),
+            ('last_name', self.gf('django.db.models.fields.CharField')(max_length=32)),
+            ('uin', self.gf('django.db.models.fields.CharField')(max_length=9)),
+            ('netid', self.gf('django.db.models.fields.CharField')(max_length=16)),
+            ('created_at', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
+        ))
+        db.send_create_signal('intranet', ['PreMember'])
 
 
     def backwards(self, orm):
         
-        # Removing index on 'Group', fields ['mailing_list']
-        db.delete_index('intranet_group', ['mailing_list_id'])
-
-        # Renaming column for 'Group.mailing_list' to match new field type.
-        db.rename_column('intranet_group', 'mailing_list_id', 'mailing_list')
-        # Changing field 'Group.mailing_list'
-        db.alter_column('intranet_group', 'mailing_list', self.gf('django.db.models.fields.EmailField')(max_length=60))
+        # Deleting model 'PreMember'
+        db.delete_table('intranet_premember')
 
 
     models = {
@@ -44,7 +42,7 @@ class Migration(SchemaMigration):
         },
         'auth.user': {
             'Meta': {'object_name': 'User'},
-            'date_joined': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2012, 9, 12, 19, 27, 47, 766166)'}),
+            'date_joined': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2012, 9, 13, 17, 5, 38, 307491)'}),
             'email': ('django.db.models.fields.EmailField', [], {'max_length': '75', 'blank': 'True'}),
             'first_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'groups': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['auth.Group']", 'symmetrical': 'False', 'blank': 'True'}),
@@ -52,7 +50,7 @@ class Migration(SchemaMigration):
             'is_active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'is_staff': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'is_superuser': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'last_login': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2012, 9, 12, 19, 27, 47, 766026)'}),
+            'last_login': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2012, 9, 13, 17, 5, 38, 307337)'}),
             'last_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'password': ('django.db.models.fields.CharField', [], {'max_length': '128'}),
             'user_permissions': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['auth.Permission']", 'symmetrical': 'False', 'blank': 'True'}),
@@ -132,6 +130,15 @@ class Migration(SchemaMigration):
             'status': ('django.db.models.fields.CharField', [], {'default': "'active'", 'max_length': '255'}),
             'uin': ('django.db.models.fields.CharField', [], {'max_length': '9', 'null': 'True'}),
             'user_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['auth.User']", 'unique': 'True', 'primary_key': 'True'})
+        },
+        'intranet.premember': {
+            'Meta': {'object_name': 'PreMember'},
+            'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+            'first_name': ('django.db.models.fields.CharField', [], {'max_length': '32'}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'last_name': ('django.db.models.fields.CharField', [], {'max_length': '32'}),
+            'netid': ('django.db.models.fields.CharField', [], {'max_length': '16'}),
+            'uin': ('django.db.models.fields.CharField', [], {'max_length': '9'})
         },
         'intranet.recruiter': {
             'Meta': {'object_name': 'Recruiter', '_ormbases': ['auth.User']},

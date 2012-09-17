@@ -110,6 +110,9 @@ class List(models.Model):
     def __subscribe(self, email, first_name=u'', last_name=u'', send_welcome_msg=False):
         from email.Utils import formataddr
 
+        if settings.DEBUG:
+            return
+
         url = '%s/admin/%s/members/add' % (settings.MAILMAN_URL, self.name)
 
         first_name = check_encoding(first_name, settings.MAILMAN_ENCODING)

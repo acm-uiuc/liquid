@@ -1,17 +1,36 @@
 {% extends "intranet/base.html" %}
 {% block intranet_content %}
 <h2>Search member database</h2>
-<form class="well form-search" method="GET" action="/intranet/members/search">
-  <input type="text" name="q" class="input-medium search-query">
-  <button type="submit" class="btn">Search</button>
-</form>
-
-<p>
-<a href="/intranet/members/search">Browse all members</a> 
-</p>
+<div class="well">
+   <a href="/intranet/members/search" class="pull-right">Browse all members</a>
+   <form class="form-search" method="GET" action="/intranet/members/search">
+     <input type="text" name="q" class="input-medium search-query">
+     <button type="submit" class="btn">Search</button>
+   </form>
+</div>
 {% if user.is_top4 %}
-<p>
-<a href="/intranet/members/new">Create new members</a> 
-</p>
+<h2>Pre Members</h2>
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>Mark Paid</th>
+    <th>Netid</th>
+    <th>First Name</th>
+    <th>Last Name</th>
+    <th>Sumbitted</th>
+  <tr>
+  </thead>
+  <tbody>
+  {% for m in pre_members %}
+  <tr>
+    <td><a href="/intranet/members/new/{{m.id}}" class="btn">Paid</a>
+    <td>{{m.netid}}</td>
+    <td>{{m.first_name}}</td>
+    <td>{{m.last_name}}</td>
+    <td>{{m.created_at}}</td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
 {% endif %}
 {% endblock %}

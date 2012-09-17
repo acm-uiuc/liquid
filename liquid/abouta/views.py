@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.template import RequestContext
 from django.core.context_processors import csrf
 from django.core.mail import send_mail
-from abouta.forms import JobForm
+from abouta.forms import PreMemberForm
 from intranet.models import Member
 from intranet.models import Group
 
@@ -14,7 +14,44 @@ def main(request):
   return render_to_response('about/main.html',{"section":"about","page":'main'},context_instance=RequestContext(request))
   
 def join(request):
-  return render_to_response('about/join.html',{"section":"about","page":'join'},context_instance=RequestContext(request))
+  c = {}
+  c.update(csrf(request))
+  sigs = Group.objects.filter(type='S').order_by('name')
+
+  sig_count_half = sigs.count()/2
+  
+  if request.method == 'POST': # If the form has been submitted...
+      form = PreMemberForm(request.POST) # A form bound to the POST data
+      choosen_sigs = [int(s) for s in request.POST.getlist('sigs')]
+      if form.is_valid(): # All validation rules pass
+          pre_member = form.save()
+          for s in choosen_sigs:
+            g = Group.objects.get(id=s)
+            try:
+              g.subscribe("%s@illinois.edu"%pre_member.netid)
+            except:
+              pass
+          return HttpResponseRedirect('/about/join/thanks/') # Redirect after POST
+  else:
+      form = PreMemberForm() # An unbound form
+      choosen_sigs = []
+
+  print choosen_sigs
+  return render_to_response('about/join.html',{
+      'form': form,
+      "section":"about",
+      'page': 'join',
+      'sigs': sigs,
+      "sig_count_half": sig_count_half,
+      "choosen_sigs": choosen_sigs,
+  },context_instance=RequestContext(request))
+
+def join_thanks(request):
+  return render_to_response('about/join_thanks.html',{
+      "section":"about",
+      'page': 'join'
+  },context_instance=RequestContext(request))
+
   
 def committees(request):
   committees = Group.objects.filter(type='C').filter(status='Active').order_by('name')

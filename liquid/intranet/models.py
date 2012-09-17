@@ -103,6 +103,13 @@ def new_member_post_save(sender, **kwargs):
          v = Vending(user=user,balance=5)
          v.save()
 
+class PreMember(models.Model):
+   first_name = models.CharField(max_length=32)
+   last_name = models.CharField(max_length=32)
+   uin = models.CharField(max_length=9)
+   netid = models.CharField(max_length=16,unique=True)
+   created_at = models.DateTimeField(auto_now_add=True)
+
 class Vending(models.Model):
    user = models.ForeignKey(Member,primary_key=True,db_column='uid')
    balance = models.DecimalField(max_digits=10, decimal_places=2,default=0)
