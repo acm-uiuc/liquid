@@ -110,6 +110,9 @@ class List(models.Model):
     def __subscribe(self, email, first_name=u'', last_name=u'', send_welcome_msg=False):
         from email.Utils import formataddr
 
+        if settings.DEBUG:
+            return
+
         url = '%s/admin/%s/members/add' % (settings.MAILMAN_URL, self.name)
 
         first_name = check_encoding(first_name, settings.MAILMAN_ENCODING)
@@ -184,9 +187,15 @@ class List(models.Model):
          self.subscribers.add(user)
        except:
           pass
+
+    def subscribe_email(self,email):
+        self.__subscribe(email,"","",send_welcome_msg=False)
    
     def unsubscribe(self,user):
        self.__unsubscribe(user.email)
        self.subscribers.remove(user)
+
+    def email(self):
+        return "%s@acm.uiuc.edu"%(self.name)
 
     

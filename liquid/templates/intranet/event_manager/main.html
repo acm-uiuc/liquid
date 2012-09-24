@@ -4,7 +4,7 @@
 <h1>Event Manager</h1>
 </header>
 <p>
-  <a href="/intranet/event/new" class="btn">Create new Event</a>
+  <a href="/intranet/event/new" class="btn">Create new Event</a>{% if user.is_top4%}<a href="mailto:membership-l@acm.uiuc.edu?subject={{mail_subject}}&amp;body={{mail_text}}" class="btn btn-info pull-right">Event Email</a>{%endif%}
 </p>
 {% if events %}
 <table class="table table-striped">

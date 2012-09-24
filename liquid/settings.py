@@ -249,6 +249,12 @@ AD_CERT_FILE='/path/to/your/cert.txt'
 AD_DEBUG=True
 AD_DEBUG_FILE='/var/log/apache2/ldap.debug'
 
+
+CRON_IPS = ['172.22.32.110']
+
+CRON_PASSWORD = ""
+
+
 try:
   from local_settings import *
 except ImportError, exp:

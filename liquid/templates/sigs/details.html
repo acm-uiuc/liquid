@@ -5,7 +5,15 @@
 </header>
 <p><img src="{{s.logo}}" align="right">{{s.description}}</p>
 <p>Chairs: {{s.chairs}}</p>
-<p>Email: <a href="mailto:{{s.mailing_list}}">{{s.mailing_list}}</a></p>
+<p>Email: <a href="mailto:{{s.mailing_list.email}}">{{s.mailing_list.email}}</a></p>
+<p>
+   Mailing List:<br>
+   <form class="form-inline well email-subscribe" method="get" action="/sigs/{{s.id}}/subscribe">
+    <div class="message"></div>
+     <input type="text" class="input-large" placeholder="Email" name="email">
+     <button type="submit" class="btn">Subscribe</button>
+   </form>
+</p>
 <p>Website: <a href="{{s.url}}">{{s.url}}</a></p>
 <p>
 	Meetings: {{s.get_meeting_day_display}} {{s.meeting_time}}, {{s.meeting_location}}
@@ -17,4 +25,23 @@
       <li>{{m.full_name}}</li>
       {% endfor %}
    </ul>
+{% endblock %}
+{% block bottom_scripts %}
+<script type="text/javascript">
+$(document).ready(function(){
+  $(".email-subscribe").submit(function(event){
+    var _this = this;
+    $.get(event.target.action,$(this).serialize(),function(response){
+      console.log(response);
+      console.log(_this);
+      if(response['Error']){
+        $(_this).find(".message").html('<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">×</button><strong>Error</strong> '+response['Error']+'</div>');
+      }else if(response['Message']){
+        $(_this).html('<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">×</button>'+response['Message']+'</div>');
+      }
+    });
+    return false;
+  });
+});
+</script>
 {% endblock %}
