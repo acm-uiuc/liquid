@@ -1,7 +1,7 @@
 from django.forms import ModelForm
-from intranet.models import Job
+from intranet.models import Job, PreMember
 
-class JobForm(ModelForm):
-  class Meta:
-      model = Job
-      exclude = ['status','sent']
+class PreMemberForm(ModelForm):
+   class Meta:
+      model = PreMember
+      exclude = ['created_at']

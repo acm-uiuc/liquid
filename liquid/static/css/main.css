@@ -164,3 +164,7 @@ div.carousel-inner:hover ~ a.carousel-control {
 .event-details-inner{
    display: none;
 }
+
+.email-subscribe{
+   width: 320px;
+}

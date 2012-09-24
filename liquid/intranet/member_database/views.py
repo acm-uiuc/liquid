@@ -1,20 +1,27 @@
 from django.shortcuts import render_to_response, HttpResponseRedirect
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.template import RequestContext
 from django.core.context_processors import csrf
 from django.db.models import Q
 from django.forms.util import ErrorList
 from django.contrib import messages
-from utils.group_decorator import group_admin_required
-from intranet.models import Member
+from utils.group_decorator import group_admin_required, is_admin
+from intranet.models import Member, PreMember
 from django.contrib.auth.models import Group
+from django.core.mail import send_mail
 from intranet.member_database.forms import NewMemberForm, EditMemberForm
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import ldap
 
 
 # Create your views here.
 def main(request):
-   return render_to_response('intranet/member_database/main.html',{"section":"intranet","page":'members'},context_instance=RequestContext(request))
+   pre_members = PreMember.objects.all()
+   return render_to_response('intranet/member_database/main.html',{
+      "section":"intranet",
+      "page":'members',
+      "pre_members": pre_members
+   },context_instance=RequestContext(request))
   
 def search(request):
    q = request.GET.get('q')
@@ -25,39 +32,69 @@ def search(request):
                             .order_by('last_name', 'first_name')
    else:
       members = Member.objects.order_by('last_name', 'first_name')
+
+   paginator = Paginator(members, 25) # Show 25 contacts per page
+   total_members = paginator.count
+
+   page = request.GET.get('page')
+   try:
+      members = paginator.page(page)
+   except PageNotAnInteger:
+      # If page is not an integer, deliver first page.
+      members = paginator.page(1)
+   except EmptyPage:
+      # If page is out of range (e.g. 9999), deliver last page of results.
+      members = paginator.page(paginator.num_pages)
   
    return render_to_response('intranet/member_database/search.html',{
     "section":"intranet",
     "page":'members',
     'members':members,
-    'q':q},context_instance=RequestContext(request))
+    "total_members": total_members,
+    'q':q,
+    'request': request,
+   },context_instance=RequestContext(request))
 
-@group_admin_required(['Top4'])  
-def new(request):
-   if request.method == 'POST': # If the form has been submitted...
-      form = NewMemberForm(request.POST) # A form bound to the POST data
-      if form.is_valid(): # All validation rules pass
-         try:
-            u = form.save()
-            u.set_unusable_password()
-            member_group = Group.objects.get(name='Member')
-            u.groups.add(member_group)
-            u.save()
-            messages.add_message(request, messages.SUCCESS, 'Member created')
-            return HttpResponseRedirect('/intranet/members/search?q=%s' % u.username) # Redirect after POST
-         except ValueError:
-            errors = form._errors.setdefault("username", ErrorList())
-            errors.append(u"Not a valid netid")
-          
-   else:
-      form = NewMemberForm() # An unbound form
+@is_admin()
+def new(request,id):
+   try:
+      pre_member = PreMember.objects.get(id=id)
+   except PreMember.DoesNotExist:
+      raise Http404
+   try:
+      u = Member(username=pre_member.netid,uin=pre_member.uin)
+      u.save()
+      u.set_unusable_password()
+      member_group = Group.objects.get(name='Member')
+      u.groups.add(member_group)
+      u.save()
+      messages.add_message(request, messages.SUCCESS, 'Member created')
+      pre_member.delete()
+      welcome_msg = """Hello %s %s,
 
-   return render_to_response('intranet/member_database/form.html',{
-      'form': form,
-      "section":"intranet",
-      "page":'members',
-      "page_title":"Create new Member"
-    },context_instance=RequestContext(request))
+You sent a payment of $40.00 USD to the Association for Computing Machinery at the University of Illinois at Urbana-Champaign on %s.
+
+----------------------------------------
+ACM Lifetime Membership   $40.00 USD
+
+Subtotal: $40.00 USD
+Total: $40.00 USD
+
+Payment: $40.00
+----------------------------------------
+
+Questions? Contact treasurer@acm.uiuc.edu
+
+Please retain this email for your records.
+
+Thanks,
+ACM@UIUC"""%(u.first_name,u.last_name,u.date_joined.strftime("%a %b %d, %Y %H:%M:%S"))
+      send_mail('Welcome to ACM@UIUC', welcome_msg, 'ACM <acm@uiuc.edu>',[u.email,'treasurer@acm.uiuc.edu'], fail_silently=False)
+      return HttpResponseRedirect('/intranet/members/search?q=%s' % u.username) # Redirect after POST
+   except ValueError:
+      messages.add_message(request, messages.ERROR, "Not a valid netid")
+
+   return HttpResponseRedirect('/intranet/members/') 
 
 @group_admin_required(['Top4'])
 def edit(request,id):
