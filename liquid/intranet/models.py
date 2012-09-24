@@ -13,14 +13,7 @@ from utils.django_mailman.models import List
 from subprocess import check_call
 from django.db.models import Count
 from django.db.models import Q
-
-import pyPdf
-from StringIO import StringIO
-from reportlab.lib.styles import getSampleStyleSheet
-from reportlab.platypus import *
-from reportlab.lib import colors
-from reportlab.lib.units import inch
-from reportlab.lib.pagesizes import letter
+from utils.resume_download_helper import generate_resume_download
 
 
 # Create your models here.
@@ -444,75 +437,38 @@ class ResumeDownload(models.Model):
    def file_path(self):
       return "%s/packets/%d.pdf"%(settings.RESUME_STORAGE_LOCATION,self.id)
 
+   def diff_file_path(self):
+      return "%s/packets/diff-%d.pdf"%(settings.RESUME_STORAGE_LOCATION,self.id)
+
    def generate(self):
       if os.path.exists(self.file_path()):
          return
 
       people = self.set.get_people()
 
-      # Our container for 'Flowable' objects
-      elements = []
-
-      # A basic document for us to write to 'rl_hello_table.pdf'
-      buffer = StringIO() 
-      doc = SimpleDocTemplate(buffer,pagesize=letter)
-
-      styles = getSampleStyleSheet()
-      elements.append(Paragraph("ACM@UIUC Resume Book",styles['Title']))
-      elements.append(Spacer(1, .5*inch))
-      elements.append(Paragraph(self.set.get_display(),styles['Normal']))
-      elements.append(Paragraph("Generated on %s"%self.created_at.strftime("%a, %d %b %Y %H:%M:%S"),styles['Normal']))
-      elements.append(Spacer(1, .5*inch))
+      generate_resume_download(people,self.set.get_display(),self.created_at,self.file_path())
 
 
-      data = [['Name','Graduation','Level','Seeking','ACM Member']]
-      
-      resumes = []
+   def generate_diff(self):
+      if os.path.exists(self.diff_file_path()):
+         return
 
+      query = None
+      interested_set = self.set.resumedownload_set.exclude(id=self.id)
+      if interested_set.count() > 0:
+         download = interested_set.latest('created_at')
+         query = Q(created_at__gt=download.created_at)
+      people = self.set.get_people(None,query)
 
-      for p in people:
-         data.append([p.full_name(),p.get_graduation_display(),p.get_level_display(),p.get_seeking_display(),p.acm_member()])
-         resumes.append(p.latest_resume().resume.path)
+      generate_resume_download(people,"Only new or updated %s"%self.set.get_display(),self.created_at,self.diff_file_path())
 
-
-      # First the top row, with all the text centered and in Times-Bold,
-      # and one line above, one line below.
-      ts = [('ALIGN', (1,1), (-1,-1), 'LEFT'),
-          ('LINEABOVE', (0,0), (-1,0), 1, colors.blue),
-          ('LINEBELOW', (0,0), (-1,0), 1, colors.blue),
-          ('FONT', (0,0), (-1,0), 'Times-Bold'),
-          ('FONTSIZE', (0,0), (-1,-1), 8)]
-
-      # Create the table with the necessary style, and add it to the
-      # elements list.
-
-
-      table = Table(data, style=ts)
-      elements.append(table)
-
-
-      # Write the document to disk
-      doc.build(elements)
-
-
-      pdf_out = pyPdf.PdfFileWriter()
-
-      pdf_in = pyPdf.PdfFileReader(buffer)
-      for page in xrange(pdf_in.getNumPages()):
-         pdf_out.addPage(pdf_in.getPage(page))
-      
-
-      for r in resumes:
-         pdf_in = pyPdf.PdfFileReader(file(r,"rb"))
-      
-         for page in xrange(pdf_in.getNumPages()):
-            pdf_out.addPage(pdf_in.getPage(page))
-
-      file_out = file(self.file_path(), "wb")
-      pdf_out.write(file_out)
-      file_out.close()
-
-@receiver(post_save, sender=ResumeDownload)
-def new_resume_download(sender, **kwargs):
-   download = kwargs['instance']
-   download.generate()
+   def update_count(self):
+      query = None
+      interested_set = self.set.resumedownload_set.exclude(id=self.id)
+      if interested_set.count() > 0:
+         download = interested_set.latest('created_at')
+         query = Q(created_at__gt=download.created_at)
+      else:
+         return 0
+      people = self.set.get_people(None,query)
+      return people.count()

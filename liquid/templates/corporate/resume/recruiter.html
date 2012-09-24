@@ -5,10 +5,33 @@
 You don't currently have any downloads. <a href="/corporate/resume/recruiter/browse">Create one now</a>.
 {% else %}
 <p>Your saved downloads:</p>
+
+<div class="accordion" id="download-accordion">
+   {% for s in sets %}
+   <div class="accordion-group">
+      <div class="accordion-heading">
+         <a class="accordion-toggle" data-toggle="collapse" data-parent="#download-accordion" href="#collapse{{s.id}}">
+            {% if s.get_new_count > 0 %}<span class="label label-info">{{s.get_new_count}} new or updated</span> {% endif%}{{s.get_display}} 
+         </a>
+      </div>
+      <div id="collapse{{s.id}}" class="accordion-body collapse">
+         <div class="accordion-inner">
+            <h4>Latest</h4>
+            Download: <a href="/corporate/resume/recruiter/generate/{{s.id}}">Full Set</a> | <a href="/corporate/resume/recruiter/generate/diff/{{s.id}}">Only new</a>
+            <h4>Historical</h4>
+            <ul>
+               {% for d in s.resumedownload_set.all %}
+               <li>{{s.created_at}} download: <a href="/corporate/resume/recruiter/download/{{d.id}}.pdf">Full Set</a> | <a href="/corporate/resume/recruiter/download/diff/{{d.id}}.pdf">Only new</a></li>
+                  
+               </li>
+               {% endfor %}
+            </ul>
+         </div>
+      </div>
+   </div>
+   {% endfor %}
+</div>
 <ul>
-{% for s in sets %}
-   <li>{% if s.get_new_count > 0 %}<span class="label label-info">{{s.get_new_count}} new or updated</span> {% endif%}{{s.get_display}} <a href="/corporate/resume/recruiter/generate/{{s.id}}">Download All</a></li>
-{% endfor %}
 </ul>
 {% endif %}
 {% endblock %}

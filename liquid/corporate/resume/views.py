@@ -145,14 +145,19 @@ def recruiter_browse(request):
   return render_to_response('corporate/resume/recruiter_browse.html',{"section":"corporate","page":"browse","people":people,"q":q,"set":set,"total_people":total_people,"graduation_choices":graduation_choices,"request":request},context_instance=RequestContext(request))
 
 @group_admin_required(['Corporate','!Recruiter']) 
-def recruiter_generate(request,id):
+def recruiter_generate(request,id,diff=False):
   try:
     set = ResumeDownloadSet.objects.get(id=id)
     download = set.generate_download()
-    return HttpResponseRedirect('/corporate/resume/recruiter/download/%d.pdf'%(download.id))
+    if diff:
+      return HttpResponseRedirect('/corporate/resume/recruiter/download/diff/%d.pdf'%(download.id))
+    else:
+      return HttpResponseRedirect('/corporate/resume/recruiter/download/%d.pdf'%(download.id))
   except ResumeDownloadSet.DoesNotExist:
     raise Http404
 
+def recruiter_generate_diff(request,id):
+  return recruiter_generate(request,id,True)
 
 @group_admin_required(['Corporate','!Recruiter']) 
 def recruiter_pdf(request,netid):
@@ -169,7 +174,17 @@ def recruiter_download_pdf(request,id):
     pdf_data = open(download.file_path(), "rb").read()
     return HttpResponse(pdf_data, mimetype="application/pdf")
   except ResumeDownload.DoesNotExist:
-    raise Http404
+    pass#raise Http404
+
+@group_admin_required(['Corporate','!Recruiter']) 
+def recruiter_download_pdf_diff(request,id):
+  try:
+    download = ResumeDownload.objects.get(id=id)
+    download.generate_diff()
+    pdf_data = open(download.diff_file_path(), "rb").read()
+    return HttpResponse(pdf_data, mimetype="application/pdf")
+  except ResumeDownload.DoesNotExist:
+    pass#raise Http404
 
 @group_admin_required(['!Recruiter'])
 def recruiter_account(request):
