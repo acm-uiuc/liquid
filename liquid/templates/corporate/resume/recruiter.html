@@ -17,11 +17,11 @@ You don't currently have any downloads. <a href="/corporate/resume/recruiter/bro
       <div id="collapse{{s.id}}" class="accordion-body collapse">
          <div class="accordion-inner">
             <h4>Latest</h4>
-            Download: <a href="/corporate/resume/recruiter/generate/{{s.id}}">Full Set</a> | <a href="/corporate/resume/recruiter/generate/diff/{{s.id}}">Only new</a>
+            Download: <a href="/corporate/resume/recruiter/generate/{{s.id}}">Full Set</a> | <a href="/corporate/resume/recruiter/generate/diff/{{s.id}}">Only {{s.get_new_count}} new</a>
             <h4>Historical</h4>
             <ul>
                {% for d in s.resumedownload_set.all %}
-               <li>{{s.created_at}} download: <a href="/corporate/resume/recruiter/download/{{d.id}}.pdf">Full Set</a> | <a href="/corporate/resume/recruiter/download/diff/{{d.id}}.pdf">Only new</a></li>
+               <li>{{s.created_at}} download: <a href="/corporate/resume/recruiter/download/{{d.id}}.pdf">Full Set</a> | <a href="/corporate/resume/recruiter/download/diff/{{d.id}}.pdf">Only {{d.update_count}} new</a></li>
                   
                </li>
                {% endfor %}
