@@ -36,7 +36,6 @@ def join(request):
       form = PreMemberForm() # An unbound form
       choosen_sigs = []
 
-  print choosen_sigs
   return render_to_response('about/join.html',{
       'form': form,
       "section":"about",

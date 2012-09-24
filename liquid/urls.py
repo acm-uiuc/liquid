@@ -19,7 +19,6 @@ urlpatterns = patterns('',
     url(r'^login/$', 'django.contrib.auth.views.login'),
     url(r'^logout/$', 'django.contrib.auth.views.logout'),
     url(r'^intranet/', include('intranet.urls')),
-    url(r'^vote/', include('vote.urls')),
 
     url(r'^resume/$', redirect_to, {'url': '/corporate/resume/'}),
 
@@ -28,6 +27,8 @@ urlpatterns = patterns('',
     url(r'^attend/$',redirect_to, {'url': '/conference/2012/registration.php'}),
     url(r'^helpout/$',redirect_to, {'url': '/conference/2012/volunteers.php'}),
     url(r'^schedule/$',redirect_to, {'url': '/conference/2012/schedule.php'}),
+
+    url(r'^cron/', include('cron.urls')),
 )
 
 handler404 = 'django.views.defaults.page_not_found'
