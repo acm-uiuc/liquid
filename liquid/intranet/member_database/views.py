@@ -5,9 +5,10 @@ from django.core.context_processors import csrf
 from django.db.models import Q
 from django.forms.util import ErrorList
 from django.contrib import messages
-from utils.group_decorator import group_admin_required
+from utils.group_decorator import group_admin_required, is_admin
 from intranet.models import Member, PreMember
 from django.contrib.auth.models import Group
+from django.core.mail import send_mail
 from intranet.member_database.forms import NewMemberForm, EditMemberForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import ldap
@@ -54,7 +55,7 @@ def search(request):
     'request': request,
    },context_instance=RequestContext(request))
 
-@group_admin_required(['Top4'])  
+@is_admin()
 def new(request,id):
    try:
       pre_member = PreMember.objects.get(id=id)
@@ -69,11 +70,31 @@ def new(request,id):
       u.save()
       messages.add_message(request, messages.SUCCESS, 'Member created')
       pre_member.delete()
+      welcome_msg = """Hello %s %s,
+
+You sent a payment of $40.00 USD to the Association for Computing Machinery at the University of Illinois at Urbana-Champaign on %s.
+
+----------------------------------------
+ACM Lifetime Membership   $40.00 USD
+
+Subtotal: $40.00 USD
+Total: $40.00 USD
+
+Payment: $40.00
+----------------------------------------
+
+Questions? Contact treasurer@acm.uiuc.edu
+
+Please retain this email for your records.
+
+Thanks,
+ACM@UIUC"""%(u.first_name,u.last_name,u.date_joined.strftime("%a %b %d, %Y %H:%M:%S"))
+      send_mail('Welcome to ACM@UIUC', welcome_msg, 'ACM <acm@uiuc.edu>',[u.email,'treasurer@acm.uiuc.edu'], fail_silently=False)
       return HttpResponseRedirect('/intranet/members/search?q=%s' % u.username) # Redirect after POST
    except ValueError:
       messages.add_message(request, messages.ERROR, "Not a valid netid")
 
-   HttpResponseRedirect('/intranet/members/') 
+   return HttpResponseRedirect('/intranet/members/') 
 
 @group_admin_required(['Top4'])
 def edit(request,id):
