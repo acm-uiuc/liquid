@@ -47,28 +47,29 @@ def pdf(request,id):
    return HttpResponse(pdf_data, mimetype="application/pdf")
 
 @group_admin_required(['Corporate'])
-def accounts(request,):
-   recrutiers = Recruiter.objects.all()
-   paginator = Paginator(recrutiers, 25) # Show 25 contacts per page
+def accounts(request):
+   recruiters = Recruiter.objects.all()
+   paginator = Paginator(recruiters, 25) # Show 25 contacts per page
    
    total_recruiters = paginator.count
 
    page = request.GET.get('page')
    try:
-      recrutiers = paginator.page(page)
+      recruiters = paginator.page(page)
    except PageNotAnInteger:
       # If page is not an integer, deliver first page.
-      recrutiers = paginator.page(1)
+      recruiters = paginator.page(1)
    except EmptyPage:
       # If page is out of range (e.g. 9999), deliver last page of results.
-      recrutiers = paginator.page(paginator.num_pages)
+      recruiters = paginator.page(paginator.num_pages)
 
    return render_to_response('intranet/resume_manager/accounts.html',{
       "section":"intranet",
       "page":"resume",
       "sub_page":"accounts",
       "total_recruiters":total_recruiters,
-      "recrutiers":recrutiers
+      "recruiters":recruiters,
+      "request": request,
    },context_instance=RequestContext(request))
 
 @group_admin_required(['Corporate'])
