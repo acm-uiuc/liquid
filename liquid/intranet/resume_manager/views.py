@@ -104,7 +104,7 @@ def accounts_new(request):
 def accounts_edit(request,id):
   e = Recruiter.objects.get(id=id)
   if request.method == 'POST': # If the form has been submitted...
-    form = EventForm(request.POST,instance=e) # A form bound to the POST data
+    form = RecruiterForm(request.POST,instance=e) # A form bound to the POST data
     if form.is_valid(): # All validation rules pass
       form.save()
       messages.add_message(request, messages.SUCCESS, 'Recruiter changed')
