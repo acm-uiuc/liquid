@@ -73,6 +73,7 @@ def accounts(request,):
 
 @group_admin_required(['Corporate'])
 def accounts_new(request):
+   message = ""
    if request.method == 'POST': # If the form has been submitted...
       e = Recruiter()
       form = RecruiterForm(request.POST,instance=e) # A form bound to the POST data
@@ -82,19 +83,21 @@ def accounts_new(request):
          print password
          recruiter.set_password(password)
          recruiter.save()
-         email = "Hi %s,\n\nA new account for you to access the ACM@UIUC resume book has been created.\n\nUsername: %s\nPassword: %s\n\nTo login visit http://acm.uiuc.edu/resume.\n\nThanks,\nACM@UIUC Corporate Committee"%(recruiter.first_name,recruiter.username,password)
+         message = request.POST.get('message')
+         email = "%s\n\n----------------------------\n\nHi %s,\n\nA new account for you to access the ACM@UIUC resume book has been created.\n\nUsername: %s\nPassword: %s\n\nTo login visit http://acm.uiuc.edu/resume.\n\nThanks,\nACM@UIUC Corporate Committee"%(message,recruiter.first_name,recruiter.username,password)
          send_mail('ACM@UIUC Resume Book', email, 'ACM Corporate Committee <corporate@acm.uiuc.edu>',[recruiter.email,'corporate@acm.uiuc.edu'], fail_silently=False)
          messages.add_message(request, messages.SUCCESS, 'Recruiter created (%s, %s)'%(recruiter.username, password))
          return HttpResponseRedirect('/intranet/resume/accounts') # Redirect after POST    
    else:
       form = RecruiterForm() # An unbound form
 
-   return render_to_response('intranet/event_manager/form.html',{
+   return render_to_response('intranet/resume_manager/account_form.html',{
       'form': form,
       "section":"intranet",
       "page":"resume",
       "sub_page":"accounts",
-      "page_title":"Create new Recruiter"
+      "page_title":"Create new Recruiter",
+      "message": message
     },context_instance=RequestContext(request))
 
 @group_admin_required(['Corporate'])

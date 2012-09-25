@@ -4,7 +4,7 @@
 <h1>Event Manager</h1>
 </header>
 <p>
-  <a href="/intranet/event/new" class="btn">Create new Event</a>{% if user.is_top4%}<a href="mailto:membership-l@acm.uiuc.edu?subject={{mail_subject}}&amp;body={{mail_text}}" class="btn btn-info pull-right">Event Email</a>{%endif%}
+  <a href="/intranet/event/new" class="btn">Create new Event</a>{% if user.is_top4%}<a href="javascript:show_email();" class="btn btn-info pull-right">Event Email</a>{%endif%}
 </p>
 {% if events %}
 <table class="table table-striped">
@@ -36,4 +36,27 @@
 {% else %}
 <p>No upcoming events for you to admin</p>
 {% endif %}
+
+{% if user.is_top4%}
+<div class="modal hide fade" id="event_email">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>{{mail_subject}}</h3>
+  </div>
+  <div class="modal-body">
+    <pre>
+{{mail_text}}
+    </pre>
+  </div>
+</div>
+{% endif %}
+{% endblock %}
+{% block bottom_scripts %}
+<script type="text/javascript">
+function show_email(){
+  console.log("hi");
+  console.log($("#event_email"));
+  $("#event_email").modal('show');
+}
+</script>
 {% endblock %}

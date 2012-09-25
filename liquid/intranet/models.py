@@ -468,7 +468,5 @@ class ResumeDownload(models.Model):
       if interested_set.count() > 0:
          download = interested_set.latest('created_at')
          query = Q(created_at__gt=download.created_at)
-      else:
-         return 0
       people = self.set.get_people(None,query)
       return people.count()
