@@ -21,7 +21,7 @@
 <p>
   <em>{{total_recruiters}} {%if total_recruiters or total_recruiters < 1 %} accounts{%else%}account{%endif%}.</em>
   <a class="pull-right btn btn-primary" href="/intranet/resume/accounts/new">Create Account</a></p>
-{% if recrutiers|length > 0 %}
+{% if recruiters|length > 0 %}
 <hr>
 <table class="table table-striped">
   <thead>
@@ -35,7 +35,7 @@
   <tr>
   </thea>
   <tbody>
-  {% for r in recrutiers %}
+  {% for r in recruiters %}
   <tr>
     <td><a href="/intranet/resume/accounts/edit/{{r.id}}"><i class="icon-edit"></i> Edit</a></td>
     <td>{{r.first_name}}</td>
@@ -47,9 +47,9 @@
   {% endfor %}
   </tbody>
 </table>
-{% if recrutiers.has_other_pages %}
+{% if recruiters.has_other_pages %}
 <hr>
-{% bootstrap_paginate recrutiers range=10 %}
+{% bootstrap_paginate recruiters range=10 %}
 {% endif %}
 {% endif %}
 {% endblock %}
