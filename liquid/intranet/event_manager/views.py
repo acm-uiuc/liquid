@@ -20,18 +20,18 @@ def main(request):
   next_week = datetime.datetime.now() + seven_days
   mail_events = Event.objects.filter(endtime__gte=datetime.datetime.now()).filter(starttime__lte=next_week).order_by('starttime')
 
-  mail_text = "Schedule for the week:%0A"
+  mail_text = "Schedule for the week:\n"
 
   i = 1
   for e in mail_events:
-     mail_text += "%d. %s - %s%%0A" %(i,e.name,e.starttime.strftime('%m/%d/%y'))
+     mail_text += "%d. %s - %s\n" %(i,e.name,e.starttime.strftime('%m/%d/%y'))
      i += 1
 
   for e in mail_events:
-     mail_text += "%0A========================================================================%0A%0A"
+     mail_text += "\n========================================================================\n\n"
      
-     mail_text += "%s%%0A%s%%0A%s%%0A%%0A%s" % (e.name,e.pretty_time(),e.location,e.description)
-  mail_text += "%0A%0A========================================================================%0A%0A"
+     mail_text += "%s\n%s\n%s\n\n%s" % (e.name,e.pretty_time(),e.location,e.description)
+  mail_text += "\n\n========================================================================\n\n"
 
 
   mail_subject = "Events of the week, %s"%(datetime.date.today().strftime("%m/%d/%y"))
