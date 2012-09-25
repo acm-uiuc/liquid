@@ -15,6 +15,7 @@ urlpatterns = patterns('',
     url(r'^recruiter/browse$','corporate.resume.views.recruiter_browse'),
     url(r'^recruiter/pdf/(?P<netid>\w+).pdf$', 'corporate.resume.views.recruiter_pdf'),
     url(r'^recruiter/account$','corporate.resume.views.recruiter_account'),
+    url(r'^recruiter/help$','corporate.resume.views.recruiter_help'),
 )
 
 
