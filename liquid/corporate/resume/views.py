@@ -129,10 +129,11 @@ def recruiter_browse(request):
   else:
     people = set.get_people()
 
-  num_per_page = int(request.GET.get('num_per_page'))
+  num_per_page = request.GET.get('num_per_page')
   if num_per_page==None:
     num_per_page = 50
-    
+  else:
+    num_per_page = int(num_per_page)
   paginator = Paginator(people, num_per_page) # Show 50 contacts per page
   total_people = paginator.count
 
