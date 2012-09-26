@@ -45,6 +45,15 @@
       </label>
    </p>
    <p>
+      <strong>Results per page</strong>:<br>
+      <select class="input-small" name="num_per_page">
+        <option{%if num_per_page == 50%} selected="selected"{%endif%}>50</option>
+        <option{%if num_per_page == 100%} selected="selected"{%endif%}>100</option>
+        <option{%if num_per_page == 200%} selected="selected"{%endif%}>200</option>
+        <option{%if num_per_page == 500%} selected="selected"{%endif%}>500</option>
+      </select>
+   </p>
+   <p>
       <button type="submit" class="btn">Search</button><button class="pull-right btn btn-primary" name="download" value="true">Create Download</button>
    </p>
 </form>
