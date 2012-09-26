@@ -128,11 +128,14 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-        'bootstrap-pagination',
+    'bootstrap-pagination',
 
     'abouta',
     'banks',
     'cal',
+    'corporate',
+    'sigs',
+    'vote',
 
     'intranet',
     'intranet.event_manager',
@@ -142,9 +145,6 @@ INSTALLED_APPS = (
     'intranet.chroma',
     'intranet.resume_manager',
 
-    'sigs',
-    
-    'vote',
 
 
     'bootstrapform',
