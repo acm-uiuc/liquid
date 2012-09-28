@@ -134,7 +134,8 @@ def recruiter_browse(request):
     num_per_page = 50
   else:
     num_per_page = int(num_per_page)
-  paginator = Paginator(people, num_per_page) # Show 50 contacts per page
+  # Show requested number of resumes per page (50 by default)
+  paginator = Paginator(people, num_per_page)
   total_people = paginator.count
 
   page = request.GET.get('page')
