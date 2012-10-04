@@ -1,10 +1,15 @@
 from django.forms import ModelForm, EmailField
-from intranet.models import ResumePerson, Resume
+from intranet.models import ResumePerson, Resume, PreResumePerson
 from django.contrib.auth.models import User
 
 class ResumePersonForm(ModelForm):
   class Meta:
       model = ResumePerson
+      exclude = ['ldap_name']
+
+class PreResumePersonForm(ModelForm):
+  class Meta:
+      model = PreResumePerson
       exclude = ['ldap_name']
 
 class ResumeForm(ModelForm):

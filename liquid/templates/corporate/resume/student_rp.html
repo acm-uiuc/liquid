@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load bootstrap %}
+{% block content %}
+<header class="page-header">
+<h1>ACM@UIUC Resume Book</h1>
+</header>
+    <h3>Students</h3>
+    <p>The ACM resume book is a packet of resumes provided to interested companies who contact ACM. To be included please get a qr-code sticker and fill in the information below.</p>
+    
+ <form class="well" method="post">
+  {% csrf_token %}
+  {{ pre_resume_person_form|bootstrap }}
+  <div class="control-group">
+    <div class="controls">
+      <p>By submitting this form you verify that all the information above is correct and give ACM@UIUC permission to distribute your resume to all interested parties.</p>
+      <button type="submit" class="btn btn-primary" name="student" value="yes">Submit</button>
+    </div>
+  </div>
+</form>
+{% endblock %}
