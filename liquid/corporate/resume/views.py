@@ -78,7 +78,7 @@ def student_rp(request):
 
     if pre_resume_person_form.is_valid():
       try:
-        rp = PreResumePerson.objects.get(netid=pre_resume_person_form.cleaned_data['netid'].lower())
+        rp = ResumePerson.objects.get(netid=pre_resume_person_form.cleaned_data['netid'].lower())
         messages.add_message(request, messages.ERROR, 'We already have your resume, no need to give it to us today!')  
         pre_resume_person_form = PreResumePersonForm()
       except:
