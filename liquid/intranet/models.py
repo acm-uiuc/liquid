@@ -256,6 +256,9 @@ def new_resume_person(sender, **kwargs):
       except IndexError:
          raise ValueError('Bad Netid', 'Not a valid netid')
 
+class PreResumePerson(ResumePerson):
+   number = models.IntegerField()
+
 # Wher to store the resumes
 fs = FileSystemStorage(location=settings.RESUME_STORAGE_LOCATION)
 
