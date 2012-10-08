@@ -24,7 +24,7 @@ pdf_out_file = NamedTemporaryFile(delete=False,suffix=".pdf")
 pdf_out_file.close()
 
 for page in xrange(pdf_in.getNumPages()):
-   check_call(["convert","-density","300","-resize", "2550x3300","-crop","600x600+1950+2700","+repage","%s[%d]"%(pdf_file,page), png.name])
+   check_call(["convert","-density","300","-resize", "2550x3300","+repage","%s[%d]"%(pdf_file,page), png.name])
    pil = Image.open(png.name).convert('L')
    width, height = pil.size
    raw = pil.tostring()
