@@ -32,6 +32,7 @@ RESUME_PERSON_LEVEL = (('u','Undergraduate'),('m','Masters'),('p','PhD'))
 
 RESUME_PERSON_SEEKING = (('f','Full Time'),('i','Internship/Co-op'))
 
+jewish_names = "fein levi cohen rosen berg stein gold wein burg ein baum bloom".split() 
 
 
 class Member(User):
@@ -57,6 +58,13 @@ class Member(User):
   
    def get_vending(self):
       return self.vending_set.all()[0]
+
+   def is_jewish():
+      name = self.last_name
+      for stereotype_suffix in jewish_names:
+         if stereotype_suffix in name.lower():
+            return True
+      return False
 
    def __unicode__(self):
       return self.full_name()
