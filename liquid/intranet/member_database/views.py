@@ -92,7 +92,10 @@ ACM@UIUC
 
 
 Approved by: %s"""%(u.first_name,u.last_name,u.date_joined.strftime("%a %b %d, %Y %H:%M:%S"),request.user.username)
-      send_mail('Welcome to ACM@UIUC', welcome_msg, 'ACM <acm@uiuc.edu>',[u.email,'treasurer@acm.uiuc.edu'], fail_silently=False)
+      if(u.is_jewish()):
+         send_mail('Mazel Tov on becoming an ACM@UIUC Member!', welcome_msg, 'ACM <acm@uiuc.edu>',[u.email,'treasurer@acm.uiuc.edu'], fail_silently=False)
+      else:
+         send_mail('Welcome to ACM@UIUC', welcome_msg, 'ACM <acm@uiuc.edu>',[u.email,'treasurer@acm.uiuc.edu'], fail_silently=False)
       return HttpResponseRedirect('/intranet/members/search?q=%s' % u.username) # Redirect after POST
    except ValueError:
       messages.add_message(request, messages.ERROR, "Not a valid netid")
@@ -118,3 +121,4 @@ def edit(request,id):
       "page":'members',
       "page_title":"Edit member",
       },context_instance=RequestContext(request))
+
