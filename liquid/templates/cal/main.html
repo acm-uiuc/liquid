@@ -5,15 +5,19 @@
 <a href="http://www.google.com/calendar/render?cid=http%3A%2F%2Facm.uiuc.edu%2Fcalendar%2Ffeed.ics" target="_blank" class="pull-right btn btn-primary">Add to Google Calendar</a> <h1>Calendar</h1>
 </header>
 <ul class="pager">
+  {% if prev_url %}
   <li class="previous">
     <a href="{{prev_url}}">&larr; Older</a>
   </li>
+  {% endif %}
   <li>
     <a href="/calendar/">Today</a>
   </li>
+  {% if next_url %}
   <li class="next">
     <a href="{{next_url}}">Newer &rarr;</a>
   </li>
+  {% endif %}
 </ul>
 <table class="table table-bordered calendar">
   <thead>
