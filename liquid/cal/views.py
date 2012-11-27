@@ -10,6 +10,8 @@ import datetime
 def main(request,year=None,month=None,day=None):
    if year == None:
       start_date = datetime.date.today()
+   elif year < int(1900):
+     raise Http404
    else:
       start_date = datetime.date(int(year),int(month),int(day))
    this_week_monday = start_date - datetime.timedelta(days=start_date.weekday())
