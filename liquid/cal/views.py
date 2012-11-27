@@ -10,7 +10,7 @@ import datetime
 def main(request,year=None,month=None,day=None):
    if year == None:
       start_date = datetime.date.today()
-   elif year < int(1900) or year > int(2100):
+   elif int(year) < 1900 or int(year) > 2100:
      raise Http404
    else:
       start_date = datetime.date(int(year),int(month),int(day))
