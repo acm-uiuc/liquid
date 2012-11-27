@@ -1,7 +1,7 @@
 from django.conf.urls.defaults import patterns, include, url
 from cal.event_feed import EventFeed
 
-urlpatterns = patterns('cal.views',
+urlpatterns = patterns('',
     # Examples:
     url(r'^$', 'cal.views.main'),
     url(r'^(?P<year>\d+)/(?P<month>\d+)/(?P<day>\d+)$', 'cal.views.main'),
