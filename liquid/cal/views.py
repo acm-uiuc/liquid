@@ -8,12 +8,15 @@ import datetime
 
 # Create your views here.
 def main(request,year=None,month=None,day=None):
-   if year == None:
+   if year is None:
       start_date = datetime.date.today()
-   elif int(year) < 1900 or int(year) > 2100:
+   elif year < 1900 or year > 2100:
      raise Http404
    else:
-      start_date = datetime.date(int(year),int(month),int(day))
+     try:
+       start_date = datetime.date(year,month,day)
+     except ValueError:
+       raise Http404
    this_week_monday = start_date - datetime.timedelta(days=start_date.weekday())
    two_weeks = this_week_monday + datetime.timedelta(days=14)
    events = Event.objects.filter(endtime__gte=this_week_monday,starttime__lte=two_weeks).order_by('starttime')
