@@ -59,7 +59,7 @@
             {% if user.is_anonymous %}
             <li><a href="/login">Login</a></li>
             {% else %}
-            <li class="nav_name">Hi, {{user.first_name}}</li>
+            <li class="nav_name">Hi, {{user.first_name}}!</li>
             <li><a href="/logout">Logout</a></li>
             {% endif %}
           </ul>
