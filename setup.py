@@ -66,8 +66,19 @@ from datetime import datetime
 
 netid = raw_input('netid? ')
 uin = raw_input('uin? ')
+
+# setup mailing lists
+from utils.django_mailman.models import List
+t_list = List(name="top4")
+m_list = List(name="Membership-l")
+j_list = List(name="Jobs-l")
+t_list.save()
+m_list.save()
+j_list.save()
+
 m = Member(username=netid,uin=uin)
 m.save()
-g = Group(name='Top4',type='O',date_formed=datetime.now(),mailing_list='top4@acm.uiuc.edu')
+
+g = Group(name='Top4',type='O',date_formed=datetime.now(), mailing_list=t_list)
 g.save()
 GroupMember(member=m,group=g,is_chair=True,is_admin=True).save()
