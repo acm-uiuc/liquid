@@ -66,6 +66,7 @@ from datetime import datetime
 
 netid = raw_input('netid? ')
 uin = raw_input('uin? ')
+acct_pass = getpass.getpass("account password? ")
 
 # setup mailing lists
 from utils.django_mailman.models import List
@@ -77,6 +78,7 @@ m_list.save()
 j_list.save()
 
 m = Member(username=netid,uin=uin)
+m.set_password(acct_pass)
 m.save()
 
 g = Group(name='Top4',type='O',date_formed=datetime.now(), mailing_list=t_list)
