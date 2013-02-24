@@ -36,7 +36,9 @@
     <div class="container">
       <div class="header">
         <div class="header_bar">
-          <img src="/static/img/ilogo.png" class="ilogo">
+		  <a href="http://illinois.edu">
+            <img src="/static/img/ilogo.png" class="ilogo">
+		  </a>
           <a class="brand" href="/">
             <img src="/static/img/logo.png" width="150" height="150" class="logo">
             <div>
@@ -59,7 +61,7 @@
             {% if user.is_anonymous %}
             <li><a href="/login">Login</a></li>
             {% else %}
-            <li class="nav_name">Hi, {{user.first_name}}</li>
+            <li class="nav_name">Hi, {{user.first_name}}!</li>
             <li><a href="/logout">Logout</a></li>
             {% endif %}
           </ul>
