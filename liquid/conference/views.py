@@ -1,0 +1,27 @@
+from django.shortcuts import render_to_response
+from django.template import RequestContext
+# Create your views here.
+
+def main(request):
+   return render_to_response('conference/main.html',{"section":"conference","page":'main'},context_instance=RequestContext(request))
+
+def vote(request,netid,key):
+   try:
+      vote = Vote.objects.filter(user__username=netid).filter(key=key)[:1][0]
+   except IndexError:
+      vote = None
+   if not vote:
+      #not a valid vote netid/key combo
+      return render_to_response('vote/error.html',context_instance=RequestContext(request))
+   
+   if request.method == 'POST':
+      #if they are submitting their vote
+      try:
+         vote.vote = request.POST['vote'] == "true"
+         vote.save()
+         vote_text = "Accept" if vote.vote else "Reject"
+         return render_to_response('vote/thanks.html',{"name":vote.user.full_name(),"vote":vote_text },context_instance=RequestContext(request))
+      except:
+         pass
+   return render_to_response('vote/vote.html',{"name":vote.user.full_name()},context_instance=RequestContext(request))
+   

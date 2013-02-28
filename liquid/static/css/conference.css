@@ -1,0 +1,48 @@
+html {
+  height: 100%;
+  margin: 0; }
+
+body {
+  color: #444444;
+  height: 100%;
+  margin: 0;
+  background-image: url("/static/img/conference/gplaypattern-green.png");
+  background-repeat: tile; }
+
+#the-meat {
+  background-color: rgba(255, 255, 255, 0.75);
+  height: 100%;
+  -webkit-box-shadow: 0px 0px 30px 0px #dddddd;
+  -moz-box-shadow: 0px 0px 30px 0px #dddddd;
+  box-shadow: 0px 0px 30px 0px #dddddd; }
+
+#triangle-bar {
+  width: 100%;
+  background-image: url("/static/img/conference/gplaypattern-pink-bar.png");
+  background-repeat: tile;
+  height: 26px;
+  margin-top: 30px; }
+
+.header {
+  margin: 30px 0 60px 0; }
+
+.nikoli {
+  -webkit-border-radius: 3px;
+  overflow: hidden;
+  -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+  -webkit-transform: rotate(1.5deg);
+  -moz-transform: rotate(1.5deg);
+  margin-left: 30px; }
+  .nikoli:before, .nikoli:after {
+    -webkit-box-shadow: 0 15px 10px rgba(0, 0, 0, 0.7); }
+
+#save-the-date {
+  font-family: tahoma, sans serif;
+  font-size: 32px;
+  text-align: center;
+  margin: 50px 0 0 50px; }
+  #save-the-date h1 {
+    color: #ba1151; }
+
+.header_bar {
+  text-align: center; }
