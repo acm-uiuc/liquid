@@ -9,12 +9,16 @@ body {
   background-image: url("/static/img/conference/gplaypattern-green.png");
   background-repeat: tile; }
 
+h3 {
+  margin-bottom: 0; }
+
 #the-meat {
-  background-color: rgba(255, 255, 255, 0.75);
-  height: 100%;
+  background-color: white;
   -webkit-box-shadow: 0px 0px 30px 0px #dddddd;
   -moz-box-shadow: 0px 0px 30px 0px #dddddd;
-  box-shadow: 0px 0px 30px 0px #dddddd; }
+  box-shadow: 0px 0px 30px 0px #dddddd;
+  height: 92%;
+  margin-top: 25px; }
 
 #triangle-bar {
   width: 100%;
@@ -37,12 +41,13 @@ body {
     -webkit-box-shadow: 0 15px 10px rgba(0, 0, 0, 0.7); }
 
 #save-the-date {
-  font-family: tahoma, sans serif;
-  font-size: 32px;
-  text-align: center;
-  margin: 50px 0 0 50px; }
+  font-family: Helvetica, sans serif;
+  text-align: right; }
   #save-the-date h1 {
     color: #ba1151; }
+
+#event-dates .event-line div {
+  font-size: 14px; }
 
 .header_bar {
   text-align: center; }
