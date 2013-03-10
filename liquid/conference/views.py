@@ -1,27 +1,29 @@
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-# Create your views here.
+from django.http import HttpResponse, Http404
+from django import forms
+from django.forms import ValidationError
+from utils.django_mailman.models import List
+import simplejson as json
 
 def main(request):
-   return render_to_response('conference/main.html',{"section":"conference","page":'main'},context_instance=RequestContext(request))
+   return render_to_response('conference/landing.html',{"section":"conference","page":'main'},context_instance=RequestContext(request))
 
-def vote(request,netid,key):
+def subscribe(request):
+   email_field = forms.EmailField()
    try:
-      vote = Vote.objects.filter(user__username=netid).filter(key=key)[:1][0]
-   except IndexError:
-      vote = None
-   if not vote:
-      #not a valid vote netid/key combo
-      return render_to_response('vote/error.html',context_instance=RequestContext(request))
-   
-   if request.method == 'POST':
-      #if they are submitting their vote
-      try:
-         vote.vote = request.POST['vote'] == "true"
-         vote.save()
-         vote_text = "Accept" if vote.vote else "Reject"
-         return render_to_response('vote/thanks.html',{"name":vote.user.full_name(),"vote":vote_text },context_instance=RequestContext(request))
-      except:
-         pass
-   return render_to_response('vote/vote.html',{"name":vote.user.full_name()},context_instance=RequestContext(request))
-   
+      email = email_field.clean(request.GET.get('email'))
+   except ValidationError:
+      response = {'Error': 'Invalid email address'}
+      return HttpResponse(json.dumps(response), mimetype="application/json")
+   try:
+      s = List.objects.get(name='RP-announce')
+      s.subscribe(email)
+      response = {'Message': 'You have been subscribed'}
+      return HttpResponse(json.dumps(response), mimetype="application/json")
+   except Exception as e:
+      response = {'Error': "%s"%e}
+      return HttpResponse(json.dumps(response), mimetype="application/json")
+   else:
+      raise Http404
+
