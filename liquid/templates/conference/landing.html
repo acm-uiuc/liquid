@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>ACM Reflections | Projections 2013</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+    <!-- Le styles -->
+	<link href='http://fonts.googleapis.com/css?family=Roboto:400,700' rel='stylesheet' type='text/css'>
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/conference.css" rel="stylesheet">
+	
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="/static/favicon.ico">
+    <script type="text/javascript">
+
+       var _gaq = _gaq || [];
+       _gaq.push(['_setAccount', 'UA-30929649-1']);
+       _gaq.push(['_trackPageview']);
+
+       (function() {
+         var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+         ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+       })();
+
+    </script>
+  </head>
+  <body>
+    <div id="the-meat" class="container">
+      <div class="container main">
+		<div id="landing-card">
+		  <div class="row">
+			<img class="header-logo" src="/static/img/conference/header-logo.png" />
+		  </div>
+
+		  <div class="row">
+			<div class="span12">
+			  <div id="save-the-date">
+				<h2>October 10 - 13, 2013</h2>
+				<hr />
+				<p>Reflections | Projections, the annual computing conference at the 
+				  <a href="http://illinois.edu">University of Illinois Urbana-Champaign,</a> 
+				  will be returning this October! Come hear exciting speakers from across industry and academia! Look for a career at our CS/ECE job fair, or if you are more interested in the startup world, our new Startup Fair! In a competitive mood? Participate in MechMania, a 24-hour programming competitio, or <a href="http://puzzlebang.com">PuzzleBang</a>!, a fun series of cryptography games! </p>
+				
+			  </div>
+			</div>
+		  </div>
+
+		   <div class="row">
+			 <hr />
+			 <div id="event-dates" class="span12">
+			   <div class="span3 event-day">
+				 <h3>Thursday, October 10</h3>
+				 <li>Startup Fair</li>
+			   </div>
+			   <div class="span3 event-day">
+				 <h3>Friday, October 11</h3>
+				 <li>Speaker Talks</li>
+				 <li>Job Fair</li>
+				 <li>Mechmania Opening Ceremony</li>
+			   </div>
+			   <div class="span3 event-day">
+				 <h3>Saturday, October 12</h3>
+				 <li>Speaker Talks</li>
+				 <li>PuzzleBang Finishes</li>
+			   </div>
+			   <div class="span3 event-day">
+				 <h3>Sunday, October 13</h3>
+				 <li>Mechmania Closing Ceremony</li>
+			   </div>
+			 </div>
+		   </div>
+		   <div class="row">
+			 <div class="span12">
+			   <form class="form-inline well email-subscribe" method="get" action="/conference/subscribe">
+				<div class="message"></div>
+				<label for="subscribe">Subscribe to recieve updates!  </label> 
+				<div class="input-fields">
+				  <input id="subscribe" type="text" class="input-large" placeholder="email address" name="email">
+				  <button type="submit" class="btn">Subscribe</button>
+				</div>
+			  </form>
+			</div>
+		  </div>
+
+		<hr />
+		<div class="row">
+		  <div class="social-links span12">
+			<a href="mailto:conference-chair@acm.uiuc.edu">Send us an Email</a>
+			&middot;
+			<a href="https://twitter.com/acmreflections">Follow us on Twitter</a>
+			&middot;
+			<a href="https://www.facebook.com/acmrp">Like us on Facebook</a>
+		  </div>
+		</div>
+		
+		</div> <!-- landing card -->
+		<footer class="container">
+		  <!--ACM@UIUC | <a href="tel:1-217-333-5828">(217)-333-5828</a> | <a href="mailto:acm@uiuc.edu">acm@uiuc.edu</a> | Ste. 1104 Thomas M. Siebel Center for Computer Science, 201 N. Goodwin Ave. Urbana, IL 61801-->
+		</footer>
+	  </div>
+	</div>
+
+<!-- Le javascript
+	 ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/static/js/jquery-1.8.3.min.js"></script>
+	<script type="text/javascript">
+	  $(document).ready(function(){
+	  $(".email-subscribe").submit(function(event){
+      var _this = this;
+      $.get(event.target.action,$(this).serialize(),function(response){
+      console.log(response);
+      console.log(_this);
+      if(response['Error']){
+      $(_this).find(".message").html('<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">×</button><strong>Error</strong> '+response['Error']+'</div>');
+      }else if(response['Message']){
+      $(_this).html('<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">×</button>'+response['Message']+'</div>');
+      }
+      });
+      return false;
+	  });
+	  });
+	</script>
+  </body>
+</html>
