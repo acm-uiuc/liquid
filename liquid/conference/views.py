@@ -18,7 +18,7 @@ def subscribe(request):
       return HttpResponse(json.dumps(response), mimetype="application/json")
    try:
       s = List.objects.get(name='RP-announce')
-      s.subscribe(email)
+      s.subscribe_email(email)
       response = {'Message': 'You have been subscribed'}
       return HttpResponse(json.dumps(response), mimetype="application/json")
    except Exception as e:
