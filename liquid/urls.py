@@ -29,6 +29,10 @@ urlpatterns = patterns('',
     url(r'^helpout/$',redirect_to, {'url': '/conference/2012/volunteers.php'}),
     url(r'^schedule/$',redirect_to, {'url': '/conference/2012/schedule.php'}),
 
+    #sigmusic redirects
+    url(r'^chroma/$',redirect_to, {'url': '/sigmusic/chroma'}),
+    url(r'^cosmos/$',redirect_to, {'url': '/sigmusic/cosmos'}),
+
     url(r'^cron/', include('cron.urls')),
     
     url(r'^RP/$',redirect_to, {'url': '/rp'}),
