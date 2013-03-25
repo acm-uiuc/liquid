@@ -116,8 +116,6 @@
 	  $(".email-subscribe").submit(function(event){
       var _this = this;
       $.get(event.target.action,$(this).serialize(),function(response){
-      console.log(response);
-      console.log(_this);
       if(response['Error']){
       $(_this).find(".message").html('<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">×</button><strong>Error</strong> '+response['Error']+'</div>');
       }else if(response['Message']){
