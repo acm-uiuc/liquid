@@ -17,7 +17,8 @@
     <th>Edit</th>
     <th>Company</th>
     <th>Username</th>
-    <th>Email</th>
+      <th>Email</th>
+      <th>Invited</th>
     <th>Actions</th>
   </tr>
   </thead>
@@ -27,7 +28,8 @@
     <td><a href="/intranet/jobfair_manager/companies/edit/{{c.id}}"><i class="icon-edit"></i> Edit</a></td>
     <td>{{c.first_name}}</td>
     <td>{{c.username}}</td>
-    <td>{{c.email}}</td>
+      <td>{{c.email}}</td>
+      <td>{% if c.invited %}<i class="icon-ok"></i>{%  endif  %}</td>
     <td>
         <a href="/intranet/jobfair_manager/companies/delete/{{c.id}}"><i class="icon-trash"></i> Delete</a>
         &middot;
