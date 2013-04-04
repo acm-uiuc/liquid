@@ -1,0 +1,20 @@
+{% extends "intranet/base.html" %}
+{% load bootstrap %}
+{% block top_styles %}
+<link href="/static/css/datepicker.css" rel="stylesheet">
+{% endblock %}
+{% block intranet_content %}
+<header class="page-header">
+    <h1>{{ page_title }}</h1>
+</header>
+    <p><strong>Please double check the email before sending!</strong></p>
+    <form method="post" action="/intranet/jobfair_manager/companies/invite/{{ company.id }}">
+        {% csrf_token %}
+        {{ form|bootstrap }}
+        <button class="btn-primary" type="submit">Send Invite</button>
+    </form>
+
+{% endblock %}
+{% block bottom_scripts %}
+<script src="/static/js/bootstrap-datepicker.js"></script>
+{% endblock %}
