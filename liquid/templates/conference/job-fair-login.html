@@ -14,11 +14,11 @@
             If you would like to be added to our waiting list, please  <a href="mailto:conference-chair@acm.uiuc.edu">email us</a>.</p>
         <div id="loginform">
             <p>If you already received an invite, please enter the account credentials emailed to you by our staff to access the registration form.</p>
-            <form method="post" class="form-horizontal"  action="/conference/jobfair">
+            <form method="post" class="form-horizontal"  action="/conference/2013/jobfair">
                 {% csrf_token %}
                 {{  form|bootstrap  }}
                 <button type="submit" class="btn-primary">Login</button>
-                <input type="hidden" name="next" value="/conference/jobfair" />
+                <input type="hidden" name="next" value="/conference/2013/jobfair" />
             </form>
         </div>
     </div>
