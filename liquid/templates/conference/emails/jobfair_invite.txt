@@ -13,13 +13,16 @@ This includes:
 - Advertising for {{ company.company_name }} in the Reflections | Projections program and on the website
 
 Here is the official job fair registration form:
-http://acm.uiuc.edu/conference/jobfair/invite
+http://acm.uiuc.edu/conference/jobfair
+
+To login, please use the following information:
+Username: {{ company.username }}
+Password: {{ company.password_plaintext }}
 
 Before registering, please make note of our cancellation fees:
-
-- Before September 5th, 2012: Free.
-- September 5th, 2012 - September 19th, 2012: 50% cost.
-- After September 19th, 2012: Full cost.
+- Before September 13th, 2012: Free.
+- September 13th, 2012 - September 27th, 2012: 50% cost.
+- After September 27th, 2012: Full cost.
 
 We look forward to working with {{ company.company_name }}. If we can help you in any way, please don't hesitate to email us at corporate@acm.uiuc.edu.
 

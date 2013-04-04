@@ -19,5 +19,5 @@ class CompanyForm(ModelForm):
         for field, label in labels.items():
             self.fields[field].label = label
         for field, css in classes.items():
-            if field in self.fields: 
+            if field in self.fields:
                 self.fields[field].widget.attrs['class'] = css
