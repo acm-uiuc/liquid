@@ -1,0 +1,29 @@
+Hi {{ company.first_name }},
+
+We would like to invite {{ company.company_name }} to the 2013 Reflections | Projections Conference Job Fair on October 11. Reflections | Projections is a three day conference held by the Association for Computing Machinery at the University of Illinois. Our job fair is held in the Siebel Center first floor atrium, a highly frequented area where students meet to attend classes and collaborate on projects.
+
+The job fair will be held on the Friday of the conference weekend, and serves as a kickoff event for the conference. The price for a job fair booth is $1250.
+
+This includes:
+
+- A 6 foot booth in the Siebel Center Atrium
+- Complementary meals for the entire weekend
+- Help with shipping and logistics
+- Free parking
+- Advertising for {{ company.company_name }} in the Reflections | Projections program and on the website
+
+Here is the official job fair registration form:
+http://acm.uiuc.edu/conference/jobfair/invite
+
+Before registering, please make note of our cancellation fees:
+
+- Before September 5th, 2012: Free.
+- September 5th, 2012 - September 19th, 2012: 50% cost.
+- After September 19th, 2012: Full cost.
+
+We look forward to working with {{ company.company_name }}. If we can help you in any way, please don't hesitate to email us at corporate@acm.uiuc.edu.
+
+Thank You,
+
+{{ user.get_full_name }}
+ACM Corporate
