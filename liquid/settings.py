@@ -136,6 +136,7 @@ INSTALLED_APPS = (
     'corporate',
     'sigs',
     'vote',
+    'conference',
 
     'intranet',
     'intranet.event_manager',
@@ -148,7 +149,6 @@ INSTALLED_APPS = (
 
 
     'bootstrapform',
-
     'utils.django_mailman',
     'south',
   )
