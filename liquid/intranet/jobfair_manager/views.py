@@ -49,7 +49,7 @@ def companies_new(request):
          password = Company.objects.make_random_password()
          company.set_password(password)
          company.password_plaintext = password
-         company.username = slugify(company.company_name)
+         company.username = slugify("rp13_"+company.company_name)
          company.save()
          message = request.POST.get('message')
          messages.add_message(request, messages.SUCCESS, 'Company created (%s, %s)'%(company.username, password))
