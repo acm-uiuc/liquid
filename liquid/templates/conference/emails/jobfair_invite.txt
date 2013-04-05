@@ -17,7 +17,7 @@ http://acm.uiuc.edu/conference/jobfair
 
 To login, please use the following information:
 Username: {{ company.username }}
-Password: {{ company.password_plaintext }}
+Password: {{ password }}
 
 Before registering, please make note of our cancellation fees:
 - Before September 13th, 2013: Free.

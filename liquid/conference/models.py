@@ -6,7 +6,6 @@ from django.dispatch import receiver
 class Company(User):
     company_name = models.CharField(max_length=70)
     invited = models.BooleanField(default=False)
-    password_plaintext = models.CharField(max_length=100)
     objects = UserManager()
 
 @receiver(post_save, sender=Company)

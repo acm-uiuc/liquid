@@ -1,4 +1,5 @@
 from django.core.mail import send_mail, EmailMessage
+from django.db import IntegrityError
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.contrib import messages
@@ -45,15 +46,14 @@ def companies_new(request):
       e = Company()
       form = CompanyForm(request.POST,instance=e) # A form bound to the POST data
       if form.is_valid(): # All validation rules pass
-         company = form.save(commit=False)
-         password = Company.objects.make_random_password()
-         company.set_password(password)
-         company.password_plaintext = password
-         company.username = slugify("rp13_"+company.company_name)
-         company.save()
-         message = request.POST.get('message')
-         messages.add_message(request, messages.SUCCESS, 'Company created (%s, %s)'%(company.username, password))
-         return HttpResponseRedirect('/intranet/jobfair_manager/companies') # Redirect after POST
+          try:
+              company = form.save(commit=False)
+              company.username = slugify("rp13 "+company.company_name)
+              company.save()
+              messages.add_message(request, messages.SUCCESS, 'Company created (%s)'%(company.username))
+              return HttpResponseRedirect('/intranet/jobfair_manager/companies') # Redirect after POST
+          except IntegrityError as error:
+              messages.add_message(request, messages.ERROR, "There is already a username like that! Please enter a different company name.")
    else:
       form = CompanyForm() # An unbound form
 
@@ -99,7 +99,10 @@ def companies_delete(request,id):
 def companies_invite(request, id):
     e = Company.objects.get(id=id)
     if request.method =="GET":
-        c = {"company":e}
+        password = Company.objects.make_random_password()
+        e.set_password(password)
+        e.save()
+        c = {"company":e, "password":password}
         body = render_to_string("conference/emails/jobfair_invite.txt", c, context_instance=RequestContext(request))
         subject = "Invitation to Reflections | Projections 2013 Job Fair"
         form = InviteForm(data={"body":body,
