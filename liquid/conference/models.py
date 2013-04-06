@@ -6,6 +6,8 @@ from django.dispatch import receiver
 class Company(User):
     company_name = models.CharField(max_length=70)
     invited = models.BooleanField(default=False)
+    invited_on = models.DateField(blank=True, null=True)
+    invited_by = models.ForeignKey(User, blank=True, null=True, related_name="jobfair_invite")
     objects = UserManager()
 
 @receiver(post_save, sender=Company)
