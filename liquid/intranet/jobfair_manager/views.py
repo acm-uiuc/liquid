@@ -8,9 +8,11 @@ from django.template.loader import render_to_string
 from conference.models import Company
 from conference.forms import CompanyForm
 from intranet.jobfair_manager.forms import InviteForm
+import settings
 from utils.group_decorator import group_admin_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse, Http404, HttpResponseRedirect
+from datetime import date
 
 @group_admin_required(['Corporate'])
 def companies(request):
@@ -101,6 +103,8 @@ def companies_invite(request, id):
     if request.method =="GET":
         password = Company.objects.make_random_password()
         e.set_password(password)
+        e.invited_on = date.today()
+        e.invited_by = request.user
         e.save()
         c = {"company":e, "password":password}
         body = render_to_string("conference/emails/jobfair_invite.txt", c, context_instance=RequestContext(request))
@@ -113,11 +117,15 @@ def companies_invite(request, id):
         form = InviteForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
+            if not settings.DEBUG:
+                cc = ["ACM Corporate <corporate@acm.uiuc.edu>"]
+            else:
+                cc =[]
             email = EmailMessage(subject=data["subject"],
                       body=data["body"],
                       from_email="%s <%s>" % (request.user.get_full_name(), data["from_email"]),
                       to=[data["to_email"]],
-                      cc=["ACM Corporate <corporate@acm.uiuc.edu>"]
+                      cc= cc
                       )
             email.send()
             messages.add_message(request, messages.SUCCESS, 'Invite sent to %s' % (data["to_email"]))
