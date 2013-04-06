@@ -11,25 +11,25 @@
   <a class="pull-right btn btn-primary" href="/intranet/jobfair_manager/companies/new">Create Account</a></p>
 {% if companies|length > 0 %}
 <hr>
-<table class="table table-striped">
-  <thead>
-  <tr>
-    <th>Edit</th>
-    <th>Company</th>
-    <th>Username</th>
-      <th>Email</th>
-      <th>Invited</th>
-    <th>Actions</th>
-  </tr>
-  </thead>
-  <tbody>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Edit</th>
+            <th>Company</th>
+            <th>Contact</th>
+            <th>Email</th>
+            <th>Invited</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
   {% for c in companies %}
   <tr>
     <td><a href="/intranet/jobfair_manager/companies/edit/{{c.id}}"><i class="icon-edit"></i> Edit</a></td>
-    <td>{{c.first_name}}</td>
-    <td>{{c.username}}</td>
+      <td>{{c.company_name}}</td>
+      <td>{{c.get_full_name}}</td>
       <td>{{c.email}}</td>
-      <td>{% if c.invited %}<i class="icon-ok"></i>{%  endif  %}</td>
+      <td>{% if c.invited %}<i title="{{ c.invited_by.get_full_name }} on {{ c.invited_on }}" class="icon-ok"></i>{%  endif  %}</td>
     <td>
         <a href="/intranet/jobfair_manager/companies/delete/{{c.id}}"><i class="icon-trash"></i> Delete</a>
         &middot;
