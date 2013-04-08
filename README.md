@@ -26,6 +26,6 @@ After cloning to your computer you need to have the following installed:
 
 Run `python setup.py`
 
-Then, to run the site with `python liquid/manage.py runserver`
+Then run the site with `python liquid/manage.py runserver`
 
 
