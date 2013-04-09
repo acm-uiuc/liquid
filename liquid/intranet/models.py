@@ -57,7 +57,7 @@ class Member(User):
       return self.is_group_admin('Top4')
 
    def is_acm_admin(self):
-      return self.is_group_member('Admin')
+      return self.is_group_admin('Admin')
 
    def is_admin(self):
       return len(self.groupmember_set.filter(is_admin__exact=True)) > 0
