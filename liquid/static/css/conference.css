@@ -35,39 +35,46 @@ body {
   -webkit-transform: rotate(1.5deg);
   -moz-transform: rotate(1.5deg);
   margin-left: 30px; }
-  .nikoli:before, .nikoli:after {
-    -webkit-box-shadow: 0 15px 10px rgba(0, 0, 0, 0.7); }
+
+.nikoli:before, .nikoli:after {
+  -webkit-box-shadow: 0 15px 10px rgba(0, 0, 0, 0.7); }
 
 #save-the-date {
   text-align: center;
   font-family: "Roboto", sans-serif;
   font-weight: bold; }
-  #save-the-date a {
-    color: #ba1151; }
-  #save-the-date h2 {
-    color: #ba1151; }
-  #save-the-date p {
-    width: 70%;
-    font-size: 20px;
-    line-height: 26px;
-    display: block;
-    margin: auto;
-    text-align: center; }
+
+#save-the-date a {
+  color: #ba1151; }
+
+#save-the-date h2 {
+  color: #ba1151; }
+
+#save-the-date p {
+  width: 70%;
+  font-size: 20px;
+  line-height: 26px;
+  display: block;
+  margin: auto;
+  text-align: center; }
 
 #event-dates {
   margin: 0 0 30px 50px; }
-  #event-dates h3 {
-    color: #ba1151;
-    font-size: 20px;
-    margin-bottom: 0;
-    text-align: center; }
-  #event-dates .event-day {
-    margin: 0; }
-    #event-dates .event-day li {
-      margin-bottom: 8px;
-      text-align: center;
-      list-style-type: none;
-      font-size: 16px; }
+
+#event-dates h3 {
+  color: #ba1151;
+  font-size: 20px;
+  margin-bottom: 0;
+  text-align: center; }
+
+#event-dates .event-day {
+  margin: 0; }
+
+#event-dates .event-day li {
+  margin-bottom: 8px;
+  text-align: center;
+  list-style-type: none;
+  font-size: 16px; }
 
 .header_bar {
   text-align: center; }
@@ -87,28 +94,33 @@ hr {
   color: #eee;
   display: block;
   margin: auto; }
-  .email-subscribe label {
-    font-size: 18px;
-    color: #eee; }
-  .email-subscribe input {
-    height: 20px;
-    color: #333; }
-  .email-subscribe .input-fields {
-    margin-top: -5px;
-    float: right; }
-  .email-subscribe .btn {
-    height: 30px;
-    color: #333;
-    background: #c1da71; }
+
+.email-subscribe label {
+  font-size: 18px;
+  color: #eee; }
+
+.email-subscribe input {
+  height: 20px;
+  color: #333; }
+
+.email-subscribe .input-fields {
+  margin-top: -5px;
+  float: right; }
+
+.email-subscribe .btn {
+  height: 30px;
+  color: #333;
+  background: #c1da71; }
 
 .social-links {
   text-align: center;
   margin-bottom: 30px; }
-  .social-links a {
-    color: #ba1151;
-    font-size: 16px;
-    margin-left: 5px;
-    margin-right: 5px; }
+
+.social-links a {
+  color: #ba1151;
+  font-size: 16px;
+  margin-left: 5px;
+  margin-right: 5px; }
 
 #job-fair-form {
   -webkit-border-radius: 12px;
@@ -120,3 +132,8 @@ hr {
   margin-top: 30px;
   background-color: #eee;
   padding: 10px; }
+
+.center {
+  float: none;
+  margin-left: auto;
+  margin-right: auto; }

@@ -5,3 +5,4 @@ fabfile.py
 local_settings.py
 *.sql
 *.sass-cache/
+.idea/
