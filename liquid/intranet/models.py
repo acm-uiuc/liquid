@@ -41,20 +41,27 @@ class Member(User):
 
    def full_name(self):
       return self.first_name + " " + self.last_name
-      
+
    def full_name_and_netid(self):
       return self.full_name() + " (" + self.username + ")"
-      
+
    def is_group_admin(self,group):
       user_groups = self.groupmember_set.filter(is_admin__exact=True).filter(group__name__iexact=group)
       return len(user_groups) > 0
-      
+
+   def is_group_member(self, group):
+      user_groups = self.groupmember_set.filter(group__name__iexact=group)
+      return len(user_groups) > 0
+
    def is_top4(self):
       return self.is_group_admin('Top4')
-      
+
+   def is_acm_admin(self):
+      return self.is_group_member('Admin')
+
    def is_admin(self):
       return len(self.groupmember_set.filter(is_admin__exact=True)) > 0
-  
+
    def get_vending(self):
       return self.vending_set.all()[0]
 
@@ -110,7 +117,7 @@ class Vending(models.Model):
    caffeine = models.FloatField(default=0)
    spent = models.DecimalField(max_digits=10, decimal_places=2,default=0)
    sodas = models.IntegerField(max_length=11,default=0)
-   
+
    class Meta:
       db_table = 'vending'
 
@@ -135,7 +142,7 @@ class Group(models.Model):
       chairs = []
       for c in self.members.filter(groupmember__is_chair=True).order_by('last_name'):
          chairs.append(c.full_name())
-      
+
       return ", ".join(chairs)
 
    def active_members(self):
@@ -154,7 +161,7 @@ class GroupMember(models.Model):
    is_chair = models.BooleanField(default=False)
    is_admin = models.BooleanField(default=False)
    status = models.CharField(max_length=255,choices=GROUP_MEMBER_STATUS_CHOICES,default='active')
-   
+
 @receiver(pre_save, sender=GroupMember)
 def new_groupmember(sender, **kwargs):
    m = kwargs['instance']
@@ -176,7 +183,7 @@ class Event(models.Model):
 
    def all_sponsors(self):
       return ', '.join([str(x) for x in self.sponsors.all()])
-   
+
    def has_sponsors(self):
       return len(self.sponsors.all()) > 0
 
@@ -196,12 +203,12 @@ class Job(models.Model):
    contact_phone = models.CharField(max_length=255)
    type_full = models.BooleanField()
    type_part = models.BooleanField()
-   type_intern = models.BooleanField() 
+   type_intern = models.BooleanField()
    description = models.TextField()
    timestamp = models.DateTimeField(auto_now_add=True)
    status = models.CharField(max_length=10,choices=EMAIL_STATUS_CHOICES,default='defer')
    sent = models.BooleanField(default=False,blank=True)
-   
+
    def types(self):
       types = []
       if self.type_full:
@@ -425,7 +432,7 @@ class ResumeDownloadSet(models.Model):
          out.append("Graduating after %s %d"%(self.graduation_start.strftime('%B'),self.graduation_start.year))
       if self.graduation_end != None:
          out.append("Graduating before %s %d"%(self.graduation_end.strftime('%B'),self.graduation_end.year))
-   
+
       if len(out) == 0:
          return "All resumes"
 
