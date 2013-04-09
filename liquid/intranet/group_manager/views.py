@@ -76,7 +76,7 @@ def manage(request,id):
     "forms":forms,
     },context_instance=RequestContext(request))
 
-@specific_group_admin_required('id')
+@specific_group_admin_required('id', ['Admin'])
 def add(request,id):
    g = Group.objects.get(id=id)
    if request.method == 'POST':
