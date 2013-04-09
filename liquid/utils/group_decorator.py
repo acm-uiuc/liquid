@@ -18,24 +18,26 @@ def check_group_admin(groups,request):
       return False
    return True
 
-def group_admin_required(groups=[]):    
+def group_admin_required(groups=[]):
    def decorator(func):
       def inner_decorator(request,*args, **kwargs):
          if check_group_admin(groups,request):
             return func(request, *args, **kwargs)
       return wraps(func)(inner_decorator)
    return decorator
-   
-def specific_group_admin_required(row):
+
+def specific_group_admin_required(row, extra_groups=[]):
+   """ extra_groups allows specific groups (such as admin) to be given extra permissions in only certain parts of liquid (such as the group manager) -- Note that only admins of this group are given extra permissions. """
    def decorator(func):
       def inner_decorator(request,*args, **kwargs):
          g = Group.objects.get(id=kwargs[row])
          groups = [g.name]
+         groups.extend(extra_groups)
          if check_group_admin(groups,request):
             return func(request, *args, **kwargs)
       return wraps(func)(inner_decorator)
    return decorator
-   
+
 def is_admin():
    def decorator(func):
       def inner_decorator(request,*args, **kwargs):

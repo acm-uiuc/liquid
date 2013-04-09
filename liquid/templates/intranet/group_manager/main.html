@@ -3,7 +3,7 @@
 <header class="page-header">
 <h1>Group Manager</h1>
 </header>
-{% if user.is_top4 %}
+{% if user.is_top4 or user.is_acm_admin %}
 <p>
 	<a href="/intranet/group/new" class="btn">Create New Group</a>
 </p>
