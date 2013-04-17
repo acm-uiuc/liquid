@@ -4,16 +4,27 @@
 <div class="row">
   <div class="span12">
 	<div id="job-fair-form">
-	<img class="header-logo" src="/static/img/conference/header-logo.png" />
-	<a name="form924658039" id="formAnchor924658039"></a>
-	<script type="text/javascript" src="http://fs6.formsite.com/include/form/embedManager.js?924658039"></script>
-	<script type="text/javascript">
-	  EmbedManager.embed({
-	  key: "http://fs6.formsite.com/res/showFormEmbed?EParam=0f3EXAbWkRyOWvWrn2%2FGgrUJubCHM1KR&924658039",
-	  width: "100%"
-	  });
-	</script>
-	</div>
+        <img class="header-logo" src="/static/img/conference/header-logo.png" />
+        {% if company.type == JOBFAIR %}
+            <a name="form924658039" id="formAnchor924658039"></a>
+            <script type="text/javascript" src="http://fs6.formsite.com/include/form/embedManager.js?924658039"></script>
+            <script type="text/javascript">
+                EmbedManager.embed({
+                    key: "http://fs6.formsite.com/res/showFormEmbed?EParam=0f3EXAbWkRyOWvWrn2%2FGgrUJubCHM1KR&924658039",
+                    width: "100%"
+                });
+            </script>
+        {% elif company.type == STARTUP %}
+            <a name="form1066671406" id="formAnchor1066671406"></a>
+            <script type="text/javascript" src="http://fs6.formsite.com/include/form/embedManager.js?1066671406"></script>
+            <script type="text/javascript">
+                EmbedManager.embed({
+                    key: "http://fs6.formsite.com/res/showFormEmbed?EParam=0f3EXAbWkRyOWvWrn2%2FGgmDHBUb1%2BMU9&1066671406",
+                    width: "100%"
+                });
+            </script>
+        {% endif %}
+    </div>
   </div>
 </div>
 {% endblock %}

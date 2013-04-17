@@ -106,9 +106,13 @@ def companies_invite(request, id):
         e.invited_on = date.today()
         e.invited_by = request.user
         e.save()
-        c = {"company":e, "password":password}
-        body = render_to_string("conference/emails/jobfair_invite.txt", c, context_instance=RequestContext(request))
-        subject = "Invitation to Reflections | Projections 2013 Job Fair"
+        c = {"company": e, "password": password}
+        if e.type == Company.JOBFAIR:
+            body = render_to_string("conference/emails/jobfair_invite.txt", c, context_instance=RequestContext(request))
+            subject = "Invitation to Reflections | Projections 2013 Job Fair"
+        else:
+            body = render_to_string("conference/emails/startupfair_invite.txt", c, context_instance=RequestContext(request))
+            subject = "Invitation to Reflections | Projections 2013 Startup Fair"
         form = InviteForm(data={"body":body,
                                 "subject":subject,
                                 "from_email":request.user.email,

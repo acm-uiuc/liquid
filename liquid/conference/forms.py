@@ -4,7 +4,7 @@ from conference.models import Company
 class CompanyForm(ModelForm):
     class Meta:
         model = Company
-        fields = ["company_name", "first_name", "last_name", "email"]
+        fields = ["company_name", "first_name", "last_name", "email", "type"]
     def __init__(self, *args, **kwargs):
         super(CompanyForm, self).__init__(*args, **kwargs)
         classes = {
