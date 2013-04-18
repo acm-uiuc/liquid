@@ -2,13 +2,13 @@ Dear {{ company.first_name }},
 
 We would like to invite {{ company.company_name}} to the second Reflections | Projections Startup Fair on Thursday, October 10, 2013. Reflections | Projections is a four day conference held by the Association for Computing Machinery Student Chapter of the University of Illinois at Urbana-Champaign.
 
-The conference draws together over 800 students from across the Midwest for a job fair, an artificial intelligence programming competition, and around 20 speaking events throughout the weekend. The University of Illinois has an entrepreneurial spirit. Many of our students are searching for jobs with a startup culture, and we want to help them connect with small and young companies. We've received such overwhelming interest in our annual job fair that we decided to introduce the Startup Fair last year to enable more diverse companies to get involved. Since it was a resounding success, with over a dozen startups participating, we want to continue to offer the Startup Fair each year.
+The conference draws together over 800 students from across the Midwest for a job fair, an artificial intelligence programming competition, and around 20 speaking events throughout the weekend. The University of Illinois has an entrepreneurial spirit. Many of our students are searching for jobs with a startup culture, so we want to help them connect with small and young companies. Last year's Startup Fair was a resounding success, so we are offering the event again free of charge!
 
-The Startup Fair will be held from 6-9PM on the first floor of the Siebel Center in the atrium.
+The Startup Fair will be held from 5-8PM on the first floor of the Siebel Center in the atrium.
 
 Registration ensures:
 
-- A 6 foot booth in the Siebel Center atrium
+- A 6 foot booth in the Siebel Center atrium, home of the Computer Science department.
 - Complimentary meals for the entire weekend
 - Help with shipping and logistics
 - Free parking
