@@ -16,12 +16,18 @@ from datetime import date
 
 @group_admin_required(['Corporate'])
 def companies(request):
-   companies = Company.objects.all()
-   paginator = Paginator(companies, 25) # Show 25 invites per page
-   
-   total_companies = paginator.count
+   fair = request.GET.get('type')
+   if fair == 'startup':
+      companies = Company.objects.filter(type=Company.STARTUP)
+   elif fair == 'jobfair':
+      companies = Company.objects.filter(type=Company.JOBFAIR)
+   else:
+      companies = Company.objects.all()
 
    page = request.GET.get('page')
+   paginator = Paginator(companies, 25) # Show 25 invites per page
+   total_companies = paginator.count
+
    try:
       companies = paginator.page(page)
    except PageNotAnInteger:
