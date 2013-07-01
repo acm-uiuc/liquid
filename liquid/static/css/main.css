@@ -7,7 +7,7 @@ body {
    background:#ffffff;
    width:980px;
    margin-left:-20px;
-   
+
    position:relative;
 }
 
@@ -20,7 +20,7 @@ body {
    background: -ms-linear-gradient(top,  #3dade1 0%,#0083ba 100%); /* IE10+ */
    background: linear-gradient(top,  #3dade1 0%,#0083ba 100%); /* W3C */
    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3dade1', endColorstr='#0083ba',GradientType=0 ); /* IE6-9 */
-   
+
    height:100px;
    margin-bottom:15px;
    width:1010px;
@@ -152,9 +152,9 @@ div.carousel-inner:hover ~ a.carousel-control {
 }
 
 .calendar tr td div{
-   min-height: 100px; 
-   height:auto !important; 
-   height: 100px; 
+   min-height: 100px;
+   height:auto !important;
+   height: 100px;
 }
 
 .calendar .date_label{
@@ -168,4 +168,8 @@ div.carousel-inner:hover ~ a.carousel-control {
 
 .email-subscribe{
    width: 320px;
+}
+
+.send-email-btn{
+   margin-left: 10px;
 }

@@ -5,6 +5,9 @@
 <header class="page-header">
 <h1>Job Manager</h1>
 </header>
+
+{% if user.is_top4%}<a href="/intranet/jobs/sendEmail" class="btn btn-info send-email-btn pull-right">Send Job Email</a>{%endif%}
+
 {% if job_count %}
 <form method="post">
   {% csrf_token %}
@@ -15,6 +18,7 @@
     <button type="submit" class="btn btn-primary pull-right" name="Save">Save</button>
   </div>
 </div>
+
 <table class="table table-striped">
   <thead>
   <tr>
@@ -40,11 +44,6 @@
   </tbody>
 </table>
 
-<div class="control-group">
-  <div class="controls">
-    <button type="submit" class="btn btn-primary pull-right" name="Save">Save</button>
-  </div>
-</div>
 </form>
 {% else %}
 <p>No jobs!</p>
