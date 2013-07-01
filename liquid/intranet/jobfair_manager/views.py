@@ -16,12 +16,18 @@ from datetime import date
 
 @group_admin_required(['Corporate'])
 def companies(request):
-   companies = Company.objects.all()
-   paginator = Paginator(companies, 25) # Show 25 invites per page
-   
-   total_companies = paginator.count
+   fair = request.GET.get('type')
+   if fair == 'startup':
+      companies = Company.objects.filter(type=Company.STARTUP)
+   elif fair == 'jobfair':
+      companies = Company.objects.filter(type=Company.JOBFAIR)
+   else:
+      companies = Company.objects.all()
 
    page = request.GET.get('page')
+   paginator = Paginator(companies, 25) # Show 25 invites per page
+   total_companies = paginator.count
+
    try:
       companies = paginator.page(page)
    except PageNotAnInteger:
@@ -106,9 +112,13 @@ def companies_invite(request, id):
         e.invited_on = date.today()
         e.invited_by = request.user
         e.save()
-        c = {"company":e, "password":password}
-        body = render_to_string("conference/emails/jobfair_invite.txt", c, context_instance=RequestContext(request))
-        subject = "Invitation to Reflections | Projections 2013 Job Fair"
+        c = {"company": e, "password": password}
+        if e.type == Company.JOBFAIR:
+            body = render_to_string("conference/emails/jobfair_invite.txt", c, context_instance=RequestContext(request))
+            subject = "Invitation to Reflections | Projections 2013 Job Fair"
+        else:
+            body = render_to_string("conference/emails/startupfair_invite.txt", c, context_instance=RequestContext(request))
+            subject = "Invitation to Reflections | Projections 2013 Startup Fair"
         form = InviteForm(data={"body":body,
                                 "subject":subject,
                                 "from_email":request.user.email,
