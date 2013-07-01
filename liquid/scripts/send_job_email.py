@@ -41,7 +41,7 @@ def send_email():
 
 
                   try:
-                     send_mail('ACM@UIUC Weekly Job Postings', email, 'ACM Corporate Committee <corporate@acm.uiuc.edu>',['bjryan2@illinois.edu'], fail_silently=False)
+                     send_mail('ACM@UIUC Weekly Job Postings', email, 'ACM Corporate Committee <corporate@acm.uiuc.edu>',['jobs-l@acm.uiuc.edu'], fail_silently=False)
                      print "Email sent"
                      for j in jobs:
                         j.sent = True
