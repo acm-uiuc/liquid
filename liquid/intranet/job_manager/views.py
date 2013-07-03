@@ -30,6 +30,5 @@ def main(request):
 
 @group_admin_required(['Top4'])
 def send_job_email(request):
-  #send_email()
-  print "-- Email Sent --"
+  send_email()
   return HttpResponseRedirect('/intranet/jobs')
