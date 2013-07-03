@@ -1,4 +1,3 @@
-import sys,os
 
 from django.shortcuts import render_to_response
 from intranet.models import Job
