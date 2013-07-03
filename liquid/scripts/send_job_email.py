@@ -46,9 +46,10 @@ def send_email():
                      for j in jobs:
                         j.sent = True
                         j.save()
-                     except Exception as inst:
+                  except Exception as inst:
+
                         print "Error sending email"
                         print inst
 
-                     else:
-                        print "No jobs to send"
+   else:
+      print "No jobs to send"

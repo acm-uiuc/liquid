@@ -1,4 +1,3 @@
-
 from django.shortcuts import render_to_response
 from intranet.models import Job
 from django.template import RequestContext
@@ -9,6 +8,11 @@ from intranet.job_manager.forms import JobFormSet
 from django.contrib.auth.decorators import user_passes_test
 from utils.group_decorator import group_admin_required
 from django.core.mail import send_mail
+
+from scripts.send_job_email import send_email
+
+
+
 
 
 @group_admin_required(['Corporate'])
@@ -27,4 +31,5 @@ def main(request):
 @group_admin_required(['Top4'])
 def send_job_email(request):
   #send_email()
+  print "-- Email Sent --"
   return HttpResponseRedirect('/intranet/jobs')
