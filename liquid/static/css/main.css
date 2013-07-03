@@ -170,6 +170,6 @@ div.carousel-inner:hover ~ a.carousel-control {
    width: 320px;
 }
 
-.send-email-btn{
-   margin-left: 10px;
+a.job-email:hover{
+   text-decoration: none;
 }

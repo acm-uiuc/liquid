@@ -6,9 +6,17 @@
 <h1>Job Manager</h1>
 </header>
 
-{% if user.is_top4%}<a href="/intranet/jobs/sendEmail" class="btn btn-info send-email-btn pull-right">Send Job Email</a>{%endif%}
+{% if user.is_top4%}
+  {% if job_count %}
+<div class="alert alert-info">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  There are <strong> {{job_count}} </strong> jobs to be sent
+      <a href="/intranet/jobs/sendEmail" class="job-email pull-right"><strong>Send Job Email</strong></a>
+</div>
+  {% endif %}
+{% endif %}
 
-{% if job_count %}
+{% if def_job_count %}
 <form method="post">
   {% csrf_token %}
   {{ jobs.management_form }}
@@ -46,7 +54,7 @@
 
 </form>
 {% else %}
-<p>No jobs!</p>
+<p>No jobs to be approved!</p>
 <p>Wait thats a bad thing. No jobs, no money.</p>
 <p>:(</p>
 <p>I wish we had jobs.</p>
