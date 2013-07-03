@@ -8,12 +8,7 @@ from intranet.job_manager.forms import JobFormSet
 from django.contrib.auth.decorators import user_passes_test
 from utils.group_decorator import group_admin_required
 from django.core.mail import send_mail
-
 from scripts.send_job_email import send_email
-
-
-
-
 
 @group_admin_required(['Corporate'])
 def main(request):
