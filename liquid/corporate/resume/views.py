@@ -27,7 +27,6 @@ def student_thanks(request,id):
     pass
   return render_to_response('corporate/resume/student_thanks.html',{"section":"corporate"},context_instance=RequestContext(request))
 
-
 def main(request):
   if request.user.groups.filter(name='Recruiter').count() > 0:
     return HttpResponseRedirect("/corporate/resume/recruiter/")
@@ -44,7 +43,7 @@ def main(request):
         pass
       try:
         resume_person = resume_person_form.save()
-          
+
         resume = resume_form.save(commit=False)
         resume.person = resume_person
         resume.save()
@@ -79,12 +78,12 @@ def student_rp(request):
     if pre_resume_person_form.is_valid():
       try:
         rp = ResumePerson.objects.get(netid=pre_resume_person_form.cleaned_data['netid'].lower())
-        messages.add_message(request, messages.ERROR, 'We already have your resume, no need to give it to us today!')  
+        messages.add_message(request, messages.ERROR, 'We already have your resume, no need to give it to us today!')
         pre_resume_person_form = PreResumePersonForm()
       except:
         try:
           pre_resume_person_form.save()
-          messages.add_message(request, messages.SUCCESS, 'Thanks, your resume will be added.')  
+          messages.add_message(request, messages.SUCCESS, 'Thanks, your resume will be added.')
           pre_resume_person_form = PreResumePersonForm()
         except ValueError:
           errors = pre_resume_person_form._errors.setdefault("netid", ErrorList())
@@ -97,7 +96,7 @@ def student_rp(request):
       'section': "corporate",
     },context_instance=RequestContext(request))
 
-@group_admin_required(['Corporate','!Recruiter'])  
+@group_admin_required(['Corporate','!Recruiter'])
 def recruiter(request):
   sets = ResumeDownloadSet.objects.filter(owner=request.user)
 
@@ -175,7 +174,7 @@ def recruiter_browse(request):
 
   graduation_choices = ResumePerson.RESUME_PERSON_GRADUATION
 
-  
+
 
   return render_to_response('corporate/resume/recruiter_browse.html',{
     "section":"corporate",
@@ -189,7 +188,7 @@ def recruiter_browse(request):
     "request":request
   },context_instance=RequestContext(request))
 
-@group_admin_required(['Corporate','!Recruiter']) 
+@group_admin_required(['Corporate','!Recruiter'])
 def recruiter_generate(request,id,diff=False):
   try:
     set = ResumeDownloadSet.objects.get(id=id)
@@ -204,14 +203,14 @@ def recruiter_generate(request,id,diff=False):
 def recruiter_generate_diff(request,id):
   return recruiter_generate(request,id,True)
 
-@group_admin_required(['Corporate','!Recruiter']) 
+@group_admin_required(['Corporate','!Recruiter'])
 def recruiter_pdf(request,netid):
   person = ResumePerson.objects.get(netid=netid)
   r = person.latest_resume()
   pdf_data = open(r.resume.path, "rb").read()
   return HttpResponse(pdf_data, mimetype="application/pdf")
 
-@group_admin_required(['Corporate','!Recruiter']) 
+@group_admin_required(['Corporate','!Recruiter'])
 def recruiter_download_pdf(request,id):
   try:
     download = ResumeDownload.objects.get(id=id)
@@ -221,7 +220,7 @@ def recruiter_download_pdf(request,id):
   except ResumeDownload.DoesNotExist:
     raise Http404
 
-@group_admin_required(['Corporate','!Recruiter']) 
+@group_admin_required(['Corporate','!Recruiter'])
 def recruiter_download_pdf_diff(request,id):
   try:
     download = ResumeDownload.objects.get(id=id)
@@ -248,7 +247,7 @@ def recruiter_account(request):
       messages.add_message(request, messages.SUCCESS, 'Email changed')
   else:
     email_form = EmailChangeForm(instance=request.user)
-  
+
   return render_to_response('corporate/resume/recruiter_account.html',{
     "section":"corporate",
     "page":"account",
