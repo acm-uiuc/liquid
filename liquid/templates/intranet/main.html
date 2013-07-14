@@ -33,24 +33,33 @@
    {% if pend_jobs_count %}
    <div class="alert alert-info">
       <button type="button" class="close" data-dismiss="alert">&times;</button>
-      There are <strong> {{pend_jobs_count}} </strong> jobs to be approved!
-      </a>
+      {% if pend_jobs_count == 1 %}
+         There is <strong> {{pend_jobs_count}} </strong> job to be approved!
+      {% else %}
+         There are <strong> {{pend_jobs_count}} </strong> jobs to be approved!
+      {% endif %}
    </div>
    {% endif %}
 
    {% if unsent_jobs_count %}
    <div class="alert alert-info">
       <button type="button" class="close" data-dismiss="alert">&times;</button>
-      There are <strong> {{unsent_jobs_count}} </strong> jobs to be sent!
-      </a>
+      {% if unsent_jobs_count == 1 %}
+         There is <strong> {{unsent_jobs_count}} </strong> job to be sent!
+      {% else %}
+         There are <strong> {{unsent_jobs_count}} </strong> jobs to be sent!
+      {% endif %}
    </div>
    {% endif %}
 
    {% if resume_count %}
    <div class="alert alert-info">
       <button type="button" class="close" data-dismiss="alert">&times;</button>
-      There are <strong> {{resume_count}} </strong> resumes to be approved!
-      </a>
+      {% if resume_count == 1 %}
+         There is <strong> {{resume_count}} </strong> resume to be approved!
+      {% else %}
+         There are <strong> {{resume_count}} </strong> resumes to be approved!
+      {% endif %}
    </div>
    {% endif %}
 
