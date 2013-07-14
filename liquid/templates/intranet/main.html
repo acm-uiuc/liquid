@@ -27,4 +27,34 @@
    </div>
 </div>
 
+<div class="notif-row row">
+   {% if user.is_top4%}
+
+   {% if pend_jobs_count %}
+   <div class="alert alert-info">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      There are <strong> {{pend_jobs_count}} </strong> jobs to be approved!
+      </a>
+   </div>
+   {% endif %}
+
+   {% if unsent_jobs_count %}
+   <div class="alert alert-info">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      There are <strong> {{unsent_jobs_count}} </strong> jobs to be sent!
+      </a>
+   </div>
+   {% endif %}
+
+   {% if resume_count %}
+   <div class="alert alert-info">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      There are <strong> {{resume_count}} </strong> resumes to be approved!
+      </a>
+   </div>
+   {% endif %}
+
+  {% endif %}
+</div>
+
 {% endblock %}
