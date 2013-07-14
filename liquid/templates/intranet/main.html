@@ -31,7 +31,7 @@
    {% if user.is_top4%}
 
    {% if pend_jobs_count %}
-   <div class="alert alert-info">
+   <div class="alert alert-{{pend_class}}">
       <button type="button" class="close" data-dismiss="alert">&times;</button>
       {% if pend_jobs_count == 1 %}
          There is <strong> {{pend_jobs_count}} </strong> job to be approved!
@@ -42,7 +42,7 @@
    {% endif %}
 
    {% if unsent_jobs_count %}
-   <div class="alert alert-info">
+   <div class="alert alert-{{unsent_class}}">
       <button type="button" class="close" data-dismiss="alert">&times;</button>
       {% if unsent_jobs_count == 1 %}
          There is <strong> {{unsent_jobs_count}} </strong> job to be sent!
@@ -53,7 +53,7 @@
    {% endif %}
 
    {% if resume_count %}
-   <div class="alert alert-info">
+   <div class="alert alert-{{res_class}}">
       <button type="button" class="close" data-dismiss="alert">&times;</button>
       {% if resume_count == 1 %}
          There is <strong> {{resume_count}} </strong> resume to be approved!
