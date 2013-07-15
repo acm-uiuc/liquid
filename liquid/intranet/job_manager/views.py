@@ -7,6 +7,7 @@ from django.contrib import messages
 from intranet.job_manager.forms import JobFormSet
 from django.contrib.auth.decorators import user_passes_test
 from utils.group_decorator import group_admin_required
+from utils.notifier_class import notif_class
 from django.core.mail import send_mail
 from scripts.send_job_email import send_email
 
@@ -17,13 +18,13 @@ def main(request):
       if formset.is_valid(): # All validation rules pass
          formset.save()
          messages.add_message(request, messages.SUCCESS, 'Changes saved')
-   jobs = Job.objects.filter(sent__exact=False)
-   def_jobs = jobs.filter(status__exact='defer')
-
+   unsent_jobs = Job.objects.filter(sent__exact=False).filter(status__exact='approve')
+   def_jobs = Job.objects.filter(sent__exact=False).filter(status__exact='defer')
    formset = JobFormSet(queryset=def_jobs)
-   return render_to_response('intranet/job_manager/main.html',{"section":"intranet","page":'jobs',"job_count":len(jobs), "def_job_count":len(def_jobs), "jobs":formset},context_instance=RequestContext(request))
+   return render_to_response('intranet/job_manager/main.html',{"section":"intranet","page":'jobs',"job_count":len(unsent_jobs), "def_job_count":len(def_jobs), "urgency": notif_class(unsent_jobs, 5), "jobs":formset},context_instance=RequestContext(request))
 
 @group_admin_required(['Top4'])
 def send_job_email(request):
   send_email()
+  messages.add_message(request, messages.SUCCESS, 'Email Sent!')
   return HttpResponseRedirect('/intranet/jobs')
