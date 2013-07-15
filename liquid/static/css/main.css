@@ -173,3 +173,7 @@ div.carousel-inner:hover ~ a.carousel-control {
 a.job-email:hover{
    text-decoration: none;
 }
+
+.row.notif-row{
+   margin: 0;
+}

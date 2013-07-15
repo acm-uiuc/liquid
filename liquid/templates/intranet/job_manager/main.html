@@ -8,10 +8,14 @@
 
 {% if user.is_top4%}
   {% if job_count %}
-<div class="alert alert-info">
+<div class="alert alert-{{urgency}}">
   <button type="button" class="close" data-dismiss="alert">&times;</button>
-  There are <strong> {{job_count}} </strong> jobs to be sent
-      <a href="/intranet/jobs/sendEmail" class="job-email pull-right"><strong>Send Job Email</strong></a>
+  {% if job_count == 1 %}
+    There is a job to be sent!
+  {% else %}
+    There are <strong> {{job_count}} </strong> jobs to be sent!
+  {% endif %}
+    <a href="/intranet/jobs/sendEmail" class="job-email pull-right"><strong>Send Job Email</strong></a>
 </div>
   {% endif %}
 {% endif %}
