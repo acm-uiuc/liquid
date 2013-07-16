@@ -177,3 +177,8 @@ a.job-email:hover{
 .row.notif-row{
    margin: 0;
 }
+
+.send-email{
+   margin-top: 1%;
+   margin-right: 1%;
+}
