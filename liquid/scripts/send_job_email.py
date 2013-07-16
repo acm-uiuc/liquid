@@ -42,7 +42,7 @@ def send_email(addr="jobs-l@acm.uiuc.edu"):
    if jobs:
       email = gen_email(jobs)
       try:
-         send_mail('ACM@UIUC Weekly Job Postings', email, 'ACM Corporate Committee <corporate@acm.uiuc.edu>',[addr], fail_silently=False)
+       #  send_mail('ACM@UIUC Weekly Job Postings', email, 'ACM Corporate Committee <corporate@acm.uiuc.edu>',[addr], fail_silently=False)
          return "Email sent to " + addr
          for j in jobs:
              j.sent = True
@@ -53,6 +53,7 @@ def send_email(addr="jobs-l@acm.uiuc.edu"):
 
    else:
       return "No jobs to send"
+
 
 def view_email():
    jobs = Job.objects.filter(sent__exact=False).filter(status__exact='approve')
