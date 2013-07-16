@@ -1,0 +1,19 @@
+{% extends "intranet/base.html" %}
+{% load bootstrap %}
+{% load job_lookup %}
+
+{% block intranet_content %}
+<header class="page-header">
+  <h1>Email Preview
+    <a href='/intranet/jobs/sendEmail' class="btn btn-primary send-email pull-right">
+      Send Email
+    </a>
+    <a href='/intranet/jobs/testEmail' class="btn send-email pull-right">
+      Send Test Email
+    </a>
+  </h1>
+</header>
+
+<p class="email">{{email}}<p>
+
+{% endblock %}
