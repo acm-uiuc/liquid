@@ -178,14 +178,14 @@ a.job-email:hover{
    margin: 0;
 }
 
-.send-email,
-.event-button{
+.send-event,
+.send-job{
    margin-right: 1%;
 }
 
-.send-email{
+.send-job{
    margin-top: 1%;
 }
-.event-button{
-   margin-right: 1%;
+.send-event{
+   margin-bottom: 1%;
 }
