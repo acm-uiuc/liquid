@@ -177,3 +177,15 @@ a.job-email:hover{
 .row.notif-row{
    margin: 0;
 }
+
+.send-event,
+.send-job{
+   margin-right: 1%;
+}
+
+.send-job{
+   margin-top: 1%;
+}
+.send-event{
+   margin-bottom: 1%;
+}
