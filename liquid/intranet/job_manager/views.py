@@ -37,7 +37,7 @@ def test_email(request):
   messages.add_message(request,messages.SUCCESS, res)
   return HttpResponseRedirect('/intranet/jobs/previewEmail')
 
-@group_admin_required(['Top4'])
+@group_admin_required(['top4'])
 def send_job_email(request):
   res = send_email()
   messages.add_message(request, messages.SUCCESS, res)

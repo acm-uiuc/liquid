@@ -178,7 +178,14 @@ a.job-email:hover{
    margin: 0;
 }
 
+.send-email,
+.event-button{
+   margin-right: 1%;
+}
+
 .send-email{
    margin-top: 1%;
+}
+.event-button{
    margin-right: 1%;
 }
