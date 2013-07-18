@@ -79,7 +79,8 @@ def delete(request,id):
 @group_admin_required(['top4'])
 def send_email(request):
   email = gen_email()
-  send_mail('ACM@UIUC Weekly Job Postings', email, 'bjryan2@illinois.edu',['ryan.brendanjohn@gmail.com'], fail_silently=False)
+  addr = request.user.email
+  send_mail('ACM@UIUC Weekly Job Postings', email, addr ,['membership-l@acm.uiuc.edu'], fail_silently=False)
   messages.add_message(request, messages.SUCCESS, "Email Successfully Sent!")
   return HttpResponseRedirect('/intranet/event')
 
