@@ -4,6 +4,14 @@
 <header class="page-header">
 <h1>Joining ACM@UIUC</h1>
 </header>
+
+
+{% if not user.is_anonymous %}
+<p>You're already a member of ACM.</p>
+
+<p>Looking to get involved with ACM? Check out the <a href="{% url sigs.views.main %}">SIG list</a> or the <a href="{% url views.conference %}">Conference page</a>.</p>
+
+{% else %}
 <p>If you are interested in getting involved with ACM, the best way is to start showing up at events. There are many events every week, and you do not need to be a member to attend. Also, note that ACM, its executive board, and all of its SIGs have mailing lists. Mailing lists are a great way to stay informed on what ACM and SIGs are doing.</p>
 
 <p>Once you've found your niche in ACM or one of its SIGs, becoming an official member is easy. To become an official member, you need to fill out the quick and easy form below. The cost is $40 for a lifetime membership. Benefits of membership include an account on the ACM cluster and eligibility for ACM officer positions. Sign up below, then drop by the ACM office any time between 9:00 AM and 5:00 PM with your $40 in cash or check</p>
@@ -17,7 +25,7 @@
          <p>Lifetime Membership $40</p>
       </div>
       <div class="span4">
-         <p>What Special Interest Groups (SIGS) are you interest in? (This will add you to the SIG's mailing list)</p>
+         <p>What Special Interest Groups (SIGS) are you interested in? (This will add you to the selected SIGs' mailing lists)</p>
           <div class="controls">
             <ul class="span2">
             {% for s in sigs %}
@@ -41,4 +49,5 @@
      </div>
    </div>
  </form>
+{% endif %}
 {% endblock %}
