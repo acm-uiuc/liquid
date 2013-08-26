@@ -44,19 +44,27 @@ for page in xrange(pdf_in.getNumPages()):
       number = int(symbol.data)
    try:
       person = PreResumePerson.objects.get(number=number)
-      pdf_out = pyPdf.PdfFileWriter()
-      pdf_out.addPage(pdf_in.getPage(page))
-      file_out = file(pdf_out_file.name, "wb")
-      pdf_out.write(file_out)
-      file_out.close()
 
-      resume = Resume(person=person)
-      fd = open(pdf_out_file.name)
-      resume.resume.save('new', File(fd))
-      fd.close()
-      resume.save()
+      # Ace test - skip people who are no longer at UIUC
+      person_real = Person.objects.get(username=person.netid)
+      if not person_real.left_uiuc:
 
-      print "Success: %d: %s" % (number, person.full_name())
+            pdf_out = pyPdf.PdfFileWriter()
+            pdf_out.addPage(pdf_in.getPage(page))
+            file_out = file(pdf_out_file.name, "wb")
+            pdf_out.write(file_out)
+            file_out.close()
+
+            resume = Resume(person=person)
+            fd = open(pdf_out_file.name)
+            resume.resume.save('new', File(fd))
+            fd.close()
+            resume.save()
+
+            print "Success: %d: %s" % (number, person.full_name())
+
+	else:
+            print "No longer at UIUC: %d: %s" % (number, person.full_name())
 
    except PreResumePerson.DoesNotExist:
       print "Error finding number: %d"%(number)
