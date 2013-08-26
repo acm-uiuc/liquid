@@ -1,0 +1,60 @@
+{% extends "intranet/base.html" %}
+{% load bootstrap_pagination %}
+{% load bootstrap %}
+{% block intranet_content %}
+<header class="page-header">
+    <h1>{{ page_title }}</h1>
+</header>
+
+<p>
+  <em>{{total_companies}} {%if total_companies or total_companies < 1 %} accounts{%else%}account{%endif%}.</em>
+  <a class="pull-right btn btn-primary" href="/intranet/jobfair_manager/companies/new">Create Account</a></p>
+{% if companies|length > 0 %}
+<hr>
+<ul class="nav nav-tabs">
+  <li {% if request.GET.type == None %}class="active"{% endif %}>
+    <a href="/intranet/jobfair_manager/companies">All</a>
+  </li>
+  <li {% if request.GET.type == "jobfair" %}class="active"{% endif %}>
+    <a href="/intranet/jobfair_manager/companies?type=jobfair">Job Fair</a>
+  </li>
+  <li {% if request.GET.type == "startup" %}class="active"{% endif %}>
+    <a href="/intranet/jobfair_manager/companies?type=startup">Startup Fair</a>
+  </li>
+</ul>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Edit</th>
+            <th>Company</th>
+            <th>Contact</th>
+            <th>Email</th>
+            <th>Invited</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+  {% for c in companies %}
+  <tr>
+    <td><a href="/intranet/jobfair_manager/companies/edit/{{c.id}}"><i class="icon-edit"></i> Edit</a></td>
+      <td>{{c.company_name}}</td>
+      <td>{{c.get_full_name}}</td>
+      <td>{{c.email}}</td>
+      <td>{% if c.invited %}<i title="{{ c.invited_by.get_full_name }} on {{ c.invited_on }}" class="icon-ok"></i>{%  endif  %}</td>
+    <td>
+        <a href="/intranet/jobfair_manager/companies/delete/{{c.id}}"><i class="icon-trash"></i> Delete</a>
+	{% if not c.invited %}
+        &middot;
+        <a href="/intranet/jobfair_manager/companies/invite/{{c.id}}"><i class="icon-envelope"></i> Invite</a>
+	{% endif %}
+    </td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% if companies.has_other_pages %}
+<hr>
+{% bootstrap_paginate companies range=10 %}
+{% endif %}
+{% endif %}
+{% endblock %}

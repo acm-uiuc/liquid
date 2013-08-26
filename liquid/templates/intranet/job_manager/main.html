@@ -5,7 +5,22 @@
 <header class="page-header">
 <h1>Job Manager</h1>
 </header>
-{% if job_count %}
+
+{% if user.is_top4%}
+  {% if job_count %}
+<div class="alert alert-{{urgency}}">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  {% if job_count == 1 %}
+    There is a job to be sent!
+  {% else %}
+    There are <strong> {{job_count}} </strong> jobs to be sent!
+  {% endif %}
+    <a href="/intranet/jobs/previewEmail" class="job-email pull-right"><strong>Send Job Email</strong></a>
+</div>
+  {% endif %}
+{% endif %}
+
+{% if def_job_count %}
 <form method="post">
   {% csrf_token %}
   {{ jobs.management_form }}
@@ -15,6 +30,7 @@
     <button type="submit" class="btn btn-primary pull-right" name="Save">Save</button>
   </div>
 </div>
+
 <table class="table table-striped">
   <thead>
   <tr>
@@ -40,14 +56,9 @@
   </tbody>
 </table>
 
-<div class="control-group">
-  <div class="controls">
-    <button type="submit" class="btn btn-primary pull-right" name="Save">Save</button>
-  </div>
-</div>
 </form>
 {% else %}
-<p>No jobs!</p>
+<p>No jobs to be approved!</p>
 <p>Wait thats a bad thing. No jobs, no money.</p>
 <p>:(</p>
 <p>I wish we had jobs.</p>

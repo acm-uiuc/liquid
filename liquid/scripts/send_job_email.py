@@ -1,21 +1,16 @@
 import sys,os
 sys.path.append(os.path.abspath('..'))
 
-from django.core.management import setup_environ 
-import settings 
+from django.core.management import setup_environ
+import settings
 setup_environ(settings)
-
 
 from intranet.models import Job
 from datetime import date
 from django.core.mail import send_mail
 from textwrap import wrap
 
-
-
-jobs = Job.objects.filter(sent__exact=False).filter(status__exact='approve')
-
-if jobs:
+def gen_email(jobs):
 
    today = date.today()
 
@@ -40,16 +35,31 @@ if jobs:
       email += "Description:\r\n" + description_out + "\r\n";
       email += "\r\n========================================================================\r\n\r\n";
 
+   return email
 
-   try:
-      send_mail('ACM@UIUC Weekly Job Postings', email, 'ACM Corporate Committee <corporate@acm.uiuc.edu>',['jobs-l@acm.uiuc.edu'], fail_silently=False)
-      print "Email sent"
-      for j in jobs:
-         j.sent = True
-         j.save()
-   except Exception as inst:
-      print "Error sending email"
-      print inst
+def send_email(addr="jobs-l@acm.uiuc.edu"):
+   jobs = Job.objects.filter(sent__exact=False).filter(status__exact='approve')
+   if jobs:
+      email = gen_email(jobs)
+      try:
+         send_mail('ACM@UIUC Weekly Job Postings', email, 'ACM Corporate Committee <corporate@acm.uiuc.edu>',[addr], fail_silently=False)
+         return "Email sent to " + addr
+         for j in jobs:
+             j.sent = True
+             j.save()
+      except Exception as inst:
+         print "Error sending email"
+         return "Error in sending email" + inst
 
-else:
-   print "No jobs to send"
+   else:
+      return "No jobs to send"
+
+
+def view_email():
+   jobs = Job.objects.filter(sent__exact=False).filter(status__exact='approve')
+   if jobs:
+      email = gen_email(jobs)
+      return email
+   else:
+      return "No jobs to send"
+

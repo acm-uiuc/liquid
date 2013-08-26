@@ -11,14 +11,14 @@ import string
 
 # Create your views here.
 def main(request):
-   if not request.user.is_top4():
+   if not request.user.is_top4() and not request.user.is_acm_admin():
       groups = Group.objects.filter(members=request.user,membership__is_admin=True)
    else:
       groups = Group.objects.all()
-   
+
    return render_to_response('intranet/group_manager/main.html',{"section":"intranet","page":'group','groups':groups},context_instance=RequestContext(request))
 
-@group_admin_required(['Top4'])
+@group_admin_required(['Top4', 'Admin'])
 def new(request):
   if request.method == 'POST': # If the form has been submitted...
       form = GroupForm(request.POST) # A form bound to the POST data
@@ -36,7 +36,7 @@ def new(request):
       "page_title":"Create new Group"
       },context_instance=RequestContext(request))
 
-@specific_group_admin_required('id')
+@specific_group_admin_required('id', ['Admin'])
 def edit(request,id):
   g = Group.objects.get(id=id)
   forms = GroupMemberFormSet(instance=g)
@@ -49,7 +49,7 @@ def edit(request,id):
   else:
     form = GroupForm(instance=g)
 
-  
+
   return render_to_response('intranet/group_manager/form.html',{
     "form":form,
     "section":"intranet",
@@ -57,7 +57,7 @@ def edit(request,id):
     "page_title":"Edit Group",
     },context_instance=RequestContext(request))
 
-@specific_group_admin_required('id')
+@specific_group_admin_required('id', ['Admin'])
 def manage(request,id):
   g = Group.objects.get(id=id)
   if request.method == 'POST': # If the form has been submitted...
@@ -76,7 +76,7 @@ def manage(request,id):
     "forms":forms,
     },context_instance=RequestContext(request))
 
-@specific_group_admin_required('id')
+@specific_group_admin_required('id', ['Admin'])
 def add(request,id):
    g = Group.objects.get(id=id)
    if request.method == 'POST':

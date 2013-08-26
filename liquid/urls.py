@@ -19,6 +19,7 @@ urlpatterns = patterns('',
     url(r'^login/$', 'django.contrib.auth.views.login'),
     url(r'^logout/$', 'django.contrib.auth.views.logout'),
     url(r'^intranet/', include('intranet.urls')),
+    url(r'^conference/', include('conference.urls')),
 
     url(r'^resume/$', redirect_to, {'url': '/corporate/resume/'}),
 
@@ -27,6 +28,10 @@ urlpatterns = patterns('',
     url(r'^attend/$',redirect_to, {'url': '/conference/2012/registration.php'}),
     url(r'^helpout/$',redirect_to, {'url': '/conference/2012/volunteers.php'}),
     url(r'^schedule/$',redirect_to, {'url': '/conference/2012/schedule.php'}),
+
+    #sigmusic redirects
+    url(r'^chroma/$',redirect_to, {'url': '/sigmusic/chroma'}),
+    url(r'^cosmos/$',redirect_to, {'url': '/sigmusic/cosmos'}),
 
     url(r'^cron/', include('cron.urls')),
     
