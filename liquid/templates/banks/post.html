@@ -3,7 +3,7 @@
 <div calss="postSubtitle">{{post.subtitle}}</div>
 <ul>
   <div class="postInfo">{{post.creator}} @ {{post.created}}</div>
-  <div class="body">{{post.content|linebreaks}}</div>
+  <div class="body">{{post.content[:40]|linebreaks}}</div>
 </ul>
 
 <!-- Comments -->

@@ -39,8 +39,8 @@ def viewPost(request, id):
 @group_admin_required(['top4'])
 def new(request):
   if request.method == 'POST': # form has been properly submitted
-    form = PostForm()
-    form.creator = request.user
+    p = BanksPost(creator=request.user)
+    form = PostForm(request.POST, instance=p)
     if form.is_valid():
       form.save()
       messages.add_message(request, messages.SUCCESS, 'Post Created')

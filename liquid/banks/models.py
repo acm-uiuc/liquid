@@ -17,7 +17,7 @@ import os
 class BanksPost(models.Model):
   title = models.CharField(max_length=255)
   subtitle = models.CharField(max_length=255)
-  body = models.TextField()
+  content = models.TextField()
   creator = models.ForeignKey(Member)
   created = models.DateTimeField(auto_now_add=True)
 

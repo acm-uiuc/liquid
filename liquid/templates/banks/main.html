@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
+{% block top_styles %}
+   <link href="/static/css/banks.css" rel="stylesheet">
+{%endblock%}
+
 {% block content %}
 <header class="page-header">
 <h1>Banks of the Boneyard</h1>
@@ -14,12 +18,11 @@
   <ul>
     <!-- Posts !-->
     {% for post in posts.object_list %}
-    <div class="postTitle">{{post.title}}</div>
-    <div calss="postSubtitle">{{post.subtitle}}</div>
-    <ul>
-      <div class="postInfo">{{post.creator}} @ {{post.created}}</div>
-      <div class="body">{{post.content|linebreaks}}</div>
-    </ul>
+    <div class="postTitle"><a href='{% url banks.views.viewPost post.id %}'>{{post.title}}</a>
+    <span class="postInfo pull-right">{{post.creator}} - {{post.created}}</span>
+    </div>
+    <div class="postSubtitle">{{post.subtitle}}</div>
+    <div class="body">{{post.content|truncatechars:100|linebreaks}}</div>
     {% endfor %}
   </ul>
 
