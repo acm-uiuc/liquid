@@ -40,20 +40,11 @@ def viewPost(request, id):
 def new(request):
   if request.method is 'POST': #form has been properly submitted
     p = BanksPost(creator=request.user)
-    form = PostForm(request.Post, instance=p)
-    if form.is_valid():
-      form.save()
-      messages.add_message(request, messages.SUCCESS, 'Post Successfully Created')
-      return HttpResponseRedirect('/banks')
-  else:
-    form = PostForm() #an unbound post
+    form = PostForm(instance=p)
+    form.save()
+    messages.add_message(request, messages.SUCCESS, 'Post Successfully Created')
+  return HttpResponseRedirect('/banks')
 
-  return render_to_response('banks/form.html', {
-    "form": form,
-    "section": 'banks',
-    "page": "post",
-    "page_title": "Create new Post"
-    }, context_instance=RequestContext(request))
 
 # /banks/posts/edit/:_id
 @group_admin_required(['top4'])
@@ -64,10 +55,12 @@ def edit(request, id):
     if form.is_valid():
       form.save()
       messages.add_message(request, messages.SUCCESS, 'Post Changed')
+      print "new post hit"
       return HttpResponseRedirect('/banks')
+
   else:
       form = PostForm(instance=p)
-
+  print "form is not valid"
   return HttpResponseRedirect('/banks')
 
   #render_to_response('banks/posts/form.html',{
