@@ -1,9 +1,47 @@
 {% extends "base.html" %}
+
 {% block content %}
 <header class="page-header">
-<h1>Banks of the Boneyard</h1>
+<h1>Banks of the Boneyard
+
+{% if user.is_top4 %}
+  <a href="{% url banks.views.new %}" class="btn btn-primary pull-right">New Post</a>
+{% endif %}
+</h1>
+
 </header>
-<p>
-	Banks of the boneyard is the ACM monthy newsletter. More information coming soon. For questions email <a href="mailto:boneyard@acm.uiuc.edu">boneyard@acm.uiuc.edu</a>.
-</p>
+
+
+{% if posts %}
+<div class="posts-list">
+  <ul>
+    <!-- Posts !-->
+    {% for post in posts.object_list %}
+    <div class="postTitle">{{post.title}}</div>
+    <div calss="postSubtitle">{{post.subtitle}}</div>
+    <ul>
+      <div class="postInfo">{{post.creator}} @ {{post.created}}</div>
+      <div class="body">{{post.content|linebreaks}}</div>
+    </ul>
+    {% endfor %}
+  </ul>
+
+<!-- Next/Prev Post links !-->
+  {% if posts.object_list and posts.paginator.num_pages > 1 %}
+  <div class="pagination">
+  <span class="step-links">
+    {% if posts.has_previous %}
+      <a href= ="?page={{ posts.previous_page_number }}">Newer &lt;&lt; </a>
+    {% endif %}
+    {% if posts.has_next %}
+      <a href= ="?page={{ posts.next_page_number }}">Older&lt;&lt; </a>
+    {% endif %}
+  {% endif %}
+</div>
+{% else %}
+  No Posts :(
+
+{% endif %}
+
+
 {% endblock %}
