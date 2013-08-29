@@ -17,12 +17,12 @@ import os
 class BanksPost(models.Model):
   title = models.CharField(max_length=255)
   subtitle = models.CharField(max_length=255)
-  content = models.TextField()
+  body = models.TextField()
   creator = models.ForeignKey(Member)
   created = models.DateTimeField(auto_now_add=True)
 
-  def __unicode__(self):
-    return self.title
+  #def __unicode__(self):
+   # return self.title
 
 class Comment(models.Model):
   created = models.DateTimeField(auto_now_add=True)
@@ -30,5 +30,5 @@ class Comment(models.Model):
   body = models.TextField()
   post = models.ForeignKey(BanksPost)
 
-  def __unicode__(self):
-    return unicode("%s: %s" % (self.post, self.body[:60]))
+  #def __unicode__(self):
+  #  return unicode("%s: %s" % (self.post, self.body[:60]))

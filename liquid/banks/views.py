@@ -38,12 +38,23 @@ def viewPost(request, id):
 # /banks/posts/new
 @group_admin_required(['top4'])
 def new(request):
-  if request.method is 'POST': #form has been properly submitted
-    p = BanksPost(creator=request.user)
-    form = PostForm(instance=p)
-    form.save()
-    messages.add_message(request, messages.SUCCESS, 'Post Successfully Created')
-  return HttpResponseRedirect('/banks')
+  if request.method == 'POST': # form has been properly submitted
+    form = PostForm()
+    form.creator = request.user
+    if form.is_valid():
+      form.save()
+      messages.add_message(request, messages.SUCCESS, 'Post Created')
+    else:
+      messages.add_message(request, messages.SUCCESS, "Error in Post")
+
+    return HttpResponseRedirect('/banks')
+  else:
+    form = PostForm()
+
+    return render_to_response('banks/form.html', {
+      "form": form,
+      "page_title": "Create new Post"
+      }, context_instance=RequestContext(request))
 
 
 # /banks/posts/edit/:_id
@@ -55,20 +66,14 @@ def edit(request, id):
     if form.is_valid():
       form.save()
       messages.add_message(request, messages.SUCCESS, 'Post Changed')
-      print "new post hit"
       return HttpResponseRedirect('/banks')
-
   else:
-      form = PostForm(instance=p)
-  print "form is not valid"
-  return HttpResponseRedirect('/banks')
+    form = PostForm(instance=p)
 
-  #render_to_response('banks/posts/form.html',{
-  #  'form':form,
-  #  "section":"banks",
-  #  "page":"post",
-  #  "page_title":"Edit Post"
-  #}, context_instance=RequestContext(request))
+  render_to_response('banks/posts/form.html',{
+    'form':form,
+    "page_title":"Edit Post"
+  }, context_instance=RequestContext(request))
 
 # /banks/posts/delete/:_id
 @group_admin_required(['top4'])
