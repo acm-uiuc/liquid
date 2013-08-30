@@ -24,17 +24,17 @@ urlpatterns = patterns('',
     url(r'^resume/$', redirect_to, {'url': '/corporate/resume/'}),
 
     #rp redirects
-    url(r'^mm/$',redirect_to, {'url': '/conference/2012/mechmania.php'}),
-    url(r'^attend/$',redirect_to, {'url': '/conference/2012/registration.php'}),
-    url(r'^helpout/$',redirect_to, {'url': '/conference/2012/volunteers.php'}),
-    url(r'^schedule/$',redirect_to, {'url': '/conference/2012/schedule.php'}),
+    url(r'^mm/$',redirect_to, {'url': '/conference/2013/mechmania.html'}),
+    url(r'^attend/$',redirect_to, {'url': '/conference/2013/register.html'}),
+    url(r'^helpout/$',redirect_to, {'url': '/conference/2013/volunteers.html'}),
+    url(r'^schedule/$',redirect_to, {'url': '/conference/2013/schedule.html'}),
 
     #sigmusic redirects
     url(r'^chroma/$',redirect_to, {'url': '/sigmusic/chroma'}),
     url(r'^cosmos/$',redirect_to, {'url': '/sigmusic/cosmos'}),
 
     url(r'^cron/', include('cron.urls')),
-    
+
     url(r'^RP/$',redirect_to, {'url': '/rp'}),
 )
 
