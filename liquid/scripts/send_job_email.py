@@ -43,10 +43,10 @@ def send_email(addr="jobs-l@acm.uiuc.edu"):
       email = gen_email(jobs)
       try:
          send_mail('ACM@UIUC Weekly Job Postings', email, 'ACM Corporate Committee <corporate@acm.uiuc.edu>',[addr], fail_silently=False)
-         return "Email sent to " + addr
          for j in jobs:
              j.sent = True
              j.save()
+         return "Email sent to " + addr
       except Exception as inst:
          print "Error sending email"
          return "Error in sending email" + inst
