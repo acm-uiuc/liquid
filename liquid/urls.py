@@ -22,6 +22,8 @@ urlpatterns = patterns('',
     url(r'^conference/', include('conference.urls')),
 
     url(r'^resume/$', redirect_to, {'url': '/corporate/resume/'}),
+    url(r'^resume/$', redirect_to, {'url': 
+        'https://www-s.acm.uiuc.edu/confluence/display/admin/Printing'}),
 
     #rp redirects
     url(r'^mm/$',redirect_to, {'url': '/conference/2013/mechmania.html'}),
