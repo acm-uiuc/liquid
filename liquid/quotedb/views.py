@@ -2,34 +2,41 @@ from django.shortcuts import render_to_response, HttpResponseRedirect
 from django.http import HttpResponse
 from django.template import RequestContext
 from django.core.context_processors import csrf
+from django.core.paginator import Paginator
 from quotedb.forms import QuoteForm
 from quotedb.models import Quote
 from django.conf import settings
 
 # Create your views here.
-def main(request):
+def main(request, page_number=1):
+     
+   # Get paginator
+   paginator = Paginator(Quote.objects.all(), settings.QUOTES_PER_PAGE)
+   page_number = min(paginator.num_pages, int(page_number))
+   page_number = max(1, page_number)
+   quotes = paginator.page(page_number).object_list
 
-   # Get commonly-computed values
-   quotes = getQuotes(request)
-   pages = getPages()
-
-   return render_to_response('quotedb/main.html',{"section":"quotedb","page":'main',"pages":pages,"quotes":quotes},context_instance=RequestContext(request))
+   return render_to_response('quotedb/main.html',{"section":"quotedb","page":'main',"pageNumber":page_number,"quotes":quotes},context_instance=RequestContext(request))
 
 def add(request):
 
-   # Get commonly-computed values
-   quotes = getQuotes(request)
-   pages = getPages()
-
-   # Handle new quotes
    if request.method == 'POST':
 
+      #-- Handle new quotes --
       quoteForm = QuoteForm(request.POST)
       quoteForm.save()
 
-      return render_to_response('quotedb/main.html',{"section":"quotedb","page":'main',"pages":pages,"quotes":quotes},context_instance=RequestContext(request))
+      # -- Handle old quotes --
+      
+      # Get paginator
+      paginator = Paginator(Quote.objects.all(), settings.QUOTES_PER_PAGE)
+      quotes = paginator.page(1).object_list
+
+      return render_to_response('quotedb/main.html',{"section":"quotedb","page":'main',"pageNumber":1,"quotes":quotes},context_instance=RequestContext(request))
    else:
-      return render_to_response('quotedb/add.html',{"section":"quotedb","page":'add',"pages":pages,"form":QuoteForm,"quotes":quotes},context_instance=RequestContext(request))
+   
+      # -- Handle quote adding --
+      return render_to_response('quotedb/add.html',{"section":"quotedb","page":'add',"form":QuoteForm},context_instance=RequestContext(request))
       
 # Helper function (gets a string list of quote page numbers)
 def getPages():

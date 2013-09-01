@@ -2,8 +2,8 @@ from django.conf.urls.defaults import patterns, include, url
 
 urlpatterns = patterns('',
     # Examples:
-    url(r'^(|\?page=\d{0,})$', 'quotedb.views.main'),
-    url(r'^\?page=\d{0,}$', 'quotedb.views.main'),
+    url(r'^$', 'quotedb.views.main'),
+    url(r'^(?P<page_number_in>\d+)$', 'quotedb.views.main'),
     url(r'^add/$', 'quotedb.views.add'),
 )
 
