@@ -20,6 +20,7 @@ urlpatterns = patterns('',
     url(r'^logout/$', 'django.contrib.auth.views.logout'),
     url(r'^intranet/', include('intranet.urls')),
     url(r'^conference/', include('conference.urls')),
+    url(r'^quotedb/', include('quotedb.urls')),
 
     url(r'^resume/$', redirect_to, {'url': '/corporate/resume/'}),
 

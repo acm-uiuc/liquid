@@ -146,7 +146,7 @@ INSTALLED_APPS = (
     'intranet.chroma',
     'intranet.resume_manager',
 
-
+    'quotedb',
 
     'bootstrapform',
     'utils.django_mailman',
@@ -254,6 +254,8 @@ CRON_IPS = ['172.22.32.110']
 
 CRON_PASSWORD = ""
 
+# Quote database settings
+QUOTES_PER_PAGE = 3
 
 try:
   from local_settings import *

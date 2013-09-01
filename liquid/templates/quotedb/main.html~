@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+<header>
+    <h1>
+        ACM Quote Database
+    </h1>
+</header>
+
+<div style="padding-top:10px; padding-bottom:10px">
+    Memorable quotes from ACM members past and present
+</div>
+
+<div style="padding-top:10px; padding-bottom:10px">
+    {% for page_num in pages %}
+        <a href="/quotedb/{{ page_num }}">Page {{ page_num }}</a>
+    {% endfor %}
+</div>
+
+{% for q in quotes %}
+    <div class="row">
+        <div class="quote span8">
+            "{{ q.quote_text }}"
+        </div>
+        <br />
+        <div class="quote offset8 span4">
+            {{ q.quote_source }}, {{ q.created_at }} 
+        </div>
+        <br />
+        <div class="span12">
+            <hr>
+        </div>
+    </div>
+{% endfor %}
+
+<div>
+    <a href="/quotedb/add" class="btn btn-primary">Add quote</a>
+</div>
+{% endblock %}
