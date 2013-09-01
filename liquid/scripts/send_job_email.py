@@ -13,12 +13,14 @@ from textwrap import wrap
 def gen_email(jobs):
 
    today = date.today()
-
+   company_list = []
    email = "ACM@UIUC Weekly Job Postings\r\nWeek of " + today.strftime("%m/%d/%y") + "\r\n\r\n"
    email += "With postings from:\r\n"
 
    for j in jobs:
-      email += "* " + j.company + "\r\n"
+      if j.company not in company_list:
+         company_list.append(j.company)
+         email += "* " + j.company + "\r\n"
 
    email += "\r\n========================================================================\r\n\r\n";
 
