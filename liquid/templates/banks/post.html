@@ -1,0 +1,39 @@
+<!-- Post !-->
+<div class="postTitle">{{post.title}}</div>
+<div calss="postSubtitle">{{post.subtitle}}</div>
+<ul>
+  <div class="postInfo">{{post.creator}} @ {{post.created}}</div>
+  <div class="body">{{post.content[:40]|linebreaks}}</div>
+</ul>
+
+<!-- Comments -->
+<form action="{% url banks.views.delete_comment post.id %}" method="POST">{% csrf_token %}
+{% for comment in comments %}
+    <div class="comment">
+        <div class="time">{{ comment.created }} | {{ comment.author }}</div>
+        <div class="body">{{ comment.body|linebreaks }}</div>
+        {% if user.is_top4 %}
+            <input type="checkbox" name="delete" value="{{ comment.id }}">
+            <a href="{% url banks.views.delete_comment post.id comment.id %}">delete</a>
+        {% endif %}
+    </div>
+{% endfor %}
+
+{% if user.is_top4 and comments %}
+    <p><input type="submit" value="Delete all selected"></p>
+    <br />
+{% endif %}
+</form>
+
+<!-- Add Comment Form -->
+<div id="addComment"></div>
+<form action="{% url banks.views.add_comment post.id %}" method="POST">{% csrf_token %}
+    <div id="cform">
+        Name: {{ form.author }}
+        <p>{{ form.body|linebreaks }}</p>
+    </div>
+    <div id="submit"><input type="submit" value="Submit"></div>
+</form>
+
+
+

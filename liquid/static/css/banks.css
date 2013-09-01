@@ -1,0 +1,15 @@
+.postTitle > a{
+  font-weight: bold;
+  font-size: 20pt;
+}
+
+  .postTitle >a:hover{
+    text-decoration: none;
+  }
+
+.postSubtitle{
+  font-size: 14pt;
+  font-weight: bold;
+
+}
+
