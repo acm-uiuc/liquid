@@ -12,7 +12,7 @@ urlpatterns = patterns('',
     url(r'^about/', include('abouta.urls')),
     url(r'^calendar/', include('cal.urls')),
     url(r'^sigs/', include('sigs.urls')),
-    url(r'^banks/', include('banks.urls')),
+    url(r'^banks', include('banks.urls')),
     url(r'^conf/$', 'views.conference'),
     url(r'^corporate/', include('corporate.urls')),
     url(r'^contact/$', 'views.contact'),
@@ -22,7 +22,7 @@ urlpatterns = patterns('',
     url(r'^conference/', include('conference.urls')),
 
     url(r'^resume/$', redirect_to, {'url': '/corporate/resume/'}),
-    url(r'^print/$', redirect_to, {'url': 
+    url(r'^print/$', redirect_to, {'url':
         'https://www-s.acm.uiuc.edu/confluence/display/admin/Printing'}),
 
     #rp redirects

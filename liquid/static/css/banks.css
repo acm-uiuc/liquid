@@ -13,3 +13,13 @@
 
 }
 
+#id_content_markdown{
+  width: 800px;
+}
+.newPost-btn{
+  margin-top: 1%;
+}
+
+.post-submit{
+  padding-bottom: 2%;
+}

@@ -6,23 +6,21 @@
 
 {% block content %}
 <header class="page-header">
-<h1>Banks of the Boneyard</h1>
 {% if user.is_top4 %}
-  <a href="{% url banks.views.new %}" class="btn btn-primary pull-right">New Post</a>
+  <a href="{% url banks.views.new %}" class="newPost-btn btn btn-primary pull-right">New Post</a>
 {% endif %}
+<h1>Banks of the Boneyard</h1>
 </header>
-
 
 {% if posts %}
 <div class="posts-list">
   <ul>
     <!-- Posts !-->
     {% for post in posts.object_list %}
-    <div class="postTitle"><a href='{% url banks.views.viewPost post.id %}'>{{post.title}}</a>
-    <span class="postInfo pull-right">{{post.creator}} - {{post.created}}</span>
+    <div class="postTitle"><a href='{% url banks.views.viewPost post.slug %}'>{{post.title}}</a>
+    <span class="postInfo pull-right">{{post.creator}} - {{post.date_publish}}</span>
     </div>
-    <div class="postSubtitle">{{post.subtitle}}</div>
-    <div class="body">{{post.content|truncatechars:100|linebreaks}}</div>
+    <div class="body">{{post.content_markup|truncatechars:50|safe}}</div>
     {% endfor %}
   </ul>
 
@@ -31,12 +29,13 @@
   <div class="pagination">
   <span class="step-links">
     {% if posts.has_previous %}
-      <a href= ="?page={{ posts.previous_page_number }}">Newer &lt;&lt; </a>
+      <a href= "?page={{ posts.previous_page_number }}">Newer &lt;&lt; </a>
     {% endif %}
     {% if posts.has_next %}
-      <a href= ="?page={{ posts.next_page_number }}">Older&lt;&lt; </a>
+      <a href="?page={{ posts.next_page_number }}">Older&lt;&lt; </a>
     {% endif %}
   {% endif %}
+
 </div>
 
 {% else %}
