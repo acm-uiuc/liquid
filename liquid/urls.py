@@ -34,7 +34,7 @@ urlpatterns = patterns('',
     url(r'^cosmos/$',redirect_to, {'url': '/sigmusic/cosmos'}),
 
     url(r'^cron/', include('cron.urls')),
-    
+
     url(r'^RP/$',redirect_to, {'url': '/rp'}),
 )
 
