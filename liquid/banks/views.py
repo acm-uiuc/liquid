@@ -78,25 +78,31 @@ def new(request):
 # /banks/posts/edit/:slug
 @group_admin_required(['top4'])
 def edit(request, slug):
-  p = Posts.objects.get(slug=slug)
+  p = Post.objects.get(slug=slug)
   if request.method == "POST":
+
     form = PostForm(request.Post, instance=p)
     if form.is_valid():
       form.save()
       messages.add_message(request, messages.SUCCESS, 'Post Changed')
-      return HttpResponseRedirect('/banks', context_instance=RequestContext(request))
+    else:
+      messages.add_message(request, messages.SUCCESS, 'Error in Editing Post')
+    return HttpResponseRedirect('/banks')
   else:
     form = PostForm(instance=p)
-
-  render_to_response('banks/posts/form.html',{
-    'form':form,
-    "page_title":"Edit Post"
-  }, context_instance=RequestContext(request))
+    return render_to_response('banks/form.html',{
+      "form": form,
+      "page_title":"Edit Post"
+    }, context_instance=RequestContext(request)
+    )
 
 # /banks/posts/delete/:slug
 @group_admin_required(['top4'])
 def delete(request, slug):
-  post = Posts.objects.get(id=slug)
-  post.delete()
-  messages.add_message(request, messages.SUCCESS, 'Post Deleted')
-  return HttpResponseRedirect('/banks', context_instance=RequestContext(request))
+  post = Post.objects.get(slug=slug)
+  if post:
+    post.delete()
+    messages.add_message(request, messages.SUCCESS, 'Post Deleted')
+  else:
+    messages.add_message(request, messages.SUCCESS, 'Error in deleting post')
+  return HttpResponseRedirect('/banks')

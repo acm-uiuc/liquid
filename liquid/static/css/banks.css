@@ -1,4 +1,4 @@
-.postTitle > a{
+.postTitle .title{
   font-weight: bold;
   font-size: 20pt;
 }
@@ -16,10 +16,19 @@
 #id_content_markdown{
   width: 800px;
 }
-.newPost-btn{
+.wmd-input{
+  width: 800px;
+}
+
+.btn.newPost-btn{
   margin-top: 1%;
 }
 
-.post-submit{
+.btn.editPost-btn{
+  margin-right: 1%;
+}
+
+.btn.post-submit{
   padding-bottom: 2%;
 }
+

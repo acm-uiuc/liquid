@@ -11,6 +11,8 @@ from django.db.models import Q
 from intranet.models import Member
 from markdown import markdown
 from django.utils.translation import ugettext as _
+from utils.slugs import unique_slugify
+
 import settings
 import datetime
 import ldap
@@ -36,7 +38,7 @@ class Post(models.Model):
       ordering = ['-date_publish']
 
     def save(self):
-      self.slug = slugify(self.title)
+      unique_slugify(self, self.title)
       self.content_markup = markdown(self.content_markdown, ['codehilite'])
       super(Post, self).save()
 

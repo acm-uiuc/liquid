@@ -1,11 +1,21 @@
 {% extends 'base.html' %}
 {% block content %}
+
+<header class="page-header">
+
+{% if user.is_top4 %}
+  <a href="{% url banks.views.delete post.slug %}" class="delPost-btn btn btn-danger pull-right">Delete Post</a>
+  <a href="{% url banks.views.edit post.slug %}" class="editPost-btn btn btn-warning pull-right">Edit Post</a>
+{% endif %}
+    <h1>Banks of the Boneyard</h1>
+</header>
 <!-- Post !-->
-<div class="postTitle">{{post.title}}</div>
-<ul>
-  <div class="postInfo">{{post.creator}} @ {{post.date_publish}}</div>
-  <div class="body">{{post.content_markup|safe}}</div>
-</ul>
+
+<div class="postTitle">
+    <span class="title">{{post.title}}</span>
+    <span class="postInfo pull-right">{{post.creator}} - {{post.date_publish}}</span>
+</div>
+<div class="body">{{post.content_markup|safe}}</div>
 {%endblock%}
 
 
