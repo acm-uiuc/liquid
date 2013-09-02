@@ -1,3 +1,16 @@
+
+.postTitle{
+  margin-bottom: .5%;
+}
+
+.post-subtitle{
+  font-weight: bold;
+  color: #555;
+}
+.posts-list .post{
+  list-style: none;
+}
+
 .postTitle .title{
   font-weight: bold;
   font-size: 20pt;
@@ -20,15 +33,37 @@
   width: 800px;
 }
 
-.btn.newPost-btn{
+
+
+
+
+/*
+
+POST
+
+*/
+
+.title{
+  font-size: 2rem;
+  font-weight: bolder;
+}
+.post-subtitle{
+  margin-top: .5%;
+  margin-bottom: 2%;
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #555;
+}
+
+.newPost-btn{
   margin-top: 1%;
 }
 
-.btn.editPost-btn{
+.editPost-btn{
   margin-right: 1%;
 }
 
-.btn.post-submit{
-  padding-bottom: 2%;
+.post-submit .controls{
+  padding-bottom: 1%;
 }
 
