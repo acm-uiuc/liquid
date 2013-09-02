@@ -62,7 +62,7 @@ def new(request):
       form.save()
       messages.add_message(request, messages.SUCCESS, 'Post Created')
     else:
-      messages.add_message(request, messages.SUCCESS, "Error in Post")
+      messages.add_message(request, messages.ERROR, "Error in Post")
 
     return HttpResponseRedirect('/banks')
   else:
@@ -79,15 +79,16 @@ def new(request):
 @group_admin_required(['top4'])
 def edit(request, slug):
   p = Post.objects.get(slug=slug)
-  if request.method == "POST":
 
-    form = PostForm(request.Post, instance=p)
+  if request.method == "POST":
+    form = PostForm(request.POST, instance=p)
     if form.is_valid():
       form.save()
-      messages.add_message(request, messages.SUCCESS, 'Post Changed')
+      messages.add_message(request, messages.SUCCESS, 'Post Successfully Edited')
     else:
-      messages.add_message(request, messages.SUCCESS, 'Error in Editing Post')
+      messages.add_message(request, messages.ERROR, 'Error in Editing Post')
     return HttpResponseRedirect('/banks')
+
   else:
     form = PostForm(instance=p)
     return render_to_response('banks/form.html',{
@@ -104,5 +105,5 @@ def delete(request, slug):
     post.delete()
     messages.add_message(request, messages.SUCCESS, 'Post Deleted')
   else:
-    messages.add_message(request, messages.SUCCESS, 'Error in deleting post')
+    messages.add_message(request, messages.ERROR, 'Error in deleting post')
   return HttpResponseRedirect('/banks')
