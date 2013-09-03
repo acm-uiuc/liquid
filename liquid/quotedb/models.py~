@@ -17,7 +17,7 @@ class Quote(models.Model):
       self.quote_text = html.escape(self.quote_text)
    
       # Hyperlink hashtags
-      self.quote_text = re.sub("(^|(?<=\W))#(?P<tag>\w+)", "<a href='/quotedb/?q=%35\g<tag>'>&#35;\g<tag></a>", self.quote_text)
+      self.quote_text = re.sub("(^|(?<=\W))#(?P<tag>\w+)", "<a href='/quotedb/?q=%23\g<tag>'>&#35;\g<tag></a>", self.quote_text)
    
       # Save quote
       super(Quote, self).save(*args, **kwargs)

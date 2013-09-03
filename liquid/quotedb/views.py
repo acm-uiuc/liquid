@@ -41,13 +41,7 @@ def add(request):
       quoteForm = QuoteForm(request.POST)
       quoteForm.save()
 
-      # -- Handle old quotes --
-      
-      # Get paginator
-      paginator = Paginator(Quote.objects.all(), settings.QUOTES_PER_PAGE)
-      quotePage = paginator.page(1)
-
-      return render_to_response('quotedb/main.html',{"section":"intranet","page":'quotedb',"quotePage":quotePage,"request":request},context_instance=RequestContext(request))
+      return main(request)
    else:
    
       # -- Handle quote adding --
