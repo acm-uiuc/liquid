@@ -19,7 +19,7 @@
                     <a href="/quotedb/add" class="btn btn-primary">Add quote</a>
                 </div>
                 <div>
-                    <input type="text" name="searchArg" class="input-large search-query" style="margin-left:40px" value="{% if searchArg %}{{searchArg}}{% endif %}">
+                    <input type="text" name="q" class="input-large search-query" style="margin-left:40px" value="{% if searchArg %}{{searchArg}}{% endif %}">
                     <button type="submit" class="btn">Search</button>
                 </div>
                 
@@ -30,7 +30,9 @@
 {% for q in quotePage %}
     <div class="row">
         <div class="quote span8" style="padding-left:25px">
+            {% autoescape off %}
             {{ q.quote_text }}
+            {% autoescape on %}
         </div>
         <br />
         <div class="quote offset6 span4" style="color: #888888">

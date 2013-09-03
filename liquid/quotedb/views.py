@@ -1,3 +1,4 @@
+import re
 from django.shortcuts import render_to_response, HttpResponseRedirect
 from django.http import HttpResponse
 from django.template import RequestContext
@@ -36,6 +37,7 @@ def add(request):
    if request.method == 'POST':
 
       #-- Handle new quotes --
+      # Save quote
       quoteForm = QuoteForm(request.POST)
       quoteForm.save()
 
