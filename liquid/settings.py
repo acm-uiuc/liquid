@@ -229,6 +229,7 @@ MIDDLEWARE_CLASSES = ('django.middleware.common.CommonMiddleware',
  
 LOGIN_REQUIRED_URLS = (
   (r'/intranet/(.*)$',True),
+  (r'/quotedb/(.*)$',True),
   (r'/corporate/resume/recruiter/(.*)$',False),
 )
 
@@ -254,7 +255,6 @@ CRON_IPS = ['172.22.32.110']
 
 CRON_PASSWORD = ""
 
-# Quote database settings
 QUOTES_PER_PAGE = 3
 
 try:
