@@ -1,0 +1,4 @@
+{% extends "intranet/base.html" %}
+{% block intranet_content %}
+
+{% endblock %}
