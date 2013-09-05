@@ -32,7 +32,7 @@
         <div class="quote span8" style="padding-left:25px">
             {% autoescape off %}
             {{ q.quote_text }}
-            {% autoescape on %}
+            {% endautoescape %}
         </div>
         <br />
         <div class="quote offset6 span4" style="color: #888888">

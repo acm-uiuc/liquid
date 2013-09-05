@@ -13,11 +13,15 @@ class Quote(models.Model):
    
    def save(self, *args, **kwargs):
    
-      # HTML-Escape quote text (since this text is displayed with auto-escape disabled)
+      # HTML-Escape quote/author text (since this text is displayed with auto-escape disabled)
       self.quote_text = html.escape(self.quote_text)
+      self.quote_source = html.escape(self.quote_source)
    
       # Hyperlink hashtags
-      self.quote_text = re.sub("(^|(?<=\W))#(?P<tag>\w+)", "<a href='/quotedb/?q=%23\g<tag>'>&#35;\g<tag></a>", self.quote_text)
+      self.quote_text = re.sub("(^|(?<=\W))#(?P<tag>\w+)", "<a href='/quotedb/?q=%23\g<tag>'>%23\g<tag></a>", self.quote_text)
+   
+      # Hyperlink author
+      self.quote_source = "<a href='/quotedb/?author=%23" + self.quote_source + "'>" + self.quote_source + "</a>"
    
       # Save quote
       super(Quote, self).save(*args, **kwargs)

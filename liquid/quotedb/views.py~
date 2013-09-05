@@ -12,13 +12,17 @@ from django.conf import settings
 def main(request):
   
    # Get list of quotes to show
-   searchArg = request.GET.get("q")
-   quote_list = None
-   if searchArg and len(searchArg) != 0:
-      print(searchArg)
-      quote_list = Quote.objects.filter(quote_text__icontains=searchArg).order_by("-created_at")
-   else:
-      quote_list = Quote.objects.all().order_by("-created_at")
+   textSearchArg = request.GET.get("q")
+   authorSearchArg = request.GET.get("author")
+   quote_list = Quote.objects.all().order_by("-created_at")
+   
+   # -- Text search
+   if textSearchArg and len(textSearchArg) != 0:
+      quote_list = quote_list.filter(quote_text__icontains=textSearchArg)
+      
+   # -- Author search
+   if authorSearchArg and len(authorSearchArg) != 0:
+      quote_list = quote_list.filter(quote_source__icontains=authorSearchArg)
   
    # Get paginator and page
    page = 1
@@ -30,7 +34,7 @@ def main(request):
    page = max(1, page)
    quotePage = paginator.page(page)
    
-   return render_to_response('quotedb/main.html',{"section":"intranet","page":"quotedb","quotePage":quotePage,"request":request,"searchArg":searchArg},context_instance=RequestContext(request))
+   return render_to_response('quotedb/main.html',{"section":"intranet","page":"quotedb","quotePage":quotePage,"request":request,"searchArg":textSearchArg},context_instance=RequestContext(request))
 
 def add(request):
 
@@ -41,13 +45,7 @@ def add(request):
       quoteForm = QuoteForm(request.POST)
       quoteForm.save()
 
-      # -- Handle old quotes --
-      
-      # Get paginator
-      paginator = Paginator(Quote.objects.all(), settings.QUOTES_PER_PAGE)
-      quotePage = paginator.page(1)
-
-      return render_to_response('quotedb/main.html',{"section":"intranet","page":'quotedb',"quotePage":quotePage,"request":request},context_instance=RequestContext(request))
+      return main(request)
    else:
    
       # -- Handle quote adding --

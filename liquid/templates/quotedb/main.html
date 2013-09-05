@@ -36,7 +36,7 @@
         </div>
         <br />
         <div class="quote offset6 span4" style="color: #888888">
-            {{ q.quote_source }}, {{ q.created_at }} 
+            {% autoescape off %}{{ q.quote_source }}{% endautoescape %}, {{ q.created_at }} 
         </div>
         <br />
         <div class="span9">
