@@ -8,8 +8,7 @@ developement in a branch and merge when the feature is ready to launch.
 
 Issues and Feature Requests
 ---------------------------
-Please use the github issues and check the trello for current work.
-https://trello.com/board/acm-liquid/50511d5a1a60a3496d1d539c
+Please use the github issue tracker to track tasks and current work.
 
 
 Getting Started
