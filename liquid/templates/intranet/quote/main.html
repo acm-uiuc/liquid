@@ -13,10 +13,10 @@
     <p>Memorable quotes from ACM members past and present</p>
 
     <div>       
-            <form class="form-search" method="GET" action="/intranet/quotedb/">
+            <form class="form-search" method="GET" action="/intranet/quote/">
                 
                 <div class="offset0 span4" style="margin-left:0px">
-                    <a href="/intranet/quotedb/add" class="btn btn-primary">Add quote</a>
+                    <a href="/intranet/quote/add" class="btn btn-primary">Add quote</a>
                 </div>
                 <div>
                     <input type="text" name="q" class="input-large search-query" style="margin-left:40px" value="{% if searchArg %}{{searchArg}}{% endif %}">
@@ -27,23 +27,32 @@
     </div>
 </div>
 
-{% for q in quotePage %}
+{% if quotePage.end_index != 0 %}
+    {% for q in quotePage %}
+        <div class="row">
+            <div class="quote span8" style="padding-left:25px">
+                {% autoescape off %}
+                {{ q.quote_text }}
+                {% endautoescape %}
+            </div>
+            <br />
+            <div class="quote offset5 span4" style="color: #888888">
+                {% autoescape off %}{{ q.quote_source }}{% endautoescape %}, {{ q.created_at }}
+                | <a href="edit/{{ q.id }}">Edit/Delete</a>
+            </div>
+            <br />
+            <div class="span9">
+                <hr>
+            </div>
+        </div>
+    {% endfor %}
+{% else %}
     <div class="row">
         <div class="quote span8" style="padding-left:25px">
-            {% autoescape off %}
-            {{ q.quote_text }}
-            {% endautoescape %}
-        </div>
-        <br />
-        <div class="quote offset6 span4" style="color: #888888">
-            {% autoescape off %}{{ q.quote_source }}{% endautoescape %}, {{ q.created_at }} 
-        </div>
-        <br />
-        <div class="span9">
-            <hr>
+            No quotes match your query.
         </div>
     </div>
-{% endfor %}
+{% endif %}
 
 {% if quotePage.has_other_pages %}
     {% bootstrap_paginate quotePage range=10 %}

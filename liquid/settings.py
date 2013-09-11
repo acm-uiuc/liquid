@@ -145,8 +145,7 @@ INSTALLED_APPS = (
     'intranet.member_database',
     'intranet.chroma',
     'intranet.resume_manager',
-
-    'quotedb',
+    'intranet.quote',
 
     'bootstrapform',
     'utils.django_mailman',
@@ -229,7 +228,7 @@ MIDDLEWARE_CLASSES = ('django.middleware.common.CommonMiddleware',
  
 LOGIN_REQUIRED_URLS = (
   (r'/intranet/(.*)$',True),
-  (r'/quotedb/(.*)$',True),
+  (r'/quote/(.*)$',True),
   (r'/corporate/resume/recruiter/(.*)$',False),
 )
 

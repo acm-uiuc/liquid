@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from quotedb.models import Quote
+from intranet.quote.models import Quote
 
 class QuoteForm(ModelForm):
    class Meta:

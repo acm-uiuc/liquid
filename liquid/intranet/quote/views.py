@@ -1,11 +1,11 @@
-import re
+import re, string
 from django.shortcuts import render_to_response, HttpResponseRedirect
 from django.http import HttpResponse
 from django.template import RequestContext
 from django.core.context_processors import csrf
 from django.core.paginator import Paginator
-from quotedb.forms import QuoteForm
-from quotedb.models import Quote
+from intranet.quote.forms import QuoteForm
+from intranet.quote.models import Quote
 from django.conf import settings
 
 # Create your views here.
@@ -34,7 +34,7 @@ def main(request):
    page = max(1, page)
    quotePage = paginator.page(page)
    
-   return render_to_response('/intranet/quotedb/main.html',{"section":"intranet","page":"quotedb","quotePage":quotePage,"request":request,"searchArg":textSearchArg},context_instance=RequestContext(request))
+   return render_to_response('intranet/quote/main.html',{"section":"intranet","page":"quote-list","quotePage":quotePage,"request":request,"searchArg":textSearchArg},context_instance=RequestContext(request))
 
 def add(request):
 
@@ -49,4 +49,23 @@ def add(request):
    else:
    
       # -- Handle quote adding --
-      return render_to_response('/intranet/quotedb/add.html',{"section":"intranet","page":'quotedb',"form":QuoteForm},context_instance=RequestContext(request))
+      return render_to_response('intranet/quote/add.html',{"section":"intranet","page":'quote-add',"form":QuoteForm},context_instance=RequestContext(request))
+      
+def edit(request, quote_id = 1):
+   
+   # Get quote object
+   quoteObj = Quote.objects.filter(pk=quote_id).values()[0]
+   
+   # Remove hashtags in text
+   quoteObj["quote_text"] = string.replace(re.sub("<a href='.+'>", "", quoteObj["quote_text"]), "</a>", "")
+   
+   # Remove author link
+   quoteObj["quote_source"] = string.replace(re.sub("<a href='.+'>", "", quoteObj["quote_source"]), "</a>", "")
+   
+   quoteForm = QuoteForm(quoteObj)
+   
+   # -- Handle quote editing --
+   return render_to_response('intranet/quote/edit.html',{"section":"intranet","page":'quote-add',"form":quoteForm},context_instance=RequestContext(request))  
+      
+      
+      
