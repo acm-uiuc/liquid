@@ -53,19 +53,32 @@ def add(request):
       
 def edit(request, quote_id = 1):
    
-   # Get quote object
-   quoteObj = Quote.objects.filter(pk=quote_id).values()[0]
-   
-   # Remove hashtags in text
-   quoteObj["quote_text"] = string.replace(re.sub("<a href='.+'>", "", quoteObj["quote_text"]), "</a>", "")
-   
-   # Remove author link
-   quoteObj["quote_source"] = string.replace(re.sub("<a href='.+'>", "", quoteObj["quote_source"]), "</a>", "")
-   
-   quoteForm = QuoteForm(quoteObj)
-   
-   # -- Handle quote editing --
-   return render_to_response('intranet/quote/edit.html',{"section":"intranet","page":'quote-add',"form":quoteForm},context_instance=RequestContext(request))  
+   if request.method == 'POST':
+
+      # --- Handle save requests (from edit form to quote list) ---
+      quoteInQuestion = Quote.objects.get(pk=quote_id)
       
+      quoteForm = QuoteForm(request.POST, instance=quoteInQuestion)
+      quoteForm.save()
+
+      return main(request)
+   else:
+    
+       # --- Handle edit page requests (from quote list to edit form) ---
+    
+       # Get quote object
+       quoteObj = Quote.objects.filter(pk=quote_id).values()[0]
+       
+       # Remove hashtags in text
+       quoteObj["quote_text"] = string.replace(re.sub("<a href='.+'>", "", quoteObj["quote_text"]), "</a>", "")
+       
+       # Remove author link
+       quoteObj["quote_source"] = string.replace(re.sub("<a href='.+'>", "", quoteObj["quote_source"]), "</a>", "")
+       
+       quoteForm = QuoteForm(quoteObj)
+       
+       # -- Handle quote editing --
+       return render_to_response('intranet/quote/edit.html',{"section":"intranet","page":'quote-add',"form":quoteForm},context_instance=RequestContext(request))  
+          
       
       

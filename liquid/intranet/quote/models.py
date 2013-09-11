@@ -23,5 +23,5 @@ class Quote(models.Model):
       # Hyperlink author
       self.quote_source = "<a href='/intranet/quote/?author=" + self.quote_source + "'>" + self.quote_source + "</a>"
    
-      # Save quote
+      # Save quote (or updates to it, if it has already been instantiated)
       super(Quote, self).save(*args, **kwargs)
