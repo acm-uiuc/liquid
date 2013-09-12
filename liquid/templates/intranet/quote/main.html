@@ -43,10 +43,11 @@
                 {% endif %}
             </div>
             <br />
-            {% if 
-            <div class="span9">
-                <hr>
-            </div>
+            {% if not forloop.last %}
+                <div class="span9">
+                    <hr>
+                </div>
+            {% endif %}
         </div>
     {% endfor %}
 {% else %}

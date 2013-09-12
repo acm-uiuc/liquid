@@ -8,6 +8,7 @@ from intranet.quote.forms import QuoteForm
 from intranet.quote.models import Quote
 from django.conf import settings
 from django.core.exceptions import PermissionDenied
+from intranet.models import Member
 
 # Create your views here.
 def main(request, quote_id = 0):
@@ -61,7 +62,7 @@ def add(request):
    else:
    
       # -- Handle quote adding --
-      return render_to_response('intranet/quote/add.html',{"section":"intranet","page":'quote',"form":QuoteForm},context_instance=RequestContext(request))
+      return render_to_response('intranet/quote/add.html',{"section":"intranet","page":'quote',"form":QuoteForm,"members":Member.objects.all()},context_instance=RequestContext(request))
       
 def edit(request, quote_id = 1): 
    
@@ -105,5 +106,5 @@ def edit(request, quote_id = 1):
        quoteForm = QuoteForm(quoteObj)
        
        # -- Handle quote editing --
-       return render_to_response('intranet/quote/edit.html',{"section":"intranet","page":'quote',"form":quoteForm, "quote_id":quote_id},context_instance=RequestContext(request))  
+       return render_to_response('intranet/quote/edit.html',{"section":"intranet","page":'quote',"form":quoteForm, "members":Member.objects.all(), "quote_id":quote_id},context_instance=RequestContext(request))  
       
