@@ -254,8 +254,6 @@ CRON_IPS = ['172.22.32.110']
 
 CRON_PASSWORD = ""
 
-QUOTES_PER_PAGE = 10
-
 try:
   from local_settings import *
 except ImportError, exp:

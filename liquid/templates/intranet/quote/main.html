@@ -36,11 +36,14 @@
                 {% endautoescape %}
             </div>
             <br />
-            <div class="quote offset5 span4" style="color: #888888">
-                {% autoescape off %}{{ q.quote_source }}{% endautoescape %}, {{ q.created_at }}
-                | <a href="edit/{{ q.id }}">Edit/Delete</a>
+            <div class="quote offset3 span5" style="padding-left:55px; color: #888888; text-align: right">
+                {% autoescape off %}{{ q.quote_source_html }}{% endautoescape %}, {{ q.created_at }}
+                {% if q.can_edit %}
+                    | <a href="edit/{{ q.id }}">Edit/Delete</a>
+                {% endif %}
             </div>
             <br />
+            {% if 
             <div class="span9">
                 <hr>
             </div>

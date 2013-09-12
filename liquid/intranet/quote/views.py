@@ -1,5 +1,5 @@
 import re, string
-from django.shortcuts import render_to_response, HttpResponseRedirect
+from django.shortcuts import render_to_response, HttpResponseRedirect, redirect
 from django.http import HttpResponse
 from django.template import RequestContext
 from django.core.context_processors import csrf
@@ -7,34 +7,46 @@ from django.core.paginator import Paginator
 from intranet.quote.forms import QuoteForm
 from intranet.quote.models import Quote
 from django.conf import settings
+from django.core.exceptions import PermissionDenied
 
 # Create your views here.
-def main(request):
+def main(request, quote_id = 0):
   
    # Get list of quotes to show
    textSearchArg = request.GET.get("q")
    authorSearchArg = request.GET.get("author")
    quote_list = Quote.objects.all().order_by("-created_at")
    
-   # -- Text search
-   if textSearchArg and len(textSearchArg) != 0:
-      quote_list = quote_list.filter(quote_text__icontains=textSearchArg)
-      
-   # -- Author search
-   if authorSearchArg and len(authorSearchArg) != 0:
-      quote_list = quote_list.filter(quote_source__icontains=authorSearchArg)
+   # Quote filtering
+   if quote_id == 0:
+   
+      # -- Text search
+      if textSearchArg and len(textSearchArg) != 0:
+          quote_list = quote_list.filter(quote_text__icontains=textSearchArg)
+          
+      # -- Author search
+      if authorSearchArg and len(authorSearchArg) != 0:
+          quote_list = quote_list.filter(quote_sources__icontains=authorSearchArg)
+   else:
+        quote_list = Quote.objects.filter(pk=quote_id)
+  
+   # Determine which quotes are editable by the current user
+   user = request.user
+   for q in quote_list:
+      quote_sources = q.quote_sources.split(",")
+      q.can_edit = (not user.is_anonymous() and user.full_name() in quote_sources) or (user.is_admin())\
   
    # Get paginator and page
    page = 1
    pageArg = request.GET.get("page")
    if pageArg and pageArg.isdigit():
       page = int(pageArg)
-   paginator = Paginator(quote_list, settings.QUOTES_PER_PAGE)
+   paginator = Paginator(quote_list, 10)
    page = min(paginator.num_pages, page)
    page = max(1, page)
    quotePage = paginator.page(page)
    
-   return render_to_response('intranet/quote/main.html',{"section":"intranet","page":"quote-list","quotePage":quotePage,"request":request,"searchArg":textSearchArg},context_instance=RequestContext(request))
+   return render_to_response('intranet/quote/main.html',{"section":"intranet","page":"quote","quotePage":quotePage,"request":request,"searchArg":textSearchArg},context_instance=RequestContext(request))
 
 def add(request):
 
@@ -45,15 +57,24 @@ def add(request):
       quoteForm = QuoteForm(request.POST)
       quoteForm.save()
 
-      return main(request)
+      return redirect('/intranet/quote/')
    else:
    
       # -- Handle quote adding --
-      return render_to_response('intranet/quote/add.html',{"section":"intranet","page":'quote-add',"form":QuoteForm},context_instance=RequestContext(request))
+      return render_to_response('intranet/quote/add.html',{"section":"intranet","page":'quote',"form":QuoteForm},context_instance=RequestContext(request))
       
-def edit(request, quote_id = 1):
+def edit(request, quote_id = 1): 
    
-   if request.method == 'POST':
+   # Quote editing/modification logic
+   if (request.method == 'POST') and ('delete' in request.POST):
+   
+      # --- Handle delete requests ---
+      quoteInQuestion = Quote.objects.get(pk=quote_id)
+      quoteInQuestion.delete()
+      
+      return redirect('/intranet/quote/')
+   
+   elif (request.method == 'POST'):
 
       # --- Handle save requests (from edit form to quote list) ---
       quoteInQuestion = Quote.objects.get(pk=quote_id)
@@ -61,24 +82,28 @@ def edit(request, quote_id = 1):
       quoteForm = QuoteForm(request.POST, instance=quoteInQuestion)
       quoteForm.save()
 
-      return main(request)
+      return redirect('/intranet/quote/')
    else:
     
-       # --- Handle edit page requests (from quote list to edit form) ---
-    
-       # Get quote object
+       # Make sure quote editor can actually edit the current quote (and reject their request if they can't)
+       user = request.user
        quoteObj = Quote.objects.filter(pk=quote_id).values()[0]
+       
+       can_edit = (not user.is_anonymous() and user.full_name() in quoteObj["quote_sources"]) or (user.is_admin())
+       
+       if (not can_edit):
+          raise PermissionDenied # Current user cannot edit this quote
+    
+       # --- Handle edit page requests (from quote list to edit form) ---
        
        # Remove hashtags in text
        quoteObj["quote_text"] = string.replace(re.sub("<a href='.+'>", "", quoteObj["quote_text"]), "</a>", "")
        
        # Remove author link
-       quoteObj["quote_source"] = string.replace(re.sub("<a href='.+'>", "", quoteObj["quote_source"]), "</a>", "")
+       quoteObj["quote_sources"] = string.replace(re.sub("<a href='.+'>", "", quoteObj["quote_sources"]), "</a>", "")
        
        quoteForm = QuoteForm(quoteObj)
        
        # -- Handle quote editing --
-       return render_to_response('intranet/quote/edit.html',{"section":"intranet","page":'quote-add',"form":quoteForm},context_instance=RequestContext(request))  
-          
-      
+       return render_to_response('intranet/quote/edit.html',{"section":"intranet","page":'quote',"form":quoteForm, "quote_id":quote_id},context_instance=RequestContext(request))  
       
