@@ -34,8 +34,8 @@ def main(request, quote_id = 0):
    # Determine which quotes are editable by the current user
    user = request.user
    for q in quote_list:
-      quote_sources = q.quote_sources.split(",")
-      q.can_edit = (not user.is_anonymous() and user.username in quote_sources) or (user.is_admin())
+      quoteSources = q.quote_sources.split(",")
+      q.canEdit = (not user.is_anonymous() and user.username in quoteSources) or (user.is_admin())
   
    # Get paginator and page
    page = 1
@@ -60,9 +60,9 @@ def add(request):
 
       return redirect('/intranet/quote/')
    else:
-   
+
       # -- Handle quote adding --
-      return render_to_response('intranet/quote/add.html',{"section":"intranet","page":'quote',"form":QuoteForm,"members":Member.objects.all()},context_instance=RequestContext(request))
+      return render_to_response('intranet/quote/add.html',{"section":"intranet","page":'quote',"form":quoteForm,"members":Member.objects.all()},context_instance=RequestContext(request))
       
 def edit(request, quote_id = 1): 
    
@@ -89,22 +89,23 @@ def edit(request, quote_id = 1):
        # Make sure quote editor can actually edit the current quote (and reject their request if they can't)
        user = request.user
        quoteObj = Quote.objects.filter(pk=quote_id).values()[0]
+       quoteUsernames = quoteObj["quote_sources"].split(",")
        
-       can_edit = (not user.is_anonymous() and user.username in quoteObj["quote_sources"]) or (user.is_admin())
+       canEdit = (not user.is_anonymous() and user.username in quoteUsernames) or (user.is_admin())
        
-       if (not can_edit):
+       if (not canEdit):
           raise PermissionDenied # Current user cannot edit this quote
     
        # --- Handle edit page requests (from quote list to edit form) ---
        
+       # Get authors' Member objects
+       quoteMembers = Member.objects.filter(username__in=quoteUsernames)
+       
        # Remove hashtags in text
        quoteObj["quote_text"] = string.replace(re.sub("<a href='.+'>", "", quoteObj["quote_text"]), "</a>", "")
-       
-       # Remove author link
-       quoteObj["quote_sources"] = string.replace(re.sub("<a href='.+'>", "", quoteObj["quote_sources"]), "</a>", "")
        
        quoteForm = QuoteForm(quoteObj)
        
        # -- Handle quote editing --
-       return render_to_response('intranet/quote/edit.html',{"section":"intranet","page":'quote',"form":quoteForm, "members":Member.objects.all(), "quote_id":quote_id},context_instance=RequestContext(request))  
+       return render_to_response('intranet/quote/edit.html',{"section":"intranet","page":'quote',"form":quoteForm, "members":Member.objects.all(),"quoteMembers":quoteMembers,"quote_id":quote_id},context_instance=RequestContext(request))  
       
