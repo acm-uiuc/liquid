@@ -35,7 +35,7 @@ def main(request, quote_id = 0):
    user = request.user
    for q in quote_list:
       quote_sources = q.quote_sources.split(",")
-      q.can_edit = (not user.is_anonymous() and user.full_name() in quote_sources) or (user.is_admin())\
+      q.can_edit = (not user.is_anonymous() and user.username in quote_sources) or (user.is_admin())
   
    # Get paginator and page
    page = 1
@@ -90,7 +90,7 @@ def edit(request, quote_id = 1):
        user = request.user
        quoteObj = Quote.objects.filter(pk=quote_id).values()[0]
        
-       can_edit = (not user.is_anonymous() and user.full_name() in quoteObj["quote_sources"]) or (user.is_admin())
+       can_edit = (not user.is_anonymous() and user.username in quoteObj["quote_sources"]) or (user.is_admin())
        
        if (not can_edit):
           raise PermissionDenied # Current user cannot edit this quote

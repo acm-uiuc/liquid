@@ -1,6 +1,11 @@
 {% extends "intranet/base.html" %}
 {% load bootstrap %}
 
+{% block top_styles %}
+<link href="/static/css/token-input-facebook.css" rel="stylesheet">
+<link href="/static/css/token-input.css" rel="stylesheet">
+{% endblock %}
+
 {% block intranet_content %}
 <header>
     <h1>
@@ -12,6 +17,7 @@
     {% csrf_token %}
     {{ form }}
 
+    <br>
     <div>
         <button name="save" type="submit" class="btn btn-primary">Save changes</button>
         <a href="/intranet/quote/" class="btn btn-secondary">Cancel</a>

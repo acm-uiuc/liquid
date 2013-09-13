@@ -4,6 +4,7 @@ import datetime, re, string
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import html
+from intranet.models import Member
 
 # Create your models here.
 class Quote(models.Model):
@@ -25,9 +26,14 @@ class Quote(models.Model):
       authors = self.quote_sources.split(",")
       self.quote_source_html = ""
       quote_count = 0
-      for author in authors:
+      for author_netid in authors:
       
          quote_count += 1
+      
+         # Convert author's netid to their name (if possible)
+         author = Member.objects.get(username=author_netid).full_name()
+         if author == None or len(author) == 0:
+            author = author_netid
       
          # Quote separators (commas and ands)
          if quote_count != 1:
@@ -37,7 +43,7 @@ class Quote(models.Model):
                self.quote_source_html += ", "
       
          # Quote material
-         self.quote_source_html += "<a href='/intranet/quote/?author=" + author + "'>" + author + "</a>"
+         self.quote_source_html += "<a href='/intranet/quote/?author=" + author_netid + "'>" + author + "</a>"
          
       # Save quote (or updates to it, if it has already been instantiated)
       super(Quote, self).save(*args, **kwargs)
