@@ -36,7 +36,8 @@
                 {% endautoescape %}
             </div>
             <br />
-            <div class="quote offset3 span5" style="padding-left:55px; color: #888888; text-align: right">
+            <br />
+            <div class="quote span8" style="padding-left:55px; color: #888888; text-align: right">
                 {% autoescape off %}{{ q.quote_source_html }}{% endautoescape %}, {{ q.created_at }}
                 {% if q.canEdit %}
                     | <a href="edit/{{ q.id }}">Edit/Delete</a>
