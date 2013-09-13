@@ -28,8 +28,13 @@ urlpatterns = patterns('',
     #rp redirects
     url(r'^mm/$',redirect_to, {'url': '/conference/2013/mechmania.html'}),
     url(r'^attend/$',redirect_to, {'url': '/conference/2013/register.html'}),
+    url(r'^register/$',redirect_to, {'url': '/conference/2013/register.html'}),
     url(r'^helpout/$',redirect_to, {'url': '/conference/2013/volunteers.html'}),
     url(r'^schedule/$',redirect_to, {'url': '/conference/2013/schedule.html'}),
+    url(r'^jobs/$',redirect_to, {'url': '/conference/2013/career_fairs.html'}),
+    url(r'^jobfair/$',redirect_to, {'url': '/conference/2013/career_fairs.html'}),
+    url(r'^startup/$',redirect_to, {'url': '/conference/2013/career_fairs.html'}),
+    url(r'^startupfair/$',redirect_to, {'url': '/conference/2013/career_fairs.html'}),
 
     #sigmusic redirects
     url(r'^chroma/$',redirect_to, {'url': '/sigmusic/chroma'}),

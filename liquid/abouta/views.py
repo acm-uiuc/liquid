@@ -16,7 +16,7 @@ def main(request):
 def join(request):
   c = {}
   c.update(csrf(request))
-  sigs = Group.objects.filter(type='S').order_by('name')
+  sigs = Group.objects.filter(type='S').filter(status='active').order_by('name')
 
   sig_count_half = sigs.count()/2
   
