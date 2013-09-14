@@ -85,7 +85,7 @@ Payment: $40.00
 
 Your ACM Network account and other ACM services will be provisioned within 48 hours. You will receive an additional e-mail when this is complete.
 
-Questions? Contact userhelp@acm.uiuc.edu
+Questions? Contact userhelp@acm.illinois.edu
 
 Please retain this email for your records.
 
@@ -94,7 +94,7 @@ ACM@UIUC
 
 
 Approved by: %s"""%(u.first_name,u.last_name,u.date_joined.strftime("%a %b %d, %Y %H:%M:%S"),request.user.username)
-      send_mail('Welcome to ACM@UIUC', welcome_msg, 'ACM <acm@uiuc.edu>',[u.email,'payment-mailer@acm.uiuc.edu'], fail_silently=False)
+      send_mail('Welcome to ACM@UIUC', welcome_msg, 'ACM <acm.illinois.edu>',[u.email,'payment-mailer@acm.illinois.edu'], fail_silently=False)
       return HttpResponseRedirect('/intranet/members/search?q=%s' % u.username) # Redirect after POST
    except ValueError:
       messages.add_message(request, messages.ERROR, "Not a valid netid")
