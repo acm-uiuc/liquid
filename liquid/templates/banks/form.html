@@ -1,26 +1,38 @@
 {% extends "base.html" %}
 
 {% block top_styles %}
+<link rel="stylesheet" href="/static/css/banks.css">
 {% endblock %}
 
 {% block bottom_scripts %}
+<script src="/static/js/banks/showdown.js"></script>
+<script src="/static/js/banks/script.js"></script>
 {% endblock %}
 
 {% block content %}
 
 <header class="page-header">
 <h1>{{ page_title }}</h1>
-</header>
 
-<form class="well" method="POST">
-  {% csrf_token %}
-
-  {{ form }}
  <div class="post-submit control-group">
     <div class="controls">
       <button type="submit" class="btn btn-primary pull-right">Save</button>
     </div>
   </div>
-</form>
+</header>
+<div class="row">
+  <div class="span-4">
+    <form class="well" method="POST">
+    {% csrf_token %}
+    {{ form }}
+    </form>
+  </div>
+  <div class="span-8">
+    <h1 id="titlePreview"></h1>
+    <h3 id="subtitlePreview"></h3>
+    <div id="markupPreview">
+  </div>
+  </div>
+</div>
 {% endblock %}
 

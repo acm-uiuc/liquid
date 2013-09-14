@@ -26,17 +26,20 @@
 
 }
 
-#id_content_markdown{
-  width: 800px;
+
+
+
+
+/*
+
+MARKDOWN EDITOR
+
+*/
+
+#markupPreview{
+  height: 400px;
+  overflow: auto;
 }
-.wmd-input{
-  width: 800px;
-}
-
-
-
-
-
 /*
 
 POST
