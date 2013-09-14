@@ -88,7 +88,7 @@ $(document).ready(function(){
 
   $("#event-details").on('hidden', function () {
     $(".event-details-inner").hide();
-    window.location = window.location.href.split('#')[0];
+    close_event();
   });
 
   $(window).bind('hashchange', function() {
