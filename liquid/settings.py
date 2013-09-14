@@ -200,7 +200,7 @@ SERVE_STATIC = True
 #AD_DEBUG=True
 #AD_DEBUG_FILE='/path/to/writable/log/file/ldap.debug'
 AUTHENTICATION_BACKENDS = ('utils.ldapauth.ActiveDirectoryGroupMembershipSSLBackend',
-                           'django.contrib.auth.backends.ModelBackend',)
+                           'django.contrib.auth.backends.ModelBackend','crowd.CrowdBackend')
 
 PASSWORD_HASHERS = (
     'django.contrib.auth.hashers.PBKDF2PasswordHasher',
@@ -248,6 +248,21 @@ AD_MEMBERSHIP_REQ=['acm.users']
 AD_CERT_FILE='/path/to/your/cert.txt'
 AD_DEBUG=True
 AD_DEBUG_FILE='/var/log/apache2/ldap.debug'
+
+# fuck ldap
+# CROWD
+CROWD = {
+
+    'url': 'http:/zuul.acm.uiuc.edu:8095/crowd/rest',
+
+    'app_name': 'liquid',
+
+    'password': 'ArCuMlez',                     
+
+    'superuser': False,                        # if set makes CROWD-authorized users superusers;
+
+}
+     
 
 
 CRON_IPS = ['172.22.32.110']
