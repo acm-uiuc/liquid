@@ -9,7 +9,7 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 SEND_BROKEN_LINK_EMAILS = False
 ADMINS = (
-     ('Liquid Admins', 'liquid@acm.uiuc.edu'),
+     ('Liquid Admins', 'liquid@acm.illinois.edu'),
 )
 
 MANAGERS = ADMINS
@@ -234,7 +234,7 @@ LOGIN_REQUIRED_URLS = (
 
 
 # ldap things
-AD_DNS_NAME= 'ldap1.acm.uiuc.edu'
+AD_DNS_NAME= 'ldap1.acm.illinois.edu'
 # If using non-SSL use these
 AD_LDAP_PORT=389
 AD_LDAP_URL='ldap://%s:%s' % (AD_DNS_NAME,AD_LDAP_PORT)

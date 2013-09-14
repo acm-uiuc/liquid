@@ -196,6 +196,6 @@ class List(models.Model):
        self.subscribers.remove(user)
 
     def email(self):
-        return "%s@acm.uiuc.edu"%(self.name)
+        return "%s@acm.illinois.edu"%(self.name)
 
     

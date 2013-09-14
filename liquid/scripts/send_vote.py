@@ -24,7 +24,7 @@ for m in members:
 
 We've been working on updating the ACM constitution to better reflect how we currently operate and to incorporate some new ideas. Under the guidelines of the current constitution, amendments have to be approved by our executive council and then by our membership. The proposed changes have been approved by exec, so now we're sending it out to you so that you can take a look at it and vote on it. 
 
-Here's a link to the new constitution https://www-s.acm.uiuc.edu/confluence/display/general/ACM+Constitution+-+Draft; there's also a summary of the changes below. 
+Here's a link to the new constitution https://www-s.acm.illinois.edu/confluence/display/general/ACM+Constitution+-+Draft; there's also a summary of the changes below. 
 
 Amendment highlights:
 -Classifying members as undergraduate members, graduate members, faculty/staff members, active members and alumni members
@@ -36,9 +36,9 @@ Amendment highlights:
 -Allowing for a designated proxy for SIG leadership at exec meetings 
 -Defining the requirements of an active SIG and what happens when they're no longer active 
 
-The vote is open for the next week, and can be accessed through this link: http://acm.uiuc.edu/vote/%s/%s. 
+The vote is open for the next week, and can be accessed through this link: http://acm.illinois.edu/vote/%s/%s. 
 
-If you have any questions, feel free to email top4@acm.uiuc.edu. 
+If you have any questions, feel free to email top4@acm.illinois.edu. 
 
 Thanks!
 
@@ -46,7 +46,7 @@ Brianna Birman
 ACM@UIUC Chair""" % (v.user.full_name(),v.user.username,v.key)
    
    try:
-      send_mail('Vote on ACM constitution', email, 'Brianna Birman<top4@acm.uiuc.edu>',[m.email], fail_silently=False)
+      send_mail('Vote on ACM constitution', email, 'Brianna Birman<top4@acm.illinois.edu>',[m.email], fail_silently=False)
       print "Email sent to %s" % m.full_name()
    except Exception as inst:
       print "Error sending email to %s" % m.full_name()
