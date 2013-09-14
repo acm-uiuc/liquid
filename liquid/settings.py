@@ -145,8 +145,7 @@ INSTALLED_APPS = (
     'intranet.member_database',
     'intranet.chroma',
     'intranet.resume_manager',
-
-
+    'intranet.quote',
 
     'bootstrapform',
     'utils.django_mailman',
@@ -229,6 +228,7 @@ MIDDLEWARE_CLASSES = ('django.middleware.common.CommonMiddleware',
  
 LOGIN_REQUIRED_URLS = (
   (r'/intranet/(.*)$',True),
+  (r'/quote/(.*)$',True),
   (r'/corporate/resume/recruiter/(.*)$',False),
 )
 
@@ -253,7 +253,6 @@ AD_DEBUG_FILE='/var/log/apache2/ldap.debug'
 CRON_IPS = ['172.22.32.110']
 
 CRON_PASSWORD = ""
-
 
 try:
   from local_settings import *
