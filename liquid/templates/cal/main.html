@@ -53,7 +53,7 @@
   {% for e in events %}
   <div id="event-{{e.id}}" class="event-details-inner">
     <div class="modal-header">
-      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      <button onclick="close_event()" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
       <h3>{{e.name}}</h3>
     </div>
     <div class="modal-body">
@@ -75,6 +75,10 @@ function show_event(id){
   $("#event-details").modal("show")
 }
 
+function close_event() {
+  window.location = window.location.href.split('#')[0];
+}
+
 function load_from_hash(){
   var id = window.location.hash.split('/')[1];
   show_event(id);
@@ -84,6 +88,7 @@ $(document).ready(function(){
 
   $("#event-details").on('hidden', function () {
     $(".event-details-inner").hide();
+    window.location = window.location.href.split('#')[0];
   });
 
   $(window).bind('hashchange', function() {
