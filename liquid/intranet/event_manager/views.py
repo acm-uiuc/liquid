@@ -80,7 +80,7 @@ def delete(request,id):
 def send_email(request):
   email = gen_email()
   addr = request.user.email
-  send_mail('ACM@UIUC Weekly Event Email', email, addr ,['membership-l@acm.uiuc.edu'], fail_silently=False)
+  send_mail('ACM@UIUC Weekly Event Email', email, addr ,['membership-l@acm.illinois.edu'], fail_silently=False)
   messages.add_message(request, messages.SUCCESS, "Email Successfully Sent!")
   return HttpResponseRedirect('/intranet/event')
 
