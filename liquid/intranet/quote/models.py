@@ -20,7 +20,7 @@ class Quote(models.Model):
       self.quote_sources = html.escape(re.sub(",\s+", ",", self.quote_sources))
    
       # Hyperlink hashtags
-      self.quote_text = re.sub("(^|(?<=\W))#(?P<tag>\w+)", "<a href='/intranet/quote/?q=%23\g<tag>'>#\g<tag></a>", self.quote_text)
+      self.quote_text = re.sub("(^|(?<=(\.|\s|\:)))#(?P<tag>\w+)", "<a href='/intranet/quote/?q=%23\g<tag>'>#\g<tag></a>", self.quote_text)
    
       # Hyperlink authors
       authors = self.quote_sources.split(",")

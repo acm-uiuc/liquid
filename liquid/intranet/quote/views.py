@@ -35,7 +35,7 @@ def main(request, quote_id = 0):
    user = request.user
    for q in quote_list:
       quoteSources = q.quote_sources.split(",")
-      q.canEdit = (not user.is_anonymous() and user.username in quoteSources) or (user.is_admin())
+      q.canEdit = (not user.is_anonymous() and user.username in quoteSources) or (user.is_top4())
   
    # Get paginator and page
    page = 1
@@ -62,7 +62,7 @@ def add(request):
    else:
 
       # -- Handle quote adding --
-      return render_to_response('intranet/quote/add.html',{"section":"intranet","page":'quote',"form":quoteForm,"members":Member.objects.all()},context_instance=RequestContext(request))
+      return render_to_response('intranet/quote/add.html',{"section":"intranet","page":'quote',"form":QuoteForm(),"members":Member.objects.all()},context_instance=RequestContext(request))
       
 def edit(request, quote_id = 1): 
    
@@ -91,7 +91,7 @@ def edit(request, quote_id = 1):
        quoteObj = Quote.objects.filter(pk=quote_id).values()[0]
        quoteUsernames = quoteObj["quote_sources"].split(",")
        
-       canEdit = (not user.is_anonymous() and user.username in quoteUsernames) or (user.is_admin())
+       canEdit = (not user.is_anonymous() and user.username in quoteUsernames) or (user.is_top4())
        
        if (not canEdit):
           raise PermissionDenied # Current user cannot edit this quote
