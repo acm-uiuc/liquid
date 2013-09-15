@@ -13,8 +13,6 @@ def main(request):
    pend_jobs = Job.objects.filter(sent__exact=False).filter(status__exact="defer")
    resumes = Resume.objects.filter(approved__exact=False)
 
-   is_corporate = request.user.is_group_admin('Corporate')
-
    tol = 5
 
    return render_to_response('intranet/main.html',{"section":"intranet","page":'main',"groups":groups, "unsent_jobs_count":len(unsent_jobs), "pend_jobs_count":len(pend_jobs),"resume_count":len(resumes), "pend_class": notif_class(pend_jobs, tol), "unsent_class": notif_class(unsent_jobs, tol), "res_class": notif_class(resumes, tol)} ,context_instance=RequestContext(request))
