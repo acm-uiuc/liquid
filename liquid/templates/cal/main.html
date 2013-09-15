@@ -76,12 +76,14 @@ function show_event(id){
 }
 
 function close_event() {
-  window.location = window.location.href.split('#')[0];
+  window.location.hash = "index";
 }
 
 function load_from_hash(){
   var id = window.location.hash.split('/')[1];
-  show_event(id);
+  if (typeof id != 'undefined') {
+    show_event(id);
+  }
 }
 
 $(document).ready(function(){
@@ -92,7 +94,7 @@ $(document).ready(function(){
   });
 
   $(window).bind('hashchange', function() {
-    load_from_hash();
+      load_from_hash();
   });
 
   if(window.location.hash != ""){
