@@ -9,7 +9,7 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 SEND_BROKEN_LINK_EMAILS = False
 ADMINS = (
-     ('Liquid Admins', 'liquid@acm.uiuc.edu'),
+     ('Liquid Admins', 'liquid@acm.illinois.edu'),
 )
 
 MANAGERS = ADMINS
