@@ -31,10 +31,15 @@ class Quote(models.Model):
          quote_count += 1
       
          # Convert author's netid to their name (if possible)
-         author = Member.objects.get(username=author_netid).full_name()
+         author_obj = Member.objects.get(username=author_netid)
+         author = author_obj.full_name()
          if author == None or len(author) == 0:
             author = author_netid
       
+         # ============ In-quote tagged authors ===========          + r"(?=($|(?<=(\.|\s|\:))))"
+         self.quote_text = re.sub(r"(^|(?<=(\.|\s|:)))(?P<author>(" + author + "|" + author_obj.first_name + "|" + author_netid + "))", "<a href='/intranet/quote/?author=" + author_netid + "'>\g<author></a>", self.quote_text)  
+      
+         # ========== Quote sources (HTML) field ==========
          # Quote separators (commas and ands)
          if quote_count != 1:
             if quote_count == len(authors):

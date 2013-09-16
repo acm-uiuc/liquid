@@ -9,8 +9,8 @@ from intranet.quote.models import Quote
 from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from intranet.models import Member
+import HTMLParser
 
-# Create your views here.
 def main(request, quote_id = 0):
   
    # Get list of quotes to show
@@ -64,13 +64,13 @@ def add(request):
       # -- Handle quote adding --
       return render_to_response('intranet/quote/add.html',{"section":"intranet","page":'quote',"form":QuoteForm(),"members":Member.objects.all()},context_instance=RequestContext(request))
       
-def edit(request, quote_id = 1): 
+def edit(request, quoteId = 1): 
    
    # Quote editing/modification logic
    if (request.method == 'POST') and ('delete' in request.POST):
    
       # --- Handle delete requests ---
-      quoteInQuestion = Quote.objects.get(pk=quote_id)
+      quoteInQuestion = Quote.objects.get(pk=quoteId)
       quoteInQuestion.delete()
       
       return redirect('/intranet/quote/')
@@ -78,7 +78,7 @@ def edit(request, quote_id = 1):
    elif (request.method == 'POST'):
 
       # --- Handle save requests (from edit form to quote list) ---
-      quoteInQuestion = Quote.objects.get(pk=quote_id)
+      quoteInQuestion = Quote.objects.get(pk=quoteId)
       
       quoteForm = QuoteForm(request.POST, instance=quoteInQuestion)
       quoteForm.save()
@@ -88,7 +88,7 @@ def edit(request, quote_id = 1):
     
        # Make sure quote editor can actually edit the current quote (and reject their request if they can't)
        user = request.user
-       quoteObj = Quote.objects.filter(pk=quote_id).values()[0]
+       quoteObj = Quote.objects.filter(pk=quoteId).values()[0]
        quoteUsernames = quoteObj["quote_sources"].split(",")
        
        canEdit = (not user.is_anonymous() and user.username in quoteUsernames) or (user.is_top4())
@@ -101,11 +101,14 @@ def edit(request, quote_id = 1):
        # Get authors' Member objects
        quoteMembers = Member.objects.filter(username__in=quoteUsernames)
        
-       # Remove hashtags in text
-       quoteObj["quote_text"] = string.replace(re.sub("<a href='.+'>", "", quoteObj["quote_text"]), "</a>", "")
+       # Unescape escaped quote text
+       quoteObj["quote_text"] = HTMLParser.HTMLParser().unescape(quoteObj["quote_text"])
+       
+       # Remove hashtags/authortags in text
+       quoteObj["quote_text"] = string.replace(re.sub("<a href='.+?'>", "", quoteObj["quote_text"]), "</a>", "")
        
        quoteForm = QuoteForm(quoteObj)
        
        # -- Handle quote editing --
-       return render_to_response('intranet/quote/edit.html',{"section":"intranet","page":'quote',"form":quoteForm, "members":Member.objects.all(),"quoteMembers":quoteMembers,"quote_id":quote_id},context_instance=RequestContext(request))  
+       return render_to_response('intranet/quote/edit.html',{"section":"intranet","page":'quote',"form":quoteForm, "members":Member.objects.all(),"quoteMembers":quoteMembers,"quote_id":quoteId},context_instance=RequestContext(request))  
       
