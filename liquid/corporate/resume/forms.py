@@ -15,10 +15,11 @@ class PreResumePersonForm(ModelForm):
 class ResumeForm(ModelForm):
   class Meta:
       model = Resume
-      exclude = ['approved','person', 'raw_text']
+      exclude = ['approved','person']
 
 class EmailChangeForm(ModelForm):
   email = EmailField(required=True)
   class Meta:
       model = User
       fields = ['email']
+        

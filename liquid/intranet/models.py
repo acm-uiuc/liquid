@@ -14,7 +14,7 @@ from subprocess import check_call
 from django.db.models import Count
 from django.db.models import Q
 from utils.resume_download_helper import generate_resume_download
-import utils.pdf_layout_scanner as pdf_scanner
+
 
 # Create your models here.
 MEMBER_STATUS_CHOICES = (('active','active'),('inactive','inactive'),('frozen','frozen'))
@@ -266,7 +266,7 @@ def new_resume_person(sender, **kwargs):
 class PreResumePerson(ResumePerson):
    number = models.IntegerField()
 
-# Where to store the resumes
+# Wher to store the resumes
 fs = FileSystemStorage(location=settings.RESUME_STORAGE_LOCATION)
 
 def create_resume_file_name(instance,filename):
@@ -282,7 +282,6 @@ class Resume(models.Model):
                                                   content_types=['application/pdf'],
                                                   max_upload_size=1048576)
    created_at = models.DateTimeField(auto_now_add=True)
-   raw_text = models.TextField(default='')
 
    def thumbnail_location(self):
       return "%s/thumbnails/%d.png"%(settings.RESUME_STORAGE_LOCATION, self.id)
@@ -301,23 +300,10 @@ class Resume(models.Model):
          except:
             pass
 
-   def parse_text(self):
-      pages = pdf_scanner.get_pages(self.resume.path)
-      text = ''
-      if pages:
-         logging.debug('resume pages: ' + str(len(pages)))
-         for page in pages:
-            text += page
-         self.raw_text = text
-
 @receiver(post_save, sender=Resume)
 def new_resume(sender, **kwargs):
    resume = kwargs['instance']
    resume.generate_thumbnails()
-   post_save.disconnect(new_resume, sender=Resume)
-   resume.parse_text()
-   resume.save()
-   post_save.connect(new_resume, sender=Resume)
 
 @receiver(post_delete, sender=Resume)
 def delete_resume(sender, **kwargs):
