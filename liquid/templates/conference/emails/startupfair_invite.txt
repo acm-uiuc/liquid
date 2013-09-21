@@ -15,13 +15,13 @@ Registration ensures:
 - Advertising for {{ company.company_name }} in the Reflections | Projections program and on the website
 
 Here is the official job fair registration form:
-http://acm.uiuc.edu/conference/jobfair
+http://acm.illinois.edu/conference/jobfair
 
 To login, please use the following information:
 Username: {{ company.username }}
 Password: {{ password }}
 
-We are excited to have {{ company.company_name }} participate in the Startup Fair. If we can help you in any way, please don't hesitate to email us at corporate@acm.uiuc.edu.
+We are excited to have {{ company.company_name }} participate in the Startup Fair. If we can help you in any way, please don't hesitate to email us at corporate@acm.illinois.edu.
 
 Thank You,
 {{ user.get_full_name }}
