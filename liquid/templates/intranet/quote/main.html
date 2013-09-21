@@ -1,0 +1,66 @@
+{% extends "intranet/base.html" %}
+{% load bootstrap_pagination %}
+
+{% block intranet_content %}
+<header>
+    <h1>
+        ACM Quote Database
+    </h1>
+</header>
+
+<div class="well" style="padding-top:10px; padding-bottom:0px; font-size:1.25em">
+
+    <p>Memorable quotes from ACM members past and present</p>
+
+    <div>       
+            <form class="form-search" method="GET" action="/intranet/quote/">
+                
+                <div class="offset0 span4" style="margin-left:0px">
+                    <a href="/intranet/quote/add" class="btn btn-primary">Add quote</a>
+                </div>
+                <div>
+                    <input type="text" name="q" class="input-large search-query" style="margin-left:40px" value="{% if searchArg %}{{searchArg}}{% endif %}">
+                    <button type="submit" class="btn">Search</button>
+                </div>
+                
+            </form>
+    </div>
+</div>
+
+{% if quotePage.end_index != 0 %}
+    {% for q in quotePage %}
+        <div class="row">
+            <div class="quote span8" style="padding-left:25px">
+                {% autoescape off %}
+                {{ q.quote_text }}
+                {% endautoescape %}
+            </div>
+            <br />
+            <br />
+            <div class="quote span8" style="padding-left:55px; color: #888888; text-align: right">
+                {% autoescape off %}{{ q.quote_source_html }}{% endautoescape %}, {{ q.created_at }}
+                {% if q.canEdit %}
+                    | <a href="edit/{{ q.id }}">Edit/Delete</a>
+                {% endif %}
+            </div>
+            <br />
+            {% if not forloop.last %}
+                <div class="span9">
+                    <hr>
+                </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+{% else %}
+    <div class="row">
+        <div class="quote span8" style="padding-left:25px">
+            No quotes match your query.
+        </div>
+    </div>
+{% endif %}
+
+{% if quotePage.has_other_pages %}
+    {% bootstrap_paginate quotePage range=10 %}
+{% endif %}
+
+{% endblock %}
