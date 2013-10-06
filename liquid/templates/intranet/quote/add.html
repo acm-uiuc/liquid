@@ -34,6 +34,8 @@ $(document).ready(function() {
         {id: "{{m.username}}", name: "{{m.full_name_and_netid}}"},
         {% endfor %}
     ],{
+        allowCustomEntry:true,
+        allowFreeTagging:true,
         preventDuplicates:true
     });
 });
