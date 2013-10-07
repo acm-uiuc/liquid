@@ -123,16 +123,13 @@ def edit(request, quoteId = 1):
        
       # Unescape escaped quote text
       quote_obj.quote_text = HTMLParser.HTMLParser().unescape(quote_obj.quote_text)
-       
+
       # Remove hashtags/authortags in text
       quote_obj.quote_text = string.replace(re.sub("<a href='.+?'>", "", quote_obj.quote_text), "</a>", "")
-       
-      # Add current user to quote _posters list (if they aren't already there)
-      quote_posters = quote_obj.quote_posters.strip(",").split(",")
-      if (not request.user.username in quote_usernames) and (not request.user.username in quote_posters):
-         quote_posters.append(request.user.username)
-         quote_obj.quote_posters = "," + quote_obj.quote_posters.strip(",") + "," + request.user.username + ","
-       
+      
+      # Convert <br />'s into newlines (\n - TODO?: this may cause issues for Windows users)
+      quote_obj.quote_text = string.replace(quote_obj.quote_text, "<br />", "\n")
+
       quote_form = QuoteForm(instance=quote_obj)
       quote_form.fields["quote_posters"].widget = forms.HiddenInput()
        
