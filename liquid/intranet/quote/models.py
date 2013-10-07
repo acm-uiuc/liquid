@@ -18,7 +18,6 @@ class Quote(models.Model):
    def save(self, *args, **kwargs):
    
       # HTML-Escape quote/author text (since this text is displayed with auto-escape disabled)
-      print "authors init: " + self.quote_sources
       self.quote_text = html.escape(self.quote_text)
       self.quote_sources = "," + html.escape(re.sub(",\s+", ",", self.quote_sources).strip(",")) + ","
    
@@ -26,7 +25,6 @@ class Quote(models.Model):
       self.quote_text = re.sub("(^|(?<=(\.|\s|\:)))#(?P<tag>\w+)", "<a href='/intranet/quote/?q=%23\g<tag>'>#\g<tag></a>", self.quote_text)
    
       # Hyperlink authors
-      print "authors: " + self.quote_sources
       authors = self.quote_sources.strip(",").split(",")
       self.quote_source_html = ""
       quote_count = 0
@@ -55,7 +53,6 @@ class Quote(models.Model):
          self.quote_source_html += "<a href='/intranet/quote/?author=" + author_netid + "'>" + author + "</a>" 
            
       # Hyperlink posters (people who edited the quote but didn't say anything noteworthy)
-      print "posters: " + self.quote_posters
       self.quote_posters = "," + html.escape(re.sub(",\s+", ",", self.quote_posters).strip(",")) + ","
       posters = self.quote_posters.strip(",").split(",")
          
@@ -95,7 +92,7 @@ class Quote(models.Model):
             # Add to posters list HTML
             self.quote_poster_html += "<a href='/intranet/quote/?author=" + poster_netid + "'>" + poster + "</a>"
               
-      self.quote_poster_html += ")"
+         self.quote_poster_html += ")"
  
       # Save quote (or updates to it, if it has already been instantiated)
       super(Quote, self).save(*args, **kwargs)
