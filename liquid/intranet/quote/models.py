@@ -24,6 +24,9 @@ class Quote(models.Model):
       # Hyperlink hashtags
       self.quote_text = re.sub("(^|(?<=(\.|\s|\:)))#(?P<tag>\w+)", "<a href='/intranet/quote/?q=%23\g<tag>'>#\g<tag></a>", self.quote_text)
    
+      # Turn newlines into <br>'s
+      self.quote_text = re.sub("(\r|)\n", "<br />", self.quote_text)
+
       # Hyperlink authors
       authors = self.quote_sources.strip(",").split(",")
       self.quote_source_html = ""
