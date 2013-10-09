@@ -77,17 +77,19 @@ def student_rp(request):
 
     if pre_resume_person_form.is_valid():
       try:
-        rp = ResumePerson.objects.get(netid=pre_resume_person_form.cleaned_data['netid'].lower())
-        messages.add_message(request, messages.ERROR, 'We already have your resume, no need to give it to us today!')
-        pre_resume_person_form = PreResumePersonForm()
-      except:
-        try:
-          pre_resume_person_form.save()
+        rp = ResumePerson.objects.filter(netid=pre_resume_person_form.cleaned_data['netid'].lower())
+
+        if (rp.count() == 0):
           messages.add_message(request, messages.SUCCESS, 'Thanks, your resume will be added.')
-          pre_resume_person_form = PreResumePersonForm()
-        except ValueError:
-          errors = pre_resume_person_form._errors.setdefault("netid", ErrorList())
-          errors.append(u"Not a valid netid")
+        else:
+          #rp.delete() # Delete old resumes for this netid
+          messages.add_message(request, messages.SUCCESS, 'Thanks, your resume will be updated.')
+
+        pre_resume_person_form.save()
+        pre_resume_person_form = PreResumePersonForm()
+      except ValueError:
+        errors = pre_resume_person_form._errors.setdefault("netid", ErrorList())
+        errors.append(u"Not a valid netid")
   else:
     pre_resume_person_form = PreResumePersonForm()
 
