@@ -82,7 +82,7 @@ def student_rp(request):
         if (rp.count() == 0):
           messages.add_message(request, messages.SUCCESS, 'Thanks, your resume will be added.')
         else:
-          rp.delete() # Delete old resumes for this netid
+          #rp.delete() # Delete old resumes for this netid
           messages.add_message(request, messages.SUCCESS, 'Thanks, your resume will be updated.')
 
         pre_resume_person_form.save()
