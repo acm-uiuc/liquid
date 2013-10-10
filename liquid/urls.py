@@ -35,6 +35,7 @@ urlpatterns = patterns('',
     url(r'^jobfair/$',redirect_to, {'url': '/conference/2013/career_fairs.html'}),
     url(r'^startup/$',redirect_to, {'url': '/conference/2013/career_fairs.html'}),
     url(r'^startupfair/$',redirect_to, {'url': '/conference/2013/career_fairs.html'}),
+    url(r'^mm-irc/$',redirect_to, {'url': 'http://webchat.freenode.net/?channels=%23%23mm19&uio=OT10cnVlde'}),
 
     #sigmusic redirects
     url(r'^chroma/$',redirect_to, {'url': '/sigmusic/chroma'}),
