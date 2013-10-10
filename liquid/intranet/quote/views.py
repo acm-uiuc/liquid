@@ -1,5 +1,5 @@
 import re, string
-from django.shortcuts import render_to_response, HttpResponseRedirect, redirect
+from django.shortcuts import render_to_response, HttpResponseRedirect, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.template import RequestContext
 from django.core.context_processors import csrf
@@ -29,7 +29,8 @@ def main(request, quote_id = 0):
       if authorSearchArg and len(authorSearchArg) != 0:
           quote_list = quote_list.filter(quote_sources__icontains=authorSearchArg)
    else:
-        quote_list = Quote.objects.filter(pk=quote_id)
+      # Don't use get_object_or_404 here - quote_list can be empty and shouldn't cause problems if it is
+      quote_list = Quote.objects.filter(pk=quote_id)
   
    # Determine which quotes are editable by the current user
    user = request.user
@@ -70,7 +71,7 @@ def edit(request, quoteId = 1):
    if (request.method == 'POST') and ('delete' in request.POST):
    
       # --- Handle delete requests ---
-      quoteInQuestion = Quote.objects.get(pk=quoteId)
+      quoteInQuestion = get_object_or_404(Quote, pk=quoteId)
       quoteInQuestion.delete()
       
       return redirect('/intranet/quote/')
@@ -78,7 +79,7 @@ def edit(request, quoteId = 1):
    elif (request.method == 'POST'):
 
       # --- Handle save requests (from edit form to quote list) ---
-      quoteInQuestion = Quote.objects.get(pk=quoteId)
+      quoteInQuestion = get_object_or_404(Quote, pk=quoteId)
       
       quoteForm = QuoteForm(request.POST, instance=quoteInQuestion)
       quoteForm.save()
@@ -88,8 +89,8 @@ def edit(request, quoteId = 1):
     
        # Make sure quote editor can actually edit the current quote (and reject their request if they can't)
        user = request.user
-       quoteObj = Quote.objects.filter(pk=quoteId).values()[0]
-       quoteUsernames = quoteObj["quote_sources"].split(",")
+       quoteObj = get_object_or_404(Quote, pk=quoteId)
+       quoteUsernames = quoteObj.quote_sources.split(",")
        
        canEdit = (not user.is_anonymous() and user.username in quoteUsernames) or (user.is_top4())
        
@@ -102,12 +103,12 @@ def edit(request, quoteId = 1):
        quoteMembers = Member.objects.filter(username__in=quoteUsernames)
        
        # Unescape escaped quote text
-       quoteObj["quote_text"] = HTMLParser.HTMLParser().unescape(quoteObj["quote_text"])
+       quoteObj.quote_text = HTMLParser.HTMLParser().unescape(quoteObj.quote_text)
        
        # Remove hashtags/authortags in text
-       quoteObj["quote_text"] = string.replace(re.sub("<a href='.+?'>", "", quoteObj["quote_text"]), "</a>", "")
+       quoteObj.quote_text = string.replace(re.sub("<a href='.+?'>", "", quoteObj.quote_text), "</a>", "")
        
-       quoteForm = QuoteForm(quoteObj)
+       quoteForm = QuoteForm(instance=quoteObj)
        
        # -- Handle quote editing --
        return render_to_response('intranet/quote/edit.html',{"section":"intranet","page":'quote',"form":quoteForm, "members":Member.objects.all(),"quoteMembers":quoteMembers,"quote_id":quoteId},context_instance=RequestContext(request))  
