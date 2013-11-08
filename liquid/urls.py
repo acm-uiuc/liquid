@@ -25,6 +25,10 @@ urlpatterns = patterns('',
     url(r'^print/$', redirect_to, {'url': 
         'https://www-s.acm.uiuc.edu/confluence/display/admin/Printing'}),
 
+    #temporary redirect for FB hackathon IRC
+    url(r'^hackathon/$', redirect_to, {'url': 
+        'http://calvinshirley.net/hackathon-irc'}),
+
     #rp redirects
     url(r'^mm/$',redirect_to, {'url': '/conference/2013/mechmania.html'}),
     url(r'^attend/$',redirect_to, {'url': '/conference/2013/register.html'}),
