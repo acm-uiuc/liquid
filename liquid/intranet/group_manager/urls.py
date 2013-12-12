@@ -7,7 +7,5 @@ urlpatterns = patterns('',
     url(r'^edit/(?P<id>\d+)$', 'intranet.group_manager.views.edit'),
     url(r'^manage/(?P<id>\d+)$', 'intranet.group_manager.views.manage'),
     url(r'^manage/(?P<id>\d+)/add/$', 'intranet.group_manager.views.add'),
-    
+    url(r'^manage/(?P<id>\d+)/remove/(?P<netid>[^/]+)$', 'intranet.group_manager.views.remove')
 )
-
-
