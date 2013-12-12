@@ -102,3 +102,16 @@ def add(request,id):
     "members": members
     },context_instance=RequestContext(request))
 
+@specific_group_admin_required('id', ['Admin'])
+def remove(request, id, netid):
+   g = Group.objects.get(id=id)
+   try:
+      m = Member.objects.get(username=netid)
+      gm = GroupMember.objects.get(member=m, group=g)
+      gm.delete()
+      messages.add_message(request, messages.SUCCESS, 'Member removed: %s'%m.full_name_and_netid())
+   except Member.DoesNotExist:
+      messages.add_message(request, messages.ERROR, 'Bad netid: %s'%netid)
+   except GroupMember.DoesNotExist:
+      messages.add_message(request, messages.ERROR, 'User not a member of the group: %s'%netid)
+   return HttpResponseRedirect('/intranet/group/manage/'+id)
