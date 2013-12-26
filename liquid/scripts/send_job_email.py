@@ -39,12 +39,16 @@ def gen_email(jobs):
 
    return email
 
+<<<<<<< HEAD
 def send_email(addr="jobs-l@acm.uiuc.edu", test=False):
+=======
+def send_email(addr="jobs-l@acm.illinois.edu"):
+>>>>>>> remotes/upstream/master
    jobs = Job.objects.filter(sent__exact=False).filter(status__exact='approve')
    if jobs:
       email = gen_email(jobs)
       try:
-         send_mail('ACM@UIUC Weekly Job Postings', email, 'ACM Corporate Committee <corporate@acm.uiuc.edu>',[addr], fail_silently=False)
+         send_mail('ACM@UIUC Weekly Job Postings', email, 'ACM Corporate Committee <corporate@acm.illinois.edu>',[addr], fail_silently=False)
          for j in jobs:
              if test: break # do not mark as saved if testing
 

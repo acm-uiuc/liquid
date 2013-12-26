@@ -27,6 +27,7 @@
     <th>Chair</th>
     <th>Admin</th>
     <th>Status</th>
+    <th>Actions</th>
   <tr>
   </thead>
   <tbody>
@@ -38,6 +39,7 @@
     <td>{{m.is_chair}}</td>
     <td>{{m.is_admin}}</td>
     <td>{{m.status}}</td>
+    <td><a href="{{group.id}}/remove/{{m.id.value|pk_to_netid}}"><i class="icon-trash"></i> Delete</a></td>
   </tr>
   {% endfor %}
   </tbody>

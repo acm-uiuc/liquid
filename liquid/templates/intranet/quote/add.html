@@ -1,0 +1,41 @@
+{% extends "intranet/base.html" %}
+{% load bootstrap %}
+
+{% block top_styles %}
+<link href="/static/css/token-input-facebook.css" rel="stylesheet">
+<link href="/static/css/token-input.css" rel="stylesheet">
+{% endblock %}
+
+{% block intranet_content %}
+<header>
+    <h1>
+        Add Quote
+    </h1>
+</header>
+
+<form class="well" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form }}
+
+    <br />
+    <div>
+        <button type="submit" class="btn btn-primary">Add quote</button>
+        <a href="/intranet/quote/" class="btn btn-secondary">Cancel</a>
+    </div>
+</form>
+{% endblock %}
+
+{% block bottom_scripts %}
+<script src="/static/js/jquery.tokeninput.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    $("#id_quote_sources").tokenInput([
+        {% for m in members %}
+        {id: "{{m.username}}", name: "{{m.full_name_and_netid}}"},
+        {% endfor %}
+    ],{
+        preventDuplicates:true
+    });
+});
+</script>
+{% endblock %}
