@@ -6,14 +6,14 @@ from django.core.urlresolvers import reverse
 from django.core.context_processors import csrf
 from django.db import IntegrityError
 from django.contrib import messages
-from banks.models import BanksPost
+from banks.models import Post
 from banks.forms import PostForm
 from utils.group_decorator import group_admin_required
 import calendar, datetime
 
 # /banks
 def main(request):
-  posts_set = BanksPost.objects.all()
+  posts_set = Post.objects.all()
 
   paginator = Paginator(posts_set, 5)
   page = request.GET.get('page')
@@ -40,7 +40,7 @@ def main(request):
 # /banks/posts/:slug
 def viewPost(request, slug):
   print "VIEW POST"
-  post = get_object_or_404(BanksPost, slug=slug)
+  post = get_object_or_404(Post, slug=slug)
   return render_to_response(
     'banks/post.html',
     {
@@ -56,7 +56,7 @@ def viewPost(request, slug):
 @group_admin_required(['top4'])
 def new(request):
   if request.method == 'POST': # form has been properly submitted
-    p = BanksPost(creator=request.user)
+    p = Post(creator=request.user)
     form = PostForm(request.POST, instance=p)
     if form.is_valid():
       form.save()
@@ -78,7 +78,7 @@ def new(request):
 # /banks/posts/edit/:slug
 @group_admin_required(['top4'])
 def edit(request, slug):
-  p = BanksPost.objects.get(slug=slug)
+  p = Post.objects.get(slug=slug)
 
   if request.method == "POST":
     form = PostForm(request.POST, instance=p)
@@ -100,10 +100,10 @@ def edit(request, slug):
 # /banks/posts/delete/:slug
 @group_admin_required(['top4'])
 def delete(request, slug):
-  post = BanksPost.objects.get(slug=slug)
+  post = Post.objects.get(slug=slug)
   if post:
     post.delete()
     messages.add_message(request, messages.SUCCESS, 'Post Deleted')
   else:
-    messages.add_message(request, messages.ERROR, 'Error in Deleting Post')
+    messages.add_message(request, messages.ERROR, 'Error in deleting post')
   return HttpResponseRedirect('/banks')

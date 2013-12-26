@@ -9,13 +9,12 @@
 {% endif %}
     <h1>Banks of the Boneyard</h1>
 </header>
-
 <!-- Post !-->
-<div class="post-title">
+
+<div class="postTitle">
     <span class="title">{{post.title}}</span>
     <span class="postInfo pull-right">{{post.creator}} - {{post.date_publish}}</span>
 </div>
-<div class="post-subtitle">{{post.subtitle}}</div>
 <div class="body">{{post.content_markup|safe}}</div>
 {%endblock%}
 

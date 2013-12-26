@@ -20,15 +20,15 @@ import logging
 import os
 
 
-class BanksPost(models.Model):
+class Post(models.Model):
 
     title = models.CharField(max_length = 255)
-    subtitle = models.CharField(max_length = 255)
 
     slug = models.SlugField(
       max_length = 255,
       unique = True
     )
+
     content_markdown = models.TextField()
     content_markup = models.TextField()
     date_publish = models.DateTimeField(auto_now_add=True)
@@ -40,7 +40,7 @@ class BanksPost(models.Model):
     def save(self):
       unique_slugify(self, self.title)
       self.content_markup = markdown(self.content_markdown, ['codehilite'])
-      super(BanksPost, self).save()
+      super(Post, self).save()
 
     def __unicode__(self):
       return "%s" % (self.title,)

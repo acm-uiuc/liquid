@@ -1,6 +1,6 @@
 from django.forms import ModelForm, CheckboxSelectMultiple, HiddenInput
 from utils.widgets import SplitSelectDateTimeWidget
-from banks.models import BanksPost
+from banks.models import Post
 from pagedown.widgets import AdminPagedownWidget, PagedownWidget
 
 
@@ -8,7 +8,7 @@ from pagedown.widgets import AdminPagedownWidget, PagedownWidget
 class PostForm(ModelForm):
 
   class Meta:
-    model = BanksPost
+    model = Post
     widgets = {
       'content_markdown' : AdminPagedownWidget(),
     }
