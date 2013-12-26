@@ -12,62 +12,59 @@ from textwrap import wrap
 
 def gen_email(jobs):
 
-   today = date.today()
-   company_list = []
-   email = "ACM@UIUC Weekly Job Postings\r\nWeek of " + today.strftime("%m/%d/%y") + "\r\n\r\n"
-   email += "With postings from:\r\n"
+  today = date.today()
+  company_list = set()
+  email = "ACM@UIUC Weekly Job Postings\r\nWeek of " + today.strftime("%m/%d/%y") + "\r\n\r\n"
+  email += "With postings from:\r\n"
 
-   for j in jobs:
-      if j.company not in company_list:
-         company_list.append(j.company)
-         email += "* " + j.company + "\r\n"
+  for j in jobs:
+    if j.company not in company_list:
+       company_list.add(j.company)
+       email += "* " + j.company + "\r\n"
 
-   email += "\r\n========================================================================\r\n\r\n";
+  email += "\r\n========================================================================\r\n\r\n"
 
-   for j in jobs:
-      email += "Title: " + j.job_title + "\r\n"
-      email += "Company: " + j.company + "\r\n";
-      email += "Contact: " + j.contact_name +  ' <' + j.contact_email + '> ' + j.contact_phone + "\r\n"
-      email += "Hiring for: " + j.types() + "\r\n"
-      description = j.description.split('\n')
-      description_out = ""
-      for d in description:
-         if d != "":
-            description_out += "\r\n".join(wrap(d,72)) + "\r\n"
-      email += "Description:\r\n" + description_out + "\r\n";
-      email += "\r\n========================================================================\r\n\r\n";
+  for j in jobs:
+    email += "Title: " + j.job_title + "\r\n"
+    email += "Company: " + j.company + "\r\n"
+    email += "Contact: " + j.contact_name +  ' <' + j.contact_email + '> ' + j.contact_phone + "\r\n"
+    email += "Hiring for: " + j.types() + "\r\n"
+    description = j.description.split('\n')
+    description_out = ""
+    for d in description:
+       if d != "":mdescription_out += "\r\n".join(wrap(d,72)) + "\r\n"
+    email += "Description:\r\n" + description_out + "\r\n"
+    email += "\r\n========================================================================\r\n\r\n"
 
-   return email
+  return email
 
-<<<<<<< HEAD
 def send_email(addr="jobs-l@acm.uiuc.edu", test=False):
-=======
-def send_email(addr="jobs-l@acm.illinois.edu"):
->>>>>>> remotes/upstream/master
-   jobs = Job.objects.filter(sent__exact=False).filter(status__exact='approve')
-   if jobs:
-      email = gen_email(jobs)
-      try:
-         send_mail('ACM@UIUC Weekly Job Postings', email, 'ACM Corporate Committee <corporate@acm.illinois.edu>',[addr], fail_silently=False)
-         for j in jobs:
-             if test: break # do not mark as saved if testing
 
-             j.sent = True
-             j.save()
-         return "Email sent to " + addr
-      except Exception as inst:
-         print "Error sending email"
-         return "Error in sending email" + inst
+  jobs = Job.objects.filter(sent__exact=False).filter(status__exact='approve')
+  if jobs:
+    email = gen_email(jobs)
+    try:
 
-   else:
-      return "No jobs to send"
+      send_mail('ACM@UIUC Weekly Job Postings', email, 'ACM Corporate Committee <corporate@acm.illinois.edu>',[addr], fail_silently=False)
 
+      for j in jobs:
+        if test: break # do not mark as saved if testing
+        j.sent = True
+        j.save()
+
+      return "Email sent to " + addr
+
+    except Exception as inst:
+      print "Error sending email"
+      return "Error in sending email" + inst
+
+  else:
+    return "No jobs to send"
 
 def view_email():
-   jobs = Job.objects.filter(sent__exact=False).filter(status__exact='approve')
-   if jobs:
-      email = gen_email(jobs)
-      return email
-   else:
-      return "No jobs to send"
-
+  jobs = Job.objects.filter(sent__exact=False).filter(status__exact='approve')
+  if jobs:
+    email = gen_email(jobs)
+    return email
+  else:
+    return "No jobs to send"
