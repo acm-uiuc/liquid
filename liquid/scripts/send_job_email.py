@@ -68,3 +68,7 @@ def view_email():
     return email
   else:
     return "No jobs to send"
+
+
+if __name__ == "__main__":
+    print(view_email())
