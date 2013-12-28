@@ -52,3 +52,12 @@ def send_email(addr="jobs-l@acm.illinois.edu"):
 
    else:
       return "No jobs to send"
+
+
+def view_email():
+  jobs = Job.objects.filter(sent__exact=False).filter(status__exact='approve')
+  if jobs:
+    email = gen_email(jobs)
+    return email
+  else:
+    return "No jobs to send"
