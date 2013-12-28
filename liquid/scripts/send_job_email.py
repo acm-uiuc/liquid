@@ -32,7 +32,7 @@ def gen_email(jobs):
     description = j.description.split('\n')
     description_out = ""
     for d in description:
-       if d != "":mdescription_out += "\r\n".join(wrap(d,72)) + "\r\n"
+       if d != "": description_out += "\r\n".join(wrap(d,72)) + "\r\n"
     email += "Description:\r\n" + description_out + "\r\n"
     email += "\r\n========================================================================\r\n\r\n"
 

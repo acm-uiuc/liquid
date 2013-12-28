@@ -150,11 +150,7 @@ INSTALLED_APPS = (
     'intranet.member_database',
     'intranet.chroma',
     'intranet.resume_manager',
-<<<<<<< HEAD
-=======
     'intranet.quote',
->>>>>>> remotes/upstream/master
-
     'bootstrapform',
     'utils.django_mailman',
     'south',
