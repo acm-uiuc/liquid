@@ -5,4 +5,3 @@ urlpatterns = patterns('',
     url(r'^$', 'banks.views.main'),
 )
 
-

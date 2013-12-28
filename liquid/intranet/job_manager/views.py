@@ -33,7 +33,7 @@ def preview_email(request):
 @group_admin_required(['Top4'])
 def test_email(request):
   addr = request.user.email
-  res = send_email(addr)
+  res = send_email(addr, True)
   messages.add_message(request,messages.SUCCESS, res)
   return HttpResponseRedirect('/intranet/jobs/previewEmail')
 

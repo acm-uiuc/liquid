@@ -32,6 +32,5 @@ def gen_email():
 
   return text
 
-#keeping the same functionality as was originally here by calling the stript
-if __name__ == '__main__':
-	print gen_email()
+if __name__ == "__main__":
+  print gen_email()

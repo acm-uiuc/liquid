@@ -22,15 +22,15 @@ urlpatterns = patterns('',
     url(r'^conference/', include('conference.urls')),
 
     url(r'^resume/$', redirect_to, {'url': '/corporate/resume/'}),
-    url(r'^print/$', redirect_to, {'url': 
+    url(r'^print/$', redirect_to, {'url':
         'https://www-s.acm.uiuc.edu/confluence/display/admin/Printing'}),
 
     #rp redirects
     url(r'^mm/$',redirect_to, {'url': '/conference/2013/mechmania.html'}),
     url(r'^attend/$',redirect_to, {'url': '/conference/2013/register.html'}),
-    url(r'^register/$',redirect_to, {'url': '/conference/2013/register.html'}),
     url(r'^helpout/$',redirect_to, {'url': '/conference/2013/volunteers.html'}),
     url(r'^schedule/$',redirect_to, {'url': '/conference/2013/schedule.html'}),
+
     url(r'^jobs/$',redirect_to, {'url': '/conference/2013/career_fairs.html'}),
     url(r'^jobfair/$',redirect_to, {'url': '/conference/2013/career_fairs.html'}),
     url(r'^startup/$',redirect_to, {'url': '/conference/2013/career_fairs.html'}),
