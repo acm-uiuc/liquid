@@ -8,8 +8,7 @@ developement in a branch and merge when the feature is ready to launch.
 
 Issues and Feature Requests
 ---------------------------
-Please use the github issues and check the trello for current work.
-
+Please submit an issue on the main Github repository.
 
 
 Getting Started
