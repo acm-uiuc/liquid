@@ -1,0 +1,34 @@
+.postTitle .title{
+  font-weight: bold;
+  font-size: 20pt;
+}
+
+  .postTitle >a:hover{
+    text-decoration: none;
+  }
+
+.postSubtitle{
+  font-size: 14pt;
+  font-weight: bold;
+
+}
+
+#id_content_markdown{
+  width: 800px;
+}
+.wmd-input{
+  width: 800px;
+}
+
+.btn.newPost-btn{
+  margin-top: 1%;
+}
+
+.btn.editPost-btn{
+  margin-right: 1%;
+}
+
+.btn.post-submit{
+  padding-bottom: 2%;
+}
+

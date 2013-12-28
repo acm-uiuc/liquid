@@ -11,7 +11,6 @@ from django.core.mail import send_mail
 from textwrap import wrap
 
 def gen_email(jobs):
-
    today = date.today()
 
    email = "ACM@UIUC Weekly Job Postings\r\nWeek of " + today.strftime("%m/%d/%y") + "\r\n\r\n"
@@ -53,13 +52,3 @@ def send_email(addr="jobs-l@acm.illinois.edu"):
 
    else:
       return "No jobs to send"
-
-
-def view_email():
-   jobs = Job.objects.filter(sent__exact=False).filter(status__exact='approve')
-   if jobs:
-      email = gen_email(jobs)
-      return email
-   else:
-      return "No jobs to send"
-

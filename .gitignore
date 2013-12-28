@@ -7,3 +7,5 @@ local_settings.py
 *.sass-cache/
 .idea/
 *~
+liquid.sublime-project
+liquid.sublime-workspace

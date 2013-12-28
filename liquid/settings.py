@@ -122,12 +122,17 @@ TEMPLATE_DIRS = (
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request',
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.media'
 )
 
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+    'django.contrib.sites',
+    'django.contrib.markup',
     'bootstrap-pagination',
 
     'abouta',
@@ -146,10 +151,11 @@ INSTALLED_APPS = (
     'intranet.chroma',
     'intranet.resume_manager',
     'intranet.quote',
-
     'bootstrapform',
     'utils.django_mailman',
     'south',
+    'django.contrib.markup', # markup editor/filters
+    'pagedown', # App for adding markdown preview to the django admin
   )
 
 # A sample logging configuration. The only tangible logging
@@ -225,7 +231,7 @@ MIDDLEWARE_CLASSES = ('django.middleware.common.CommonMiddleware',
  'django.contrib.messages.middleware.MessageMiddleware',
  'utils.http.Http403Middleware',
  'utils.loginmiddleware.RequireLoginMiddleware',)
- 
+
 LOGIN_REQUIRED_URLS = (
   (r'/intranet/(.*)$',True),
   (r'/quote/(.*)$',True),
@@ -258,7 +264,7 @@ try:
   from local_settings import *
 except ImportError, exp:
   pass
-  
+
 
 if SERVE_STATIC:
   INSTALLED_APPS += ('django.contrib.staticfiles',)

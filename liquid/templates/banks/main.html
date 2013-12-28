@@ -1,9 +1,54 @@
 {% extends "base.html" %}
+
+{% block top_styles %}
+   <link href="/static/css/banks.css" rel="stylesheet">
+{%endblock%}
+
 {% block content %}
 <header class="page-header">
+{% if user.is_top4 %}
+  <a href="{% url banks.views.new %}" class="newPost-btn btn btn-primary pull-right">New Post</a>
+{% endif %}
 <h1>Banks of the Boneyard</h1>
 </header>
+<<<<<<< HEAD
+
+{% if posts %}
+<div class="posts-list">
+  <ul>
+    <!-- Posts !-->
+    {% for post in posts.object_list %}
+    <div class="postTitle"><a class="title" href='{% url banks.views.viewPost post.slug %}'>{{post.title}}</a>
+    <span class="postInfo pull-right">{{post.creator}} - {{post.date_publish}}</span>
+    </div>
+    <div class="body">{{post.content_markup|truncatechars:50|safe}}</div>
+    {% endfor %}
+  </ul>
+
+<!-- Next/Prev Post links !-->
+  {% if posts.object_list and posts.paginator.num_pages > 1 %}
+  <div class="pagination">
+  <span class="step-links">
+    {% if posts.has_previous %}
+      <a href= "?page={{ posts.previous_page_number }}">Newer &lt;&lt; </a>
+    {% endif %}
+    {% if posts.has_next %}
+      <a href="?page={{ posts.next_page_number }}">Older&lt;&lt; </a>
+    {% endif %}
+  {% endif %}
+
+</div>
+
+{% else %}
+  No Posts :(
+
+{% endif %}
+
+
+{% endblock %}
+=======
 <p>
 	Banks of the boneyard is the ACM monthy newsletter. More information coming soon. For questions email <a href="mailto:boneyard@acm.illinois.edu">boneyard@acm.illinois.edu</a>.
 </p>
 {% endblock %}
+>>>>>>> remotes/upstream/master
