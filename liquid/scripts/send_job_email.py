@@ -19,9 +19,12 @@ def gen_email(jobs):
   companies = set()
 
   for j in jobs:
-    if j.company and j.company not in companies:
-      companies.add(j.company)
-      email += "* " + j.company + "\r\n"
+    if j.company:
+      company = j.company.strip().lower()
+
+      if company not in companies:
+        companies.add(company)
+        email += "* " + j.company + "\r\n"
 
   email += "\r\n========================================================================\r\n\r\n";
 
