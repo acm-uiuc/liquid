@@ -62,8 +62,7 @@ def new(request):
       messages.add_message(request, messages.SUCCESS, 'Post Created')
     else:
       messages.add_message(request, messages.ERROR, "Error in Post")
-
-    return HttpResponseRedirect('/banks')
+    return viewPost(request, p.slug)
   else:
     #rendering old form
     form = PostForm()
@@ -86,7 +85,7 @@ def edit(request, slug):
       messages.add_message(request, messages.SUCCESS, 'Post Successfully Edited')
     else:
       messages.add_message(request, messages.ERROR, 'Error in Editing Post')
-    return HttpResponseRedirect('/banks')
+    return viewPost(request, p.slug)
 
   else:
     form = PostForm(instance=p)
