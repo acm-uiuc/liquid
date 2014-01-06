@@ -1,0 +1,68 @@
+
+.postTitle{
+  margin-bottom: .5%;
+}
+
+.post-subtitle{
+  font-weight: bold;
+  color: #555;
+}
+.posts-list .post{
+  list-style: none;
+}
+
+.postTitle .title{
+  font-weight: bold;
+  font-size: 20pt;
+}
+
+  .postTitle >a:hover{
+    text-decoration: none;
+  }
+
+.postSubtitle{
+  font-size: 14pt;
+  font-weight: bold;
+
+}
+
+#id_content_markdown{
+  width: 800px;
+}
+.wmd-input{
+  width: 800px;
+}
+
+
+
+
+
+/*
+
+POST
+
+*/
+
+.title{
+  font-size: 2rem;
+  font-weight: bolder;
+}
+.post-subtitle{
+  margin-top: .5%;
+  margin-bottom: 2%;
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #555;
+}
+
+.newPost-btn{
+  margin-top: 1%;
+}
+
+.editPost-btn{
+  margin-right: 1%;
+}
+
+.post-submit .controls{
+  padding-bottom: 1%;
+}

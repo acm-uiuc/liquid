@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block top_styles %}
+{% endblock %}
+
+{% block bottom_scripts %}
+{% endblock %}
+
+{% block content %}
+
+<header class="page-header">
+<h1>{{ page_title }}</h1>
+</header>
+
+<form class="well" method="POST">
+  {% csrf_token %}
+
+  {{ form }}
+ <div class="post-submit control-group">
+    <div class="controls">
+      <button type="submit" class="btn btn-primary pull-right">Save</button>
+    </div>
+  </div>
+</form>
+{% endblock %}
