@@ -81,7 +81,7 @@ def add(request):
       
 def edit(request, quoteId = 1): 
    
-   # Quote editing/modification logic
+   # Quote deletion logic
    if (request.method == 'POST') and ('delete' in request.POST):
    
       # --- Handle delete requests ---
@@ -90,7 +90,9 @@ def edit(request, quoteId = 1):
       
       return redirect('/intranet/quote/')
    
-   elif (request.method == 'POST'):
+   # Quote editing logic
+   author_usernames = ""
+   if (request.method == 'POST'):
 
       # --- Handle save requests (from edit form to quote list) ---
       quote_in_question = get_object_or_404(Quote, pk=quoteId)
@@ -103,27 +105,26 @@ def edit(request, quoteId = 1):
       
       quote_form = QuoteForm(request.POST,
                             instance=quote_in_question)
-      quote_form.save()
+      author_usernames = request.POST["quote_sources"].strip(",").split(",")
+      if quote_form.is_valid():
+         quote_form.save()
+         return redirect('/intranet/quote/')
+        
+   # --- Logic for new quote forms/those with invalid data 
+   # Make sure quote editor can actually edit the current quote (and reject their request if they can't)
+   user = request.user
+   quote_obj = get_object_or_404(Quote, pk=quoteId)
 
-      return redirect('/intranet/quote/')
-   else:
-    
-      # Make sure quote editor can actually edit the current quote (and reject their request if they can't)
-      user = request.user
-      quote_obj = get_object_or_404(Quote, pk=quoteId)
-      quote_usernames = quote_obj.quote_sources.strip(",").split(",")
+   # New-form-only (i.e. not just when user submits invalid data) logic
+   if (request.method != 'POST'):
+      author_usernames = quote_obj.quote_sources.strip(",").split(",")
       poster_usernames = quote_obj.quote_posters.strip(",").split(",")
        
-      canEdit = (not user.is_anonymous() and (user.username in quote_usernames) or (user.username in poster_usernames)) or (user.is_top4())
+      canEdit = (not user.is_anonymous() and (user.username in author_usernames) or (user.username in poster_usernames)) or (user.is_top4())
        
-      if (not canEdit):
-         raise PermissionDenied # Current user cannot edit this quote
+      #if (not canEdit):
+      #   raise PermissionDenied # Current user cannot edit this quote
     
-      # --- Handle edit page requests (from quote list to edit form) ---
-       
-      # Get authors' Member objects
-      quoteMembers = Member.objects.filter(username__in=quote_usernames)
-       
       # Unescape escaped quote text
       quote_obj.quote_text = HTMLParser.HTMLParser().unescape(quote_obj.quote_text)
 
@@ -132,10 +133,14 @@ def edit(request, quoteId = 1):
       
       # Convert <br />'s into newlines (\n - TODO?: this may cause issues for Windows users)
       quote_obj.quote_text = string.replace(quote_obj.quote_text, "<br />", "\n")
-
+ 
       quote_form = QuoteForm(instance=quote_obj)
-      quote_form.fields["quote_posters"].widget = forms.HiddenInput()
-       
-      # -- Handle quote editing --
-      return render_to_response('intranet/quote/edit.html',{"section":"intranet","page":'quote',"form":quote_form, "members":Member.objects.all(),"quoteMembers":quoteMembers,"quote_id":quoteId,"user":request.user},context_instance=RequestContext(request))  
+
+   quote_form.fields["quote_posters"].widget = forms.HiddenInput()
+   
+   # --- Return form (either a new one, or one with existing data if user has provided invalid data) ---
+   print author_usernames    
+   quoteMembers = Member.objects.filter(username__in=author_usernames) # Get authors' Member objects
+   
+   return render_to_response('intranet/quote/edit.html',{"section":"intranet","page":'quote',"form":quote_form, "members":Member.objects.all(),"quoteMembers":quoteMembers,"quote_id":quoteId,"user":request.user},context_instance=RequestContext(request))  
       
