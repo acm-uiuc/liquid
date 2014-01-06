@@ -1,4 +1,4 @@
-/* PYTHON PACKAGES - Use "pip" (sudo pip install [package]) or "easy_install" (?) */
+/* PYTHON PACKAGES - Use "pip" (sudo pip install [package]) or "easy_install" (sudo easy_install [package]) */
 Django>=1.4.8, < 1.5
 MySQL-python==1.2.3
 South==0.7.3
@@ -8,7 +8,7 @@ django-ical==1.2
 icalendar==3.3
 pyPdf==1.13
 python-dateutil==2.1
-!!! python-ldap==2.4.9
+python-ldap==2.4.9
 pytz==2013b
 reportlab==2.5
 simplejson==2.4.0
@@ -18,4 +18,3 @@ wsgiref==0.1.2
 /* STANDARD PACKAGES */
 libmysqlclient-dev /* Required by MySQL-python */
 python-dev /* Required by MySQL-python */
-
