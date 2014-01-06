@@ -18,10 +18,11 @@
     <!-- Posts !-->
     {% for post in posts.object_list %}
     <li class="post">
-      <div class="postTitle"><a class="title" href='{% url banks.views.viewPost post.slug %}'>{{post.title}}</a>
-      <span class="postInfo pull-right">{{post.creator}} - {{post.date_publish}}</span>
-      </div>
-      <div class="post-preview">{{post.subtitle|truncatechars:100|safe}}</div>
+        <div class="post-header">
+            <h2 class="post-title"><a href='{% url banks.views.viewPost post.slug %}'>{{post.title}}</a></h2>
+            <span class="post-info pull-right">{{post.creator}} - {{post.date_publish}}</span>
+        </div>
+        <p class="post-preview">{{post.subtitle|truncatechars:100|safe}}</p>
     </li>
     {% endfor %}
   </ul>

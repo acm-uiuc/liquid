@@ -1,48 +1,31 @@
 
-.postTitle{
-  margin-bottom: .5%;
+/*
+#POST LIST
+*/
+
+.posts-list{
+    list-style: none;
 }
 
-.post-subtitle{
-  font-weight: bold;
-  color: #555;
-}
-.posts-list .post{
-  list-style: none;
-}
-
-.postTitle .title{
-  font-weight: bold;
-  font-size: 20pt;
-}
-
-  .postTitle >a:hover{
-    text-decoration: none;
-  }
-
-.postSubtitle{
-  font-size: 14pt;
-  font-weight: bold;
-
-}
-
-#id_content_markdown{
-  width: 800px;
-}
-.wmd-input{
-  width: 800px;
+.post{
+    border-bottom: 1px solid #eeeeee;
 }
 
 
+.post-title{
+    display: inline-block;
+
+}
+
+.post-info{
+    margin-top: 15px;
+}
 
 
 
 /*
-
-POST
-
+#POST
 */
-
 .title{
   font-size: 2rem;
   font-weight: bolder;
