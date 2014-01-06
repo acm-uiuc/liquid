@@ -21,7 +21,7 @@ After cloning to your computer you need to have the following installed:
   * MAC: `sudo pip install python-ldap` - Note: OS X formerly had problems that were solved by instructions here: http://projects.skurfer.com/posts/2011/python_ldap_lion/
   * Linux: `sudo apt-get install python-ldap`
 * everything else in liquid/requirements.txt
-    * This can be easily done by running 'sudo pip install -r requirements.txt'
+    * This can be easily done by running 'pip install -r requirements.txt'
 
 Run `python setup.py`
 
