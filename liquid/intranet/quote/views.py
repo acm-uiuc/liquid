@@ -57,24 +57,27 @@ def main(request, quote_id = 0):
 
 def add(request):
 
+   quote_form = None
    if request.method == 'POST':
 
       #-- Handle new quotes --
-      # Save quote
+      # Save quote (if it's valid; otherwise do nothing)
       request.POST['quote_posters'] = request.user.username # So altering this in the POST request does nothing
       quote_form = QuoteForm(request.POST)
-      quote_form.save()
-
-      return redirect('/intranet/quote/')
+      if quote_form.is_valid():
+         quote_form.save()
+         return redirect('/intranet/quote/')
    else:
 
       # -- Handle quote adding --
       # Make new form and prepopulate it with poster name
       quote_form = QuoteForm()
-      quote_form.fields["quote_posters"].widget = forms.HiddenInput()
-      # We aren't going to depend on a quote_posters variable that is set here (for security reasons)
       
-      return render_to_response('intranet/quote/add.html',{"section":"intranet","page":'quote',"form":quote_form,"members":Member.objects.all(),"user":request.user},context_instance=RequestContext(request))
+   # Hide quote_posters (since the user shouldn't see it and can't modify it)
+   quote_form.fields["quote_posters"].widget = forms.HiddenInput()
+      
+   # Return form to user (either a new form, or a form with their invalid input in it if such input was provided)
+   return render_to_response('intranet/quote/add.html',{"section":"intranet","page":'quote',"form":quote_form,"members":Member.objects.all(),"user":request.user},context_instance=RequestContext(request))
       
 def edit(request, quoteId = 1): 
    

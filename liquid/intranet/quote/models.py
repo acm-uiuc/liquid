@@ -8,6 +8,8 @@ from intranet.models import Member
 
 # Create your models here.
 class Quote(models.Model):
+
+   # Fields
    quote_text = models.TextField(max_length=700)
    quote_sources = models.CharField(max_length=100) # The sources of the quote (not displayed on the page, purely for recordkeeping)
    quote_source_html = models.CharField(max_length=200) # The HTML that represents the quote source (and is displayed with the quote)
