@@ -122,8 +122,8 @@ def edit(request, quoteId = 1):
        
       canEdit = (not user.is_anonymous() and (user.username in author_usernames) or (user.username in poster_usernames)) or (user.is_top4())
        
-      #if (not canEdit):
-      #   raise PermissionDenied # Current user cannot edit this quote
+      if (not canEdit):
+         raise PermissionDenied # Current user cannot edit this quote
     
       # Unescape escaped quote text
       quote_obj.quote_text = HTMLParser.HTMLParser().unescape(quote_obj.quote_text)
