@@ -44,7 +44,7 @@ Now let's start the website!
 
 Visit [localhost:8000](http://localhost:8000) in your browser.
 
-Not that you will not be able to login unless you are on the UIUC campus network. If you want
+Note that you will not be able to login unless you are on the UIUC campus network. If you want
 to work remotely, check out [CITES VPN](https://www.cites.illinois.edu/vpn/download-install.html).
 
 How to Submit a Pull Request
