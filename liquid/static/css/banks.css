@@ -3,24 +3,41 @@
 #POST LIST
 */
 
-.posts-list{
-    list-style: none;
-}
-
 .post{
+    padding: 2em 0;
     border-bottom: 1px solid #eeeeee;
 }
+    .post:first-child{
+        padding-top: 0px;
+    }
 
+
+.post-info{
+    text-transform: uppercase;
+    margin: 0 0 .3em;
+    display: block;
+}
 
 .post-title{
     display: inline-block;
-
 }
 
-.post-info{
-    margin-top: 15px;
-}
+    .post-title > a{
+        color: inherit;
 
+    }
+        .post-title > a:hover{
+            text-decoration: none;
+            color: #0088cc;
+        }
+
+.post-preview{
+
+}
+    .post-preview > .markdown-container {
+        margin: 0 0 1.618em 0;
+        font-size: 1.33em;
+    }
 
 
 /*

@@ -1,36 +1,41 @@
 {% extends "base.html" %}
 
 {% block top_styles %}
-   <link href="/static/css/banks.css" rel="stylesheet">
+<link href="/static/css/banks.css" rel="stylesheet">
 {%endblock%}
 
 {% block content %}
 <header class="page-header">
-{% if user.is_top4 %}
-  <a href="{% url banks.views.new %}" class="newPost-btn btn btn-primary pull-right">New Post</a>
-{% endif %}
-<h1>Banks of the Boneyard</h1>
+    {% if user.is_top4 %}
+    <a href="{% url banks.views.new %}" class="newPost-btn btn btn-primary pull-right">New Post</a>
+    {% endif %}
+    <h1>Banks of the Boneyard</h1>
 </header>
 
-{% if posts %}
-<div>
-  <ul class="posts-list">
+<section class="posts">
+    {% if posts %}
+
     <!-- Posts !-->
     {% for post in posts.object_list %}
-    <li class="post">
-        <div class="post-header">
+    <article class="post">
+        <header class="post-header">
+            <div class="post-info muted">{{post.date_publish}} By {{post.creator}}</div>
             <h2 class="post-title"><a href='{% url banks.views.viewPost post.slug %}'>{{post.title}}</a></h2>
-            <span class="post-info pull-right">{{post.creator}} - {{post.date_publish}}</span>
-        </div>
-        <p class="post-preview">{{post.subtitle|truncatechars:100|safe}}</p>
-    </li>
+        </header>
+        <section class="post-preview">
+            <div class="markdown-container">
+                {{post.content_markup|truncatechars:500|safe}}
+            </div>
+            <a class="read-more" href="{% url banks.views.viewPost post.slug %}">Read More &rArr;</a>
+        </section>
+    </article>
     {% endfor %}
-  </ul>
 
-  <!-- Next/Prev Post links !-->
-  {% if posts.object_list and posts.paginator.num_pages > 1 %}
-  <div class="pagination">
-  <span class="step-links">
+    <!-- Next/Prev Post links !-->
+    {% if posts.object_list and posts.paginator.num_pages > 1 %}
+    <footer class="pagination">
+
+        <span class="step-links">
     {% if posts.has_previous %}
       <a class="pull-right" href="?page={{ posts.previous_page_number }}">Newer</a>
     {% endif %}
@@ -39,15 +44,11 @@
     {% endif %}
   {% endif %}
   </span>
-</div>
-
-{% else %}
-  No Posts :(
-</div>
-{% endif %}
-
+    </footer>
+    {% else %}
+    <h1>No Posts :(</h1>
+    {% endif %}
+</section>
 {% endblock %}
 
-{% block bottom_scripts %}
-
-{% endblock %}
+{% block bottom_scripts %} {% endblock %}
