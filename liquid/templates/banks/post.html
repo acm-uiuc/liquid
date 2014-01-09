@@ -1,20 +1,29 @@
 {% extends 'base.html' %}
+
+
+{% block top_styles %}
+<link href="/static/css/banks.css" rel="stylesheet">
+{%endblock%}
+
 {% block content %}
 
-<header class="page-header">
+<article class="post-wrapper">
+  <section class="post">
+    <header>
+      <div class="post-info muted">{{post.date_publish}} by {{post.creator}}</div>
+      <h1 class="post-title">{{post.title}}</h1>
+    </header>
+    <div class="body">{{post.content_markup|safe}}</div>
+  </section>
 
-{% if user.is_top4 %}
-  <a href="{% url banks.views.delete post.slug %}" class="delPost-btn btn btn-danger pull-right">Delete Post</a>
-  <a href="{% url banks.views.edit post.slug %}" class="editPost-btn btn btn-warning pull-right">Edit Post</a>
-{% endif %}
-    <h1>Banks of the Boneyard</h1>
-</header>
-<!-- Post !-->
+  <section class="post-controls">
+    {% if user.is_top4 %}
+    <a href="{% url banks.views.edit post.slug %}" class="post-control btn btn-warning">Edit Post</a>
+    <a href="{% url banks.views.delete post.slug %}" class="post-control btn btn-danger" onclick="confirm('Are You Sure')?">Delete Post</a>
+    {% endif %}
+  </section>
 
-<div class="post-title">
-    <span class="title">{{post.title}}</span>
-    <span class="postInfo pull-right">{{post.creator}} - {{post.date_publish}}</span>
-</div>
-<div class="post-subtitle">{{post.subtitle}}</div>
-<div class="body">{{post.content_markup|safe}}</div>
+</article>
 {% endblock %}
+
+

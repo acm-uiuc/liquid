@@ -1,14 +1,14 @@
 
 /*
-#POST LIST
+  #POST LIST
 */
 
-.post{
-    padding: 2em 0;
+.posts .post{
+    padding: 3em 0;
     border-bottom: 1px solid #eeeeee;
 }
-    .post:first-child{
-        padding-top: 0px;
+    .posts .post:first-child{
+        padding-top: 0;
     }
 
 
@@ -16,6 +16,7 @@
     text-transform: uppercase;
     margin: 0 0 .3em;
     display: block;
+    font-size: 1em;
 }
 
 .post-title{
@@ -31,38 +32,33 @@
             color: #0088cc;
         }
 
-.post-preview{
-
+.post-preview > .markdown-container {
+    margin: 0 0 1.618em 0;
+    font-size: 1.33em;
 }
-    .post-preview > .markdown-container {
-        margin: 0 0 1.618em 0;
-        font-size: 1.33em;
-    }
 
 
 /*
-#POST
+  #POST
 */
-.title{
-  font-size: 2rem;
-  font-weight: bolder;
-}
-.post-subtitle{
-  margin-top: .5%;
-  margin-bottom: 2%;
-  font-weight: bold;
-  font-size: 1.2rem;
-  color: #555;
+
+.post-wrapper {
+  max-width: 740px;
+  padding: 0 25px;
 }
 
-.newPost-btn{
-  margin-top: 1%;
+
+.post-wrapper .post{
+  padding: 25px auto;
 }
 
-.editPost-btn{
-  margin-right: 1%;
-}
+  .post > header{
+    margin: 25px 0;
+  }
 
-.post-submit .controls{
-  padding-bottom: 1%;
+  .post .body{
+    font-size: 1.1em;
+  }
+
+.post-control{
 }
