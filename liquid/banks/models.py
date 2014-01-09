@@ -23,7 +23,7 @@ import os
 class BanksPost(models.Model):
 
     title = models.CharField(max_length = 255)
-    subtitle = models.CharField(max_length = 255)
+    subtitle = models.CharField(max_length = 255, default='')
 
     slug = models.SlugField(
       max_length = 255,
@@ -39,6 +39,7 @@ class BanksPost(models.Model):
 
     def save(self):
       unique_slugify(self, self.title)
+      self.subtitle = ''
       self.content_markup = markdown(self.content_markdown, ['codehilite'])
       super(BanksPost, self).save()
 

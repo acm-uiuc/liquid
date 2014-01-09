@@ -10,4 +10,4 @@ class PostForm(ModelForm):
     widgets = {
       'content_markdown' : AdminPagedownWidget(),
     }
-    exclude = ['creator','content_markup', 'slug']
+    exclude = ['subtitle','creator','content_markup', 'slug']
