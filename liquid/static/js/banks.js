@@ -13,32 +13,37 @@
 
 
 
+
     //LOAD
     $(document).ready(function(){
 
-      $('#id_title').on('keyup', function(e){
-        var target = $(e.target);
-        gen_preview(target.val(), targets[target.attr('id')]);
-      });
+      reset_text();
 
-      $('#id_content_markdown').on('keyup', function(e){
-        var target = $(e.target);
-        gen_preview(target.val(), targets[target.attr('id')]);
-      });
-
+      //EVENTS
+      $('#id_title').keyup(gen_preview);//('keyup', gen_preview(e));
+      $('#id_content_markdown').on('keyup', gen_preview);
 
     });
 
 
+    function reset_text(){
+      for(var key in targets){
+        var source = $('#'.concat(key));
+        if( source && source.val() !== ''){
+          gen_preview(source);
+        }
+      }
+    }
 
+    // Generates the markdonw preview from the given field
+    // Can be passed an event object or a jQuery object
+    function gen_preview(e){
+      var source = e.target !== undefined ? $(e.target) : e;
+      var targetId = '#'.concat(targets[source.attr("id")]);
 
-    function gen_preview(content, targetId){
-      idString = "#".concat(targetId);
-      console.log("iD: " + idString);
+      $(targetId).html(markdown.toHTML(source.val()));
 
-      $(idString).html(markdown.toHTML(content));
-
-    };
+    }
 
 })();
 
