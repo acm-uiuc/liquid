@@ -4,7 +4,7 @@
 */
 
 .posts .post{
-    padding: 3em 0;
+    padding: 2em 0;
     border-bottom: 1px solid #eeeeee;
 }
     .posts .post:first-child{
@@ -61,4 +61,19 @@
   }
 
 .post-control{
+}
+
+
+
+
+/*
+#POST Creation
+ */
+
+section.post-preview{
+  margin: 25px 5px;
+}
+
+textarea[name='content_markdown']{
+  width: 99%;
 }

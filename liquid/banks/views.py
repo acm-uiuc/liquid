@@ -57,6 +57,7 @@ def new(request):
   if request.method == 'POST': # form has been properly submitted
     p = BanksPost(creator=request.user)
     form = PostForm(request.POST, instance=p)
+    print form
     if form.is_valid():
       form.save()
       messages.add_message(request, messages.SUCCESS, 'Post Created')
@@ -64,10 +65,11 @@ def new(request):
       messages.add_message(request, messages.ERROR, "Error in Post")
     return viewPost(request, p.slug)
   else:
+    #render new post page
     #rendering old form
     form = PostForm()
 
-    return render_to_response('banks/form.html', {
+    return render_to_response('banks/new_post.html', {
       "form": form,
       "page_title": "Create new Post"
       }, context_instance=RequestContext(request))
