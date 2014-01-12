@@ -69,7 +69,7 @@ def new(request):
     #rendering old form
     form = PostForm()
 
-    return render_to_response('banks/new_post.html', {
+    return render_to_response('banks/form.html', {
       "form": form,
       "page_title": "Create new Post"
       }, context_instance=RequestContext(request))
