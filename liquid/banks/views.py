@@ -57,7 +57,6 @@ def new(request):
   if request.method == 'POST': # form has been properly submitted
     p = BanksPost(creator=request.user)
     form = PostForm(request.POST, instance=p)
-    print form
     if form.is_valid():
       form.save()
       messages.add_message(request, messages.SUCCESS, 'Post Created')
