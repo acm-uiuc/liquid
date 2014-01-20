@@ -57,28 +57,31 @@ def main(request, quote_id = 0):
 
 def add(request):
 
+   quote_form = None
    if request.method == 'POST':
 
       #-- Handle new quotes --
-      # Save quote
+      # Save quote (if it's valid; otherwise do nothing)
       request.POST['quote_posters'] = request.user.username # So altering this in the POST request does nothing
       quote_form = QuoteForm(request.POST)
-      quote_form.save()
-
-      return redirect('/intranet/quote/')
+      if quote_form.is_valid():
+         quote_form.save()
+         return redirect('/intranet/quote/')
    else:
 
       # -- Handle quote adding --
       # Make new form and prepopulate it with poster name
       quote_form = QuoteForm()
-      quote_form.fields["quote_posters"].widget = forms.HiddenInput()
-      # We aren't going to depend on a quote_posters variable that is set here (for security reasons)
       
-      return render_to_response('intranet/quote/add.html',{"section":"intranet","page":'quote',"form":quote_form,"members":Member.objects.all(),"user":request.user},context_instance=RequestContext(request))
+   # Hide quote_posters (since the user shouldn't see it and can't modify it)
+   quote_form.fields["quote_posters"].widget = forms.HiddenInput()
+      
+   # Return form to user (either a new form, or a form with their invalid input in it if such input was provided)
+   return render_to_response('intranet/quote/add.html',{"section":"intranet","page":'quote',"form":quote_form,"members":Member.objects.all(),"user":request.user},context_instance=RequestContext(request))
       
 def edit(request, quoteId = 1): 
    
-   # Quote editing/modification logic
+   # Quote deletion logic
    if (request.method == 'POST') and ('delete' in request.POST):
    
       # --- Handle delete requests ---
@@ -87,7 +90,9 @@ def edit(request, quoteId = 1):
       
       return redirect('/intranet/quote/')
    
-   elif (request.method == 'POST'):
+   # Quote editing logic
+   author_usernames = ""
+   if (request.method == 'POST'):
 
       # --- Handle save requests (from edit form to quote list) ---
       quote_in_question = get_object_or_404(Quote, pk=quoteId)
@@ -100,27 +105,26 @@ def edit(request, quoteId = 1):
       
       quote_form = QuoteForm(request.POST,
                             instance=quote_in_question)
-      quote_form.save()
+      author_usernames = request.POST["quote_sources"].strip(",").split(",")
+      if quote_form.is_valid():
+         quote_form.save()
+         return redirect('/intranet/quote/')
+        
+   # --- Logic for new quote forms/those with invalid data 
+   # Make sure quote editor can actually edit the current quote (and reject their request if they can't)
+   user = request.user
+   quote_obj = get_object_or_404(Quote, pk=quoteId)
 
-      return redirect('/intranet/quote/')
-   else:
-    
-      # Make sure quote editor can actually edit the current quote (and reject their request if they can't)
-      user = request.user
-      quote_obj = get_object_or_404(Quote, pk=quoteId)
-      quote_usernames = quote_obj.quote_sources.strip(",").split(",")
+   # New-form-only (i.e. not just when user submits invalid data) logic
+   if (request.method != 'POST'):
+      author_usernames = quote_obj.quote_sources.strip(",").split(",")
       poster_usernames = quote_obj.quote_posters.strip(",").split(",")
        
-      canEdit = (not user.is_anonymous() and (user.username in quote_usernames) or (user.username in poster_usernames)) or (user.is_top4())
+      canEdit = (not user.is_anonymous() and (user.username in author_usernames) or (user.username in poster_usernames)) or (user.is_top4())
        
       if (not canEdit):
          raise PermissionDenied # Current user cannot edit this quote
     
-      # --- Handle edit page requests (from quote list to edit form) ---
-       
-      # Get authors' Member objects
-      quoteMembers = Member.objects.filter(username__in=quote_usernames)
-       
       # Unescape escaped quote text
       quote_obj.quote_text = HTMLParser.HTMLParser().unescape(quote_obj.quote_text)
 
@@ -129,10 +133,14 @@ def edit(request, quoteId = 1):
       
       # Convert <br />'s into newlines (\n - TODO?: this may cause issues for Windows users)
       quote_obj.quote_text = string.replace(quote_obj.quote_text, "<br />", "\n")
-
+ 
       quote_form = QuoteForm(instance=quote_obj)
-      quote_form.fields["quote_posters"].widget = forms.HiddenInput()
-       
-      # -- Handle quote editing --
-      return render_to_response('intranet/quote/edit.html',{"section":"intranet","page":'quote',"form":quote_form, "members":Member.objects.all(),"quoteMembers":quoteMembers,"quote_id":quoteId,"user":request.user},context_instance=RequestContext(request))  
+
+   quote_form.fields["quote_posters"].widget = forms.HiddenInput()
+   
+   # --- Return form (either a new one, or one with existing data if user has provided invalid data) ---
+   print author_usernames    
+   quoteMembers = Member.objects.filter(username__in=author_usernames) # Get authors' Member objects
+   
+   return render_to_response('intranet/quote/edit.html',{"section":"intranet","page":'quote',"form":quote_form, "members":Member.objects.all(),"quoteMembers":quoteMembers,"quote_id":quoteId,"user":request.user},context_instance=RequestContext(request))  
       
