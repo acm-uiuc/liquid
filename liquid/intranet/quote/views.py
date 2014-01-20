@@ -138,8 +138,7 @@ def edit(request, quoteId = 1):
 
    quote_form.fields["quote_posters"].widget = forms.HiddenInput()
    
-   # --- Return form (either a new one, or one with existing data if user has provided invalid data) ---
-   print author_usernames    
+   # --- Return form (either a new one, or one with existing data if user has provided invalid data) ---   
    quoteMembers = Member.objects.filter(username__in=author_usernames) # Get authors' Member objects
    
    return render_to_response('intranet/quote/edit.html',{"section":"intranet","page":'quote',"form":quote_form, "members":Member.objects.all(),"quoteMembers":quoteMembers,"quote_id":quoteId,"user":request.user},context_instance=RequestContext(request))  
