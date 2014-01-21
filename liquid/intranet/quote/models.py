@@ -8,10 +8,12 @@ from intranet.models import Member
 
 # Create your models here.
 class Quote(models.Model):
+
+   # Fields
    quote_text = models.TextField(max_length=700)
    quote_sources = models.CharField(max_length=100) # The sources of the quote (not displayed on the page, purely for recordkeeping)
    quote_source_html = models.CharField(max_length=200) # The HTML that represents the quote source (and is displayed with the quote)
-   quote_posters = models.CharField(max_length=100)
+   quote_posters = models.CharField(max_length=100, blank=True)
    quote_poster_html = models.CharField(max_length=200)
    created_at = models.DateTimeField(auto_now_add=True)
    
@@ -32,7 +34,7 @@ class Quote(models.Model):
       self.quote_source_html = ""
       quote_count = 0
       for author_netid in authors:
-      
+     
          quote_count += 1
       
          # Convert author's netid to their name (if possible)
@@ -56,11 +58,14 @@ class Quote(models.Model):
          self.quote_source_html += "<a href='/intranet/quote/?author=" + author_netid + "'>" + author + "</a>" 
            
       # Hyperlink posters (people who edited the quote but didn't say anything noteworthy)
-      self.quote_posters = "," + html.escape(re.sub(",\s+", ",", self.quote_posters).strip(",")) + ","
-      posters = self.quote_posters.strip(",").split(",")
+      if len(self.quote_posters) != 0: # Posters were not recorded for some earlier quotes
+         self.quote_posters = "," + html.escape(re.sub(",\s+", ",", self.quote_posters).strip(",")) + ","
+         posters = self.quote_posters.strip(",").split(",")
+      else:
+         posters = dict() # Posters should contain no elements if self.quote_posters is blank
          
       # If the quote posters are different than the quote authors, create the quote poster HTML
-      posters_are_authors = len(posters) == len(authors);
+      posters_are_authors = len(posters) == len(authors) or len(posters) == 0; # Posters were not recorded for some earlier quotes
       if posters_are_authors:
          
          # Poster --> author check (since the counts are equal, we only need to check in one direction)

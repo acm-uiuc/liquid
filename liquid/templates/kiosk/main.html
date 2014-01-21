@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- Example row of columns -->
+<div class="row">
+  <div class="span4">
+    <h3>ELock Access</h4>
+    <p>Request 24/7 access to Siebel and the ACM office.</p>
+    <p>
+      <a class="btn" href="http://stela.cs.illinois.edu">Request Access &raquo;</a>
+    </p>
+  </div>
+  <div class="span4">
+    <h3>Join ACM</h3>
+    <p>Join one of the nation's largest student chapters.</p>
+    <p><a class="btn" href="/about/join">Join ACM &raquo;</a></p>
+   </div>
+   
+   <div class="span4">
+     <h3>SIG List</h3>
+     <p>ACM@UIUC's Special Interest Groups (SIGs).</p>
+     <p><a class="btn" href="/sigs/">View SIG list &raquo;</a></p>
+   </div>
+</div>
+<div class="row">
+  <center>
+    <h3>Upcoming events</h3>
+  </center>
+</div>
+
+{% include "cal/make_calendar_template.html" %}
+
+{% endblock %}
