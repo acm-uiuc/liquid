@@ -57,22 +57,19 @@ def new(request):
   if request.method == 'POST': # form has been properly submitted
     p = BanksPost(creator=request.user)
     form = PostForm(request.POST, instance=p)
+
     if form.is_valid():
       form.save()
       messages.add_message(request, messages.SUCCESS, 'Post Created')
+      return viewPost(request, p.slug)
+
     else:
       messages.add_message(request, messages.ERROR, "Error in Post")
-    return viewPost(request, p.slug)
+
   else:
-    #render new post page
-    #rendering old form
     form = PostForm()
 
-    return render_to_response('banks/form.html', {
-      "form": form,
-      "page_title": "Create new Post"
-      }, context_instance=RequestContext(request))
-
+  return_form(request, form, "Create new Post")
 
 # /banks/posts/edit/:slug
 @group_admin_required(['top4'])
@@ -81,28 +78,42 @@ def edit(request, slug):
 
   if request.method == "POST":
     form = PostForm(request.POST, instance=p)
+
     if form.is_valid():
       form.save()
       messages.add_message(request, messages.SUCCESS, 'Post Successfully Edited')
+      return viewPost(request, p.slug)
+
     else:
       messages.add_message(request, messages.ERROR, 'Error in Editing Post')
-    return viewPost(request, p.slug)
 
   else:
     form = PostForm(instance=p)
-    return render_to_response('banks/form.html',{
-      "form": form,
-      "page_title":"Edit Post"
-    }, context_instance=RequestContext(request)
-    )
+
+  return return_form(request, form, "Edit Post")
+
+
+def return_form(request, form, title):
+  '''
+  Return the edit form with the current content and context to the user
+  '''
+  return render_to_response('banks/form.html', {
+    'form' : form,
+    'page_title' : title,
+  }, context_instance=RequestContext(request)
+  )
+
 
 # /banks/posts/delete/:slug
 @group_admin_required(['top4'])
 def delete(request, slug):
   post = BanksPost.objects.get(slug=slug)
+
   if post:
     post.delete()
     messages.add_message(request, messages.SUCCESS, 'Post Deleted')
+    return HttpResponseRedirect('/banks')
+
   else:
     messages.add_message(request, messages.ERROR, 'Error in Deleting Post')
-  return HttpResponseRedirect('/banks')
+    return viewPost(request, slug)
