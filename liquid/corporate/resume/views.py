@@ -147,6 +147,12 @@ def recruiter_browse(request):
     download = set.generate_download()
     return HttpResponseRedirect('/corporate/resume/recruiter/download/%d.pdf'%(download.id))
 
+  num_per_page = request.GET.get('num_per_page')
+  if num_per_page==None:
+    num_per_page = 50
+  else:
+    num_per_page = int(num_per_page)
+
   if q != "":
     queries = q.split()
     qset1 =  reduce(operator.__or__, [Q(netid__icontains=q) | Q(first_name__icontains=query) | Q(last_name__icontains=query) for query in queries])
@@ -154,11 +160,20 @@ def recruiter_browse(request):
   else:
     people = set.get_people()
 
-  num_per_page = request.GET.get('num_per_page')
-  if num_per_page==None:
-    num_per_page = 50
+  # Sortable tables
+  sort_field = request.GET.get("sort_field")
+  sort_dir = request.GET.get("sort_dir")
+
+  if sort_field == None:
+    sort_field = "name"
+  if sort_dir == None:
+    sort_dir = ""
+
+  if sort_field != "name":
+    people = people.order_by(sort_dir + sort_field)
   else:
-    num_per_page = int(num_per_page)
+    people = people.order_by(sort_dir + "last_name", sort_dir + "first_name")
+
   # Show requested number of resumes per page (50 by default)
   paginator = Paginator(people, num_per_page)
   total_people = paginator.count
@@ -176,7 +191,32 @@ def recruiter_browse(request):
 
   graduation_choices = ResumePerson.RESUME_PERSON_GRADUATION
 
+  # Sortable table urls
+  new_sort_dir = "-" if sort_dir == "" else ""
+  print new_sort_dir
 
+  name_sort_url = request.GET.copy()
+  name_sort_url["sort_field"] = "name";
+  name_sort_url["sort_dir"] = new_sort_dir if sort_field == "name" else ""
+
+  grad_sort_url = request.GET.copy()
+  grad_sort_url["sort_field"] = "graduation";
+  grad_sort_url["sort_dir"] = new_sort_dir if sort_field == "graduation" else ""
+
+  level_sort_url = request.GET.copy()
+  level_sort_url["sort_field"] = "level";
+  level_sort_url["sort_dir"] = new_sort_dir if sort_field == "level" else ""
+
+  seek_sort_url = request.GET.copy()
+  seek_sort_url["sort_field"] = "seeking";
+  seek_sort_url["sort_dir"] = new_sort_dir if sort_field == "seeking" else ""
+
+  # Sortable table arrows
+  active_arrow = " " + (u'\u25B2' if sort_dir == "" else u'\u25BC')
+  name_arrow = active_arrow if sort_field == "name" else ""
+  grad_arrow = active_arrow if sort_field == "graduation" else ""
+  level_arrow = active_arrow if sort_field == "level" else ""
+  seek_arrow = active_arrow if sort_field == "seeking" else ""
 
   return render_to_response('corporate/resume/recruiter_browse.html',{
     "section":"corporate",
@@ -187,7 +227,20 @@ def recruiter_browse(request):
     "total_people":total_people,
     "graduation_choices":graduation_choices,
     "num_per_page": num_per_page,
-    "request":request
+    "request":request,
+ 
+    # Sortable table urls
+    "name_sort_url": "?" + name_sort_url.urlencode(),
+    "grad_sort_url": "?" + grad_sort_url.urlencode(),
+    "level_sort_url": "?" + level_sort_url.urlencode(),
+    "seek_sort_url": "?" + seek_sort_url.urlencode(),
+
+    # Sortable table arrows
+    "name_arrow": name_arrow,
+    "grad_arrow": grad_arrow,
+    "level_arrow": level_arrow,
+    "seek_arrow": seek_arrow
+   
   },context_instance=RequestContext(request))
 
 @group_admin_required(['Corporate','!Recruiter'])

@@ -4,15 +4,17 @@
 {% block recruiter_content %}
 {% include "corporate/resume/resume_form.html" with search=True %}
 <p><em>{{total_people}} {%if total_people or total_people < 1 %}people match{%else%}person matches{%endif%} your query.</em></p>
+
 {% if people|length > 0 %}
+<link href="/static/css/link-hider.css" rel="stylesheet">
 <hr>
 <table class="table table-striped">
   <thead>
   <tr>
-    <th>Name</th>
-    <th>Graduation</th>
-    <th>Level</th>
-    <th>Seeking</th>
+    <th><a href="{{ name_sort_url }}" class="no-decoration">Name{{ name_arrow }}<a></th>
+    <th><a href="{{ grad_sort_url }}" class="no-decoration">Graduation{{ grad_arrow }}</a></th>
+    <th><a href="{{ level_sort_url }}" class="no-decoration">Level{{ level_arrow }}</a></th>
+    <th><a href="{{ seek_sort_url }}" class="no-decoration">Seeking{{ seek_arrow }}</a></th>
     <th>ACM Member</th>
     <th>Resume</th>
   <tr>

@@ -1,0 +1,23 @@
+a.no-decoration
+{
+   text-decoration:none;
+   color:inherit;
+}
+
+a.no-decoration:hover
+{
+   text-decoration:none;
+   color:inherit;
+}
+
+a.no-decoration:active
+{
+   text-decoration:none;
+   color:inherit;
+}
+
+a.no-decoration:visited
+{
+   text-decoration:none;
+   color:inherit;
+}
