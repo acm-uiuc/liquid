@@ -166,7 +166,7 @@ def recruiter_browse(request):
 
   if sort_field == None:
     sort_field = "name"
-  if sort_dir == None:
+  if sort_dir == None or sort_dir != "-":
     sort_dir = ""
 
   if sort_field != "name":
