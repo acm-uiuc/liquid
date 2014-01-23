@@ -147,6 +147,8 @@ INSTALLED_APPS = (
     'intranet.resume_manager',
     'intranet.quote',
 
+    'kiosk',
+
     'bootstrapform',
     'utils.django_mailman',
     'south',
