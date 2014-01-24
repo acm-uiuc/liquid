@@ -1,0 +1,103 @@
+{% load calendar_helper %}
+
+</header>
+{% if show_navigation_urls %}
+<ul class="pager">
+  {% if prev_url %}
+  <li class="previous">
+    <a href="{{prev_url}}">&larr; Older</a>
+  </li>
+  {% endif %}
+  <li>
+    <a href="/calendar/">Today</a>
+  </li>
+  {% if next_url %}
+  <li class="next">
+    <a href="{{next_url}}">Newer &rarr;</a>
+  </li>
+  {% endif %}
+</ul>
+{% endif %}
+
+<table class="table table-bordered calendar">
+  <thead>
+  <tr>
+    <td>Monday</td>
+    <td>Tuesday</td>
+    <td>Wednesday</td>
+    <td>Thursday</td>
+    <td>Friday</td>
+    <td>Weekend</td>
+  <tr>
+  </thead>
+  <tbody>
+    <tr>
+    {% for day in events_grouped %}
+      {% if forloop.counter0 == 6 %}
+      </tr>
+      <tr>
+      {% endif %}
+        <td class="span2{%if forloop.counter0 == today_offset %} info{%endif%}">
+          <div>
+          <p class="date_label">{{day.date}}</p>
+          {% for e in day.events %}
+            <p>{{e.starttime|date:"g:i A"}}:<br><a class="event" href="#details/{{e.id}}">{{e.name}}</a></p>
+          {% endfor %}
+          </div>
+        </td>
+    {% endfor %}
+    </tr>
+  </tbody>
+</table>
+<div class="modal hide fade" id="event-details">
+  {% for e in events %}
+  <div id="event-{{e.id}}" class="event-details-inner">
+    <div class="modal-header">
+      <button onclick="close_event()" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      <h3>{{e.name}}</h3>
+    </div>
+    <div class="modal-body">
+      <p><strong>Time:</strong> {{e.pretty_time}}</p>
+      <p><strong>Location:</strong> {{e.location}}</p>
+      {% if e.has_sponsors %}
+      <p><strong>Hosts:</strong> {{e.all_sponsors}}</p>
+      {% endif %}
+      <p>{{e.description|replacelinks|linebreaks}}</p>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<script type="text/javascript">
+function show_event(id){
+  $("#event-"+id).show();
+  $("#event-details").modal("show")
+}
+
+function close_event() {
+  window.location.hash = "index";
+}
+
+function load_from_hash(){
+  var id = window.location.hash.split('/')[1];
+  if (typeof id != 'undefined') {
+    show_event(id);
+  }
+}
+
+$(document).ready(function(){
+
+  $("#event-details").on('hidden', function () {
+    $(".event-details-inner").hide();
+    close_event();
+  });
+
+  $(window).bind('hashchange', function() {
+    load_from_hash();
+  });
+
+  if(window.location.hash != ""){
+    load_from_hash();
+  }
+});
+</script>
