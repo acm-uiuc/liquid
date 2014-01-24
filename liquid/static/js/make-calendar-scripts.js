@@ -9,7 +9,7 @@ function close_event() {
 
 function load_from_hash(){
   var id = window.location.hash.split('/')[1];
-  if (typeof id !== 'undefined') {
+  if (id !== undefined) {
     show_event(id);
   }
 }
@@ -25,7 +25,7 @@ $(document).ready(function(){
     load_from_hash();
   });
 
-  if(window.location.hash != ""){
+  if(window.location.hash !== ""){
     load_from_hash();
   }
 });
