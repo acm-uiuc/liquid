@@ -9,7 +9,7 @@ function close_event() {
 
 function load_from_hash(){
   var id = window.location.hash.split('/')[1];
-  if (typeof id != 'undefined') {
+  if (typeof id !== 'undefined') {
     show_event(id);
   }
 }
