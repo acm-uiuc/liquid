@@ -19,7 +19,7 @@ def make_calendar(request,year,month,day,url,section,show_navigation_urls):
    this_week_monday = start_date - datetime.timedelta(days=start_date.weekday())
    two_weeks = this_week_monday + datetime.timedelta(days=14)
    events = Event.objects.filter(endtime__gte=this_week_monday,starttime__lte=two_weeks).order_by('starttime')
-   
+
    events_grouped = []
    dates = []
    for i in range(12):
@@ -58,13 +58,3 @@ def get_offset(date,from_date,can_neg=False):
    if date_offset > 6:
          date_offset -= 1
    return date_offset
-
-def details(request,id):
-   try:
-      event = Event.objects.get(id=id)
-      start_date = event.starttime.date()
-      this_week_monday = start_date - datetime.timedelta(days=start_date.weekday())
-      return HttpResponseRedirect("/calendar/%d/%d/%d#details/%d"%(this_week_monday.year,this_week_monday.month,this_week_monday.day,event.id))
-   except Event.DoesNotExist:
-      raise Http404
-
