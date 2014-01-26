@@ -18,6 +18,7 @@ from django.contrib.auth import authenticate, login
 import settings
 import operator, pyPdf, datetime
 import time
+import string
 
 def student_thanks(request,id):
   try:
@@ -52,7 +53,40 @@ def main(request):
         errors = resume_person_form._errors.setdefault("netid", ErrorList())
         errors.append(u"Not a valid netid")
   else:
-    resume_person_form = ResumePersonForm()
+
+    # Form prepopulation data
+    pre_netid = request.GET.get("netid")
+    pre_fname = request.GET.get("fname")
+    pre_lname = request.GET.get("lname")
+    pre_graduation = request.GET.get("graduation")
+    pre_graduation_date = datetime.datetime(1,1,1)
+    pre_level = request.GET.get("level") # Must be either 'u', 'm', or 'p' (case matters)
+    pre_seeking = request.GET.get("seeking") # Must be either 'f' or 'i' (case matters)
+
+    if pre_netid == None:
+      pre_netid = ""
+
+    if pre_fname == None:
+      pre_fname = ""
+
+    if pre_lname == None:
+      pre_lname = ""
+
+    if pre_graduation != None:
+      try:
+        pre_graduation_date = time.strptime(pre_graduation, "%Y-%m-%d")
+        print pre_graduation_date
+      except:
+        print "oh noes!"
+        #pass
+
+    if pre_level == None:
+      pre_level = ""
+
+    if pre_seeking == None:
+      pre_seeking = ""
+
+    resume_person_form = ResumePersonForm(initial={'netid':pre_netid, 'first_name':pre_fname, 'last_name':pre_lname, 'level':pre_level, 'seeking':pre_seeking, 'graduation':pre_graduation_date})
     resume_form = ResumeForm()
 
   if request.method == "POST" and request.POST.get('recruiter')=="yes":

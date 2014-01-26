@@ -246,10 +246,7 @@ class ResumePerson(models.Model):
 
    def acm_member(self):
       exist_count = Member.objects.filter(username=self.netid).count()
-      if exist_count > 0:
-         return "Yes"
-      else:
-         return "No"
+      return ("Yes" if exist_count > 0 else "No")
 
 @receiver(pre_save, sender=ResumePerson)
 def new_resume_person(sender, **kwargs):
