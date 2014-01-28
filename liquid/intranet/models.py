@@ -225,6 +225,9 @@ class ResumePerson(models.Model):
    current_year = datetime.datetime.now().year
 
    for i in range(-1,6):
+      print "<key>"
+      print datetime.date(current_year+i, 5, 1)
+      print "</key>"
       RESUME_PERSON_GRADUATION.append((datetime.date(current_year+i, 5, 1),'May %d'%(current_year+i)))
       RESUME_PERSON_GRADUATION.append((datetime.date(current_year+i, 12, 1),'December %d'%(current_year+i)))
 

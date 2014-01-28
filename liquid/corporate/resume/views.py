@@ -17,7 +17,6 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login
 import settings
 import operator, pyPdf, datetime
-import time
 import string
 
 def student_thanks(request,id):
@@ -59,7 +58,7 @@ def main(request):
     pre_fname = request.GET.get("fname")
     pre_lname = request.GET.get("lname")
     pre_graduation = request.GET.get("graduation")
-    pre_graduation_date = datetime.datetime(1,1,1)
+    pre_graduation_date = datetime.date(1,1,1)
     pre_level = request.GET.get("level") # Must be either 'u', 'm', or 'p' (case matters)
     pre_seeking = request.GET.get("seeking") # Must be either 'f' or 'i' (case matters)
 
@@ -73,11 +72,11 @@ def main(request):
       pre_lname = ""
 
     if pre_graduation != None:
-      try:
-        pre_graduation_date = time.strptime(pre_graduation, "%Y-%m-%d")
+      #try:
+        pre_graduation_date = str(datetime.datetime.strptime(pre_graduation, "%Y-%m-%d"))[0:10] # This isn't creating the proper key...
         print pre_graduation_date
-      except:
-        print "oh noes!"
+      #except:
+        #print "oh noes!"
         #pass
 
     if pre_level == None:
