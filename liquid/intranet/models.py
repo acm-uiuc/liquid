@@ -14,7 +14,7 @@ from subprocess import check_call
 from django.db.models import Count
 from django.db.models import Q
 from utils.resume_download_helper import generate_resume_download
-
+from django.utils.crypto import get_random_string
 
 # Create your models here.
 MEMBER_STATUS_CHOICES = (('active','active'),('inactive','inactive'),('frozen','frozen'))
@@ -240,6 +240,7 @@ class ResumePerson(models.Model):
    created_at = models.DateTimeField(auto_now_add=True)
    updated_at = models.DateTimeField(auto_now=True)
    ldap_name = models.CharField(max_length=255)
+   random_hash = get_random_string(length=32,allowed_chars='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789')
 
    def latest_resume(self):
       return self.resume_set.filter(approved=True).latest('created_at')

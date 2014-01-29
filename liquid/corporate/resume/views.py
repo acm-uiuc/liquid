@@ -18,6 +18,7 @@ from django.contrib.auth import authenticate, login
 import settings
 import operator, pyPdf, datetime
 import string
+import time
 
 def student_thanks(request,id):
   try:
@@ -27,7 +28,7 @@ def student_thanks(request,id):
     pass
   return render_to_response('corporate/resume/student_thanks.html',{"section":"corporate"},context_instance=RequestContext(request))
 
-def main(request):
+def student_referred(request):
   if request.user.groups.filter(name='Recruiter').count() > 0:
     return HttpResponseRedirect("/corporate/resume/recruiter/")
 
@@ -61,6 +62,7 @@ def main(request):
     pre_graduation_date = datetime.date(1,1,1)
     pre_level = request.GET.get("level") # Must be either 'u', 'm', or 'p' (case matters)
     pre_seeking = request.GET.get("seeking") # Must be either 'f' or 'i' (case matters)
+    pre_resume_hash = request.GET.get("resume_hash")
 
     if pre_netid == None:
       pre_netid = ""
@@ -86,6 +88,51 @@ def main(request):
       pre_seeking = ""
 
     resume_person_form = ResumePersonForm(initial={'netid':pre_netid, 'first_name':pre_fname, 'last_name':pre_lname, 'level':pre_level, 'seeking':pre_seeking, 'graduation':pre_graduation_date})
+    resume_form = ResumeForm()
+
+  # Get most recent resume for person
+  resume_found = False
+  if pre_resume_hash != None:
+    try:
+      latest_resume = ResumePerson.objects.get(random_hash__exact=pre_resume_hash).latest_resume
+      resume_found = True
+    except:
+      pass
+
+  return render_to_response('corporate/resume/student_referred.html',{
+      'resume_found': resume_found,
+      'resume_id': 3955,
+      'resume_form': resume_form,
+      'resume_person_form': resume_person_form,
+      'section': "corporate",
+    },context_instance=RequestContext(request))
+
+def main(request):
+  if request.user.groups.filter(name='Recruiter').count() > 0:
+    return HttpResponseRedirect("/corporate/resume/recruiter/")
+
+  if request.method == 'POST' and request.POST.get('student')=="yes":
+    resume_form = ResumeForm(request.POST,request.FILES)
+    resume_person_form = ResumePersonForm(request.POST)
+
+    if resume_person_form.is_valid() and resume_form.is_valid():
+      try:
+        rp = ResumePerson.objects.get(netid=resume_person_form.cleaned_data['netid'].lower())
+        resume_person_form = ResumePersonForm(request.POST,instance=rp)
+      except:
+        pass
+      try:
+        resume_person = resume_person_form.save()
+
+        resume = resume_form.save(commit=False)
+        resume.person = resume_person
+        resume.save()
+        return HttpResponseRedirect("/corporate/resume/student/thanks/%d"%(resume.id)) # Redirect after POST
+      except ValueError:
+        errors = resume_person_form._errors.setdefault("netid", ErrorList())
+        errors.append(u"Not a valid netid")
+  else:
+    resume_person_form = ResumePersonForm()
     resume_form = ResumeForm()
 
   if request.method == "POST" and request.POST.get('recruiter')=="yes":
