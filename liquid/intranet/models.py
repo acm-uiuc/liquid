@@ -7,6 +7,7 @@ import datetime
 import ldap
 import logging
 import os
+from uuid import uuid4
 from django.core.files.storage import FileSystemStorage
 from utils.fields import ContentTypeRestrictedFileField
 from utils.django_mailman.models import List
@@ -240,7 +241,12 @@ class ResumePerson(models.Model):
    created_at = models.DateTimeField(auto_now_add=True)
    updated_at = models.DateTimeField(auto_now=True)
    ldap_name = models.CharField(max_length=255)
-   random_hash = get_random_string(length=32,allowed_chars='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789')
+
+   # Helper function to shut South up
+   def generate_uuid():
+      return str(uuid4())
+      
+   resume_uuid = models.CharField(max_length=255, default=generate_uuid())
 
    def latest_resume(self):
       return self.resume_set.filter(approved=True).latest('created_at')

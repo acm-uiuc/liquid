@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 class ResumePersonForm(ModelForm):
   class Meta:
       model = ResumePerson
-      exclude = ['ldap_name']
+      exclude = ['ldap_name','resume_uuid']
 
 class PreResumePersonForm(ModelForm):
   class Meta:

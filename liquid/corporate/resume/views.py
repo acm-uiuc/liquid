@@ -62,7 +62,7 @@ def student_referred(request):
     pre_graduation_date = datetime.date(1,1,1)
     pre_level = request.GET.get("level") # Must be either 'u', 'm', or 'p' (case matters)
     pre_seeking = request.GET.get("seeking") # Must be either 'f' or 'i' (case matters)
-    pre_resume_hash = request.GET.get("resume_hash")
+    pre_resume_uuid = request.GET.get("resume_hash")
 
     if pre_netid == None:
       pre_netid = ""
@@ -92,12 +92,11 @@ def student_referred(request):
 
   # Get most recent resume for person
   resume_found = False
-  if pre_resume_hash != None:
-    try:
-      latest_resume = ResumePerson.objects.get(random_hash__exact=pre_resume_hash).latest_resume
+  if pre_resume_uuid != None:
+    resume_people = ResumePerson.objects.filter(resume_uuid__exact=pre_resume_uuid)
+    if resume_people.count() == 1:
+      latest_resume = resume_people[0].latest_resume
       resume_found = True
-    except:
-      pass
 
   return render_to_response('corporate/resume/student_referred.html',{
       'resume_found': resume_found,
