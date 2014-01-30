@@ -69,7 +69,7 @@ def new(request):
   else:
     form = PostForm()
 
-  return_form(request, form, "Create new Post")
+  return return_form(request, form, "Create new Post")
 
 # /banks/posts/edit/:slug
 @group_admin_required(['top4'])
