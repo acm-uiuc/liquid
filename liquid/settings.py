@@ -128,6 +128,8 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+    'django.contrib.sites',
+    'django.contrib.markup',
     'bootstrap-pagination',
 
     'abouta',
@@ -152,6 +154,8 @@ INSTALLED_APPS = (
     'bootstrapform',
     'utils.django_mailman',
     'south',
+    'django.contrib.markup',
+    'pagedown',
   )
 
 # A sample logging configuration. The only tangible logging

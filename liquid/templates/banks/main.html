@@ -1,9 +1,54 @@
 {% extends "base.html" %}
+
+{% block top_styles %}
+<link href="/static/css/banks.css" rel="stylesheet">
+{%endblock%}
+
 {% block content %}
 <header class="page-header">
-<h1>Banks of the Boneyard</h1>
+    {% if user.is_top4 %}
+    <a href="{% url banks.views.new %}" class="newPost-btn btn btn-primary pull-right">New Post</a>
+    {% endif %}
+    <h1>Banks of the Boneyard</h1>
 </header>
-<p>
-	Banks of the boneyard is the ACM monthy newsletter. More information coming soon. For questions email <a href="mailto:boneyard@acm.illinois.edu">boneyard@acm.illinois.edu</a>.
-</p>
+
+<section class="posts">
+    {% if posts %}
+
+    <!-- Posts !-->
+    {% for post in posts.object_list %}
+    <article class="post">
+        <header class="post-header">
+            <div class="post-info muted">{{post.date_publish}} By {{post.creator}}</div>
+            <h2 class="post-title"><a href='{% url banks.views.viewPost post.slug %}'>{{post.title}}</a></h2>
+        </header>
+        <section class="post-preview">
+            <div class="markdown-container">
+                {{post.content_markup|truncatechars:500|safe}}
+            </div>
+            <a class="read-more" href="{% url banks.views.viewPost post.slug %}">Read More &rArr;</a>
+        </section>
+    </article>
+    {% endfor %}
+
+    <!-- Next/Prev Post links !-->
+    {% if posts.object_list and posts.paginator.num_pages > 1 %}
+    <footer class="pagination">
+
+        <span class="step-links">
+    {% if posts.has_previous %}
+      <a class="pull-right" href="?page={{ posts.previous_page_number }}">Newer</a>
+    {% endif %}
+    {% if posts.has_next %}
+      <a class="pull-left" href="?page={{ posts.next_page_number }}">Older</a>
+    {% endif %}
+  {% endif %}
+  </span>
+    </footer>
+    {% else %}
+    <h1>No Posts :(</h1>
+    {% endif %}
+</section>
 {% endblock %}
+
+{% block bottom_scripts %} {% endblock %}

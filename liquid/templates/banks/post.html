@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+
+{% block top_styles %}
+<link href="/static/css/banks.css" rel="stylesheet">
+{%endblock%}
+
+{% block content %}
+
+<article class="post-wrapper">
+  <section class="post">
+    <header>
+      <div class="post-info muted">{{post.date_publish}} by {{post.creator}}</div>
+      <h1 class="post-title">{{post.title}}</h1>
+    </header>
+    <div class="body">{{post.content_markup|safe}}</div>
+  </section>
+
+  <section class="post-controls">
+    {% if user.is_top4 %}
+    <a href="{% url banks.views.edit post.slug %}" class="post-control btn btn-warning">Edit Post</a>
+    <a href="{% url banks.views.delete post.slug %}" class="post-control btn btn-danger" onclick="confirm('Are You Sure')?">Delete Post</a>
+    {% endif %}
+  </section>
+
+</article>
+{% endblock %}
+
+

@@ -1,0 +1,74 @@
+
+/*
+  #POST LIST
+*/
+
+.posts .post{
+    padding: 2em 0;
+    border-bottom: 1px solid #eeeeee;
+}
+    .posts .post:first-child{
+        padding-top: 0;
+    }
+
+
+.post-info{
+    text-transform: uppercase;
+    margin: 0 0 .3em;
+    display: block;
+    font-size: 1em;
+}
+
+.post-title{
+    display: inline-block;
+}
+
+    .post-title > a{
+        color: inherit;
+
+    }
+        .post-title > a:hover{
+            text-decoration: none;
+            color: #0088cc;
+        }
+
+.post-preview > .markdown-container {
+    margin: 0 0 1.618em 0;
+    font-size: 1.33em;
+}
+
+
+/*
+  #POST
+*/
+
+.post-wrapper {
+  max-width: 740px;
+  padding: 0 25px;
+}
+
+
+.post-wrapper .post{
+  padding: 25px auto;
+}
+
+  .post > header{
+    margin: 25px 0;
+  }
+
+  .post .body{
+    font-size: 1.1em;
+  }
+
+
+/*
+#POST Creation
+ */
+
+section.post-preview{
+  margin: 25px 5px;
+}
+
+textarea[name='content_markdown']{
+  width: 99%;
+}
