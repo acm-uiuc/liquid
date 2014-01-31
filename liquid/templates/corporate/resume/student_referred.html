@@ -5,13 +5,13 @@
 <h1>ACM@UIUC Resume Book</h1>
 </header>
 <div class="row">
-  <div class="span7">
+  <div class="span5">
     <h3>Update your resume</h3>
     <p>To add or update your resume, please fill in the information below.</p>
     <p>If you have any questions <a href="mailto:corporate@acm.illinois.edu">email us</a>.</p>
     
   </div>
-  <div class="span5">
+  <div class="span6">
     <h3>Resume preview</h3>
     {% if resume_found %}
       <p>Here is a preview of the most recent resume we have from you.</p>
@@ -21,7 +21,7 @@
   </div>
 </div>
 <div class="row">
-  <div class="span7">
+  <div class="span5">
     <form class="well" method="post" enctype="multipart/form-data">
       {% csrf_token %}
       <p>Upload a resume in PDF format. Must be smaller than 1MB.</p>
@@ -36,7 +36,7 @@
     </form>
   </div>
   {% if resume_found %}
-  <div class="span4">
+  <div class="span6">
       <div class="resume-image-loader resume-referred-preview">
          <div class="well resume-referred-preview">
             <img src="/intranet/resume/thumb/{{ r.id.value }}.png">

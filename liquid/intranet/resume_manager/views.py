@@ -1,5 +1,5 @@
 from django.shortcuts import render_to_response
-from intranet.models import Resume
+from intranet.models import Resume, ResumePerson
 from django.template import RequestContext
 from django.contrib import messages
 from intranet.models import Recruiter
@@ -9,7 +9,8 @@ from django.contrib.auth.decorators import user_passes_test
 from utils.group_decorator import group_admin_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse, Http404, HttpResponseRedirect
-
+from datetime import datetime, timedelta
+#import timedelta
 
 @group_admin_required(['Corporate'])
 def main(request):
@@ -128,3 +129,62 @@ def accounts_delete(request,id):
   e.delete()
   messages.add_message(request, messages.SUCCESS, 'Recruiter deleted')
   return HttpResponseRedirect('/intranet/resume/accounts')
+  
+@group_admin_required(['Corporate'])
+def send_resume_reminders(request):
+
+   # Send e-mails
+   successful = 0
+   failed = 0
+   if request.method == "POST":
+            
+      # Get threshold date
+      months = int(request.POST["reminder_duration"])
+      threshold_date = datetime.now() - timedelta(days=30*months)
+      
+      # Get people to send e-mails to
+      people = ResumePerson.objects.filter(resume_reminded_at__lt=threshold_date)
+            
+      # Send e-mails
+      for person in people:
+         print person.netid
+         try:
+            successful += 1
+            pass
+         except:
+            failed += 0
+            pass
+      
+      messages.add_message(request, messages.INFO, str(successful + failed) + ' e-mail sends were attempted.')
+      if successful != 0:
+         messages.add_message(request, messages.SUCCESS, str(successful) + ' e-mail(s) were successfully sent!')
+      if failed != 0:
+         messages.add_message(request, messages.ERROR, str(failed) + ' e-mail(s) failed to send.')
+      
+   # Get sizes of e-mail groups
+   threshold_date_0 = datetime.now()
+   threshold_date_1 = datetime.now() - timedelta(days=30)
+   threshold_date_3 = datetime.now() - timedelta(days=90)
+   threshold_date_6 = datetime.now() - timedelta(days=180)
+   threshold_date_12 = datetime.now() - timedelta(days=360)
+   
+   people_count_0 = ResumePerson.objects.filter(resume_reminded_at__lt=threshold_date_0).count()
+   people_count_1 = ResumePerson.objects.filter(resume_reminded_at__lt=threshold_date_1).count()
+   people_count_3 = ResumePerson.objects.filter(resume_reminded_at__lt=threshold_date_3).count()
+   people_count_6 = ResumePerson.objects.filter(resume_reminded_at__lt=threshold_date_6).count()
+   people_count_12 = ResumePerson.objects.filter(resume_reminded_at__lt=threshold_date_12).count()
+
+   people_array = ["nobody", " person", " people"]
+
+   return render_to_response('intranet/resume_manager/resume_reminder.html',{
+      "section":"intranet",
+      "page":"resume",
+      "sub_page":"send_reminders",
+      
+      "people_0": (str(people_count_0) if people_count_0 != 0 else "") + people_array[min(people_count_0,2)],
+      "people_1": (str(people_count_1) if people_count_1 != 0 else "") + people_array[min(people_count_1,2)],
+      "people_3": (str(people_count_3) if people_count_3 != 0 else "") + people_array[min(people_count_3,2)],
+      "people_6": (str(people_count_6) if people_count_6 != 0 else "") + people_array[min(people_count_6,2)],
+      "people_12": (str(people_count_12) if people_count_12 != 0 else "") + people_array[min(people_count_12,2)]
+      
+   },context_instance=RequestContext(request))

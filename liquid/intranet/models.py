@@ -240,6 +240,7 @@ class ResumePerson(models.Model):
    seeking = models.CharField(max_length=1,choices=RESUME_PERSON_SEEKING)
    created_at = models.DateTimeField(auto_now_add=True)
    updated_at = models.DateTimeField(auto_now=True)
+   resume_reminded_at = models.DateTimeField(auto_now=True)
    ldap_name = models.CharField(max_length=255)
 
    # Helper function to shut South up
