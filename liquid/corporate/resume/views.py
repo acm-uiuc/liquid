@@ -16,8 +16,8 @@ from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login
 import settings
-import operator
-import pyPdf
+import operator, pyPdf, datetime
+import time
 
 def student_thanks(request,id):
   try:
@@ -121,8 +121,13 @@ def recruiter_browse(request):
   graduation_start = request.GET.get('graduation_start')
   graduation_end = request.GET.get('graduation_end')
 
+  curDate = time.strftime("%Y-%m-%d", time.localtime())
+
   if graduation_start == "":
-    graduation_start = None
+    graduation_start = curDate
+
+  if graduation_start < curDate:
+    graduation_start = curDate
 
   if graduation_end == "":
     graduation_end = None
