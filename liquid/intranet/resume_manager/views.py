@@ -10,7 +10,8 @@ from utils.group_decorator import group_admin_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from datetime import datetime, timedelta
-#import timedelta
+from django.contrib.sites.models import Site
+from django.core.mail import EmailMultiAlternatives # Used for sending HTML emails
 
 @group_admin_required(['Corporate'])
 def main(request):
@@ -146,14 +147,54 @@ def send_resume_reminders(request):
       people = ResumePerson.objects.filter(resume_reminded_at__lt=threshold_date)
             
       # Send e-mails
-      for person in people:
-         print person.netid
-         try:
-            successful += 1
-            pass
-         except:
-            failed += 0
-            pass
+      current_site = request.META['HTTP_HOST']
+      for person in people:        
+         email_url = (
+                     "http://" +
+                     current_site + 
+                     "/corporate/resume/student/referred"
+                     "?netid=" + person.netid +
+                     "&fname=" + person.first_name +
+                     "&lname=" + person.last_name +
+                     "&level=" + person.level +
+                     "&seeking=" + person.seeking +
+                     "&graduation=" + str(person.graduation) +
+                     "&resume_uuid=" + person.resume_uuid
+                     )
+         unsubscribe_url = (
+                     "http://" +
+                     current_site +
+                     "/corporate/resume/student/unsubscribe" +
+                     "?resume_uuid=" + person.resume_uuid
+                     )
+                      
+         email_string = (
+                     "<p>Hello " + person.first_name + ",</p>" +
+                     "<p>You haven't updated your resume on the ACM@UIUC website in awhile." +
+                     " If you'd like to preview and/or update the copy of your resume that we" +
+                     " have on file, click " +
+                     
+                     "<a href='" + email_url + "'>here</a>.</p>" +
+                     
+                     "<p>If you would like to unsubscribe from these notifications, click " +
+                     "<a href='" + unsubscribe_url + "'>here</a>.</p>" +
+                        
+                     "<p>Thanks,<br \The ACM@UIUC Corporate Committee.</p>"
+                     )        
+                       
+           try:
+             msg = EmailMultiAlternatives("ACM@UIUC Resume Book", "Please view this e-mail with HTML enabled.", "corporate@acm.illinois.edu", [person.netid+"@illinois.edu"])
+             msg.attach_alternative(email_string, "text/html")
+             msg.send()
+             successful += 1
+             
+             # Update sent date
+             person.resume_reminded_at = datetime.now()
+             person.save()
+             
+           except:
+             failed += 1
+             pass
       
       messages.add_message(request, messages.INFO, str(successful + failed) + ' e-mail sends were attempted.')
       if successful != 0:

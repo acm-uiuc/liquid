@@ -7,6 +7,7 @@ urlpatterns = patterns('',
     url(r'^student/$', redirect_to, {'url': '/corporate/resume/'}),
     url(r'^student/thanks/(?P<id>\d+)$','corporate.resume.views.student_thanks'),
     url(r'^student/referred$', 'corporate.resume.views.student_referred'),
+    url(r'^student/unsubscribe$', 'corporate.resume.views.student_unsubscribe'),
 
     url(r'^recruiter/$','corporate.resume.views.recruiter'),
     url(r'^recruiter/generate/(?P<id>\d+)$','corporate.resume.views.recruiter_generate'),

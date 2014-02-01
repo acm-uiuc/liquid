@@ -20,6 +20,27 @@ import operator, pyPdf, datetime
 import string
 import time
 
+def student_unsubscribe(request): # Unsubscribes a student from resume reminders
+
+  uuid = request.GET.get("resume_uuid")
+  
+  uuid_valid = False
+  if uuid != None:
+     people = ResumePerson.objects.filter(resume_uuid__iexact=uuid)
+     if people.count() == 1:
+       person = people[0]
+       person.resume_reminded_at = datetime.date(2100,12,12) # Just sets this so that they don't get any
+       person.save()
+       print "TEST"
+       print person.netid
+       print person.resume_reminded_at
+       print "END TEST"
+       uuid_valid = True
+       
+  return render_to_response('corporate/resume/student_unsubscribed.html',
+    {"section":"corporate", "uuid_valid":uuid_valid}
+    ,context_instance=RequestContext(request))
+
 def student_thanks(request,id):
   try:
     r = Resume.objects.get(id=id)
@@ -62,7 +83,7 @@ def student_referred(request):
     pre_graduation_date = datetime.date(1,1,1)
     pre_level = request.GET.get("level") # Must be either 'u', 'm', or 'p' (case matters)
     pre_seeking = request.GET.get("seeking") # Must be either 'f' or 'i' (case matters)
-    pre_resume_uuid = request.GET.get("resume_hash")
+    pre_resume_uuid = request.GET.get("resume_uuid")
 
     if pre_netid == None:
       pre_netid = ""
@@ -74,12 +95,10 @@ def student_referred(request):
       pre_lname = ""
 
     if pre_graduation != None:
-      #try:
-        pre_graduation_date = str(datetime.datetime.strptime(pre_graduation, "%Y-%m-%d"))[0:10] # This isn't creating the proper key...
-        print pre_graduation_date
-      #except:
-        #print "oh noes!"
-        #pass
+      try:
+        pre_graduation_date = str(datetime.datetime.strptime(pre_graduation, "%Y-%m-%d"))[0:10]
+      except:
+        pass
 
     if pre_level == None:
       pre_level = ""
@@ -90,17 +109,17 @@ def student_referred(request):
     resume_person_form = ResumePersonForm(initial={'netid':pre_netid, 'first_name':pre_fname, 'last_name':pre_lname, 'level':pre_level, 'seeking':pre_seeking, 'graduation':pre_graduation_date})
     resume_form = ResumeForm()
 
-  # Get most recent resume for person
-  resume_found = False
-  if pre_resume_uuid != None:
-    resume_people = ResumePerson.objects.filter(resume_uuid__exact=pre_resume_uuid)
-    if resume_people.count() == 1:
-      latest_resume = resume_people[0].latest_resume
-      resume_found = True
+    # Get most recent resume for person
+    resume_found = False
+    if pre_resume_uuid != None:
+      resume_people = ResumePerson.objects.filter(resume_uuid__exact=pre_resume_uuid)
+      if resume_people.count() == 1:
+        resume = resume_people[0].latest_resume()
+        resume_found = True
 
-  return render_to_response('corporate/resume/student_referred.html',{
+    return render_to_response('corporate/resume/student_referred.html',{
       'resume_found': resume_found,
-      'resume_id': 3955,
+      'resume_id': resume.id if resume_found else 0,
       'resume_form': resume_form,
       'resume_person_form': resume_person_form,
       'section': "corporate",
