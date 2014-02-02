@@ -12,7 +12,8 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect
 from datetime import datetime, timedelta
 from django.contrib.sites.models import Site
 from django.core.mail import EmailMultiAlternatives # Used for sending HTML emails
-
+from django.template.loader import get_template
+from django.template import Context
 
 @group_admin_required(['Corporate'])
 def main(request):
@@ -146,11 +147,16 @@ def send_resume_reminders(request):
       
       # Get people to send e-mails to
       people = ResumePerson.objects.filter(resume_reminded_at__lt=threshold_date,
-                                           resume_reminder_subscribed__exact=True)
+                                           resume_reminder_subscribed__exact=False)
             
       # Send e-mails
       current_site = request.META['HTTP_HOST']
-      for person in people:        
+      for person in people:
+      
+         if person.netid != "nassri2":
+            print "OH SHIT."
+            continue
+              
          email_url = (
                      "http://" +
                      current_site + 
@@ -164,8 +170,8 @@ def send_resume_reminders(request):
                      "?resume_uuid=" + person.resume_uuid
                      )
                       
-         email_text = get_template('/intranet/resume_manager/emails/resume_reminder.txt')
-         email_html = get_template('/intranet/resume_manager/emails/resume_reminder.html')
+         email_text = get_template('intranet/resume_manager/emails/resume_reminder.txt')
+         email_html = get_template('intranet/resume_manager/emails/resume_reminder.html')
          email_context = Context({"person":person, "email_url":email_url, "unsubscribe_url":unsubscribe_url})
                        
          email_text = email_text.render(email_context)
@@ -198,7 +204,7 @@ def send_resume_reminders(request):
    threshold_date_6 = datetime.now() - timedelta(days=180)
    threshold_date_12 = datetime.now() - timedelta(days=360)
    
-   people_all = ResumePerson.objects.filter(resume_reminder_subscribed__exact=True)
+   people_all = ResumePerson.objects.filter(resume_reminder_subscribed__exact=False)
    people_count_0 = people_all.filter(resume_reminded_at__lt=threshold_date_0).count()
    people_count_1 = people_all.filter(resume_reminded_at__lt=threshold_date_1).count()
    people_count_3 = people_all.filter(resume_reminded_at__lt=threshold_date_3).count()
