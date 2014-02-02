@@ -13,6 +13,7 @@ from datetime import datetime, timedelta
 from django.contrib.sites.models import Site
 from django.core.mail import EmailMultiAlternatives # Used for sending HTML emails
 
+
 @group_admin_required(['Corporate'])
 def main(request):
    if request.method == 'POST':
@@ -144,7 +145,8 @@ def send_resume_reminders(request):
       threshold_date = datetime.now() - timedelta(days=30*months)
       
       # Get people to send e-mails to
-      people = ResumePerson.objects.filter(resume_reminded_at__lt=threshold_date)
+      people = ResumePerson.objects.filter(resume_reminded_at__lt=threshold_date,
+                                           resume_reminder_subscribed__exact=True)
             
       # Send e-mails
       current_site = request.META['HTTP_HOST']
@@ -153,13 +155,7 @@ def send_resume_reminders(request):
                      "http://" +
                      current_site + 
                      "/corporate/resume/student/referred"
-                     "?netid=" + person.netid +
-                     "&fname=" + person.first_name +
-                     "&lname=" + person.last_name +
-                     "&level=" + person.level +
-                     "&seeking=" + person.seeking +
-                     "&graduation=" + str(person.graduation) +
-                     "&resume_uuid=" + person.resume_uuid
+                     "?resume_uuid=" + person.resume_uuid
                      )
          unsubscribe_url = (
                      "http://" +
@@ -168,33 +164,26 @@ def send_resume_reminders(request):
                      "?resume_uuid=" + person.resume_uuid
                      )
                       
-         email_string = (
-                     "<p>Hello " + person.first_name + ",</p>" +
-                     "<p>You haven't updated your resume on the ACM@UIUC website in awhile." +
-                     " If you'd like to preview and/or update the copy of your resume that we" +
-                     " have on file, click " +
-                     
-                     "<a href='" + email_url + "'>here</a>.</p>" +
-                     
-                     "<p>If you would like to unsubscribe from these notifications, click " +
-                     "<a href='" + unsubscribe_url + "'>here</a>.</p>" +
-                        
-                     "<p>Thanks,<br \The ACM@UIUC Corporate Committee.</p>"
-                     )        
+         email_text = get_template('/intranet/resume_manager/emails/resume_reminder.txt')
+         email_html = get_template('/intranet/resume_manager/emails/resume_reminder.html')
+         email_context = Context({"person":person, "email_url":email_url, "unsubscribe_url":unsubscribe_url})
                        
-           try:
-             msg = EmailMultiAlternatives("ACM@UIUC Resume Book", "Please view this e-mail with HTML enabled.", "corporate@acm.illinois.edu", [person.netid+"@illinois.edu"])
-             msg.attach_alternative(email_string, "text/html")
-             msg.send()
-             successful += 1
+         email_text = email_text.render(email_context)
+         email_html = email_html.render(email_context)
+                       
+         try:
+           msg = EmailMultiAlternatives("ACM@UIUC Resume Book", email_text, "corporate@acm.illinois.edu", [person.netid+"@illinois.edu"])
+           msg.attach_alternative(email_html, "text/html")
+           msg.send()
+           successful += 1
              
-             # Update sent date
-             person.resume_reminded_at = datetime.now()
-             person.save()
+           # Update sent date
+           person.resume_reminded_at = datetime.now()
+           person.save()
              
-           except:
-             failed += 1
-             pass
+         except:
+           failed += 1
+           pass
       
       messages.add_message(request, messages.INFO, str(successful + failed) + ' e-mail sends were attempted.')
       if successful != 0:
@@ -209,11 +198,12 @@ def send_resume_reminders(request):
    threshold_date_6 = datetime.now() - timedelta(days=180)
    threshold_date_12 = datetime.now() - timedelta(days=360)
    
-   people_count_0 = ResumePerson.objects.filter(resume_reminded_at__lt=threshold_date_0).count()
-   people_count_1 = ResumePerson.objects.filter(resume_reminded_at__lt=threshold_date_1).count()
-   people_count_3 = ResumePerson.objects.filter(resume_reminded_at__lt=threshold_date_3).count()
-   people_count_6 = ResumePerson.objects.filter(resume_reminded_at__lt=threshold_date_6).count()
-   people_count_12 = ResumePerson.objects.filter(resume_reminded_at__lt=threshold_date_12).count()
+   people_all = ResumePerson.objects.filter(resume_reminder_subscribed__exact=True)
+   people_count_0 = people_all.filter(resume_reminded_at__lt=threshold_date_0).count()
+   people_count_1 = people_all.filter(resume_reminded_at__lt=threshold_date_1).count()
+   people_count_3 = people_all.filter(resume_reminded_at__lt=threshold_date_3).count()
+   people_count_6 = people_all.filter(resume_reminded_at__lt=threshold_date_6).count()
+   people_count_12 = people_all.filter(resume_reminded_at__lt=threshold_date_12).count()
 
    people_array = ["nobody", " person", " people"]
 

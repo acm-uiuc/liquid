@@ -15,7 +15,6 @@ from subprocess import check_call
 from django.db.models import Count
 from django.db.models import Q
 from utils.resume_download_helper import generate_resume_download
-from django.utils.crypto import get_random_string
 
 # Create your models here.
 MEMBER_STATUS_CHOICES = (('active','active'),('inactive','inactive'),('frozen','frozen'))
@@ -32,8 +31,6 @@ EMAIL_STATUS_CHOICES = (('defer','Defer'),('approve','Approve'),('discard','Disc
 RESUME_PERSON_LEVEL = (('u','Undergraduate'),('m','Masters'),('p','PhD'))
 
 RESUME_PERSON_SEEKING = (('f','Full Time'),('i','Internship/Co-op'))
-
-
 
 class Member(User):
    uin = models.CharField(max_length=9,null=True)
@@ -226,9 +223,6 @@ class ResumePerson(models.Model):
    current_year = datetime.datetime.now().year
 
    for i in range(-1,6):
-      print "<key>"
-      print datetime.date(current_year+i, 5, 1)
-      print "</key>"
       RESUME_PERSON_GRADUATION.append((datetime.date(current_year+i, 5, 1),'May %d'%(current_year+i)))
       RESUME_PERSON_GRADUATION.append((datetime.date(current_year+i, 12, 1),'December %d'%(current_year+i)))
 
@@ -240,14 +234,15 @@ class ResumePerson(models.Model):
    seeking = models.CharField(max_length=1,choices=RESUME_PERSON_SEEKING)
    created_at = models.DateTimeField(auto_now_add=True)
    updated_at = models.DateTimeField(auto_now=True)
-   resume_reminded_at = models.DateTimeField(default=datetime.datetime.now()) # This field is also used in the 'unsubscribe from reminders' functionality (by setting it to the year 2100)
+   resume_reminded_at = models.DateTimeField(default=datetime.datetime.now())
+   resume_reminder_subscribed = models.BooleanField(default=True)
    ldap_name = models.CharField(max_length=255)
-
-   # Helper function to shut South up
+      
+   # Helper method needed so that South works correctly
    def generate_uuid():
       return str(uuid4())
       
-   resume_uuid = models.CharField(max_length=255, default=generate_uuid())
+   resume_uuid = models.CharField(max_length=255, default=generate_uuid)
 
    def latest_resume(self):
       return self.resume_set.filter(approved=True).latest('created_at')

@@ -7,16 +7,16 @@
 </header>
 <ul class="nav nav-tabs">
   <li{% if sub_page == "resumes" %} class="active"{% endif %}>
-    <a href="/intranet/resume/">Resumes</a>
+    <a href="{% url intranet.resume_manager.views.main %}">Resumes</a>
   </li>
   <li{% if sub_page == "accounts" %} class="active"{% endif %}>
-    <a href="/intranet/resume/accounts">Accounts</a>
+    <a href="{% url intranet.resume_manager.views.accounts %}">Accounts</a>
   </li>
   <li class="pull-right">
-    <a href="/corporate/resume/recruiter">Browse</a>
+    <a href="{% url corporate.resume.views.recruiter %}">Browse</a>
   </li>
   <li class="pull-right">
-    <a href="/intranet/resume/reminder">Send reminders</a>
+    <a href="{% url intranet.resume_manager.views.send_resume_reminders %}">Send reminders</a>
   </li>
 </ul>
 

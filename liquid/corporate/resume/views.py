@@ -29,12 +29,8 @@ def student_unsubscribe(request): # Unsubscribes a student from resume reminders
      people = ResumePerson.objects.filter(resume_uuid__iexact=uuid)
      if people.count() == 1:
        person = people[0]
-       person.resume_reminded_at = datetime.date(2100,12,12) # Just sets this so that they don't get any
+       person.resume_reminder_subscribed = False
        person.save()
-       print "TEST"
-       print person.netid
-       print person.resume_reminded_at
-       print "END TEST"
        uuid_valid = True
        
   return render_to_response('corporate/resume/student_unsubscribed.html',
@@ -76,35 +72,24 @@ def student_referred(request):
   else:
 
     # Form prepopulation data
-    pre_netid = request.GET.get("netid")
+    pre_resume_uuid = request.GET.get("resume_uuid")
+    pre_users = ResumePerson.objects.filter(resume_uuid__exact=pre_resume_uuid) 
+    
+    # TODO - Update these so they use the db and not the url
     pre_fname = request.GET.get("fname")
     pre_lname = request.GET.get("lname")
     pre_graduation = request.GET.get("graduation")
     pre_graduation_date = datetime.date(1,1,1)
     pre_level = request.GET.get("level") # Must be either 'u', 'm', or 'p' (case matters)
     pre_seeking = request.GET.get("seeking") # Must be either 'f' or 'i' (case matters)
-    pre_resume_uuid = request.GET.get("resume_uuid")
+    
 
-    if pre_netid == None:
-      pre_netid = ""
-
-    if pre_fname == None:
-      pre_fname = ""
-
-    if pre_lname == None:
-      pre_lname = ""
-
-    if pre_graduation != None:
-      try:
-        pre_graduation_date = str(datetime.datetime.strptime(pre_graduation, "%Y-%m-%d"))[0:10]
-      except:
-        pass
-
-    if pre_level == None:
-      pre_level = ""
-
-    if pre_seeking == None:
-      pre_seeking = ""
+    pre_netid = "" if pre_users.count() != 1 else pre_users[0].netid
+    pre_fname = "" if pre_users.count() != 1 else pre_users[0].first_name
+    pre_lname = "" if pre_users.count() != 1 else pre_users[0].last_name
+    pre_graduation_date = datetime.date(1,1,1) if pre_users.count() != 1 else pre_users[0].graduation
+    pre_level = "" if pre_users.count() != 1 else pre_users[0].level
+    pre_seeking = "" if pre_users.count() != 1 else pre_users[0].seeking
 
     resume_person_form = ResumePersonForm(initial={'netid':pre_netid, 'first_name':pre_fname, 'last_name':pre_lname, 'level':pre_level, 'seeking':pre_seeking, 'graduation':pre_graduation_date})
     resume_form = ResumeForm()
