@@ -76,15 +76,6 @@ def student_referred(request):
     pre_resume_uuid = request.GET.get("resume_uuid")
     pre_users = ResumePerson.objects.filter(resume_uuid__exact=pre_resume_uuid) 
     
-    # TODO - Update these so they use the db and not the url
-    pre_fname = request.GET.get("fname")
-    pre_lname = request.GET.get("lname")
-    pre_graduation = request.GET.get("graduation")
-    pre_graduation_date = datetime.date(1,1,1)
-    pre_level = request.GET.get("level") # Must be either 'u', 'm', or 'p' (case matters)
-    pre_seeking = request.GET.get("seeking") # Must be either 'f' or 'i' (case matters)
-    
-
     pre_netid = "" if pre_users.count() != 1 else pre_users[0].netid
     pre_fname = "" if pre_users.count() != 1 else pre_users[0].first_name
     pre_lname = "" if pre_users.count() != 1 else pre_users[0].last_name
