@@ -16,9 +16,10 @@ from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login
 import settings
-import operator, pyPdf, datetime
+import operator
+import pyPdf
 import string
-import time
+from datetime import datetime
 
 def student_unsubscribe(request): # Unsubscribes a student from resume reminders
 
@@ -201,19 +202,27 @@ def recruiter_browse(request):
   seeking = request.GET.getlist('seeking')
   seeking.sort()
   acm = request.GET.get('acm') == "yes"
-  graduation_start = request.GET.get('graduation_start')
-  graduation_end = request.GET.get('graduation_end')
+  graduation_start_arg = request.GET.get('graduation_start')
+  graduation_end_arg = request.GET.get('graduation_end')
+  
+  today = datetime.today()
+  
+  graduation_start = today
+  if graduation_start_arg != "":
+    try:
+      graduation_start = datetime.strptime(graduation_start_arg, "%Y-%m-%d")
+    except:
+      pass
+      
+  graduation_end = None
+  if graduation_end_arg != "":
+    try:
+      graduation_end = datetime.strptime(graduation_end_arg, "%Y-%m-%d")
+    except:
+      pass
 
-  curDate = time.strftime("%Y-%m-%d", time.localtime())
-
-  if graduation_start == "":
-    graduation_start = curDate
-
-  if graduation_start < curDate:
-    graduation_start = curDate
-
-  if graduation_end == "":
-    graduation_end = None
+  if graduation_start < today:
+    graduation_start = today
 
   level_str = None
   if len(level) > 0:
