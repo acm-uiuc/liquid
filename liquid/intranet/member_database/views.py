@@ -75,7 +75,7 @@ def new(request,id):
 You sent a payment of $40.00 USD to the Association for Computing Machinery at the University of Illinois at Urbana-Champaign on %s.
 
 ----------------------------------------
-ACM Lifetime Membership   $40.00 USD
+ACM@UIUC Lifetime Membership   $40.00 USD
 
 Subtotal: $40.00 USD
 Total: $40.00 USD
@@ -83,7 +83,7 @@ Total: $40.00 USD
 Payment: $40.00
 ----------------------------------------
 
-Your ACM Network account and other ACM services will be provisioned within 48 hours. You will receive an additional e-mail when this is complete.
+Your ACM@UIUC Network account and other ACM@UIUC services will be provisioned within 48 hours. You will receive an additional e-mail when this is complete.
 
 Questions? Contact userhelp@acm.illinois.edu
 
@@ -94,7 +94,7 @@ ACM@UIUC
 
 
 Approved by: %s"""%(u.first_name,u.last_name,u.date_joined.strftime("%a %b %d, %Y %H:%M:%S"),request.user.username)
-      send_mail('Welcome to ACM@UIUC', welcome_msg, 'ACM <acm@acm.illinois.edu>',[u.email,'payment-mailer@acm.illinois.edu'], fail_silently=False)
+      send_mail('Welcome to ACM@UIUC', welcome_msg, 'ACM@UIUC <acm@acm.illinois.edu>',[u.email,'payment-mailer@acm.illinois.edu'], fail_silently=False)
       return HttpResponseRedirect('/intranet/members/search?q=%s' % u.username) # Redirect after POST
    except ValueError:
       messages.add_message(request, messages.ERROR, "Not a valid netid")
