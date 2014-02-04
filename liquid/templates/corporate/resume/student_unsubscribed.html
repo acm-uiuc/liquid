@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load bootstrap %}
+{% block content %}
+<header class="page-header">
+<h1>ACM@UIUC Resume Book</h1>
+</header>
+<div class="row">
+  <div class="span10">
+    {% if uuid_valid %}
+      <h3>You have been unsubscribed</h3>
+      <p>You will no longer receive reminders to submit your resume to the ACM@UIUC resume book.</p>
+    {% else %}
+      <h3>Invalid ID</h3>
+      <p>We couldn't find anyone with that ID. If you followed a valid link, please <a href="mailto:userhelp@acm.illinois.edu">let us know</a>.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

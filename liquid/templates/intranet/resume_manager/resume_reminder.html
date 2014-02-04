@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load bootstrap %}
+{% block content %}
+<header class="page-header">
+<h1>Send resume reminders</h1>
+</header>
+
+<form method="post">
+  {% csrf_token %}
+  <p>
+  Remind people who have not been reminded in the past
+  <select name="reminder_duration">
+    <option value="0">1 millisecond ({{ people_0 }})</option>
+    <option value="1">1 month ({{ people_1 }})</option>
+    <option value="3">3 months ({{ people_3 }})</option>
+    <option value="6">6 months ({{ people_6 }})</option>
+    <option value="12">1 year ({{ people_12 }})</option>
+  </select>
+  </p>
+
+  <button type="submit" class="btn btn-primary">Send reminders</button>
+  <a href="{% url intranet.resume_manager.views.main %}" class="btn btn-secondary">Resume manager</a>
+  
+</form>
+
+{% endblock %}

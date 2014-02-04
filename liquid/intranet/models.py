@@ -7,6 +7,7 @@ import datetime
 import ldap
 import logging
 import os
+from uuid import uuid4
 from django.core.files.storage import FileSystemStorage
 from utils.fields import ContentTypeRestrictedFileField
 from utils.django_mailman.models import List
@@ -14,7 +15,6 @@ from subprocess import check_call
 from django.db.models import Count
 from django.db.models import Q
 from utils.resume_download_helper import generate_resume_download
-
 
 # Create your models here.
 MEMBER_STATUS_CHOICES = (('active','active'),('inactive','inactive'),('frozen','frozen'))
@@ -31,8 +31,6 @@ EMAIL_STATUS_CHOICES = (('defer','Defer'),('approve','Approve'),('discard','Disc
 RESUME_PERSON_LEVEL = (('u','Undergraduate'),('m','Masters'),('p','PhD'))
 
 RESUME_PERSON_SEEKING = (('f','Full Time'),('i','Internship/Co-op'))
-
-
 
 class Member(User):
    uin = models.CharField(max_length=9,null=True)
@@ -236,7 +234,15 @@ class ResumePerson(models.Model):
    seeking = models.CharField(max_length=1,choices=RESUME_PERSON_SEEKING)
    created_at = models.DateTimeField(auto_now_add=True)
    updated_at = models.DateTimeField(auto_now=True)
+   resume_reminded_at = models.DateTimeField(default=datetime.datetime.now())
+   resume_reminder_subscribed = models.BooleanField(default=True)
    ldap_name = models.CharField(max_length=255)
+      
+   # Helper method needed so that South works correctly
+   def generate_uuid():
+      return str(uuid4())
+      
+   resume_uuid = models.CharField(max_length=255, default=generate_uuid)
 
    def latest_resume(self):
       return self.resume_set.filter(approved=True).latest('created_at')
@@ -246,10 +252,7 @@ class ResumePerson(models.Model):
 
    def acm_member(self):
       exist_count = Member.objects.filter(username=self.netid).count()
-      if exist_count > 0:
-         return "Yes"
-      else:
-         return "No"
+      return ("Yes" if exist_count > 0 else "No")
 
 @receiver(pre_save, sender=ResumePerson)
 def new_resume_person(sender, **kwargs):

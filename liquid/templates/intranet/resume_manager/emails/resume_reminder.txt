@@ -1,0 +1,10 @@
+Hi {{ person.first_name }},
+
+You haven't updated your resume on the ACM@UIUC website in awhile. If you'd like to preview and/or update the copy of your resume that we have on file, click the link below.
+{{ email_url }}              
+
+If you would like to unsubscribe from these notifications, click the link below.
+{{ unsubscribe_url }}
+                     
+Thanks,
+The ACM@UIUC Corporate Committee.

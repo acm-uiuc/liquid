@@ -18,6 +18,25 @@ from django.contrib.auth import authenticate, login
 import settings
 import operator
 import pyPdf
+import string
+from datetime import datetime
+
+def student_unsubscribe(request): # Unsubscribes a student from resume reminders
+
+  uuid = request.GET.get("resume_uuid")
+  
+  uuid_valid = False
+  if uuid != None:
+     people = ResumePerson.objects.filter(resume_uuid__iexact=uuid)
+     if people.count() == 1:
+       person = people[0]
+       person.resume_reminder_subscribed = False
+       person.save()
+       uuid_valid = True
+       
+  return render_to_response('corporate/resume/student_unsubscribed.html',
+    {"section":"corporate", "uuid_valid":uuid_valid}
+    ,context_instance=RequestContext(request))
 
 def student_thanks(request,id):
   try:
@@ -26,6 +45,71 @@ def student_thanks(request,id):
   except:
     pass
   return render_to_response('corporate/resume/student_thanks.html',{"section":"corporate"},context_instance=RequestContext(request))
+
+def student_referred(request):
+  if request.user.groups.filter(name='Recruiter').count() > 0:
+    return HttpResponseRedirect("/corporate/resume/recruiter/")
+
+  if request.method == 'POST' and request.POST.get('student')=="yes":
+    resume_form = ResumeForm(request.POST,request.FILES)
+    resume_person_form = ResumePersonForm(request.POST)
+
+    if resume_person_form.is_valid() and resume_form.is_valid():
+      try:
+        rp = ResumePerson.objects.get(netid=resume_person_form.cleaned_data['netid'].lower())
+        resume_person_form = ResumePersonForm(request.POST,instance=rp)
+      except:
+        pass
+      try:
+        resume_person = resume_person_form.save()
+
+        resume = resume_form.save(commit=False)
+        resume.person = resume_person
+        resume.save()
+        return HttpResponseRedirect("/corporate/resume/student/thanks/%d"%(resume.id)) # Redirect after POST
+      except ValueError:
+        errors = resume_person_form._errors.setdefault("netid", ErrorList())
+        errors.append(u"Not a valid netid")
+  else:
+
+    # Form prepopulation data
+    pre_resume_uuid = request.GET.get("resume_uuid")
+    pre_users = ResumePerson.objects.filter(resume_uuid__exact=pre_resume_uuid) 
+    
+    # TODO - Update these so they use the db and not the url
+    pre_fname = request.GET.get("fname")
+    pre_lname = request.GET.get("lname")
+    pre_graduation = request.GET.get("graduation")
+    pre_graduation_date = datetime.date(1,1,1)
+    pre_level = request.GET.get("level") # Must be either 'u', 'm', or 'p' (case matters)
+    pre_seeking = request.GET.get("seeking") # Must be either 'f' or 'i' (case matters)
+    
+
+    pre_netid = "" if pre_users.count() != 1 else pre_users[0].netid
+    pre_fname = "" if pre_users.count() != 1 else pre_users[0].first_name
+    pre_lname = "" if pre_users.count() != 1 else pre_users[0].last_name
+    pre_graduation_date = datetime.date(1,1,1) if pre_users.count() != 1 else pre_users[0].graduation
+    pre_level = "" if pre_users.count() != 1 else pre_users[0].level
+    pre_seeking = "" if pre_users.count() != 1 else pre_users[0].seeking
+
+    resume_person_form = ResumePersonForm(initial={'netid':pre_netid, 'first_name':pre_fname, 'last_name':pre_lname, 'level':pre_level, 'seeking':pre_seeking, 'graduation':pre_graduation_date})
+    resume_form = ResumeForm()
+
+    # Get most recent resume for person
+    resume_found = False
+    if pre_resume_uuid != None:
+      resume_people = ResumePerson.objects.filter(resume_uuid__exact=pre_resume_uuid)
+      if resume_people.count() == 1:
+        resume = resume_people[0].latest_resume()
+        resume_found = True
+
+    return render_to_response('corporate/resume/student_referred.html',{
+      'resume_found': resume_found,
+      'resume_id': resume.id if resume_found else 0,
+      'resume_form': resume_form,
+      'resume_person_form': resume_person_form,
+      'section': "corporate",
+    },context_instance=RequestContext(request))
 
 def main(request):
   if request.user.groups.filter(name='Recruiter').count() > 0:
@@ -118,14 +202,24 @@ def recruiter_browse(request):
   seeking = request.GET.getlist('seeking')
   seeking.sort()
   acm = request.GET.get('acm') == "yes"
-  graduation_start = request.GET.get('graduation_start')
-  graduation_end = request.GET.get('graduation_end')
-
-  if graduation_start == "":
-    graduation_start = None
-
-  if graduation_end == "":
-    graduation_end = None
+  graduation_start_arg = request.GET.get('graduation_start')
+  graduation_end_arg = request.GET.get('graduation_end')
+  
+  today = datetime.today()
+  
+  graduation_start = today
+  if graduation_start_arg != "":
+    try:
+      graduation_start = datetime.strptime(graduation_start_arg, "%Y-%m-%d")
+    except:
+      pass
+      
+  graduation_end = None
+  if graduation_end_arg != "":
+    try:
+      graduation_end = datetime.strptime(graduation_end_arg, "%Y-%m-%d")
+    except:
+      pass
 
   level_str = None
   if len(level) > 0:

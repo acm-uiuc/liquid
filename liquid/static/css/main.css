@@ -141,6 +141,15 @@ div.carousel-inner:hover ~ a.carousel-control {
    height: 100px;
 }
 
+.resume-referred-preview-container{
+   height:inherit;
+}
+
+.resume-referred-preview{
+   width: inherit;
+   height: inherit;
+}
+
 .calendar thead tr td{
    text-align: center;
    font-weight: bold;
