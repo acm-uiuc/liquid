@@ -8,6 +8,7 @@ urlpatterns = patterns('',
     url(r'^student/thanks/(?P<id>\d+)$','corporate.resume.views.student_thanks'),
     url(r'^student/referred$', 'corporate.resume.views.student_referred'),
     url(r'^student/unsubscribe$', 'corporate.resume.views.student_unsubscribe'),
+    url(r'^student/thumb/(?P<id>\d+).png$', 'corporate.resume.views.thumb'),
 
     url(r'^recruiter/$','corporate.resume.views.recruiter'),
     url(r'^recruiter/generate/(?P<id>\d+)$','corporate.resume.views.recruiter_generate'),

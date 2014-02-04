@@ -21,6 +21,12 @@ import pyPdf
 import string
 from datetime import datetime
 
+def thumb(request,id):
+   r = Resume.objects.get(id=id)
+   r.generate_thumbnails()
+   image_data = open(r.thumbnail_large_location(), "rb").read()
+   return HttpResponse(image_data, mimetype="image/png")
+
 def student_unsubscribe(request): # Unsubscribes a student from resume reminders
 
   uuid = request.GET.get("resume_uuid")

@@ -292,16 +292,21 @@ class Resume(models.Model):
    def thumbnail_top_location(self):
       return "%s/thumbnails/%d-top.png"%(settings.RESUME_STORAGE_LOCATION, self.id)
 
+   def thumbnail_large_location(self):
+      return "%s/thumbnails/%d-large.png"%(settings.RESUME_STORAGE_LOCATION, self.id)
+
    def generate_thumbnails(self):
-      if not os.path.exists(self.thumbnail_location()) or not os.path.exists(self.thumbnail_top_location()):
-         try:
-            pdf = "%s[0]"%self.resume.path
-            png = self.thumbnail_location()
-            png_top = self.thumbnail_top_location()
-            check_call(["convert", "-quality", "100%", "-resize", "102x132", pdf, png])
-            check_call(["convert", "-quality", "100%", "-resize", "544x704", "-crop", "544x100+0+0", "+repage", pdf, png_top])
-         except:
-            pass
+	   png = self.thumbnail_location()
+	   png_top = self.thumbnail_top_location()
+	   png_large = self.thumbnail_large_location()
+	   if not os.path.exists(png) or not os.path.exists(png_top) or not os.path.exists(png_large):
+		   try:
+			   pdf = "%s[0]"%self.resume.path
+			   check_call(["convert", "-quality", "100%", "-resize", "102x132", pdf, png])
+			   check_call(["convert", "-quality", "100%", "-resize", "544x704", "-crop", "544x100+0+0", "+repage", pdf, png_top])
+			   check_call(["convert", "-quality", "100%", "-resize", "544x704",  pdf, png_large])
+		   except:
+			   pass
 
 @receiver(post_save, sender=Resume)
 def new_resume(sender, **kwargs):
