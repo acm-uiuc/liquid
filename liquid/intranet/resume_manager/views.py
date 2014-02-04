@@ -147,16 +147,11 @@ def send_resume_reminders(request):
       
       # Get people to send e-mails to
       people = ResumePerson.objects.filter(resume_reminded_at__lt=threshold_date,
-                                           resume_reminder_subscribed__exact=False)
+                                           resume_reminder_subscribed__exact=True)
             
       # Send e-mails
       current_site = request.META['HTTP_HOST']
       for person in people:
-      
-         if person.netid != "nassri2":
-            print "OH SHIT."
-            continue
-              
          email_url = (
                      "http://" +
                      current_site + 
