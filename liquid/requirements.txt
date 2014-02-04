@@ -7,7 +7,7 @@ django-ical==1.2
 icalendar==3.3
 pyPdf==1.13
 python-dateutil==2.1
-python-ldap==2.4.9
+python-ldap==2.3.11
 pytz==2013b
 reportlab==2.5
 simplejson==2.4.0
