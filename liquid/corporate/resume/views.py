@@ -221,9 +221,6 @@ def recruiter_browse(request):
     except:
       pass
 
-  if graduation_start < today:
-    graduation_start = today
-
   level_str = None
   if len(level) > 0:
     level_str = "".join(level)
