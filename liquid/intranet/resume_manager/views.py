@@ -204,7 +204,7 @@ def send_resume_reminders(request):
    threshold_date_6 = datetime.now() - timedelta(days=180)
    threshold_date_12 = datetime.now() - timedelta(days=360)
    
-   people_all = ResumePerson.objects.filter(resume_reminder_subscribed__exact=False)
+   people_all = ResumePerson.objects.filter(resume_reminder_subscribed=True)
    people_count_0 = people_all.filter(resume_reminded_at__lt=threshold_date_0).count()
    people_count_1 = people_all.filter(resume_reminded_at__lt=threshold_date_1).count()
    people_count_3 = people_all.filter(resume_reminded_at__lt=threshold_date_3).count()
