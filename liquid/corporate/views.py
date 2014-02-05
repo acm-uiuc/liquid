@@ -9,8 +9,6 @@ from intranet.models import Group
 from django.forms.util import ErrorList
 import settings
 
-
-
 # Create your views here.
 def main(request):
   return render_to_response('corporate/main.html',{"section":"corporate"},context_instance=RequestContext(request))

@@ -21,11 +21,14 @@ import pyPdf
 import string
 from datetime import datetime
 
-def thumb(request,id):
-	r = get_object_or_404(Resume, id=id)
-	r.generate_thumbnails()
-	image_data = open(r.thumbnail_large_location(), "rb").read()
-	return HttpResponse(image_data, mimetype="image/png")
+def thumb(request,uuid):
+  #try:
+  r = get_object_or_404(ResumePerson, resume_uuid=uuid).latest_resume()
+  r.generate_thumbnails()
+  image_data = open(r.thumbnail_location_uuid(), "rb").read()
+  return HttpResponse(image_data, mimetype="image/png")
+  #except:
+#	 raise Http404
 
 def student_unsubscribe(request): # Unsubscribes a student from resume reminders
 
@@ -56,6 +59,18 @@ def student_referred(request):
   if request.user.groups.filter(name='Recruiter').count() > 0:
     return HttpResponseRedirect("/corporate/resume/recruiter/")
 
+  # Get most recent resume for person
+  pre_resume_uuid = request.GET.get('resume_uuid') if request.method == 'GET' else request.POST.get('resume_uuid')
+  resume_found = False
+  if pre_resume_uuid != None:
+    resume_people = ResumePerson.objects.filter(resume_uuid__exact=pre_resume_uuid)
+    if resume_people.count() == 1:
+      try:
+        resume = resume_people[0].latest_resume()
+        resume_found = True
+      except:
+        pass
+
   if request.method == 'POST' and request.POST.get('student')=="yes":
     resume_form = ResumeForm(request.POST,request.FILES)
     resume_person_form = ResumePersonForm(request.POST)
@@ -71,22 +86,23 @@ def student_referred(request):
 
         resume = resume_form.save(commit=False)
         resume.person = resume_person
+        resume.person.resume_reminded_at = datetime.now()
         resume.save()
         return HttpResponseRedirect("/corporate/resume/student/thanks/%d"%(resume.id)) # Redirect after POST
       except ValueError:
         errors = resume_person_form._errors.setdefault("netid", ErrorList())
         errors.append(u"Not a valid netid")
         return render_to_response('corporate/resume/student_referred.html',{
-                'resume_found': False,
-                'resume_id': 0,
+                'resume_found': resume_found,
+                'resume_id': resume.person.resume_uuid + ".png" if resume_found else 0,
                 'resume_form': resume_form,
                 'resume_person_form': resume_person_form,
                 'section': "corporate",
                 },context_instance=RequestContext(request))
     else:
         return render_to_response('corporate/resume/student_referred.html',{
-                'resume_found': False,
-                'resume_id':  0,
+                'resume_found': resume_found,
+                'resume_id': resume.person.resume_uuid + ".png" if resume_found else 0,
                 'resume_form': resume_form,
                 'resume_person_form': resume_person_form,
                 'section': "corporate",
@@ -94,7 +110,6 @@ def student_referred(request):
 
   else:
     # Form prepopulation data
-    pre_resume_uuid = request.GET.get('resume_uuid')
     pre_users = ResumePerson.objects.filter(resume_uuid__exact=pre_resume_uuid) 
 
     pre_netid = "" if pre_users.count() != 1 else pre_users[0].netid
@@ -107,20 +122,9 @@ def student_referred(request):
     resume_person_form = ResumePersonForm(initial={'netid':pre_netid, 'first_name':pre_fname, 'last_name':pre_lname, 'level':pre_level, 'seeking':pre_seeking, 'graduation':pre_graduation_date})
     resume_form = ResumeForm()
 
-    # Get most recent resume for person
-    resume_found = False
-    if pre_resume_uuid != None:
-      resume_people = ResumePerson.objects.filter(resume_uuid__exact=pre_resume_uuid)
-      if resume_people.count() == 1:
-        try:
-          resume = resume_people[0].latest_resume()
-          resume_found = True
-        except:
-          pass
-
     return render_to_response('corporate/resume/student_referred.html',{
       'resume_found': resume_found,
-      'resume_id': resume.id if resume_found else 0,
+      'resume_id': resume.person.resume_uuid + ".png" if resume_found else 0,
       'resume_form': resume_form,
       'resume_person_form': resume_person_form,
       'section': "corporate",
@@ -145,6 +149,7 @@ def main(request):
 
         resume = resume_form.save(commit=False)
         resume.person = resume_person
+        resume.person.resume_reminded_at = datetime.now()
         resume.save()
         return HttpResponseRedirect("/corporate/resume/student/thanks/%d"%(resume.id)) # Redirect after POST
       except ValueError:

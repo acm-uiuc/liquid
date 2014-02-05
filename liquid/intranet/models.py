@@ -292,19 +292,19 @@ class Resume(models.Model):
    def thumbnail_top_location(self):
       return "%s/thumbnails/%d-top.png"%(settings.RESUME_STORAGE_LOCATION, self.id)
 
-   def thumbnail_large_location(self):
-      return "%s/thumbnails/%d-large.png"%(settings.RESUME_STORAGE_LOCATION, self.id)
+   def thumbnail_location_uuid(self):
+      return settings.RESUME_STORAGE_LOCATION + "/thumbnails/" + self.person.resume_uuid + "_" + str(self.id) + ".png"
 
    def generate_thumbnails(self):
 	   png = self.thumbnail_location()
 	   png_top = self.thumbnail_top_location()
-	   png_large = self.thumbnail_large_location()
-	   if not os.path.exists(png) or not os.path.exists(png_top) or not os.path.exists(png_large):
+	   png_uuid = self.thumbnail_location_uuid()
+	   if not os.path.exists(png) or not os.path.exists(png_top) or not os.path.exists(png_top):
 		   try:
 			   pdf = "%s[0]"%self.resume.path
 			   check_call(["convert", "-quality", "100%", "-resize", "102x132", pdf, png])
 			   check_call(["convert", "-quality", "100%", "-resize", "544x704", "-crop", "544x100+0+0", "+repage", pdf, png_top])
-			   check_call(["convert", "-quality", "100%", "-resize", "544x704",  pdf, png_large])
+			   check_call(["convert", "-quality", "100%", "-resize", "544x704",  pdf, png_uuid])
 		   except:
 			   pass
 
