@@ -1,4 +1,4 @@
-from django.shortcuts import render_to_response, HttpResponseRedirect
+from django.shortcuts import render_to_response, HttpResponseRedirect, get_object_or_404
 from django.http import HttpResponse, Http404
 from django.template import RequestContext
 from django.core.context_processors import csrf
@@ -22,10 +22,10 @@ import string
 from datetime import datetime
 
 def thumb(request,id):
-   r = Resume.objects.get(id=id)
-   r.generate_thumbnails()
-   image_data = open(r.thumbnail_large_location(), "rb").read()
-   return HttpResponse(image_data, mimetype="image/png")
+	r = get_object_or_404(Resume, id=id)
+	r.generate_thumbnails()
+	image_data = open(r.thumbnail_large_location(), "rb").read()
+	return HttpResponse(image_data, mimetype="image/png")
 
 def student_unsubscribe(request): # Unsubscribes a student from resume reminders
 
@@ -76,10 +76,25 @@ def student_referred(request):
       except ValueError:
         errors = resume_person_form._errors.setdefault("netid", ErrorList())
         errors.append(u"Not a valid netid")
-  else:
+        return render_to_response('corporate/resume/student_referred.html',{
+                'resume_found': False,
+                'resume_id': 0,
+                'resume_form': resume_form,
+                'resume_person_form': resume_person_form,
+                'section': "corporate",
+                },context_instance=RequestContext(request))
+    else:
+        return render_to_response('corporate/resume/student_referred.html',{
+                'resume_found': False,
+                'resume_id':  0,
+                'resume_form': resume_form,
+                'resume_person_form': resume_person_form,
+                'section': "corporate",
+                },context_instance=RequestContext(request))
 
+  else:
     # Form prepopulation data
-    pre_resume_uuid = request.GET.get("resume_uuid")
+    pre_resume_uuid = request.GET.get('resume_uuid')
     pre_users = ResumePerson.objects.filter(resume_uuid__exact=pre_resume_uuid) 
 
     pre_netid = "" if pre_users.count() != 1 else pre_users[0].netid
