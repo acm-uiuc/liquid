@@ -97,8 +97,11 @@ def student_referred(request):
     if pre_resume_uuid != None:
       resume_people = ResumePerson.objects.filter(resume_uuid__exact=pre_resume_uuid)
       if resume_people.count() == 1:
-        resume = resume_people[0].latest_resume()
-        resume_found = True
+        try:
+          resume = resume_people[0].latest_resume()
+          resume_found = True
+        except:
+          pass
 
     return render_to_response('corporate/resume/student_referred.html',{
       'resume_found': resume_found,
