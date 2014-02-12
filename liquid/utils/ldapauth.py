@@ -12,7 +12,7 @@ class ActiveDirectoryGroupMembershipSSLBackend:
          if len(password) == 0:
             return None
          l = ldap.initialize(settings.AD_LDAP_URL)
-         binddn = "uid=%s,ou=People,dc=acm,dc=uiuc,dc=edu" % (username)
+         binddn = settings.AD_BIND_DN.format(username)
          l.simple_bind_s(binddn,password)
          l.unbind_s()
          return self.get_or_create_user(username,password)
