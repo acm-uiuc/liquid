@@ -231,7 +231,7 @@ MIDDLEWARE_CLASSES = ('django.middleware.common.CommonMiddleware',
  'django.contrib.messages.middleware.MessageMiddleware',
  'utils.http.Http403Middleware',
  'utils.loginmiddleware.RequireLoginMiddleware',)
- 
+
 LOGIN_REQUIRED_URLS = (
   (r'/intranet/(.*)$',True),
   (r'/quote/(.*)$',True),
@@ -240,31 +240,23 @@ LOGIN_REQUIRED_URLS = (
 
 
 # ldap things
-AD_DNS_NAME= 'ldap1.acm.uiuc.edu'
-# If using non-SSL use these
+AD_DNS_NAME= 'ad.uillinois.edu'
 AD_LDAP_PORT=389
 AD_LDAP_URL='ldap://%s:%s' % (AD_DNS_NAME,AD_LDAP_PORT)
-# If using SSL use these:
-#AD_LDAP_PORT=636
-#AD_LDAP_URL='ldaps://%s:%s' % (AD_DNS_NAME,AD_LDAP_PORT)
-AD_SEARCH_DN='dc=acm,dc=uiuc,dc=edu'
-AD_NT4_DOMAIN='ACM.UIUC.EDU'
-AD_SEARCH_FIELDS= ['givenName','sn','uid']
-AD_MEMBERSHIP_REQ=['acm.users']
-AD_CERT_FILE='/path/to/your/cert.txt'
+AD_BIND_DN='{0}@illinois.edu'
+AD_NT4_DOMAIN='AD.UILLINOIS.EDU'
+AD_SEARCH_FIELDS= ['givenName','sn','sAMAccountName']
 AD_DEBUG=True
 AD_DEBUG_FILE='/var/log/apache2/ldap.debug'
 
-
 CRON_IPS = ['172.22.32.110']
-
 CRON_PASSWORD = ""
 
 try:
   from local_settings import *
 except ImportError, exp:
   pass
-  
+
 
 if SERVE_STATIC:
   INSTALLED_APPS += ('django.contrib.staticfiles',)
