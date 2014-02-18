@@ -20,7 +20,7 @@ to work with. Next, checkout that repo!
 
 After cloning to your computer you need to have the following system packages installed:
 * mysql
-  * MAC: `brew install mysql`
+  * MAC: `brew install mysql` then `mysql.server start`
   * Linux: `sudo apt-get install mysql-server`
 
 An important step in any Python project is setting up a sanitary work environment. You don't
@@ -33,6 +33,8 @@ cook in a messy kitchen, do you?
 Now we need to grab all of the Python packages:
 
     pip install -r liquid/requirements.txt
+
+Note there is a problem with certain versions of Pip and speciic packages. It works fine on Pip 1.0ish.
 
 Run the fancy-shmancy script that will setup the database into an initial state.
 
