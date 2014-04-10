@@ -96,3 +96,14 @@ Troubleshooting
 * Python-LDAP won't install
   * Mac: OS X formerly had problems that were solved by instructions [here](http://projects.skurfer.com/posts/2011/python_ldap_lion/).
   * Linux: Try `sudo apt-get install python-ldap`
+
+* mysql-python, reportlab or python ldap won't install with error:
+    clang: error: unknown argument: '-mno-fused-madd' [-Wunused-command-line-argument-hard-error-in-future]
+    clang: note: this will be a hard error (cannot be downgraded to a warning) in the future
+    error: command 'cc' failed with exit status 1
+    * Should only occur on OS X with Xcode version 5.1 or greater
+    * Fix:
+        Try 'ARCHFLAGS=-Wno-error=unused-command-line-argument-hard-error-in-future pip install mysql-python=1.2.3' for mysql-python
+        Try 'ARCHFLAGS=-Wno-error=unused-command-line-argument-hard-error-in-future pip install python-ldap==2.3.13' for python-ldap
+        Try 'ARCHFLAGS=-Wno-error=unused-command-line-argument-hard-error-in-future pip install reportlab==2.5' for reportlab
+        Then use 'pip install -r requirements.txt'
