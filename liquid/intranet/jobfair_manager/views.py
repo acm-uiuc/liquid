@@ -56,7 +56,7 @@ def companies_new(request):
       if form.is_valid(): # All validation rules pass
           try:
               company = form.save(commit=False)
-              company.username = slugify("rp13 "+company.company_name)
+              company.username = slugify("rp14 "+company.company_name)
               company.save()
               messages.add_message(request, messages.SUCCESS, 'Company created (%s)'%(company.username))
               return HttpResponseRedirect('/intranet/jobfair_manager/companies') # Redirect after POST
@@ -115,10 +115,10 @@ def companies_invite(request, id):
         c = {"company": e, "password": password}
         if e.type == Company.JOBFAIR:
             body = render_to_string("conference/emails/jobfair_invite.txt", c, context_instance=RequestContext(request))
-            subject = "Invitation to Reflections | Projections 2013 Job Fair"
+            subject = "Invitation to Reflections | Projections 2014 Job Fair"
         else:
             body = render_to_string("conference/emails/startupfair_invite.txt", c, context_instance=RequestContext(request))
-            subject = "Invitation to Reflections | Projections 2013 Startup Fair"
+            subject = "Invitation to Reflections | Projections 2014 Startup Fair"
         form = InviteForm(data={"body":body,
                                 "subject":subject,
                                 "from_email":request.user.email,
