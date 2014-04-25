@@ -1,5 +1,6 @@
 from django.core.mail import send_mail, EmailMessage
 from django.db import IntegrityError
+from django.db.models import Q
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.contrib import messages
@@ -16,13 +17,15 @@ from datetime import date
 
 @group_admin_required(['Corporate'])
 def companies(request):
-   fair = request.GET.get('type')
+   fair = request.GET.get('filter')
    if fair == 'startup':
-      companies = Company.objects.filter(type=Company.STARTUP)
+      companies = Company.objects.filter(Q(invited_on__year=14)|Q(invited_on__isnull=True), type=Company.STARTUP)
    elif fair == 'jobfair':
-      companies = Company.objects.filter(type=Company.JOBFAIR)
+      companies = Company.objects.filter(Q(invited_on__year=14)|Q(invited_on__isnull=True), type=Company.JOBFAIR)
+   elif fair == '13':
+      companies = Company.objects.filter(Q(invited_on__year=13))
    else:
-      companies = Company.objects.all()
+      companies = Company.objects.filter(Q(invited_on__year=14)|Q(invited_on__isnull=True))
 
    page = request.GET.get('page')
    paginator = Paginator(companies, 25) # Show 25 invites per page

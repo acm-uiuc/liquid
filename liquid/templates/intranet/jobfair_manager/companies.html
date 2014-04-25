@@ -9,19 +9,23 @@
 <p>
   <em>{{total_companies}} {%if total_companies or total_companies < 1 %} accounts{%else%}account{%endif%}.</em>
   <a class="pull-right btn btn-primary" href="/intranet/jobfair_manager/companies/new">Create Account</a></p>
-{% if companies|length > 0 %}
+
 <hr>
 <ul class="nav nav-tabs">
-  <li {% if request.GET.type == None %}class="active"{% endif %}>
+  <li {% if request.GET.filter == None %}class="active"{% endif %}>
     <a href="/intranet/jobfair_manager/companies">All</a>
   </li>
-  <li {% if request.GET.type == "jobfair" %}class="active"{% endif %}>
-    <a href="/intranet/jobfair_manager/companies?type=jobfair">Job Fair</a>
+  <li {% if request.GET.filter == "jobfair" %}class="active"{% endif %}>
+    <a href="/intranet/jobfair_manager/companies?filter=jobfair">Job Fair</a>
   </li>
-  <li {% if request.GET.type == "startup" %}class="active"{% endif %}>
-    <a href="/intranet/jobfair_manager/companies?type=startup">Startup Fair</a>
+  <li {% if request.GET.filter == "startup" %}class="active"{% endif %}>
+    <a href="/intranet/jobfair_manager/companies?filter=startup">Startup Fair</a>
+  </li>
+  <li {% if request.GET.filter == "13" %}class="active"{% endif %}>
+    <a href="/intranet/jobfair_manager/companies?filter=13">2013 Companies</a>
   </li>
 </ul>
+  {% if companies|length > 0 %}
     <table class="table table-striped">
         <thead>
         <tr>
