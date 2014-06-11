@@ -2,8 +2,6 @@ Dear {{ company.first_name }},
 
 My name is {{ user.get_full_name }} and I am part of Founders, a student entrepreneurship group at the University of Illinois at Urbana-Champaign. Together with the student chapter of the Association for Computing Machinery, we are hosting an on-campus startup career fair this fall. I am contacting you to see if {{ company.company_name }} is interested in participating.
 
-{{ company.company_name }} is an organization we want to get involved with because SOME REASON THE COMPANY IS COOL. SOME REASON THAT STUDENTS LOOK UP TO THE COMPANY.
-
 A bit more about the career fair: it is a part of the student-run ACM Reflections Projections conference, which brings together over 800 students from the Midwest to attend a variety of speaking events and computing workshops held throughout the weekend. Past speakers have included Alexis Ohanian, Larry Wall, Stephen Wolfram, Steve Wozniak, Blake Ross (creator of Firefox), Joel Spolsky, Eric Traut, and Ian Murdock (the "Ian" in Debian), to name a few.
 
 The Startup Fair will be held on October 2nd, 2014 from 5-8PM on the first floor of the Siebel Center in the atrium. The price for a Startup Fair booth is $200.
