@@ -1,10 +1,10 @@
 Dear {{ company.first_name }},
 
-We would like to invite {{ company.company_name}} to the third Reflections | Projections Startup Fair on Thursday, October 2nd, 2014. Reflections | Projections is a four day conference held by the Association for Computing Machinery Student Chapter of the University of Illinois at Urbana-Champaign.
+My name is {{ user.get_full_name }} and I am part of Founders, a student entrepreneurship group at the University of Illinois at Urbana-Champaign. Together with the student chapter of the Association for Computing Machinery, we are hosting an on-campus startup career fair this fall as part of the Reflections | Projections Conference. I am contacting you to see if {{ company.company_name }} is interested in participating.
 
-The conference draws together over 800 students from across the Midwest for a job fair, an artificial intelligence programming competition, and around 20 speaking events throughout the weekend. The University of Illinois has an entrepreneurial spirit. Many of our students are searching for jobs with a startup culture, so we want to help them connect with small and young companies. Last year's Startup Fair was a resounding success, so we are offering the event again free of charge!
+The Reflections | Projections conference is a student-run event which brings together over 800 students from the Midwest to attend a variety of speaking events and computing workshops held throughout the weekend. Past speakers have included Alexis Ohanian, Larry Wall, Stephen Wolfram, Steve Wozniak, Blake Ross (creator of Firefox), Joel Spolsky, Eric Traut, and Ian Murdock (the "Ian" in Debian).
 
-The Startup Fair will be held from 5-8PM on the first floor of the Siebel Center in the atrium.
+The Startup Fair will be held on October 2nd, 2014 from 5-8PM on the first floor of the Siebel Center in the atrium. The price for a Startup Fair booth is $200.
 
 Registration ensures:
 
@@ -14,15 +14,19 @@ Registration ensures:
 - Free parking
 - Advertising for {{ company.company_name }} in the Reflections | Projections program and on the website
 
-Here is the official job fair registration form:
+Here is the official startup fair registration form:
 http://acm.illinois.edu/conference/jobfair
 
 To login, please use the following information:
 Username: {{ company.username }}
 Password: {{ password }}
 
-We are excited to have {{ company.company_name }} participate in the Startup Fair. If we can help you in any way, please don't hesitate to email us at corporate@acm.illinois.edu.
+Before registering, please make note of our cancellation fees:
+- Before September 5th, 2014: Free.
+- September 5th, 2014 - September 18th, 2014: 50% cost.
+- After September 19th, 2014: Full cost.
+
+We are excited to have {{ company.company_name }} participate in the Startup Fair. If we can help you in any way, please don't hesitate to email us at corporate@acm.uiuc.edu.
 
 Thank You,
 {{ user.get_full_name }}
-ACM Corporate
