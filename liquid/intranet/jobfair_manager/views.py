@@ -6,8 +6,8 @@ from django.template import RequestContext
 from django.contrib import messages
 from django.template.defaultfilters import slugify
 from django.template.loader import render_to_string
-from conference.models import Company
-from conference.forms import CompanyForm
+from conf.models import Company
+from conf.forms import CompanyForm
 from intranet.jobfair_manager.forms import InviteForm
 import settings
 from utils.group_decorator import group_admin_required
@@ -117,10 +117,10 @@ def companies_invite(request, id):
         e.save()
         c = {"company": e, "password": password}
         if e.type == Company.JOBFAIR:
-            body = render_to_string("conference/emails/jobfair_invite.txt", c, context_instance=RequestContext(request))
+            body = render_to_string("conf/emails/jobfair_invite.txt", c, context_instance=RequestContext(request))
             subject = "Invitation to Reflections | Projections 2014 Job Fair"
         else:
-            body = render_to_string("conference/emails/startupfair_invite.txt", c, context_instance=RequestContext(request))
+            body = render_to_string("conf/emails/startupfair_invite.txt", c, context_instance=RequestContext(request))
             subject = "Invitation to Reflections | Projections 2014 Startup Fair"
         form = InviteForm(data={"body":body,
                                 "subject":subject,
