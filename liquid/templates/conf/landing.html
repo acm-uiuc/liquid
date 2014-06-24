@@ -1,0 +1,99 @@
+{% extends "conf/base.html" %}
+{% block top_styles %}
+	<link href='http://fonts.googleapis.com/css?family=Roboto:400,700' rel='stylesheet' type='text/css'>
+{% endblock %}
+{% block content %}
+	<div id="landing-card">
+	  <div class="row">
+		<img class="header-logo" src="/static/img/conference/header-logo.png" />
+	  </div>
+
+	  <div class="row">
+		<div class="span12">
+		  <div id="save-the-date">
+			<h2>September 25 - 28, 2014</h2>
+              <hr />
+			<p>Reflections | Projections, the annual computing conference at the 
+			  <a href="http://illinois.edu">University of Illinois Urbana-Champaign,</a> 
+			  will be returning this September! Come hear exciting speakers from across industry and academia! Look for a career at our CS/ECE job fair or, if you are more interested in the startup world, our Startup Fair! In a competitive mood? Participate in MechMania, a 24-hour programming competition! </p>
+              <br />
+              <p>Interested in attending? The conference is free and open to all, but please
+                  pre-register to receive a free t-shirt!</p>
+              <h2>
+                  <a href="http://acmreflections.eventbrite.com?ref=elink" target="_blank">Register Now! (It's Free!)</a>
+              </h2>
+          </div>
+		</div>
+	  </div>
+	  
+	  <div class="row">
+          <div class="span12">
+              <hr />
+              <div id="event-dates">
+		  <div class="span3 event-day">
+			<h3>Thursday, October 10</h3>
+			<li>Startup Fair</li>
+		  </div>
+		  <div class="span3 event-day">
+			<h3>Friday, October 11</h3>
+			<li>Speaker Talks</li>
+			<li>Job Fair</li>
+			<li>Mechmania Opening Ceremony</li>
+		  </div>
+		  <div class="span3 event-day">
+			<h3>Saturday, October 12</h3>
+			<li>Speaker Talks</li>
+			<li>PuzzleBang Finishes</li>
+		  </div>
+		  <div class="span3 event-day">
+			<h3>Sunday, October 13</h3>
+			<li>Mechmania Closing Ceremony</li>
+          </div>
+              </div>
+          </div>
+      </div>
+        <br />
+	  <div class="row">
+          <div class="span12">
+		  <form class="form-inline well email-subscribe" method="get" action="/conference/subscribe/">
+			<div class="message"></div>
+			<label for="subscribe">Subscribe to recieve updates!  </label> 
+			<div class="input-fields">
+			  <input id="subscribe" type="text" class="input-large" placeholder="email address" name="email">
+			  <button type="submit" class="btn">Subscribe</button>
+			</div>
+		  </form>
+              <hr />
+			</div>
+	  </div>
+
+		<div class="row">
+		  <div class="social-links span12">
+			<a href="mailto:conference-chair@acm.illinois.edu">Send us an Email</a>
+			&middot;
+			<a href="https://twitter.com/acmreflections">Follow us on Twitter</a>
+			&middot;
+			<a href="https://www.facebook.com/acmrp">Like us on Facebook</a>
+		  </div>
+		</div>
+		
+	</div> <!-- landing card -->
+{% endblock %}
+{% block bottom_scripts %}
+	<script type="text/javascript">
+	  $(document).ready(function(){
+	  $(".email-subscribe").submit(function(event){
+      var _this = this;
+      $.get(event.target.action,$(this).serialize(),function(response){
+      if(response['Error']){
+      $(_this).find(".message").html('<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">×</button><strong>Error</strong> '+response['Error']+'</div>');
+      }else if(response['Message']){
+      $(_this).html('<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">×</button>'+response['Message']+'</div>');
+      }
+      });
+      return false;
+	  });
+	  });
+	</script>
+{% endblock %}
+

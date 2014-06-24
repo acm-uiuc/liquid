@@ -138,7 +138,7 @@ INSTALLED_APPS = (
     'corporate',
     'sigs',
     'vote',
-    'conference',
+    'conf',
 
     'intranet',
     'intranet.event_manager',
