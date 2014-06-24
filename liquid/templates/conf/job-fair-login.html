@@ -18,7 +18,7 @@
                     If you would like to be added to our waiting list, please  <a href="mailto:conference-chair@acm.illinois.edu">email us</a>.</p>
                 <div id="loginform">
                     <p>If you have already received an invite, please enter the account credentials emailed to you by our staff to access the registration form.</p>
-                    <form method="post" class="form-horizontal"  action="/conference/2014/jobfair">
+                    <form method="post" class="form-horizontal"  action="/conf/jobfair">
                         {% csrf_token %}
                         {{  form|bootstrap  }}
                         <button type="submit" class="btn-primary">Login</button>
