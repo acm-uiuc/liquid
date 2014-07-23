@@ -237,11 +237,11 @@ class ResumePerson(models.Model):
    resume_reminded_at = models.DateTimeField(default=datetime.datetime.now())
    resume_reminder_subscribed = models.BooleanField(default=True)
    ldap_name = models.CharField(max_length=255)
-      
+
    # Helper method needed so that South works correctly
    def generate_uuid():
       return str(uuid4())
-      
+
    resume_uuid = models.CharField(max_length=255, default=generate_uuid)
 
    def latest_resume(self):
@@ -319,8 +319,6 @@ def delete_resume(sender, **kwargs):
    fs.delete(resume.resume.path)
    fs.delete(resume.thumbnail_location())
    fs.delete(resume.thumbnail_top_location())
-   if resume.person.resume_set.count() == 0:
-      resume.person.delete()
 
 class Recruiter(User):
    expires = models.DateField()
