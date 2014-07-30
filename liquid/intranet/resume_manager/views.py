@@ -15,7 +15,6 @@ from django.core.mail import EmailMultiAlternatives # Used for sending HTML emai
 from django.template.loader import get_template
 from django.template import Context
 
-import pyPdf
 
 @group_admin_required(['Corporate'])
 def main(request):
