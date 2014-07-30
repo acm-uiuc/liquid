@@ -320,9 +320,37 @@ def delete_resume(sender, **kwargs):
    fs.delete(resume.thumbnail_location())
    fs.delete(resume.thumbnail_top_location())
 
+# Wher to store the resumes
+fs1 = FileSystemStorage(location=settings.LOGO_STORAGE_LOCATION)
+
+def create_logo_file_name(instance,filename):
+   return "%s/%s-%s.png"%(settings.LOGO_STORAGE_LOCATION,
+                          instance.person.netid,
+                          os.urandom(16).encode('hex'))
+
+
 class Recruiter(User):
+   GOLD = ("G", "Gold Sponsor")
+   SILVER = ("S", "Silver Sponsor")
+   BRONZE = ("B", "Bronze Sponsor")
+   RESUME = ("R", "Resume Sponsor")
+   SPONSOR_LEVELS = (GOLD, SILVER, BRONZE, RESUME)
+
    expires = models.DateField()
    objects = UserManager()
+   level = models.CharField(
+      choices=SPONSOR_LEVELS, 
+      max_length=64,
+      null=True,
+   )
+   logo = ContentTypeRestrictedFileField(
+      upload_to="./logos/",
+      storage=fs1,
+      content_types=['image/png'],
+      max_upload_size=1048576, 
+      null=True,
+   )
+   url = models.CharField(max_length=100, null=True)
 
 @receiver(post_save, sender=Recruiter)
 def new_recruiter(sender, **kwargs):

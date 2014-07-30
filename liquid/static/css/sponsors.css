@@ -1,0 +1,12 @@
+.company-card {
+  width: 23%;
+  margin: 5px;
+  background: #fff;
+  padding: 10px;
+  opacity: .7;
+}
+
+.company-card:hover {
+	opacity: 1;
+}
+
