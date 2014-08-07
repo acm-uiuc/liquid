@@ -5,7 +5,7 @@
     var $bronzeGrid = $('#bronze-grid');
 
     //larger company grid
-    if($goldGrid.length){
+    if($goldGrid){
       $goldGrid.imagesLoaded(function(){
         $goldGrid.masonry({
           'gutter': 0,
@@ -13,7 +13,7 @@
         });
       });
     }
-    if($silverGrid.length){
+    if($silverGrid){
       $silverGrid.imagesLoaded(function(){
         $silverGrid.masonry({
           'gutter': 0,
@@ -21,7 +21,7 @@
         });
       });
     }
-    if($bronzeGrid.length){
+    if($bronzeGrid){
       $bronzeGrid.imagesLoaded(function(){
         $bronzeGrid.masonry({
           'gutter': 0,

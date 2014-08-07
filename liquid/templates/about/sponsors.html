@@ -1,7 +1,10 @@
 {% extends "about/base.html" %}
-{% block about_content %}
-<link href="/static/css/sponsors.css" rel="stylesheet">
 
+{% block top_styles %}
+<link href="/static/css/sponsors.css" rel="stylesheet">
+{% endblock %}
+
+{% block about_content %}
 <header class="page-header">
 <h1>Current Sponsors</h1>
 </header>
@@ -49,4 +52,10 @@ Please visit our <a href="{% url sponsorship_info %}">corporate sponsorship page
 </div>
 </section>
 {% endif %}
+{% endblock %}
+
+{% block bottom_scripts %}
+<script src="/static/js/jquery.imagesloaded.js"></script>
+<script src="/static/js/masonry.pkgd.min.js"></script>
+<script src="/static/js/app.js"></script>
 {% endblock %}

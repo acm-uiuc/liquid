@@ -320,14 +320,7 @@ def delete_resume(sender, **kwargs):
    fs.delete(resume.thumbnail_location())
    fs.delete(resume.thumbnail_top_location())
 
-# Wher to store the resumes
-fs1 = FileSystemStorage(location=settings.LOGO_STORAGE_LOCATION)
-
-def create_logo_file_name(instance,filename):
-   return "%s/%s-%s.png"%(settings.LOGO_STORAGE_LOCATION,
-                          instance.person.netid,
-                          os.urandom(16).encode('hex'))
-
+logo_fs = FileSystemStorage(location=settings.LOGO_STORAGE_LOCATION)
 
 class Recruiter(User):
    GOLD = ("G", "Gold Sponsor")
@@ -344,8 +337,8 @@ class Recruiter(User):
       null=True,
    )
    logo = ContentTypeRestrictedFileField(
-      upload_to="./logos/",
-      storage=fs1,
+      upload_to="logos/",
+      storage=logo_fs,
       content_types=['image/png'],
       max_upload_size=1048576, 
       null=True,
