@@ -198,3 +198,9 @@ a.job-email:hover{
 .send-event{
    margin-bottom: 1%;
 }
+
+.footer-icon{
+   font-size: 15px;
+   padding-left: 5px;
+   padding-right: 5px;
+}

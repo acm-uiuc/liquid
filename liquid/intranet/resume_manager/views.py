@@ -15,6 +15,7 @@ from django.core.mail import EmailMultiAlternatives # Used for sending HTML emai
 from django.template.loader import get_template
 from django.template import Context
 
+
 @group_admin_required(['Corporate'])
 def main(request):
    if request.method == 'POST':
@@ -81,7 +82,7 @@ def accounts_new(request):
    message = ""
    if request.method == 'POST': # If the form has been submitted...
       e = Recruiter()
-      form = RecruiterForm(request.POST,instance=e) # A form bound to the POST data
+      form = RecruiterForm(request.POST, request.FILES, instance=e) # A form bound to the POST data
       if form.is_valid(): # All validation rules pass
          recruiter = form.save()
          password = Recruiter.objects.make_random_password()
@@ -109,7 +110,7 @@ def accounts_new(request):
 def accounts_edit(request,id):
   e = Recruiter.objects.get(id=id)
   if request.method == 'POST': # If the form has been submitted...
-    form = RecruiterForm(request.POST,instance=e) # A form bound to the POST data
+    form = RecruiterForm(request.POST, request.FILES, instance=e) # A form bound to the POST data
     if form.is_valid(): # All validation rules pass
       form.save()
       messages.add_message(request, messages.SUCCESS, 'Recruiter changed')

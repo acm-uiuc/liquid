@@ -320,9 +320,30 @@ def delete_resume(sender, **kwargs):
    fs.delete(resume.thumbnail_location())
    fs.delete(resume.thumbnail_top_location())
 
+logo_fs = FileSystemStorage(location=settings.LOGO_STORAGE_LOCATION)
+
 class Recruiter(User):
+   GOLD = ("G", "Gold Sponsor")
+   SILVER = ("S", "Silver Sponsor")
+   BRONZE = ("B", "Bronze Sponsor")
+   RESUME = ("R", "Resume Sponsor")
+   SPONSOR_LEVELS = (GOLD, SILVER, BRONZE, RESUME)
+
    expires = models.DateField()
    objects = UserManager()
+   level = models.CharField(
+      choices=SPONSOR_LEVELS, 
+      max_length=64,
+      null=True,
+   )
+   logo = ContentTypeRestrictedFileField(
+      upload_to="logos/",
+      storage=logo_fs,
+      content_types=['image/png'],
+      max_upload_size=1048576, 
+      null=True,
+   )
+   url = models.CharField(max_length=100, null=True)
 
 @receiver(post_save, sender=Recruiter)
 def new_recruiter(sender, **kwargs):
