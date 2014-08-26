@@ -119,6 +119,21 @@ class Vending(models.Model):
    class Meta:
       db_table = 'vending'
 
+class Tray(models.Model):
+   tray_id = models.IntegerField(max_length = 11)
+   soda_id = models.IntegerField(max_length = 11)
+   quantity = models.IntegerField(max_length = 11)
+   price = models.DecimalField(max_digits = 10, decimal_places = 2)
+   enabled = models.BooleanField(default = False)
+   detect_override = models.BooleanField(default = False)
+
+class Soda(models.Model):
+   name = models.CharField(max_length=32)
+   calories = models.IntegerField(max_length=11,default=0)
+   caffeine = models.FloatField(default=0)
+   cost = models.DecimalField(default=0.5, decimal_places = 2, max_digits = 6)
+   current_inventory = models.IntegerField(max_length=11,default=0)
+
 class Group(models.Model):
    type = models.CharField(max_length=1, choices=GROUP_TYPE_CHOICES)
    name = models.CharField(max_length=30)

@@ -145,6 +145,7 @@ INSTALLED_APPS = (
     'intranet.group_manager',
     'intranet.job_manager',
     'intranet.member_database',
+    'intranet.caffeine_manager',
     'intranet.chroma',
     'intranet.resume_manager',
     'intranet.quote',
