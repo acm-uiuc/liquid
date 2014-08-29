@@ -22,7 +22,7 @@ urlpatterns = patterns('',
     #url(r'^conference/', include('conference.urls')),
     url(r'^kiosk/$', 'kiosk.views.main'),
 
-    url(r'^vpnrequired/$', 'views.vpnrequired'),    
+    url(r'^vpnrequired/$', 'views.vpnRequired'),    
     url(r'^resume/$', redirect_to, {'url': '/corporate/resume/'}),
     url(r'^print/$', redirect_to, {'url': 
         'https://www-s.acm.uiuc.edu/confluence/display/admin/Printing'}),
