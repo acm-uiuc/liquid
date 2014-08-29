@@ -28,5 +28,5 @@ def contact(request):
 def conference(request):
    return render_to_response('conf.html',{"section":"conference"},context_instance=RequestContext(request))
 
-def vpnrequired(request):
+def vpnRequired(request):
    return render_to_response('vpn_required.html')
