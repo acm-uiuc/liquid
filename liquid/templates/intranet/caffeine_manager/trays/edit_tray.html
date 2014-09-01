@@ -4,11 +4,7 @@
 {% block intranet_content %}
 <header>
     <h1>
-        {% if new_tray %}
-            Add Tray
-        {% else %}
-            Edit Tray
-        {% endif %}
+        {% if id %} Edit {% else %} Add {% endif %} Tray
     </h1>
 </header>
 
@@ -19,13 +15,9 @@
     <br />
     <div style="float: right" >
         <button type="submit" class="btn btn-primary" >
-        {% if new_tray %}
-            Add
-        {% else %}
-            Update
-        {% endif %}
+        {% if id %} Update {% else %} Add {% endif %}
         </button>
-        {% if not new_tray %}
+        {% if id %}
             <a href="/intranet/caffeine/trays/delete/{{ id }}" class="btn btn-danger">Delete</a>
         {% endif %}
         <a href="/intranet/caffeine/trays/" class="btn btn-secondary">Cancel</a>

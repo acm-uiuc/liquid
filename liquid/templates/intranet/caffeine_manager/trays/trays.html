@@ -7,9 +7,9 @@
 
 <table class="table table-striped table-bordered">
   <tr>
-    <th>Tray ID</th>
+    <th>ID</th>
     <th>Soda</th>
-    <th>Quantity</th>
+    <th>Qty</th>
     <th>Cost</th>
     {% if is_caffeine_admin %}
       <th>Enabled</th>
@@ -30,7 +30,8 @@
       <td>
         <a class="btn btn-small btn-primary" href='/intranet/caffeine/trays/edit/{{ t.id }}'>Edit Tray</a>
         {% if t.soda %}
-          <a class="btn btn-small" href='/intranet/caffeine/edit/{{ t.soda.id }}'>Edit Soda</a>
+          <a class="btn btn-small" href='/intranet/caffeine/soda/edit/{{ t.soda.id }}'>Edit Soda</a>
+          <a class="btn btn-small btn-danger" href='/intranet/caffeine/trays/forcevend/{{ t.id }}'>Force Vend</a>
         {% endif %}
       </td>
     {% endif %}

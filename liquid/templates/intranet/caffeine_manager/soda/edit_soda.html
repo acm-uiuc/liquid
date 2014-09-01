@@ -4,11 +4,7 @@
 {% block intranet_content %}
 <header>
     <h1>
-        {% if new_soda %}
-            Add Soda
-        {% else %}
-            Edit Soda
-        {% endif %}
+        {% if id %} Edit {% else %} Add {% endif %} Soda
     </h1>
 </header>
 
@@ -19,14 +15,10 @@
     <br />
     <div style="float: right" >
         <button type="submit" class="btn btn-primary" >
-        {% if new_soda %}
-            Add
-        {% else %}
-            Update
-        {% endif %}
+        {% if id %} Update {% else %} Add {% endif %}
         </button>
-        {% if not new_soda %}
-            <a href="/intranet/caffeine/delete/{{ id }}" class="btn btn-danger">Delete</a>
+        {% if id %}
+            <a href="/intranet/caffeine/soda/delete/{{ id }}" class="btn btn-danger">Delete</a>
         {% endif %}
         <a href="/intranet/caffeine/{{ from_arg }}" class="btn btn-secondary">Cancel</a>
     </div>

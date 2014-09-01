@@ -145,11 +145,16 @@ INSTALLED_APPS = (
     'intranet.group_manager',
     'intranet.job_manager',
     'intranet.member_database',
-    'intranet.caffeine_manager',
     'intranet.chroma',
     'intranet.resume_manager',
     'intranet.quote',
 
+
+    'intranet.caffeine_manager',
+    'intranet.caffeine_manager.soda',
+    'intranet.caffeine_manager.trays',
+    'intranet.caffeine_manager.user',
+    
     'kiosk',
 
     'bootstrapform',

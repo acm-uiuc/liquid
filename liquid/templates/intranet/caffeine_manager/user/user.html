@@ -12,12 +12,13 @@
 
    {% if vend_user %}
       <div style='vertical-align: text-bottom;'>
-        <span style='font-size:26px;'><b>All-time stats for {{ vend_user.full_name_and_netid }}</b></span>
-        {% if is_caffeine_admin %}
-          <span style='float: right; position: relative; top: -5px; padding-right: 20px;'>
+        <span style='font-size:26px;'><b>Stats for {{ vend_user.full_name_and_netid }}</b></span>
+        <span style='float: right; position: relative; top: -5px; padding-right: 20px;'>
+          {% if is_caffeine_admin %}
             <a href='/intranet/caffeine/user/{{ vend_user.username }}/edit' class='btn btn-primary'>Edit</a>
-          </span>
-        {% endif %}
+          {% endif %}
+          <a href='/intranet/caffeine/user/{{ vend_user.username }}/transfer' class='btn btn-danger'>Transfer</a>
+        </span>
       </div>
       <br />
       <table class="table table-bordered table-hover">
