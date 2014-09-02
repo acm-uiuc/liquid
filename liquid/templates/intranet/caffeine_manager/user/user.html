@@ -1,6 +1,10 @@
 {% extends "intranet/base.html" %}
 {% load bootstrap %}
 
+{% block top_styles %}
+    <link href="/static/css/caffeine-mgr.css" rel="stylesheet">
+{% endblock %}
+
 {% block intranet_content %}
    <div class='well' >
       <span style='font-size: 19px'>Search for a user:</span>
@@ -11,16 +15,16 @@
    </div>
 
    {% if vend_user %}
-      <div style='vertical-align: text-bottom;'>
-        <span style='font-size:26px;'><b>Stats for {{ vend_user.full_name_and_netid }}</b></span>
-        <span style='float: right; position: relative; top: -5px; padding-right: 20px;'>
+      <div id='view-user-header'>
+        <span><strong>Stats for {{ vend_user.full_name_and_netid }}</strong></span>
+        <span id='view-user-buttons'>
           {% if is_caffeine_admin %}
             <a href='/intranet/caffeine/user/{{ vend_user.username }}/edit' class='btn btn-primary'>Edit</a>
           {% endif %}
           <a href='/intranet/caffeine/user/{{ vend_user.username }}/transfer' class='btn btn-danger'>Transfer</a>
         </span>
       </div>
-      <br />
+
       <table class="table table-bordered table-hover">
          <tr>
             <th>Stat</th>

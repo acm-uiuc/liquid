@@ -1,28 +1,32 @@
 {% extends "intranet/base.html" %}
 {% load bootstrap %}
 
+{% block top_styles %}
+    <link href="/static/css/caffeine-mgr.css" rel="stylesheet">
+{% endblock %}
+
 {% block intranet_content %}
 <header>
-    <h1>
-        {% if id %} Edit {% else %} Add {% endif %} Soda
-    </h1>
+    <h1>{% if id %} Edit {% else %} Add {% endif %} Soda</h1>
 </header>
 
-<form class="well" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form }}
+<div class="well">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div>
+            {{ form }}
+        </div>
 
-    <br />
-    <div style="float: right" >
-        <button type="submit" class="btn btn-primary" >
-        {% if id %} Update {% else %} Add {% endif %}
-        </button>
-        {% if id %}
-            <a href="/intranet/caffeine/soda/delete/{{ id }}" class="btn btn-danger">Delete</a>
-        {% endif %}
-        <a href="/intranet/caffeine/{{ from_arg }}" class="btn btn-secondary">Cancel</a>
-    </div>
-    <br />
+        <div id='edit-soda-buttons' >
+            <button type="submit" class="btn btn-primary" >
+                {% if id %} Update {% else %} Add {% endif %}
+            </button>
+            {% if id %}
+                <a href="/intranet/caffeine/soda/delete/{{ id }}" class="btn btn-danger">Delete</a>
+            {% endif %}
+            <a href="/intranet/caffeine/{{ from_arg }}" class="btn btn-secondary">Cancel</a>
+        </div>
 
-</form>
+    </form>
+</div>
 {% endblock %}

@@ -149,7 +149,6 @@ INSTALLED_APPS = (
     'intranet.resume_manager',
     'intranet.quote',
 
-
     'intranet.caffeine_manager',
     'intranet.caffeine_manager.soda',
     'intranet.caffeine_manager.trays',

@@ -66,7 +66,7 @@ def delete_tray(request, trayId):
 
 #@group_admin_required(['Caffeine'])
 def force_vend(request, trayId):
-  ret = subprocess.call(["ssh", "nassri2@remlnx.ews.illinois.edu", "sh fvtest.sh"])
+  ret = subprocess.call(["ssh", "nassri2@acm.illinois.edu", "echo 'not yet implemented'"]) # Requires a valid ssh key
   if ret == 0:
     messages.add_message(request, messages.SUCCESS, "Force vend successful!")
   else:

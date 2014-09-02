@@ -11,7 +11,7 @@ def allsodas(request):
    for s in sodas:
       s.votedFor = (s.votes.filter(username = request.user.username).count() == 1)
 
-   request.session['from'] = None
+   request.session['from'] = None # 'None' represents the Sodas page
  
    is_caffeine_admin = request.user.is_group_admin('Caffeine')
   
@@ -93,20 +93,19 @@ def delete(request, sodaId):
    return redirect('/intranet/caffeine/')
 
 def vote(request, sodaId):
-   soda = get_object_or_404(Soda, pk=sodaId)
-   has_voted = soda.votes.filter(username = request.user.username).count()
-   if has_voted == 1:
-      soda.votes.remove(request.user)
+   votes = get_object_or_404(Soda, pk=sodaId).votes
+   has_voted = votes.filter(username = request.user.username).count()
+   if has_voted:
+      votes.remove(request.user)
       messages.add_message(request, messages.ERROR, "Your vote has been removed!")
    else:
-      soda.votes.add(request.user)
+      votes.add(request.user)
       messages.add_message(request, messages.SUCCESS, "Your vote has been recorded!")
 
    return redirect('/intranet/caffeine')
 
 #@group_admin_required(['Caffeine'])  
 def clear_votes(request, sodaId):
-   soda = get_object_or_404(Soda, pk=sodaId)
-   soda.votes.clear()
+   get_object_or_404(Soda, pk=sodaId).votes.clear()
    messages.add_message(request, messages.INFO, "Votes cleared.")
    return redirect('/intranet/caffeine')
