@@ -1,6 +1,6 @@
 from django.conf.urls.defaults import patterns, url
 
-urlpatterns = patterns('',
+urlpatterns=patterns('',
     url(r'^$', 'intranet.caffeine_manager.soda.views.allSodas'),
     url(r'^add$', 'intranet.caffeine_manager.soda.views.add'),
     url(r'^edit/(?P<sodaId>\d+)$', 'intranet.caffeine_manager.soda.views.edit'),

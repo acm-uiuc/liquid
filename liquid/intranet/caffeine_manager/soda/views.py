@@ -7,22 +7,22 @@ from intranet.caffeine_manager.soda.models import Soda
 from intranet.caffeine_manager.soda.forms import SodaForm
 
 def allSodas(request):
-    sodas = Soda.objects.all().order_by('-total_sold', 'name')
+    sodas=Soda.objects.all().order_by('-total_sold', 'name')
     for s in sodas:
-        s.votedFor = (s.votes.filter(username = request.user.username).count() == 1)
+        s.votedFor=(s.votes.filter(username=request.user.username).count() == 1)
 
-    request.session['from'] = None # 'None' represents the Sodas page
+    request.session['from']=None # 'None' represents the Sodas page
 
-    is_caffeine_admin = request.user.is_group_admin('Caffeine')
+    is_caffeine_admin=request.user.is_group_admin('Caffeine')
 
     # Get paginator and page
-    page = 1
-    paginator = Paginator(sodas, 10)
-    page_arg = request.GET.get('page')
+    page=1
+    paginator=Paginator(sodas, 10)
+    page_arg=request.GET.get('page')
     if page_arg and page_arg.isdigit():
-        page = int(page_arg)
-        page = max(1, min(paginator.num_pages, page))
-    sodasPage = paginator.page(page)
+        page=int(page_arg)
+        page=max(1, min(paginator.num_pages, page))
+    sodasPage=paginator.page(page)
 
     return render_to_response(
      'intranet/caffeine_manager/soda/allsodas.html',
@@ -37,15 +37,15 @@ def allSodas(request):
 
 @group_admin_required(['Caffeine'])
 def add(request):
-    soda_form = None;
-    from_arg = request.session.get('from') or ''
+    soda_form=None;
+    from_arg=request.session.get('from') or ''
     if request.method == 'POST':
-        soda_form = SodaForm(request.POST)
+        soda_form=SodaForm(request.POST)
         if soda_form.is_valid():
             soda_form.save()
             return redirect('/intranet/caffeine/')
     else:
-        soda_form = SodaForm()
+        soda_form=SodaForm()
 
     return render_to_response(
        'intranet/caffeine_manager/soda/edit_soda.html',
@@ -59,12 +59,12 @@ def add(request):
 
 @group_admin_required(['Caffeine'])
 def edit(request, sodaId):
-    soda = get_object_or_404(Soda, pk=sodaId)
-    soda_form = None;
-    from_arg = request.session.get('from') or ''
+    soda=get_object_or_404(Soda, pk=sodaId)
+    soda_form=None;
+    from_arg=request.session.get('from') or ''
 
     if request.method == 'POST':
-        soda_form = SodaForm(request.POST, instance=soda)
+        soda_form=SodaForm(request.POST, instance=soda)
         if soda_form.is_valid():
             soda_form.save()
             if from_arg == 'trays':
@@ -72,7 +72,7 @@ def edit(request, sodaId):
             else:
                 return redirect('/intranet/caffeine/')
     else:
-        soda_form = SodaForm(instance=soda)
+        soda_form=SodaForm(instance=soda)
 
     return render_to_response(
        'intranet/caffeine_manager/soda/edit_soda.html',
@@ -93,8 +93,8 @@ def delete(request, sodaId):
     return redirect('/intranet/caffeine/')
 
 def toggleVote(request, sodaId):
-    votes = get_object_or_404(Soda, pk=sodaId).votes
-    has_voted = votes.filter(username = request.user.username).count()
+    votes=get_object_or_404(Soda, pk=sodaId).votes
+    has_voted=votes.filter(username=request.user.username).count()
     if has_voted:
         votes.remove(request.user)
         messages.add_message(request, messages.ERROR, "Your vote has been removed!")

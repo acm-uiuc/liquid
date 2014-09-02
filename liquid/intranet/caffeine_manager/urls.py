@@ -1,7 +1,7 @@
 from django.conf.urls.defaults import patterns, include, url
 from django.views.generic.simple import redirect_to
 
-urlpatterns = patterns('',
+urlpatterns=patterns('',
     url(r'^$', redirect_to, {'url': '/intranet/caffeine/soda'}),
     url(r'^stats/$', 'intranet.caffeine_manager.views.leaderboard'),
 
