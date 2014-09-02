@@ -6,7 +6,7 @@ from django.contrib import messages
 from intranet.caffeine_manager.soda.models import Soda
 from intranet.caffeine_manager.soda.forms import SodaForm
 
-def allsodas(request):
+def allSodas(request):
     sodas = Soda.objects.all().order_by('-total_sold', 'name')
     for s in sodas:
         s.votedFor = (s.votes.filter(username = request.user.username).count() == 1)
@@ -92,7 +92,7 @@ def delete(request, sodaId):
         return redirect('/intranet/caffeine/trays')
     return redirect('/intranet/caffeine/')
 
-def vote(request, sodaId):
+def toggleVote(request, sodaId):
     votes = get_object_or_404(Soda, pk=sodaId).votes
     has_voted = votes.filter(username = request.user.username).count()
     if has_voted:
@@ -105,7 +105,7 @@ def vote(request, sodaId):
     return redirect('/intranet/caffeine')
 
 @group_admin_required(['Caffeine'])
-def clear_votes(request, sodaId):
+def clearVotes(request, sodaId):
     get_object_or_404(Soda, pk=sodaId).votes.clear()
     messages.add_message(request, messages.INFO, "Votes cleared.")
     return redirect('/intranet/caffeine')
