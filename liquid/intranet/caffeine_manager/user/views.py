@@ -39,7 +39,7 @@ def view(request, netid=None):
        'searchArg':searchArg
      }, context_instance=RequestContext(request))
 
-#@group_admin_required(['Caffeine'])
+@group_admin_required(['Caffeine'])
 def edit(request, netid):
     vend_user = get_object_or_404(Member, username=netid)
     vending = vend_user.get_vending()

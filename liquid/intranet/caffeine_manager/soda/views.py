@@ -35,7 +35,7 @@ def allsodas(request):
      }, context_instance=RequestContext(request))
 
 
-#@group_admin_required(['Caffeine'])
+@group_admin_required(['Caffeine'])
 def add(request):
     soda_form = None;
     from_arg = request.session.get('from') or ''
@@ -57,7 +57,7 @@ def add(request):
        },
        context_instance=RequestContext(request))
 
-#@group_admin_required(['Caffeine'])
+@group_admin_required(['Caffeine'])
 def edit(request, sodaId):
     soda = get_object_or_404(Soda, pk=sodaId)
     soda_form = None;
@@ -84,7 +84,7 @@ def edit(request, sodaId):
          'from_arg':from_arg
        }, context_instance=RequestContext(request))
 
-#@group_admin_required(['Caffeine'])
+@group_admin_required(['Caffeine'])
 def delete(request, sodaId):
     get_object_or_404(Soda, pk=sodaId).delete()
 
@@ -104,7 +104,7 @@ def vote(request, sodaId):
 
     return redirect('/intranet/caffeine')
 
-#@group_admin_required(['Caffeine'])
+@group_admin_required(['Caffeine'])
 def clear_votes(request, sodaId):
     get_object_or_404(Soda, pk=sodaId).votes.clear()
     messages.add_message(request, messages.INFO, "Votes cleared.")

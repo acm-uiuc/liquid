@@ -20,7 +20,7 @@ def trays(request):
        },
        context_instance=RequestContext(request))
 
-#@group_admin_required(['Caffeine'])
+@group_admin_required(['Caffeine'])
 def add_tray(request):
     tray_form = None;
     if request.method == 'POST':
@@ -39,7 +39,7 @@ def add_tray(request):
          'form':tray_form
        }, context_instance=RequestContext(request))
 
-#@group_admin_required(['Caffeine'])
+@group_admin_required(['Caffeine'])
 def edit_tray(request, trayId):
     tray = get_object_or_404(Tray, pk=trayId)
     if request.method == 'POST':
@@ -59,12 +59,12 @@ def edit_tray(request, trayId):
          'id':trayId
        }, context_instance=RequestContext(request))
 
-#@group_admin_required(['Caffeine'])
+@group_admin_required(['Caffeine'])
 def delete_tray(request, trayId):
     get_object_or_404(Tray, pk=trayId).delete()
     return redirect('/intranet/caffeine/trays/')
 
-#@group_admin_required(['Caffeine'])
+@group_admin_required(['Caffeine'])
 def force_vend(request, trayId):
     ret = subprocess.call(["ssh", "nassri2@acm.illinois.edu", "echo 'not yet implemented'"]) # Requires a valid ssh key
     if ret == 0:
