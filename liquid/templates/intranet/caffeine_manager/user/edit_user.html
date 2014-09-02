@@ -13,17 +13,17 @@
 <form class="well" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <div>
-      {{ form }}
+        {{ form }}
     </div>
 
     <div id='edit-user-buttons'>
-      {% if is_transfer %}
-        <button type="submit" class="btn btn-danger">Transfer</button>
-      {% else %}     
-         <button type="submit" class="btn btn-primary">Update</button>
-      {% endif %}
-         
-      <a href="/intranet/caffeine/" class="btn btn-secondary">Cancel</a>
+        {% if is_transfer %}
+            <button type="submit" class="btn btn-danger">Transfer</button>
+        {% else %}
+            <button type="submit" class="btn btn-primary">Update</button>
+        {% endif %}
+
+        <a href="/intranet/caffeine/" class="btn btn-secondary">Cancel</a>
     </div>
 
 </form>

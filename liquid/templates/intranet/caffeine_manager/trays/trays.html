@@ -6,39 +6,39 @@
 <h2>Current Caffeine Trays</h2>
 
 <table class="table table-striped table-bordered">
-  <tr>
-    <th>ID</th>
-    <th>Soda</th>
-    <th>Qty</th>
-    <th>Cost</th>
-    {% if is_caffeine_admin %}
-      <th>Enabled</th>
-      <th>Detect Override</th>
-      <th>Actions</th>
-    {% endif %}
-  </tr>
-
-  {% for t in trays %}
-  <tr>
-    <td>{{ t.tray_number }}</td>
-    <td>{{ t.soda.name }}</td>
-    <td>{{ t.quantity }}</td>
-    <td>{{ t.price }}</td>
-    {% if is_caffeine_admin %}
-      <td>{{ t.enabled }}</td>
-      <td>{{ t.detect_override }}</td>
-      <td>
-        <a class="btn btn-small btn-primary" href='/intranet/caffeine/trays/edit/{{ t.id }}'>Edit Tray</a>
-        {% if t.soda %}
-          <a class="btn btn-small" href='/intranet/caffeine/soda/edit/{{ t.soda.id }}'>Edit Soda</a>
-          <a class="btn btn-small btn-danger" href='/intranet/caffeine/trays/forcevend/{{ t.id }}'>Force Vend</a>
+    <tr>
+        <th>ID</th>
+        <th>Soda</th>
+        <th>Qty</th>
+        <th>Cost</th>
+        {% if is_caffeine_admin %}
+            <th>Enabled</th>
+            <th>Detect Override</th>
+            <th>Actions</th>
         {% endif %}
-      </td>
-    {% endif %}
-  </tr>
-  {% endfor %}
+    </tr>
+
+    {% for t in trays %}
+    <tr>
+        <td>{{ t.tray_number }}</td>
+        <td>{{ t.soda.name }}</td>
+        <td>{{ t.quantity }}</td>
+        <td>{{ t.price }}</td>
+        {% if is_caffeine_admin %}
+            <td>{{ t.enabled }}</td>
+            <td>{{ t.detect_override }}</td>
+            <td>
+                <a class="btn btn-small btn-primary" href='/intranet/caffeine/trays/edit/{{ t.id }}'>Edit Tray</a>
+                {% if t.soda %}
+                    <a class="btn btn-small" href='/intranet/caffeine/soda/edit/{{ t.soda.id }}'>Edit Soda</a>
+                    <a class="btn btn-small btn-danger" href='/intranet/caffeine/trays/forcevend/{{ t.id }}'>Force Vend</a>
+                {% endif %}
+            </td>
+        {% endif %}
+    </tr>
+    {% endfor %}
 </table>
 {% if is_caffeine_admin %}
-  <a class='btn btn-primary' href='/intranet/caffeine/trays/add'>Add tray</a>
+    <a class='btn btn-primary' href='/intranet/caffeine/trays/add'>Add tray</a>
 {% endif %}
 {% endblock %}

@@ -6,52 +6,52 @@
 {% endblock %}
 
 {% block intranet_content %}
-   <div class='well' >
-      <span style='font-size: 19px'>Search for a user:</span>
-      <form style='float: right;'>
-         <input name='q' class="input-large search-query" value='{{ searchArg }}'>
-         <button class='btn btn-submit btn-primary'>Search</button>
-      </p>
-   </div>
+    <div class='well' >
+        <span style='font-size: 19px'>Search for a user:</span>
+        <form style='float: right;'>
+            <input name='q' class="input-large search-query" value='{{ searchArg }}'>
+            <button class='btn btn-submit btn-primary'>Search</button>
+        </p>
+    </div>
 
-   {% if vend_user %}
-      <div id='view-user-header'>
-        <span><strong>Stats for {{ vend_user.full_name_and_netid }}</strong></span>
-        <span id='view-user-buttons'>
-          {% if is_caffeine_admin %}
-            <a href='/intranet/caffeine/user/{{ vend_user.username }}/edit' class='btn btn-primary'>Edit</a>
-          {% endif %}
-          <a href='/intranet/caffeine/user/{{ vend_user.username }}/transfer' class='btn btn-danger'>Transfer</a>
-        </span>
-      </div>
+    {% if vend_user %}
+        <div id='view-user-header'>
+            <span><strong>Stats for {{ vend_user.full_name_and_netid }}</strong></span>
+            <span id='view-user-buttons'>
+                {% if is_caffeine_admin %}
+                    <a href='/intranet/caffeine/user/{{ vend_user.username }}/edit' class='btn btn-primary'>Edit</a>
+                {% endif %}
+                <a href='/intranet/caffeine/user/{{ vend_user.username }}/transfer' class='btn btn-danger'>Transfer</a>
+            </span>
+        </div>
 
-      <table class="table table-bordered table-hover">
-         <tr>
-            <th>Stat</th>
-            <th>Value</th>
-         </tr>
-         <tr>
-            <td>Balance</td>
-            <td>${{ vending.balance }}</td>
-         </tr>
-         <tr>
-            <td>Calories</td>
-            <td>{{ vending.calories }}</td>
-         </tr>
-         <tr>
-            <td>Caffeine (mg)</td>
-            <td>{{ vending.caffeine }}</td>
-         </tr>
-         <tr>
-            <td>Spent</td>
-            <td>${{ vending.spent }}</td>
-         </tr>
-         <tr>
-            <td>Sodas</td>
-            <td>{{ vending.sodas }}</td>
-         </tr>
-      </table>
-   {% else %}
-      <h3>No users found for query '{{ searchArg }}'</h3>
-   {% endif %}
+        <table class="table table-bordered table-hover">
+            <tr>
+                <th>Stat</th>
+                <th>Value</th>
+            </tr>
+            <tr>
+                <td>Balance</td>
+                <td>${{ vending.balance }}</td>
+            </tr>
+            <tr>
+                <td>Calories</td>
+                <td>{{ vending.calories }}</td>
+            </tr>
+            <tr>
+                <td>Caffeine (mg)</td>
+                <td>{{ vending.caffeine }}</td>
+            </tr>
+            <tr>
+                <td>Spent</td>
+                <td>${{ vending.spent }}</td>
+            </tr>
+            <tr>
+                <td>Sodas</td>
+                <td>{{ vending.sodas }}</td>
+            </tr>
+        </table>
+    {% else %}
+        <h3>No users found for query '{{ searchArg }}'</h3>
+    {% endif %}
 {% endblock %}

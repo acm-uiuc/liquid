@@ -5,50 +5,50 @@
 {% block intranet_content %}
 <h2>All sodas</h2>
 <div class="well">
-  <a class="btn btn-primary" href="/intranet/caffeine/trays/">Trays</a>
-  {% if is_caffeine_admin %}
-    <a class="btn btn-success" href="/intranet/caffeine/soda/add">Add soda</a>
-  {% endif %}
-  <a class="btn" href="/intranet/caffeine/user">Users</a>
-  <a class="btn" href="/intranet/caffeine/stats">Leaderboard</a>
+    <a class="btn btn-primary" href="/intranet/caffeine/trays/">Trays</a>
+    {% if is_caffeine_admin %}
+        <a class="btn btn-success" href="/intranet/caffeine/soda/add">Add soda</a>
+    {% endif %}
+    <a class="btn" href="/intranet/caffeine/user">Users</a>
+    <a class="btn" href="/intranet/caffeine/stats">Leaderboard</a>
 </div>
 
 {% if sodasPage.end_index %}
 
 <table class="table table-striped table-bordered">
-  <tr>
-    <th>Name</th>
-    <th>Calories</th>
-    <th>Caffeine (mg)</th>
-    <th>Total Sold</th>
-    <th>Cost</th>
-    <th>Votes</th>
-    <th>Actions</th>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Calories</th>
+        <th>Caffeine (mg)</th>
+        <th>Total Sold</th>
+        <th>Cost</th>
+        <th>Votes</th>
+        <th>Actions</th>
+    </tr>
 
-  {% for s in sodasPage %}
-  <tr>
-    <td>{{ s.name }}</td>
-    <td>{{ s.calories }}</td>
-    <td>{{ s.caffeine }}</td>
-    <td>{{ s.total_sold }}</td>
-    <td>{{ s.cost }}</td>
-    <td>{{ s.votes.count }}</td>
-    <td>
-      {% if is_caffeine_admin %}
-          <a class="btn btn-primary btn-small" href='/intranet/caffeine/soda/edit/{{ s.id }}'>Edit</a>
-          {% if s.votes.count %}
-              <a class="btn btn-danger btn-small" href='/intranet/caffeine/soda/clearvotes/{{ s.id }}'>Clear votes</a>
-          {% endif %}
-      {% endif %}
-      {% if s.votedFor %}
-        <a class="btn btn-danger btn-small" href='/intranet/caffeine/soda/vote/{{ s.id }}'>Unvote</a>
-      {% else %}
-        <a class="btn btn-success btn-small" href='/intranet/caffeine/soda/vote/{{ s.id }}'>Vote</a>
-      {% endif %}
-    </td>
-  </tr>
-  {% endfor %}
+    {% for s in sodasPage %}
+    <tr>
+        <td>{{ s.name }}</td>
+        <td>{{ s.calories }}</td>
+        <td>{{ s.caffeine }}</td>
+        <td>{{ s.total_sold }}</td>
+        <td>{{ s.cost }}</td>
+        <td>{{ s.votes.count }}</td>
+        <td>
+            {% if is_caffeine_admin %}
+                <a class="btn btn-primary btn-small" href='/intranet/caffeine/soda/edit/{{ s.id }}'>Edit</a>
+                {% if s.votes.count %}
+                    <a class="btn btn-danger btn-small" href='/intranet/caffeine/soda/clearvotes/{{ s.id }}'>Clear votes</a>
+                {% endif %}
+            {% endif %}
+            {% if s.votedFor %}
+                <a class="btn btn-danger btn-small" href='/intranet/caffeine/soda/vote/{{ s.id }}'>Unvote</a>
+            {% else %}
+                <a class="btn btn-success btn-small" href='/intranet/caffeine/soda/vote/{{ s.id }}'>Vote</a>
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
 </table>
 {% endif %}
 
