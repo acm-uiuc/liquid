@@ -12,7 +12,11 @@ def view(request, netid=None):
     is_caffeine_admin=request.user.is_group_admin('Caffeine')
 
     if searchArg and (not request.GET.get('searched')):
-        users=Vending.objects.filter(Q(user__first_name=searchArg) | Q(user__last_name=searchArg) | Q(user__username=searchArg)).order_by('-spent', 'balance')
+        users=Vending.objects.filter(
+          Q(user__first_name=searchArg) | 
+          Q(user__last_name=searchArg) | 
+          Q(user__username=searchArg)
+        ).order_by('-spent', 'balance')
 
         append='?q=' + searchArg + '&searched=1'
         if users:
@@ -80,10 +84,11 @@ def transfer(request, netid):
                 user_form.errors["balance"]=["Transfer amount must not be more than your current balance."]
             else:
                 debtor.balance -= amount
-                debtor.save()
 
                 vending=vend_user.get_vending() # Get a clean copy
                 vending.balance += amount
+
+                debtor.save()
                 vending.save()
 
                 return redirect('/intranet/caffeine/user/' + vend_user.username)
@@ -99,3 +104,4 @@ def transfer(request, netid):
         'form':user_form,
         'is_transfer':True
       }, context_instance=RequestContext(request))
+    

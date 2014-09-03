@@ -28,10 +28,10 @@
             <td>{{ t.enabled }}</td>
             <td>{{ t.detect_override }}</td>
             <td>
-                <a class="btn btn-small btn-primary" href='/intranet/caffeine/trays/edit/{{ t.id }}'>Edit Tray</a>
+                <a class="btn btn-small btn-primary" href='{% url cm_trays_edit t.id %}'>Edit Tray</a>
                 {% if t.soda %}
-                    <a class="btn btn-small" href='/intranet/caffeine/soda/edit/{{ t.soda.id }}'>Edit Soda</a>
-                    <a class="btn btn-small btn-danger" href='/intranet/caffeine/trays/forcevend/{{ t.id }}'>Force Vend</a>
+                    <a class="btn btn-small" href='{% url cm_soda_edit t.soda.id %}'>Edit Soda</a>
+                    <a class="btn btn-small btn-danger" href='{% url cm_trays_forcevend t.id %}'>Force Vend</a>
                 {% endif %}
             </td>
         {% endif %}
@@ -39,6 +39,6 @@
     {% endfor %}
 </table>
 {% if is_caffeine_admin %}
-    <a class='btn btn-primary' href='/intranet/caffeine/trays/add'>Add tray</a>
+    <a class='btn btn-primary' href='{% url cm_trays_add %}'>Add tray</a>
 {% endif %}
 {% endblock %}

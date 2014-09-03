@@ -16,14 +16,14 @@
         {{ form }}
     </div>
 
-    <div id='edit-user-buttons'>
+    <div class='edit-user-buttons'>
         {% if is_transfer %}
             <button type="submit" class="btn btn-danger">Transfer</button>
         {% else %}
             <button type="submit" class="btn btn-primary">Update</button>
         {% endif %}
 
-        <a href="/intranet/caffeine/" class="btn btn-secondary">Cancel</a>
+        <a href="{% url cm_soda_all_sodas %}" class="btn btn-secondary">Cancel</a>
     </div>
 
 </form>

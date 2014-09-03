@@ -15,13 +15,13 @@
     </div>
 
     {% if vend_user %}
-        <div id='view-user-header'>
+        <div class='view-user-header'>
             <span><strong>Stats for {{ vend_user.full_name_and_netid }}</strong></span>
-            <span id='view-user-buttons'>
+            <span class='view-user-buttons'>
                 {% if is_caffeine_admin %}
-                    <a href='/intranet/caffeine/user/{{ vend_user.username }}/edit' class='btn btn-primary'>Edit</a>
+                    <a href='{% url cm_user_edit vend_user.username %}' class='btn btn-primary'>Edit</a>
                 {% endif %}
-                <a href='/intranet/caffeine/user/{{ vend_user.username }}/transfer' class='btn btn-danger'>Transfer</a>
+                <a href='{% url cm_user_transfer vend_user.username %}' class='btn btn-danger'>Transfer</a>
             </span>
         </div>
 

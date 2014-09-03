@@ -6,7 +6,7 @@ from intranet.caffeine_manager.trays.models import Tray
 from intranet.caffeine_manager.trays.forms import TrayForm
 import subprocess
 
-def trays(request):
+def view(request):
     request.session['from']='trays'
     trays=Tray.objects.all().order_by('tray_number')
     is_caffeine_admin=request.user.is_group_admin('Caffeine')

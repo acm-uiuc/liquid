@@ -97,7 +97,7 @@ def toggleVote(request, sodaId):
     has_voted=votes.filter(username=request.user.username).count()
     if has_voted:
         votes.remove(request.user)
-        messages.add_message(request, messages.ERROR, "Your vote has been removed!")
+        messages.add_message(request, messages.INFO, "Your vote has been removed!")
     else:
         votes.add(request.user)
         messages.add_message(request, messages.SUCCESS, "Your vote has been recorded!")
