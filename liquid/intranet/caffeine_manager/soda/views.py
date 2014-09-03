@@ -3,6 +3,7 @@ from django.template import RequestContext
 from django.core.paginator import Paginator
 from utils.group_decorator import group_admin_required
 from django.contrib import messages
+from django.core.urlresolvers import reverse
 from intranet.caffeine_manager.soda.models import Soda
 from intranet.caffeine_manager.soda.forms import SodaForm
 
@@ -43,7 +44,7 @@ def add(request):
         soda_form=SodaForm(request.POST)
         if soda_form.is_valid():
             soda_form.save()
-            return redirect('/intranet/caffeine/')
+            return redirect(reverse('cm_soda_all_sodas'))
     else:
         soda_form=SodaForm()
 
@@ -68,9 +69,9 @@ def edit(request, sodaId):
         if soda_form.is_valid():
             soda_form.save()
             if from_arg == 'trays':
-                return redirect('/intranet/caffeine/trays')
+                return redirect(reverse('cm_trays_view'))
             else:
-                return redirect('/intranet/caffeine/')
+                return redirect(reverse('cm_soda_allsodas'))
     else:
         soda_form=SodaForm(instance=soda)
 
@@ -89,8 +90,8 @@ def delete(request, sodaId):
     get_object_or_404(Soda, pk=sodaId).delete()
 
     if request.session.get('from') == 'trays':
-        return redirect('/intranet/caffeine/trays')
-    return redirect('/intranet/caffeine/')
+        return redirect(reverse('cm_trays_view'))
+    return redirect(reverse('cm_soda_allsodas'))
 
 def toggleVote(request, sodaId):
     votes=get_object_or_404(Soda, pk=sodaId).votes
@@ -102,10 +103,10 @@ def toggleVote(request, sodaId):
         votes.add(request.user)
         messages.add_message(request, messages.SUCCESS, "Your vote has been recorded!")
 
-    return redirect('/intranet/caffeine')
+    return redirect(reverse('cm_soda_allsodas'))
 
 @group_admin_required(['Caffeine'])
 def clearVotes(request, sodaId):
     get_object_or_404(Soda, pk=sodaId).votes.clear()
     messages.add_message(request, messages.INFO, "Votes cleared.")
-    return redirect('/intranet/caffeine')
+    return redirect(reverse('cm_soda_allsodas'))

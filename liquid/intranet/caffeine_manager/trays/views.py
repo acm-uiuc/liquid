@@ -2,6 +2,7 @@ from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
 from django.contrib import messages
 from utils.group_decorator import group_admin_required
+from django.core.urlresolvers import reverse
 from intranet.caffeine_manager.trays.models import Tray
 from intranet.caffeine_manager.trays.forms import TrayForm
 import subprocess
@@ -27,7 +28,7 @@ def add_tray(request):
         tray_form=TrayForm(request.POST)
         if tray_form.is_valid():
             tray_form.save()
-            return redirect('/intranet/caffeine/trays/')
+            return redirect(reverse('cm_trays_view'))
     else:
         tray_form=TrayForm()
 
@@ -46,7 +47,7 @@ def edit_tray(request, trayId):
         tray_form=TrayForm(request.POST, instance=tray)
         if tray_form.is_valid():
             tray_form.save()
-            return redirect('/intranet/caffeine/trays/')
+            return redirect(reverse('cm_trays_view'))
     else:
         tray_form=TrayForm(instance=tray)
 
@@ -62,7 +63,7 @@ def edit_tray(request, trayId):
 @group_admin_required(['Caffeine'])
 def delete_tray(request, trayId):
     get_object_or_404(Tray, pk=trayId).delete()
-    return redirect('/intranet/caffeine/trays/')
+    return redirect(reverse('cm_trays_view'))
 
 @group_admin_required(['Caffeine'])
 def force_vend(request, trayId):
@@ -71,4 +72,4 @@ def force_vend(request, trayId):
         messages.add_message(request, messages.SUCCESS, "Force vend successful!")
     else:
         messages.add_message(request, messages.ERROR, "Force vend failed.")
-    return redirect('/intranet/caffeine/trays')
+    return redirect(reverse('cm_trays_view'))

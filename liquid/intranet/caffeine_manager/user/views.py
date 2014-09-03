@@ -2,6 +2,7 @@ from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
 from intranet.models import Member, Vending
 from utils.group_decorator import group_admin_required
+from django.core.urlresolvers import reverse
 from intranet.caffeine_manager.user.forms import VendingForm
 from django.db.models import Q
 from decimal import Decimal
@@ -53,7 +54,7 @@ def edit(request, netid):
         user_form=VendingForm(request.POST, instance=vending)
         if user_form.is_valid():
             user_form.save()
-            return redirect('/intranet/caffeine/user/' + vend_user.username);
+            return redirect(reverse('cm_user_view', args=(vend_user.username)))
     else:
         user_form=VendingForm(instance=vending)
 
@@ -91,7 +92,7 @@ def transfer(request, netid):
                 debtor.save()
                 vending.save()
 
-                return redirect('/intranet/caffeine/user/' + vend_user.username)
+                return redirect(reverse('cm_user_view', args=(vend_user.username)))
     else:
         user_form=VendingForm(instance=vending)
 
