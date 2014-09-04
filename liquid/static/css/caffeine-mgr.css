@@ -1,0 +1,40 @@
+.caffeine-leaderboard-1 {
+  width: 10px;
+}
+
+.caffeine-leaderboard-3 {
+  width: 100px;
+}
+
+.edit-user-buttons {
+   float: right;
+   position: relative;
+   top: -23px;
+   left: 5px;
+}
+
+.edit-tray-buttons {
+   float: right;
+   position: relative;
+   top: -13px;
+   left: -3px;
+}
+
+.edit-soda-buttons {
+   float: right;
+   position: relative;
+   top: -7px;
+}
+
+.view-user-buttons {
+   float: right;
+   position: relative;
+   top: -5px;
+   padding-right: 20px;
+}
+
+.view-user-header {
+   font-size: 26px;
+   padding-bottom:11px;
+   vertical-align: text-bottom;
+}

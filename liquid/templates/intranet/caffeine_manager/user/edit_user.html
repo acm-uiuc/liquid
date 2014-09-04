@@ -1,0 +1,30 @@
+{% extends "intranet/base.html" %}
+{% load bootstrap %}
+
+{% block top_styles %}
+    <link href="/static/css/caffeine-mgr.css" rel="stylesheet">
+{% endblock %}
+
+{% block intranet_content %}
+<header>
+    <h1>{% if is_transfer %}Transfer Credits{% else %}Update Balance{% endif %}</h1>
+</header>
+
+<form class="well" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div>
+        {{ form }}
+    </div>
+
+    <div class='edit-user-buttons'>
+        {% if is_transfer %}
+            <button type="submit" class="btn btn-danger">Transfer</button>
+        {% else %}
+            <button type="submit" class="btn btn-primary">Update</button>
+        {% endif %}
+
+        <a href="{% url cm_user_view user.username %}" class="btn btn-secondary">Cancel</a>
+    </div>
+
+</form>
+{% endblock %}

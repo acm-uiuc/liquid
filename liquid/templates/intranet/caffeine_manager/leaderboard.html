@@ -1,0 +1,92 @@
+{% extends "intranet/base.html" %}
+{% load bootstrap_pagination %}
+{% load bootstrap %}
+
+{% block top_styles %}
+    <link href="/static/css/caffeine-mgr.css" rel="stylesheet">
+{% endblock %}
+
+{% block intranet_content %}
+    <h2>Caffeine High Scores (of active members)</h2>
+
+    <table class="table table-striped table-bordered">
+        <tr>
+            <th class='caffeine-leaderboard-1'>#</th>
+            <th>Name</th>
+            <th class='caffeine-leaderboard-3'>Calories</th>
+        </tr>
+
+    <h4>Calories consumed</h4>
+        {% for v in top_calories %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>
+                {{ v.user.full_name }}
+                (<a href='{% url cm_user_view v.user.username %}'>{{v.user.username}}</a>)
+            </td>
+            <td>{{ v.calories }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h4>Caffeine consumed (mg)</h4>
+    <table class="table table-striped table-bordered caffeine-leaderboard">
+        <tr>
+            <th class='caffeine-leaderboard-1'>#</th>
+            <th>Name</th>
+            <th class='caffeine-leaderboard-3'>Caffeine (mg)</th>
+        </tr>
+
+        {% for v in top_caffeine %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>
+                {{ v.user.full_name }}
+                (<a href='{% url cm_user_view v.user.username %}'>{{v.user.username}}</a>)
+            </td>
+            <td>{{ v.caffeine }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h4>Money spent</h4>
+    <table class="table table-striped table-bordered caffeine-leaderboard">
+        <tr>
+            <th class='caffeine-leaderboard-1'>#</th>
+            <th>Name</th>
+            <th class='caffeine-leaderboard-3'>Spent</th>
+        </tr>
+
+        {% for v in top_spent %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>
+                {{ v.user.full_name }}
+                (<a href='{% url cm_user_view v.user.username %}'>{{v.user.username}}</a>)
+            </td>
+            <td>{{ v.spent }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h4>Sodas bought</h4>
+    <table class="table table-striped table-bordered caffeine-leaderboard">
+        <tr>
+            <th class='caffeine-leaderboard-1'>#</th>
+            <th>Name</th>
+            <th class='caffeine-leaderboard-3'>Sodas</th>
+        </tr>
+
+        {% for v in top_sodas %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>
+                {{ v.user.full_name }}
+                (<a href='{% url cm_user_view v.user.username %}'>{{v.user.username}}</a>)
+            </td>
+            <td>{{ v.sodas }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}
