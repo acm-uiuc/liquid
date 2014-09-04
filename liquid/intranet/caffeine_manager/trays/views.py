@@ -5,7 +5,7 @@ from utils.group_decorator import group_admin_required
 from django.core.urlresolvers import reverse
 from intranet.caffeine_manager.trays.models import Tray
 from intranet.caffeine_manager.trays.forms import TrayForm
-from intranet.caffeine_manager.soda.views import fromLocations
+from intranet.caffeine_manager.views import fromLocations
 import subprocess
 
 def view(request):
@@ -41,7 +41,7 @@ def add_tray(request):
          'form':tray_form
        }, context_instance=RequestContext(request))
 
-@group_admin_required(['Caffeine'])
+#@group_admin_required(['Caffeine'])
 def edit_tray(request, trayId):
     tray=get_object_or_404(Tray, pk=trayId)
     if request.method == 'POST':

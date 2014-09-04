@@ -9,21 +9,27 @@ class fromLocations(Enum):
     TRAYS = 'trays'
 
 def leaderboard(request):
-    count=5
+
+    count = 5
+    try:
+        count = int(request.GET.get('count', 5))
+    except:
+        pass
+    
     baseQuery=Vending.objects.filter(user__status='active')
 
-    topCalories=baseQuery.order_by('-calories')[0:count]
-    topCaffeine=baseQuery.order_by('-caffeine')[0:count]
-    topSpent=baseQuery.order_by('-spent')[0:count]
-    topSodas=baseQuery.order_by('-sodas')[0:count]
+    top_calories=baseQuery.order_by('-calories')[0:count]
+    top_caffeine=baseQuery.order_by('-caffeine')[0:count]
+    top_spent=baseQuery.order_by('-spent')[0:count]
+    top_sodas=baseQuery.order_by('-sodas')[0:count]
 
     return render_to_response(
        'intranet/caffeine_manager/leaderboard.html',
        {
          'section':'intranet',
          'page':'caffeine',
-         'topCalories':topCalories,
-         'topCaffeine':topCaffeine,
-         'topSpent':topSpent,
-         'topSodas':topSodas
+         'top_calories':top_calories,
+         'top_caffeine':top_caffeine,
+         'top_spent':top_spent,
+         'top_sodas':top_sodas
        }, context_instance=RequestContext(request))

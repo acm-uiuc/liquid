@@ -8,8 +8,8 @@
 {% block intranet_content %}
     <div class='well' >
         <span style='font-size: 19px'>Search for a user:</span>
-        <form style='float: right;'>
-            <input name='q' class="input-large search-query" value='{{ searchArg }}'>
+        <form style='float: right;' action='{% url cm_user_view %}'>
+            <input name='q' class="input-large search-query" value='{{ search_arg }}'>
             <button class='btn btn-submit btn-primary'>Search</button>
         </p>
     </div>
@@ -21,7 +21,9 @@
                 {% if is_caffeine_admin %}
                     <a href='{% url cm_user_edit vend_user.username %}' class='btn btn-primary'>Edit</a>
                 {% endif %}
-                <a href='{% url cm_user_transfer vend_user.username %}' class='btn btn-danger'>Transfer</a>
+		{% if can_transfer %}
+                    <a href='{% url cm_user_transfer vend_user.username %}' class='btn btn-danger'>Transfer</a>
+                {% endif %}
             </span>
         </div>
 
@@ -52,6 +54,6 @@
             </tr>
         </table>
     {% else %}
-        <h3>No users found for query '{{ searchArg }}'</h3>
+        <h3>No users found for query '{{ search_arg }}'</h3>
     {% endif %}
 {% endblock %}

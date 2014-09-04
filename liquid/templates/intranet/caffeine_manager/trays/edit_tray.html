@@ -22,9 +22,9 @@
                 {% if id %} Update {% else %} Add {% endif %}
             </button>
             {% if id %}
-                <a href="{% url cm_trays_delete {{ id }} %}" class="btn btn-danger">Delete</a>
+                <a href="{% url cm_trays_delete id %}" class="btn btn-danger">Delete</a>
             {% endif %}
-            <a href="{% url cm_trays_trays %}" class="btn btn-secondary">Cancel</a>
+            <a href="{% url cm_trays_view %}" class="btn btn-secondary">Cancel</a>
         </div>
 
     </form>

@@ -5,34 +5,32 @@ from utils.group_decorator import group_admin_required
 from django.core.urlresolvers import reverse
 from intranet.caffeine_manager.user.forms import VendingForm
 from django.db.models import Q
+from django.contrib import messages
 from decimal import Decimal
 
 def view(request, netid=None):
-    searchArg=request.GET.get('q') or ''
+    search_arg=request.GET.get('q') or ''
     vend_user=None
     is_caffeine_admin=request.user.is_group_admin('Caffeine')
 
-    if searchArg and (not request.GET.get('searched')):
+    if search_arg:
         users=Vending.objects.filter(
-          Q(user__first_name=searchArg) | 
-          Q(user__last_name=searchArg) | 
-          Q(user__username=searchArg)
+          Q(user__first_name=search_arg) | 
+          Q(user__last_name=search_arg) | 
+          Q(user__username=search_arg)
         ).order_by('-spent', 'balance')
 
-        append='?q=' + searchArg + '&searched=1'
         if users:
             vend_user=users[0].user
-            netid=vend_user.username
-            append= netid + append
 
-        return redirect('/intranet/caffeine/user/' + append)
-
-    if netid:
+    elif netid:
         vend_user=get_object_or_404(Member, username=netid)
-    elif not searchArg:
+    elif not search_arg:
         vend_user=request.user
 
     vending=vend_user.get_vending() if vend_user else None
+    can_transfer = vend_user and vend_user != request.user
+
     return render_to_response(
      'intranet/caffeine_manager/user/user.html',
      {
@@ -41,7 +39,8 @@ def view(request, netid=None):
        'is_caffeine_admin':is_caffeine_admin,
        'vend_user':vend_user,
        'vending':vending,
-       'searchArg':searchArg
+       'search_arg':search_arg,
+       'can_transfer':can_transfer
      }, context_instance=RequestContext(request))
 
 @group_admin_required(['Caffeine'])
@@ -54,7 +53,7 @@ def edit(request, netid):
         user_form=VendingForm(request.POST, instance=vending)
         if user_form.is_valid():
             user_form.save()
-            return redirect(reverse('cm_user_view', args=(vend_user.username)))
+            return redirect(reverse('cm_user_view', args=[vend_user.username]))
     else:
         user_form=VendingForm(instance=vending)
 
@@ -71,6 +70,11 @@ def transfer(request, netid):
     vend_user=get_object_or_404(Member, username=netid)
     vending=vend_user.get_vending()
     user_form=None;
+
+    # Prevent transferring to yourself, since that causes nasty concurrence errors
+    if netid == request.user.username:
+        messages.add_message(request, messages.ERROR, 'You can\'t transfer money to yourself.')
+        return redirect(reverse('cm_user_view'))
 
     if request.method == 'POST':
         user_form=VendingForm(request.POST, instance=vending)
@@ -92,7 +96,7 @@ def transfer(request, netid):
                 debtor.save()
                 vending.save()
 
-                return redirect(reverse('cm_user_view', args=(vend_user.username)))
+                return redirect(reverse('cm_user_view', args=[vend_user.username]))
     else:
         user_form=VendingForm(instance=vending)
 

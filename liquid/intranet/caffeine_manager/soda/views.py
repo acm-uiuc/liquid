@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.core.urlresolvers import reverse
 from intranet.caffeine_manager.soda.models import Soda
 from intranet.caffeine_manager.soda.forms import SodaForm
-from intranet.caffeine_manager.soda.views import fromLocations
+from intranet.caffeine_manager.views import fromLocations
 
 def allSodas(request):
     sodas=Soda.objects.all().order_by('-total_sold', 'name')
@@ -69,7 +69,7 @@ def edit(request, sodaId):
         soda_form=SodaForm(request.POST, instance=soda)
         if soda_form.is_valid():
             soda_form.save()
-            if from_arg == 'trays':
+            if from_arg == fromLocations.TRAYS:
                 return redirect(reverse('cm_trays_view'))
             else:
                 return redirect(reverse('cm_soda_allsodas'))
@@ -90,7 +90,7 @@ def edit(request, sodaId):
 def delete(request, sodaId):
     get_object_or_404(Soda, pk=sodaId).delete()
 
-    if request.session.get('from') == fromLocations.TRAYS:
+    if request.session.get('from', fromLocations.ALL_SODAS) == fromLocations.TRAYS:
         return redirect(reverse('cm_trays_view'))
     return redirect(reverse('cm_soda_allsodas'))
 
