@@ -83,6 +83,12 @@ Total: $40.00 USD
 Payment: $40.00
 ----------------------------------------
 
+ACM@UIUC Resume Book
+====================
+We maintain relationships with many corporate partners who are looking for students to fill intern and full-time positions! Consider adding your resume to the ACM Resume Book at http://www.acm.illinois.edu/corporate/resume/!
+
+ACM@UIUC Network
+================
 Your ACM@UIUC Network account and other ACM@UIUC services will be provisioned within 48 hours. You will receive an additional e-mail when this is complete.
 
 Questions? Contact userhelp@acm.illinois.edu
