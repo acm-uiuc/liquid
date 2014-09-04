@@ -1,6 +1,12 @@
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from intranet.models import Vending
+from enum import Enum
+
+# Enum of from locations
+class fromLocations(Enum):
+    ALL_SODAS = 'allsodas'
+    TRAYS = 'trays'
 
 def leaderboard(request):
     count=5

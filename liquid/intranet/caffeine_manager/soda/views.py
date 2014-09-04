@@ -6,13 +6,14 @@ from django.contrib import messages
 from django.core.urlresolvers import reverse
 from intranet.caffeine_manager.soda.models import Soda
 from intranet.caffeine_manager.soda.forms import SodaForm
+from intranet.caffeine_manager.soda.views import fromLocations
 
 def allSodas(request):
     sodas=Soda.objects.all().order_by('-total_sold', 'name')
     for s in sodas:
         s.votedFor=(s.votes.filter(username=request.user.username).count() == 1)
 
-    request.session['from']=None # 'None' represents the Sodas page
+    request.session['from'] = fromLocations.ALL_SODAS
 
     is_caffeine_admin=request.user.is_group_admin('Caffeine')
 
@@ -39,7 +40,7 @@ def allSodas(request):
 @group_admin_required(['Caffeine'])
 def add(request):
     soda_form=None;
-    from_arg=request.session.get('from') or ''
+    from_arg=request.session.get('from', fromLocations.ALL_SODAS)
     if request.method == 'POST':
         soda_form=SodaForm(request.POST)
         if soda_form.is_valid():
@@ -62,7 +63,7 @@ def add(request):
 def edit(request, sodaId):
     soda=get_object_or_404(Soda, pk=sodaId)
     soda_form=None;
-    from_arg=request.session.get('from') or ''
+    from_arg=request.session.get('from', fromLocations.ALL_SODAS)
 
     if request.method == 'POST':
         soda_form=SodaForm(request.POST, instance=soda)
@@ -89,7 +90,7 @@ def edit(request, sodaId):
 def delete(request, sodaId):
     get_object_or_404(Soda, pk=sodaId).delete()
 
-    if request.session.get('from') == 'trays':
+    if request.session.get('from') == fromLocations.TRAYS:
         return redirect(reverse('cm_trays_view'))
     return redirect(reverse('cm_soda_allsodas'))
 
@@ -98,15 +99,15 @@ def toggleVote(request, sodaId):
     has_voted=votes.filter(username=request.user.username).count()
     if has_voted:
         votes.remove(request.user)
-        messages.add_message(request, messages.INFO, "Your vote has been removed!")
+        messages.add_message(request, messages.INFO, 'Your vote has been removed!')
     else:
         votes.add(request.user)
-        messages.add_message(request, messages.SUCCESS, "Your vote has been recorded!")
+        messages.add_message(request, messages.SUCCESS, 'Your vote has been recorded!')
 
     return redirect(reverse('cm_soda_allsodas'))
 
 @group_admin_required(['Caffeine'])
 def clearVotes(request, sodaId):
     get_object_or_404(Soda, pk=sodaId).votes.clear()
-    messages.add_message(request, messages.INFO, "Votes cleared.")
+    messages.add_message(request, messages.INFO, 'Votes cleared.')
     return redirect(reverse('cm_soda_allsodas'))

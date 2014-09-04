@@ -77,12 +77,12 @@ def transfer(request, netid):
 
         if user_form.is_valid():
             debtor=request.user.get_vending()
-            amount=Decimal(user_form["balance"].value())
+            amount=Decimal(user_form['balance'].value())
 
             if Decimal(amount) <= 0:
-                user_form.errors["balance"]=['Transfer amount must be a number greater than $0.00.']
+                user_form.errors['balance']=['Transfer amount must be a number greater than $0.00.']
             elif debtor.balance < amount:
-                user_form.errors["balance"]=["Transfer amount must not be more than your current balance."]
+                user_form.errors['balance']=['Transfer amount must not be more than your current balance.']
             else:
                 debtor.balance -= amount
 
@@ -96,7 +96,7 @@ def transfer(request, netid):
     else:
         user_form=VendingForm(instance=vending)
 
-    user_form.fields["balance"].label="Transfer amount"
+    user_form.fields['balance'].label='Transfer amount'
     return render_to_response(
       'intranet/caffeine_manager/user/edit_user.html',
       {

@@ -6,7 +6,7 @@ urlpatterns=patterns('',
     url(r'^$', redirect_to, {'url': '/intranet/caffeine/soda'}, name='cm_soda_all_sodas'),
     url(r'^stats/$', leaderboard, name='cm_stats'),
 
-    url(r'^user/', include('intranet.caffeine_manager.user.urls')),
-    url(r'^soda/', include('intranet.caffeine_manager.soda.urls')),
-    url(r'^trays/', include('intranet.caffeine_manager.trays.urls'))
+    url(r'^user/$', include('intranet.caffeine_manager.user.urls')),
+    url(r'^soda/$', include('intranet.caffeine_manager.soda.urls')),
+    url(r'^trays/$', include('intranet.caffeine_manager.trays.urls'))
 )

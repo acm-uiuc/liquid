@@ -6,7 +6,7 @@ from intranet.models import Resume
 from django.contrib.auth.decorators import user_passes_test
 from utils.group_decorator import group_admin_required
 from utils.notifier_class import notif_class
-# Create your views here.
+# Create your views here
 def main(request):
    groups = request.user.group_set.all()
    unsent_jobs = Job.objects.filter(sent__exact=False).filter(status__exact="approve")
