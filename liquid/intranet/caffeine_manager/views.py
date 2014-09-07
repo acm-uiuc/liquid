@@ -28,6 +28,7 @@ def leaderboard(request):
        {
          'section':'intranet',
          'page':'caffeine',
+         'sub_page':'leaderboard',
          'top_calories':top_calories,
          'top_caffeine':top_caffeine,
          'top_spent':top_spent,
