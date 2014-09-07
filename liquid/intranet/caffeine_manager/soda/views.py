@@ -31,6 +31,7 @@ def allSodas(request):
      {
        'section':'intranet',
        'page':'caffeine',
+       'sub_page':'sodas',
        'sodasPage':sodasPage,
        'request':request,
        'is_caffeine_admin':is_caffeine_admin
