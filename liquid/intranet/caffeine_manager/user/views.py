@@ -110,3 +110,4 @@ def transfer(request, netid):
         'form':user_form,
         'is_transfer':True
       }, context_instance=RequestContext(request))
+ 
