@@ -36,6 +36,7 @@ def view(request, netid=None):
      {
        'section':'intranet',
        'page':'caffeine',
+       'sub_page':'users',
        'is_caffeine_admin':is_caffeine_admin,
        'vend_user':vend_user,
        'vending':vending,
@@ -109,4 +110,3 @@ def transfer(request, netid):
         'form':user_form,
         'is_transfer':True
       }, context_instance=RequestContext(request))
-    
