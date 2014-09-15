@@ -26,7 +26,7 @@ urlpatterns = patterns('',
     url(r'^resume/$', redirect_to, {'url': '/corporate/resume/'}),
     url(r'^print/$', redirect_to, {'url': 
         'https://www-s.acm.uiuc.edu/confluence/display/admin/Printing'}),
-        url(r'^3dprint/$', redirect_to, {'url': 
+    url(r'^3dprint/$', redirect_to, {'url': 
         'https://illinois.edu/fb/sec/1826253'}),
 
     #rp redirects
