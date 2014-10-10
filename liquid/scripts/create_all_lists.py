@@ -49,6 +49,7 @@ lists = [
    List(name='Mecheye-l'),
    List(name='Media-c'),
    List(name='Membership-l',public=True),
+   List(name='Minecraft-l',public=True),
    List(name='mm-help'),
    List(name='mm-l'),
    List(name='Mm9-l'),

@@ -17,6 +17,7 @@ def view(request):
        {
          'section':'intranet',
          'page':'caffeine',
+         'sub_page':'trays',
          'trays':trays,
          'is_caffeine_admin':is_caffeine_admin
        },

@@ -1,11 +1,11 @@
-{% extends "intranet/base.html" %}
+{% extends 'intranet/caffeine_manager/list_page.html' %}
 {% load bootstrap %}
 
 {% block top_styles %}
     <link href="/static/css/caffeine-mgr.css" rel="stylesheet">
 {% endblock %}
 
-{% block intranet_content %}
+{% block caffeine_content %}
     <div class='well' >
         <span style='font-size: 19px'>Search for a user:</span>
         <form style='float: right;' action='{% url cm_user_view %}'>

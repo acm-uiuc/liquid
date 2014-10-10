@@ -1,0 +1,28 @@
+{% extends 'intranet/base.html' %}
+
+{% block intranet_content %}
+    <h2>Caffeine Manager</h2>
+    <ul class="nav nav-tabs">
+      <li{% if sub_page == "sodas" %} class="active"{% endif %}>
+        <a href="{% url cm_soda_allsodas %}">Sodas</a>
+      </li>
+      <li{% if sub_page == "trays" %} class="active"{% endif %}>
+        <a href="{% url cm_trays_view %}">Trays</a>
+      </li>
+      <li{% if sub_page == "leaderboard" %} class="active"{% endif %}>
+        <a href="{% url cm_stats %}">Leaderboard</a>
+      </li>
+      <li class="pull-right {%if sub_page == 'users'%}active{% endif %}">
+        <a href="{% url cm_user_view %}">User Browser</a>
+      </li>
+      {% if is_caffeine_admin %}
+        <li class="pull-right">
+          <a href="{% url cm_soda_add %}">Add Soda</a>
+        </li>
+      {% endif %}
+    </ul>
+
+    {% block caffeine_content %}
+    {% endblock %}
+{% endblock %}
+
