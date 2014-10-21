@@ -57,6 +57,7 @@ lists = [
    List(name='Oldtop4'),
    List(name='Ourcade-l'),
    List(name='Outreach'),
+   List(name='Projects-l'),
    List(name='Puzzlecrack-l'),
    List(name='Puzzlehack-l'),
    List(name='Puzzlehack2'),
