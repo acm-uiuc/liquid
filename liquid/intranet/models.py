@@ -85,7 +85,7 @@ def new_member(sender, **kwargs):
       ## add to mailing lists
       try:
          membership_list = List.objects.get(name='Membership-l')
-         cluster = List.objects.get(name='Cluster-l')
+         cluster_list = List.objects.get(name='Cluster-l')
          job_list = List.objects.get(name='Jobs-l')
       except:
          pass
