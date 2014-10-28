@@ -1,0 +1,8 @@
+design
+apache
+.git
+.idea
+.sass-cahce
+env
+setup.py
+liquid/local_settings.py
