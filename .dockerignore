@@ -6,3 +6,4 @@ apache
 env
 setup.py
 liquid/local_settings.py
+dockercmd.sh
