@@ -1,7 +1,9 @@
 class ModelDatabaseRouter(object):
-    """Allows a model to choose which DB it uses"""
-    """Currently used by the Caffeine frontend"""
-    """Specify the DB a model should use by setting in_db in the model's Meta class"""
+    """
+    Allows a model to choose which DB it uses
+    Currently used by the Caffeine frontend
+    Specify the DB a model should use by setting in_db in the model's Meta class
+    """
 
     def db_for_read(self, model, **hints):
         if hasattr(model._meta, 'in_db'):
