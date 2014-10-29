@@ -16,7 +16,7 @@ def leaderboard(request):
     except:
         pass
     
-    baseQuery=Vending.objects.filter(user__status='active')
+    baseQuery=Vending.objects.all()
 
     top_calories=baseQuery.order_by('-calories')[0:count]
     top_caffeine=baseQuery.order_by('-caffeine')[0:count]

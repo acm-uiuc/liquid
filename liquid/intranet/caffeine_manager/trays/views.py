@@ -10,8 +10,8 @@ import subprocess
 
 def view(request):
     request.session['from']=fromLocations.TRAYS
-    trays=Tray.objects.all().order_by('tray_number')
-    is_caffeine_admin=request.user.is_group_admin('Caffeine')
+    trays=Tray.objects.all().order_by('tid')
+    is_caffeine_admin=True#request.user.is_group_admin('Caffeine')
     return render_to_response(
        'intranet/caffeine_manager/trays/trays.html',
        {
@@ -42,7 +42,7 @@ def add_tray(request):
          'form':tray_form
        }, context_instance=RequestContext(request))
 
-#@group_admin_required(['Caffeine'])
+@group_admin_required(['Caffeine'])
 def edit_tray(request, trayId):
     tray=get_object_or_404(Tray, pk=trayId)
     if request.method == 'POST':

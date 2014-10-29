@@ -15,6 +15,7 @@ from subprocess import check_call
 from django.db.models import Count
 from django.db.models import Q
 from utils.resume_download_helper import generate_resume_download
+from intranet.caffeine_manager.soda.models import Soda
 
 # Create your models here.
 MEMBER_STATUS_CHOICES = (('active','active'),('inactive','inactive'),('frozen','frozen'))
@@ -61,7 +62,7 @@ class Member(User):
       return len(self.groupmember_set.filter(is_admin__exact=True)) > 0
 
    def get_vending(self):
-      return self.vending_set.all()[0]
+      return Vending.objects.get(pk=self.id)
 
    def __unicode__(self):
       return self.full_name()
@@ -109,14 +110,19 @@ class PreMember(models.Model):
    created_at = models.DateTimeField(auto_now_add=True)
 
 class Vending(models.Model):
-   user = models.ForeignKey(Member,primary_key=True,db_column='uid')
+   uid = models.IntegerField(max_length=11, primary_key=True)
    balance = models.DecimalField(max_digits=10, decimal_places=2,default=0)
    calories = models.IntegerField(max_length=11,default=0)
    caffeine = models.FloatField(default=0)
    spent = models.DecimalField(max_digits=10, decimal_places=2,default=0)
    sodas = models.IntegerField(max_length=11,default=0)
+   votes = models.ManyToManyField(Soda)
+
+   def get_user(self):
+      return Member.objects.get(pk=self.uid)
 
    class Meta:
+      in_db = 'soda'
       db_table = 'vending'
 
 class Group(models.Model):

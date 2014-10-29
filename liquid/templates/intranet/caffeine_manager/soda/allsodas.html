@@ -21,20 +21,20 @@
         <td>{{ s.name }}</td>
         <td>{{ s.calories }}</td>
         <td>{{ s.caffeine }}</td>
-        <td>{{ s.total_sold }}</td>
+        <td>{{ s.dispensed }}</td>
         <td>{{ s.cost }}</td>
-        <td>{{ s.votes.count }}</td>
+        <td>{{ s.voteCount }}</td>
         <td>
             {% if is_caffeine_admin %}
-                <a class='btn btn-primary btn-small' href='{% url cm_soda_edit s.id  %}'>Edit</a>
-                {% if s.votes.count %}
-                    <a class='btn btn-danger btn-small' href='{% url cm_soda_clearvotes s.id  %}'>Clear votes</a>
+                <a class='btn btn-primary btn-small' href='{% url cm_soda_edit s.sid  %}'>Edit</a>
+                {% if s.voteCount %}
+                    <a class='btn btn-danger btn-small' href='{% url cm_soda_clearvotes s.sid  %}'>Clear votes</a>
                 {% endif %}
             {% endif %}
             {% if s.votedFor %}
-                <a class='btn btn-danger btn-small' href='{% url cm_soda_vote s.id %}'>Unvote</a>
+                <a class='btn btn-danger btn-small' href='{% url cm_soda_vote s.sid %}'>Unvote</a>
             {% else %}
-                <a class='btn btn-success btn-small' href='{% url cm_soda_vote s.id %}'>Vote</a>
+                <a class='btn btn-success btn-small' href='{% url cm_soda_vote s.sid %}'>Vote</a>
             {% endif %}
         </td>
     </tr>

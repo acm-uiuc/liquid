@@ -2,10 +2,56 @@ from django.db import models
 from django.core.validators import MinValueValidator
 from intranet.caffeine_manager.soda.models import Soda
 
+# Add in_db attrib to valid Meta options
+import django.db.models.options as options
+options.DEFAULT_NAMES = options.DEFAULT_NAMES + ('in_db',)
+
+from django.db import models
+
+# === This is a massive hack. ===
+# From http://gdorn.circuitlocution.com/blog/2010/11/29/legacy-booleanfield-in-django.html
+class tfBooleanField(models.BooleanField):
+    __metaclass__ = models.SubfieldBase #need this for django to know to call to_python()
+
+    def __init__(self, *args, **kwargs):
+        super(tfBooleanField, self).__init__(*args, **kwargs)
+
+    def db_type(self, connection):
+        return "enum('t', 'f')"
+
+    def to_python(self, value):
+        if value in (True, False):
+            return bool(value)
+        if value in ('t', 'f'):
+            return value == 't'
+        #raise models.ImproperlyConfigured("tfBooleanField %s contained invalid element [%s]" % (self.db_column, value))
+        return False
+
+    def get_prep_value(self, value):
+        if value in ('t', 'f'):
+            return value
+        if value:
+            return 't'
+        else:
+            return 'f'
+
+    def get_prep_lookup(self, lookup_type, value):
+        if value in ('1','0'): #special case for dealing with admin, see BooleanField.get_prep_lookup
+            value = bool(value)
+        if lookup_type == 'exact':
+            return self.get_prep_value(value)
+        else:
+            raise TypeError('Lookup type %r not supported.' % lookup_type)
+# === End massive hack ===
+
 class Tray(models.Model):
-    tray_number=models.IntegerField(max_length=11, validators=[MinValueValidator(1)], unique=True)
-    soda=models.ForeignKey(Soda, blank=True, null=True, on_delete=models.SET_NULL)
-    quantity=models.IntegerField(max_length=11, default=0, validators=[MinValueValidator(0)])
+    tid=models.IntegerField(max_length=11, validators=[MinValueValidator(1)], unique=True, primary_key=True, verbose_name="Tray ID")
+    soda=models.ForeignKey(Soda, blank=True, null=True, on_delete=models.SET_NULL, db_column='sid')
+    qty=models.IntegerField(max_length=11, default=0, validators=[MinValueValidator(0)], verbose_name="Quantity")
     price=models.DecimalField(max_digits=10, decimal_places=2, default=0.5)
-    enabled=models.BooleanField(default=False)
-    detect_override=models.BooleanField(default=False)
+    enabled=tfBooleanField(default='f')
+    sense_override=tfBooleanField(default='f')
+
+    class Meta:
+        in_db='soda'
+        db_table='trays'
