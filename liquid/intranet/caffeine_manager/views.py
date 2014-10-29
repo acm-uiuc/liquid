@@ -16,12 +16,13 @@ def leaderboard(request):
     except:
         pass
     
-    baseQuery=Vending.objects.all()
+    subQuery = "SELECT uid from acm_integrate.users WHERE status = 'active'"
+    baseQuery = "SELECT * FROM soda.vending WHERE uid IN (%s)" % subQuery
 
-    top_calories=baseQuery.order_by('-calories')[0:count]
-    top_caffeine=baseQuery.order_by('-caffeine')[0:count]
-    top_spent=baseQuery.order_by('-spent')[0:count]
-    top_sodas=baseQuery.order_by('-sodas')[0:count]
+    top_calories=Vending.objects.raw(baseQuery + " ORDER BY -calories LIMIT %d" % count)
+    top_caffeine=Vending.objects.raw(baseQuery + " ORDER BY -caffeine LIMIT %d" % count)
+    top_spent=Vending.objects.raw(baseQuery + " ORDER BY -spent LIMIT %d" % count)
+    top_sodas=Vending.objects.raw(baseQuery + " ORDER BY -sodas LIMIT %d" % count)
 
     is_caffeine_admin=request.user.is_group_admin('Caffeine')
 
