@@ -8,7 +8,7 @@ options.DEFAULT_NAMES = options.DEFAULT_NAMES + ('in_db',)
 
 from django.db import models
 
-# === This is a massive hack. ===
+# === Hack to support Caffeine's "enum(t,f)" boolean fields ===
 # From http://gdorn.circuitlocution.com/blog/2010/11/29/legacy-booleanfield-in-django.html
 class tfBooleanField(models.BooleanField):
     __metaclass__ = models.SubfieldBase #need this for django to know to call to_python()
@@ -24,7 +24,6 @@ class tfBooleanField(models.BooleanField):
             return bool(value)
         if value in ('t', 'f'):
             return value == 't'
-        #raise models.ImproperlyConfigured("tfBooleanField %s contained invalid element [%s]" % (self.db_column, value))
         return False
 
     def get_prep_value(self, value):
@@ -32,8 +31,7 @@ class tfBooleanField(models.BooleanField):
             return value
         if value:
             return 't'
-        else:
-            return 'f'
+        return 'f'
 
     def get_prep_lookup(self, lookup_type, value):
         if value in ('1','0'): #special case for dealing with admin, see BooleanField.get_prep_lookup
@@ -42,12 +40,12 @@ class tfBooleanField(models.BooleanField):
             return self.get_prep_value(value)
         else:
             raise TypeError('Lookup type %r not supported.' % lookup_type)
-# === End massive hack ===
+# === End hack ===
 
 class Tray(models.Model):
-    id=models.IntegerField(max_length=11, validators=[MinValueValidator(1)], unique=True, primary_key=True, verbose_name="Tray ID", db_column="tid")
+    id=models.IntegerField(max_length=11, validators=[MinValueValidator(1)], unique=True, primary_key=True, verbose_name='Tray ID', db_column="tid")
     soda=models.ForeignKey(Soda, blank=True, null=True, on_delete=models.SET_NULL, db_column='sid')
-    qty=models.IntegerField(max_length=11, default=0, validators=[MinValueValidator(0)], verbose_name="Quantity")
+    qty=models.IntegerField(max_length=11, default=0, validators=[MinValueValidator(0)], verbose_name='Quantity')
     price=models.DecimalField(max_digits=10, decimal_places=2, default=0.5)
     enabled=tfBooleanField(default='f')
     sense_override=tfBooleanField(default='f')
