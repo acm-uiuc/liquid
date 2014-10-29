@@ -23,12 +23,15 @@ def leaderboard(request):
     top_spent=baseQuery.order_by('-spent')[0:count]
     top_sodas=baseQuery.order_by('-sodas')[0:count]
 
+    is_caffeine_admin=request.user.is_group_admin('Caffeine')
+
     return render_to_response(
        'intranet/caffeine_manager/leaderboard.html',
        {
          'section':'intranet',
          'page':'caffeine',
          'sub_page':'leaderboard',
+         'is_caffeine_admin':is_caffeine_admin,
          'top_calories':top_calories,
          'top_caffeine':top_caffeine,
          'top_spent':top_spent,

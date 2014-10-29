@@ -48,7 +48,7 @@ class Tray(models.Model):
     qty=models.IntegerField(max_length=11, default=0, validators=[MinValueValidator(0)], verbose_name='Quantity')
     price=models.DecimalField(max_digits=10, decimal_places=2, default=0.5)
     enabled=tfBooleanField(default='f')
-    sense_override=tfBooleanField(default='f')
+    sense_override=tfBooleanField(default='f', verbose_name="Detect override")
 
     class Meta:
         in_db='soda'
