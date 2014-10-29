@@ -6,7 +6,7 @@ import django.db.models.options as options
 options.DEFAULT_NAMES = options.DEFAULT_NAMES + ('in_db',)
 
 class Soda(models.Model):
-    sid = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True, db_column='sid')
     name=models.CharField(max_length=64)
     calories=models.IntegerField(max_length=11, default=0, validators=[MinValueValidator(0)])
     caffeine=models.FloatField(default=0, validators=[MinValueValidator(0)])

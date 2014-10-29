@@ -12,7 +12,7 @@ def allSodas(request):
     sodas=Soda.objects.all().order_by('-dispensed', 'name')
     vend = request.user.get_vending()
     for s in sodas:
-        s.votedFor=(vend.votes.filter(sid=s.sid).count() == 1)
+        s.votedFor=(vend.votes.filter(id=s.id).count() == 1)
         s.voteCount=s.vending_set.all().count()
 
     request.session['from'] = fromLocations.ALL_SODAS
@@ -87,8 +87,8 @@ def edit(request, sodaId):
          'page':'caffeine',
          'form':soda_form,
          'id':sodaId,
-         'from_arg':from_arg,
-         'previous_url':previous_url
+         'previous_url':previous_url,
+         'from_arg':from_arg
        }, context_instance=RequestContext(request))
 
 @group_admin_required(['Caffeine'])
@@ -101,7 +101,7 @@ def delete(request, sodaId):
 
 def toggleVote(request, sodaId):
     votes=request.user.get_vending().votes
-    has_voted=(votes.filter(sid=sodaId).count() > 0)
+    has_voted=(votes.filter(id=sodaId).count() > 0)
     if has_voted:
         votes.remove(sodaId)
         messages.add_message(request, messages.INFO, 'Your vote has been removed!')
