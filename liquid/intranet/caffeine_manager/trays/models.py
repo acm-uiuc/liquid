@@ -43,12 +43,12 @@ class tfBooleanField(models.BooleanField):
 # === End hack ===
 
 class Tray(models.Model):
-    id=models.IntegerField(max_length=11, validators=[MinValueValidator(1)], unique=True, primary_key=True, verbose_name='Tray ID', db_column="tid")
+    id=models.IntegerField(max_length=11, validators=[MinValueValidator(1)], unique=True, primary_key=True, verbose_name='Tray ID', db_column='tid')
     soda=models.ForeignKey(Soda, blank=True, null=True, on_delete=models.SET_NULL, db_column='sid')
     qty=models.IntegerField(max_length=11, default=0, validators=[MinValueValidator(0)], verbose_name='Quantity')
     price=models.DecimalField(max_digits=10, decimal_places=2, default=0.5)
     enabled=tfBooleanField(default='f')
-    sense_override=tfBooleanField(default='f', verbose_name="Detect override")
+    sense_override=tfBooleanField(default='f', verbose_name='Detect override')
 
     class Meta:
         in_db='soda'
