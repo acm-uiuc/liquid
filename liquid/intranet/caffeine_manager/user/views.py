@@ -20,11 +20,9 @@ def view(request, netid=None):
           Q(username=search_arg)
         )
 
-        vend_users = [u.get_vending() for u in users]
-
         if users:
-            vend_user = max(vend_users, key=lambda v: (v.spent, -v.balance))
-            vend_user=vend_user.get_user()
+            vend_users = [u.get_vending() for u in users]
+            vend_user = max(vend_users, key=lambda v: (v.spent, -v.balance)).get_user()
 
     elif netid:
         vend_user=get_object_or_404(Member, username=netid)

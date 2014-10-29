@@ -4,8 +4,6 @@ import django
 DJANGO_ROOT = os.path.dirname(os.path.realpath(django.__file__))
 SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 
-RESUME_STORAGE_LOCATION = SITE_ROOT + "/resumes"
-LOGO_STORAGE_LOCATION = SITE_ROOT + "/resumes"
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG

@@ -10,8 +10,8 @@ class Soda(models.Model):
     name=models.CharField(max_length=64)
     calories=models.IntegerField(max_length=11, default=0, validators=[MinValueValidator(0)])
     caffeine=models.FloatField(default=0, validators=[MinValueValidator(0)])
-    dispensed=models.IntegerField(max_length=11, default=0, validators=[MinValueValidator(0)])
     cost=models.DecimalField(default=0.5, decimal_places=2, max_digits=10)
+    dispensed=models.IntegerField(max_length=11, default=0, validators=[MinValueValidator(0)])
     base_price=models.DecimalField(default=0.5, decimal_places=2, max_digits=10)
 
     def __unicode__(self):

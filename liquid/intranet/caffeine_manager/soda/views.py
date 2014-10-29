@@ -9,11 +9,11 @@ from intranet.caffeine_manager.soda.forms import SodaForm
 from intranet.caffeine_manager.views import fromLocations
 
 def allSodas(request):
-    vend = request.user.get_vending()
     sodas=Soda.objects.all().order_by('-dispensed', 'name')
+    vend = request.user.get_vending()
     for s in sodas:
-        s.voteCount=s.vending_set.all().count()
         s.votedFor=(vend.votes.filter(sid=s.sid).count() == 1)
+        s.voteCount=s.vending_set.all().count()
 
     request.session['from'] = fromLocations.ALL_SODAS
 
@@ -40,7 +40,7 @@ def allSodas(request):
      }, context_instance=RequestContext(request))
 
 
-#@group_admin_required(['Caffeine'])
+@group_admin_required(['Caffeine'])
 def add(request):
     soda_form=None;
     from_arg=request.session.get('from', fromLocations.ALL_SODAS)
@@ -101,7 +101,7 @@ def delete(request, sodaId):
 
 def toggleVote(request, sodaId):
     votes=request.user.get_vending().votes
-    has_voted=(votes.filter(sid=sodaId).count() == 1)
+    has_voted=(votes.filter(sid=sodaId).count() > 0)
     if has_voted:
         votes.remove(sodaId)
         messages.add_message(request, messages.INFO, 'Your vote has been removed!')
@@ -113,8 +113,7 @@ def toggleVote(request, sodaId):
 
 @group_admin_required(['Caffeine'])
 def clearVotes(request, sodaId):
-    soda = get_object_or_404(Soda, pk=sodaId)
-    users = soda.vending_set.all()
+    users = get_object_or_404(Soda, pk=sodaId).vending_set.all()
     for u in users:
         u.votes.remove(sodaId)
     messages.add_message(request, messages.INFO, 'Votes cleared.')
