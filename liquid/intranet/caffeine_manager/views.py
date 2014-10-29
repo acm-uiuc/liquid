@@ -12,7 +12,7 @@ def leaderboard(request):
 
     count = 5
     try:
-        count = int(request.GET.get('count', 5))
+        count = max(0, int(request.GET.get('count', 5)))
     except:
         pass
     
