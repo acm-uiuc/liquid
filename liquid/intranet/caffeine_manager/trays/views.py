@@ -10,7 +10,7 @@ import subprocess
 
 def view(request):
     request.session['from']=fromLocations.TRAYS
-    trays=Tray.objects.all().order_by('id')
+    trays=Tray.objects.all().order_by('tray_number')
     is_caffeine_admin=request.user.is_group_admin('Caffeine')
     return render_to_response(
        'intranet/caffeine_manager/trays/trays.html',
