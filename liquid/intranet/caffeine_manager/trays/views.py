@@ -3,7 +3,6 @@ from django.template import RequestContext
 from django.contrib import messages
 from utils.group_decorator import group_admin_required
 from django.core.urlresolvers import reverse
-from django.http import HttpResponseBadRequest
 from intranet.caffeine_manager.trays.models import Tray
 from intranet.caffeine_manager.trays.forms import TrayForm
 from intranet.caffeine_manager.views import fromLocations
@@ -11,7 +10,7 @@ import subprocess
 
 def view(request):
     request.session['from']=fromLocations.TRAYS
-    trays=Tray.objects.all().order_by('tray_number')
+    trays=Tray.objects.all().order_by('id')
     is_caffeine_admin=request.user.is_group_admin('Caffeine')
     return render_to_response(
        'intranet/caffeine_manager/trays/trays.html',
@@ -43,7 +42,7 @@ def add_tray(request):
          'form':tray_form
        }, context_instance=RequestContext(request))
 
-#@group_admin_required(['Caffeine'])
+@group_admin_required(['Caffeine'])
 def edit_tray(request, trayId):
     tray=get_object_or_404(Tray, pk=trayId)
     if request.method == 'POST':
@@ -70,14 +69,6 @@ def delete_tray(request, trayId):
 
 @group_admin_required(['Caffeine'])
 def force_vend(request, trayId):
-
-    # Make sure trayId is an integer (to prevent bash injection)
-    try:
-        int(trayId)
-    except:
-        return HttpResponseBadRequest()
-
-    # Execute forcevend
     ret=subprocess.call(['ssh', 'nassri2@acm.illinois.edu', "echo 'not yet implemented'"]) # Requires a valid ssh key
     if ret == 0:
         messages.add_message(request, messages.SUCCESS, 'Force vend successful!')
