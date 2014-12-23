@@ -3,6 +3,7 @@ from django.template import RequestContext
 from django.contrib import messages
 from utils.group_decorator import group_admin_required
 from django.core.urlresolvers import reverse
+from django.http import HttpResponseBadRequest
 from intranet.caffeine_manager.trays.models import Tray
 from intranet.caffeine_manager.trays.forms import TrayForm
 from intranet.caffeine_manager.views import fromLocations
@@ -69,6 +70,14 @@ def delete_tray(request, trayId):
 
 @group_admin_required(['Caffeine'])
 def force_vend(request, trayId):
+
+    # Make sure trayId is an integer (to prevent bash injection)
+    try:
+        int(trayId)
+    except:
+        return HttpResponseBadRequest()
+
+    # Execute forcevend
     ret=subprocess.call(['ssh', 'nassri2@acm.illinois.edu', "echo 'not yet implemented'"]) # Requires a valid ssh key
     if ret == 0:
         messages.add_message(request, messages.SUCCESS, 'Force vend successful!')
