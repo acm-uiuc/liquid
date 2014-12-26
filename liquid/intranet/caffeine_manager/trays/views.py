@@ -42,7 +42,7 @@ def add_tray(request):
          'form':tray_form
        }, context_instance=RequestContext(request))
 
-@group_admin_required(['Caffeine'])
+#@group_admin_required(['Caffeine'])
 def edit_tray(request, trayId):
     tray=get_object_or_404(Tray, pk=trayId)
     if request.method == 'POST':
