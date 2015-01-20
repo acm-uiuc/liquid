@@ -245,10 +245,10 @@ LOGIN_REQUIRED_URLS = (
 
 
 # ldap things
-AD_DNS_NAME= 'ad.uillinois.edu'
-AD_LDAP_PORT=389
-AD_LDAP_URL='ldap://%s:%s' % (AD_DNS_NAME,AD_LDAP_PORT)
-AD_BIND_DN='{0}@illinois.edu'
+AD_DNS_NAME= 'ad.uiuc.edu'
+AD_LDAP_PORT=636
+AD_LDAP_URL='ldaps://%s:%s' % (AD_DNS_NAME,AD_LDAP_PORT)
+AD_BIND_DN='cn={0},ou=Campus Accounts,dc=ad,dc=uiuc,dc=edu'
 AD_NT4_DOMAIN='AD.UILLINOIS.EDU'
 AD_SEARCH_FIELDS= ['givenName','sn','sAMAccountName']
 AD_DEBUG=True
