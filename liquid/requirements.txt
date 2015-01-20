@@ -18,3 +18,4 @@ six==1.3.0
 wsgiref==0.1.2
 enum34
 django-crowd==0.41dev
+httplib2==0.9
