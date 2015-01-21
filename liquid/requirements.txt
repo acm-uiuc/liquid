@@ -17,3 +17,4 @@ simplejson==2.4.0
 six==1.3.0
 wsgiref==0.1.2
 enum34
+Crowd==0.9.0
