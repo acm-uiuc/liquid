@@ -1,5 +1,5 @@
 import crowd
-import settings
+from django.conf import settings
 from intranet.models import Member
 
 class CrowdAuthenticationBackend:
