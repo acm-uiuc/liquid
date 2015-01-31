@@ -252,6 +252,10 @@ AD_DEBUG_FILE='/var/log/apache2/ldap.debug'
 CRON_IPS = ['172.22.32.110']
 CRON_PASSWORD = ""
 
+# CITES Express SMTP Settings
+EMAIL_HOST='express-smtp.cites.uiuc.edu'
+EMAIL_PORT=25
+
 try:
   from local_settings import *
 except ImportError, exp:
