@@ -100,7 +100,7 @@ ACM@UIUC
 
 
 Approved by: %s"""%(u.first_name,u.last_name,u.date_joined.strftime("%a %b %d, %Y %H:%M:%S"),request.user.username)
-      send_mail('Welcome to ACM@UIUC', welcome_msg, 'ACM@UIUC <acm@acm.illinois.edu>',[u.email,'payment-mailer@acm.illinois.edu'], fail_silently=False)
+      send_mail('Welcome to ACM@UIUC', welcome_msg, 'ACM at UIUC <acm@acm.illinois.edu>',[u.email,'payment-mailer@acm.illinois.edu'], fail_silently=False)
       return HttpResponseRedirect('/intranet/members/search?q=%s' % u.username) # Redirect after POST
    except ValueError:
       messages.add_message(request, messages.ERROR, "Not a valid netid")
