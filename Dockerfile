@@ -10,7 +10,8 @@ RUN apt-get update && apt-get -y install build-essential \
     uwsgi \
     libmysqlclient-dev \
     libldap2-dev \
-    libsasl2-dev
+    libsasl2-dev \
+    exim4
 
 RUN easy_install pip
 RUN pip install uwsgi
@@ -32,6 +33,9 @@ RUN python app/manage.py migrate
 # setup all the configfiles
 RUN ln -s /liquid/nginx-liquid.conf /etc/nginx/sites-enabled/
 RUN ln -s /liquid/supervisor.conf /etc/supervisor/conf.d/
+
+# setup exim4 mail server
+RUN /liquid/exim.sh
 
 EXPOSE 80
 CMD ["/liquid/run.sh"]
