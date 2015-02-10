@@ -1,8 +1,6 @@
 #!/bin/sh
 
-EXIMHOST=${EXIMHOST-"engr-acm-web-01.acm.illinois.edu"}
-
-debconf-set-selections <<< "exim4-config exim4/dc_other_hostnames string $EXIMHOST"
+debconf-set-selections <<< "exim4-config exim4/dc_other_hostnames string engr-acm-web-01.acm.illinois.edu"
 debconf-set-selections <<< "exim4-config exim4/no_config boolean true"
 debconf-set-selections <<< "exim4-config exim4/hide_mailname boolean "
 debconf-set-selections <<< "exim4-config exim4/use_split_config boolean false"
@@ -13,11 +11,12 @@ debconf-set-selections <<< "exim4-config exim4/no_config boolean true"
 debconf-set-selections <<< "exim4-config exim4/hide_mailname boolean true"
 debconf-set-selections <<< "exim4-config exim4/dc_postmaster string "
 debconf-set-selections <<< "exim4-config exim4/dc_localdelivery select mbox format in /var/mail/"
+debconf-set-selections <<< "exim4-config exim4/mailname string cs-splash.dev"
 debconf-set-selections <<< "exim4-config exim4/dc_smarthost string express-smtp.cites.uiuc.edu"
 debconf-set-selections <<< "exim4-config exim4/dc_relay_domains string "
-debconf-set-selections <<< "exim4-config exim4/dc_readhost string $EXIMHOST"
+debconf-set-selections <<< "exim4-config exim4/dc_readhost string engr-acm-web-01.acm.illinois.edu"
 debconf-set-selections <<< "exim4-config exim4/dc_relay_nets string "
 debconf-set-selections <<< "exim4-config exim4/purge_spool boolean false"
-debconf-set-selections <<< "exim4-config exim4/mailname string $EXIMHOST"
+debconf-set-selections <<< "exim4-config exim4/mailname string engr-acm-web-01.acm.illinois.edu"
 
 apt-get install exim4

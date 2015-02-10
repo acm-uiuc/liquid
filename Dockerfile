@@ -10,7 +10,8 @@ RUN apt-get update && apt-get -y install build-essential \
     uwsgi \
     libmysqlclient-dev \
     libldap2-dev \
-    libsasl2-dev
+    libsasl2-dev \
+    exim4
 
 RUN easy_install pip
 RUN pip install uwsgi
