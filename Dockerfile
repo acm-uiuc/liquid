@@ -33,8 +33,5 @@ RUN python app/manage.py migrate
 RUN ln -s /liquid/nginx-liquid.conf /etc/nginx/sites-enabled/
 RUN ln -s /liquid/supervisor.conf /etc/supervisor/conf.d/
 
-# setup exim4 mail server
-RUN /liquid/exim.sh
-
 EXPOSE 80
 CMD ["/liquid/run.sh"]
