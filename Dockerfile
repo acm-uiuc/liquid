@@ -33,5 +33,7 @@ RUN python app/manage.py migrate
 RUN ln -s /liquid/nginx-liquid.conf /etc/nginx/sites-enabled/
 RUN ln -s /liquid/supervisor.conf /etc/supervisor/conf.d/
 
+ENV LIQUID_SMTP_HOST engr-acm-web-02.acm.illinois.edu
+
 EXPOSE 80
 CMD ["/liquid/run.sh"]
