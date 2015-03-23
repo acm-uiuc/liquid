@@ -153,8 +153,6 @@ INSTALLED_APPS = (
     'intranet.caffeine_manager.soda',
     'intranet.caffeine_manager.trays',
     'intranet.caffeine_manager.user',
-    
-    'kiosk',
 
     'bootstrapform',
     'utils.django_mailman',
