@@ -21,9 +21,10 @@ ADD docker /liquid
 ADD liquid /liquid/app
 
 WORKDIR /liquid
+RUN find . -name "*.pyc" -delete
 
-RUN cp wsgi.py app/wsgi.py
-RUN cp local_settings.py app/local_settings.py
+RUN mv wsgi.py app/wsgi.py
+RUN mv local_settings.py app/local_settings.py
 RUN pip install -r app/requirements.txt
 
 RUN python app/manage.py syncdb --noinput
