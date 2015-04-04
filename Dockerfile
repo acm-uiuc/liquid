@@ -4,6 +4,7 @@ RUN apt-get update && apt-get -y install build-essential \
     nginx \
     supervisor \
     sqlite3 \
+    imagemagick \
     python \
     python-dev \
     python-setuptools \
