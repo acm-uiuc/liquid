@@ -42,6 +42,7 @@ MAILMAN_PASSWORD = ''
 MAILMAN_ENCODING = 'us-ascii'
 
 RESUME_STORAGE_LOCATION = '' # you should set this
+LOGO_STORAGE_LOCATION = '' # you should set this
 
 """%(mysql_user,mysql_pass,gmail_email,gmail_pass)
    
