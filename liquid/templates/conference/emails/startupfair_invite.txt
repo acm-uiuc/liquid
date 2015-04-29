@@ -4,7 +4,7 @@ My name is {{ user.get_full_name }} and I am part of Founders, a student entrepr
 
 The Reflections | Projections conference is a student-run event which brings together over 800 students from the Midwest to attend a variety of speaking events and computing workshops held throughout the weekend. Past speakers have included Alexis Ohanian, Larry Wall, Stephen Wolfram, Steve Wozniak, Blake Ross (creator of Firefox), Joel Spolsky, Eric Traut, and Ian Murdock (the "Ian" in Debian).
 
-The Startup Fair will be held on October 2nd, 2014 from 5-8PM on the first floor of the Siebel Center in the atrium. The price for a Startup Fair booth is $200.
+The Startup Fair will be held on October 1st, 2015 from 5-8PM in the Siebel Center the atrium. The price for a Startup Fair booth is $300 before July 31st, and $400 thereafter.
 
 Registration ensures:
 
@@ -12,7 +12,7 @@ Registration ensures:
 - Complimentary meals for the entire weekend
 - Help with shipping and logistics
 - Free parking
-- Advertising for {{ company.company_name }} in the Reflections | Projections program and on the website
+- Advertising for {{ company.company_name }} on the Reflections | Projections website
 
 Here is the official startup fair registration form:
 http://acm.illinois.edu/conference/jobfair
@@ -22,9 +22,9 @@ Username: {{ company.username }}
 Password: {{ password }}
 
 Before registering, please make note of our cancellation fees:
-- Before September 5th, 2014: Free.
-- September 5th, 2014 - September 18th, 2014: 50% cost.
-- After September 19th, 2014: Full cost.
+- Before Friday, September 4th: Free.
+- Between Saturday, September 5th and Friday, September 18th: 50% of full cost.
+- Saturday, September 19th, and onwards: Full cost.
 
 We are excited to have {{ company.company_name }} participate in the Startup Fair. If we can help you in any way, please don't hesitate to email us at corporate@acm.uiuc.edu.
 
