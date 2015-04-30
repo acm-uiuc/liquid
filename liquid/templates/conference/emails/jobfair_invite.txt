@@ -2,17 +2,20 @@ Dear {{ company.first_name }},
 
 We're excited to extend an invitation to {{ company.company_name }} to attend this year's annual Reflections | Projections job fair. The job fair will be held on Friday, October 2nd, 2015. Reflections | Projections is one of the largest student run conferences in the US, with over 800 students coming every year to the job fair, and we'd love to have {{ company.company_name }} involved.
 
-We've revamped what sponsorship will look like this year, with three separate tiers to get involved with. We're offering companies more than ever before, and there are some fantastic new ways to get more involved with Reflections | Projections. To learn more about our tiered sponsorship, see the attached file, which breaks down the tiers into more specific detail.
+We've revamped what sponsorship will look like this year, with three separate tiers to get involved with. We're offering companies more than ever before, and there are some fantastic new ways to get more out of Reflections | Projections. To learn more about our tiered sponsorship, see the following pdf (acm.uiuc.edu/static/sponsorship.pdf), which breaks down the tiers into more specific detail.
 
-The lowest tier level, Sapphire, will look almost the same as getting a spot at the job fair in the past. The price is the same as years' past, at $1250.
+The lowest tier level, Sapphire, will look almost the same as getting a spot at the job fair in the past. The price is the same as years past, at $1250.
 
 The Sapphire sponsorship tier includes the following:
-A booth in the Siebel Center Atrium
-Meals during the event
-Shipping and logistical accommodation
-Parking during the event
-Advertising for {{ company.company_name }} on the Reflections | Projections website
-One-Year sponsorship to ACM@UIUC at the Bronze Sponsor level
+ - A booth in the Siebel Center Atrium
+ - Meals during the event
+ - Shipping and logistical accommodation
+ - Parking during the event
+ - Advertising for {{ company.company_name }} on the Reflections | Projections website
+ - One-Year sponsorship to ACM@UIUC at the Bronze Sponsor level
+
+If you're interested in sponsoring at a higher level than Sapphire, please reach out to us at corporate@acm.uiuc.edu.
+
 The official job fair registration form is linked below:
 http://acm.illinois.edu/conference/jobfair
 
@@ -21,11 +24,13 @@ Username: {{ company.username }}
 Password: {{ password }}
 
 Finally, before registering, please take note of our cancellation fees:
-Before Friday, September 4th: Free.
-Between Saturday, September 5th, and Friday, September 18th: 50% price.
-Saturday, September 19th, and onwards: Full price.
-We look forward to working with {{ company.company_name }}. If you have any further questions or requests, don't hesitate to contact us at corporate@acm.uiuc.edu.
+ - Before Friday, September 4th: Free.
+ - Between Saturday, September 5th, and Friday, September 18th: 50% price.
+ - Saturday, September 19th, and onwards: Full price.
 
-Thank you,
+We look forward to working with {{ company.company_name }}! Again, if you have any further questions or requests, don't hesitate to contact us at corporate@acm.uiuc.edu.
+
+Thank You,
 {{ user.get_full_name }}
 ACM Corporate
+
