@@ -85,10 +85,12 @@ def new_member(sender, **kwargs):
       ## add to mailing lists
       try:
          membership_list = List.objects.get(name='Membership-l')
+         cluster_list = List.objects.get(name='Cluster-l')
          job_list = List.objects.get(name='Jobs-l')
       except:
          pass
       membership_list.subscribe(user)
+      cluster_list.subscribe(user)
       job_list.subscribe(user)
 
 @receiver(post_save, sender=Member)
@@ -237,11 +239,11 @@ class ResumePerson(models.Model):
    resume_reminded_at = models.DateTimeField(default=datetime.datetime.now())
    resume_reminder_subscribed = models.BooleanField(default=True)
    ldap_name = models.CharField(max_length=255)
-      
+
    # Helper method needed so that South works correctly
    def generate_uuid():
       return str(uuid4())
-      
+
    resume_uuid = models.CharField(max_length=255, default=generate_uuid)
 
    def latest_resume(self):
@@ -319,12 +321,31 @@ def delete_resume(sender, **kwargs):
    fs.delete(resume.resume.path)
    fs.delete(resume.thumbnail_location())
    fs.delete(resume.thumbnail_top_location())
-   if resume.person.resume_set.count() == 0:
-      resume.person.delete()
+
+logo_fs = FileSystemStorage(location=settings.LOGO_STORAGE_LOCATION)
 
 class Recruiter(User):
+   GOLD = ("G", "Gold Sponsor")
+   SILVER = ("S", "Silver Sponsor")
+   BRONZE = ("B", "Bronze Sponsor")
+   RESUME = ("R", "Resume Sponsor")
+   SPONSOR_LEVELS = (GOLD, SILVER, BRONZE, RESUME)
+
    expires = models.DateField()
    objects = UserManager()
+   level = models.CharField(
+      choices=SPONSOR_LEVELS, 
+      max_length=64,
+      null=True,
+   )
+   logo = ContentTypeRestrictedFileField(
+      upload_to="logos/",
+      storage=logo_fs,
+      content_types=['image/png'],
+      max_upload_size=1048576, 
+      null=True,
+   )
+   url = models.CharField(max_length=100, null=True)
 
 @receiver(post_save, sender=Recruiter)
 def new_recruiter(sender, **kwargs):

@@ -6,8 +6,8 @@ from django.template import RequestContext
 from django.contrib import messages
 from django.template.defaultfilters import slugify
 from django.template.loader import render_to_string
-from conference.models import Company
-from conference.forms import CompanyForm
+from conf.models import Company
+from conf.forms import CompanyForm
 from intranet.jobfair_manager.forms import InviteForm
 import settings
 from utils.group_decorator import group_admin_required
@@ -19,13 +19,15 @@ from datetime import date
 def companies(request):
    fair = request.GET.get('filter')
    if fair == 'startup':
-      companies = Company.objects.filter(Q(invited_on__year=14)|Q(invited_on__isnull=True), type=Company.STARTUP)
+      companies = Company.objects.filter(Q(invited_on__year=15)|Q(invited_on__isnull=True), type=Company.STARTUP)
    elif fair == 'jobfair':
-      companies = Company.objects.filter(Q(invited_on__year=14)|Q(invited_on__isnull=True), type=Company.JOBFAIR)
+      companies = Company.objects.filter(Q(invited_on__year=15)|Q(invited_on__isnull=True), type=Company.JOBFAIR)
    elif fair == '13':
       companies = Company.objects.filter(Q(invited_on__year=13))
+   elif fair == '14':
+      companies = Company.objects.filter(Q(invited_on__year=14))
    else:
-      companies = Company.objects.filter(Q(invited_on__year=14)|Q(invited_on__isnull=True))
+      companies = Company.objects.filter(Q(invited_on__year=15)|Q(invited_on__isnull=True))
 
    page = request.GET.get('page')
    paginator = Paginator(companies, 25) # Show 25 invites per page
@@ -59,7 +61,7 @@ def companies_new(request):
       if form.is_valid(): # All validation rules pass
           try:
               company = form.save(commit=False)
-              company.username = slugify("rp14 "+company.company_name)
+              company.username = slugify("rp15 "+company.company_name)
               company.save()
               messages.add_message(request, messages.SUCCESS, 'Company created (%s)'%(company.username))
               return HttpResponseRedirect('/intranet/jobfair_manager/companies') # Redirect after POST
@@ -117,11 +119,11 @@ def companies_invite(request, id):
         e.save()
         c = {"company": e, "password": password}
         if e.type == Company.JOBFAIR:
-            body = render_to_string("conference/emails/jobfair_invite.txt", c, context_instance=RequestContext(request))
-            subject = "Invitation to Reflections | Projections 2014 Job Fair"
+            body = render_to_string("conf/emails/jobfair_invite.txt", c, context_instance=RequestContext(request))
+            subject = "Invitation to Reflections | Projections 2015 Job Fair"
         else:
-            body = render_to_string("conference/emails/startupfair_invite.txt", c, context_instance=RequestContext(request))
-            subject = "Invitation to Reflections | Projections 2014 Startup Fair"
+            body = render_to_string("conf/emails/startupfair_invite.txt", c, context_instance=RequestContext(request))
+            subject = "Invitation to Reflections | Projections 2015 Startup Fair"
         form = InviteForm(data={"body":body,
                                 "subject":subject,
                                 "from_email":request.user.email,
@@ -153,6 +155,3 @@ def companies_invite(request, id):
     "sub_page":"companies",
     "page_title":"Invite Company",
     },context_instance=RequestContext(request))
-
-
-

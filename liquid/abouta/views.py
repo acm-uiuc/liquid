@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.shortcuts import render_to_response, HttpResponseRedirect
 from django.http import HttpResponse
 from django.template import RequestContext
@@ -5,6 +7,7 @@ from django.core.context_processors import csrf
 from django.core.mail import send_mail
 from abouta.forms import PreMemberForm
 from intranet.models import Member
+from intranet.models import Recruiter
 from intranet.models import Group
 
 
@@ -68,3 +71,31 @@ def members(request):
   members  = [members[p*i:p*(i+1)] for i in range(n - 1)] + [members[p*(i+1):]]
   
   return render_to_response('about/members.html',{"section":"about","page":'members','members':members},context_instance=RequestContext(request))
+
+def sponsors(request):
+  gold_sponsors = Recruiter.objects.filter(
+    level='G',
+    expires__gt=datetime.now(),
+    logo__isnull=False,
+  )
+  silver_sponsors = Recruiter.objects.filter(
+    level='S',
+    expires__gt=datetime.now(),
+    logo__isnull=False,
+  )
+  bronze_sponsors = Recruiter.objects.filter(
+    level='B',
+    expires__gt=datetime.now(),
+    logo__isnull=False,
+  )
+  return render_to_response(
+    'about/sponsors.html', 
+    {
+      "section":"about",
+      "page":"sponsors",
+      "gold_sponsors" : gold_sponsors,
+      "silver_sponsors" : silver_sponsors,
+      "bronze_sponsors" : bronze_sponsors,
+    },
+    context_instance=RequestContext(request),
+  )

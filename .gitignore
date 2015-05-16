@@ -2,7 +2,7 @@
 database
 env/
 fabfile.py
-local_settings.py
+liquid/local_settings.py
 *.sql
 *.sass-cache/
 .idea/

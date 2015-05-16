@@ -35,3 +35,6 @@ def job(request):
 
 def thanks(request):
   return render_to_response('corporate/thanks.html',{"section":"corporate"},context_instance=RequestContext(request))
+
+def sponsor(request):
+  return render_to_response('corporate/sponsorship.html',{"section":"corporate"}, context_instance=RequestContext(request))

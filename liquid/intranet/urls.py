@@ -10,6 +10,7 @@ urlpatterns = patterns('',
     url(r'^chroma/', include('intranet.chroma.urls')),
     url(r'^resume/', include('intranet.resume_manager.urls')),
     url(r'^jobfair_manager/', include('intranet.jobfair_manager.urls')),
+    url(r'^caffeine/', include('intranet.caffeine_manager.urls')),
     url(r'^quote/', include('intranet.quote.urls'))
 )
 

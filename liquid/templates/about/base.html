@@ -21,7 +21,9 @@
             <li{% if page == 'members' %} class='active'{% endif %}>
               <a href="/about/members">Members</a>
             </li>
-
+            <li{% if page == 'sponsors' %} class='active'{% endif %}>
+              <a href="{% url sponsors %}">Sponsors</a>
+            </li>
           </ul>
         </div><!--/.well -->
       </div>

@@ -22,7 +22,7 @@ def main(request):
       "page":'members',
       "pre_members": pre_members
    },context_instance=RequestContext(request))
-  
+
 def search(request):
    q = request.GET.get('q')
    if q:
@@ -45,7 +45,7 @@ def search(request):
    except EmptyPage:
       # If page is out of range (e.g. 9999), deliver last page of results.
       members = paginator.page(paginator.num_pages)
-  
+
    return render_to_response('intranet/member_database/search.html',{
     "section":"intranet",
     "page":'members',
@@ -83,6 +83,12 @@ Total: $40.00 USD
 Payment: $40.00
 ----------------------------------------
 
+ACM@UIUC Resume Book
+====================
+We maintain relationships with many corporate partners who are looking for students to fill intern and full-time positions! Consider adding your resume to the ACM Resume Book at http://www.acm.illinois.edu/corporate/resume/!
+
+ACM@UIUC Network
+================
 Your ACM@UIUC Network account and other ACM@UIUC services will be provisioned within 48 hours. You will receive an additional e-mail when this is complete.
 
 Questions? Contact userhelp@acm.illinois.edu
@@ -94,12 +100,12 @@ ACM@UIUC
 
 
 Approved by: %s"""%(u.first_name,u.last_name,u.date_joined.strftime("%a %b %d, %Y %H:%M:%S"),request.user.username)
-      send_mail('Welcome to ACM@UIUC', welcome_msg, 'ACM@UIUC <acm@acm.illinois.edu>',[u.email,'payment-mailer@acm.illinois.edu'], fail_silently=False)
+      send_mail('Welcome to ACM@UIUC', welcome_msg, '"ACM@UIUC" <acm@acm.illinois.edu>',[u.email,'payment-mailer@acm.illinois.edu'], fail_silently=False)
       return HttpResponseRedirect('/intranet/members/search?q=%s' % u.username) # Redirect after POST
    except ValueError:
       messages.add_message(request, messages.ERROR, "Not a valid netid")
 
-   return HttpResponseRedirect('/intranet/members/') 
+   return HttpResponseRedirect('/intranet/members/')
 
 @group_admin_required(['Top4'])
 def edit(request,id):

@@ -1,0 +1,61 @@
+{% extends "about/base.html" %}
+
+{% block top_styles %}
+<link href="/static/css/sponsors.css" rel="stylesheet">
+{% endblock %}
+
+{% block about_content %}
+<header class="page-header">
+<h1>Current Sponsors</h1>
+</header>
+
+<section>
+<h2>Sponsor ACM@UIUC Today!</h2>
+
+<p>
+Please visit our <a href="{% url sponsorship_info %}">corporate sponsorship page</a> for more details.
+</p>
+</section>
+
+{% if gold_sponsors %}
+<section>
+<h2>Gold Sponsors</h2>
+
+<div id="gold-grid">
+    {% for sponsor in gold_sponsors %}
+        <a class="img-polaroid company-card" url="{{ sponsor.url }}"><img src="/static/img/{{ sponsor.logo }}" /></a>
+    {% endfor %}
+</div>
+</section>
+{% endif %}
+
+{% if silver_sponsors %}
+<section>
+<h2>Silver Sponsors</h2>
+
+<div id="silver-grid">
+    {% for sponsor in silver_sponsors %}
+        <a class="img-polaroid company-card" url="{{ sponsor.url }}"><img src="/static/img/{{ sponsor.logo }}" /></a>
+    {% endfor %}
+</div>
+</section>
+{% endif %}
+
+{% if bronze_sponsors %}
+<section>
+<h2>Bronze Sponsors</h2>
+
+<div id="bronze-grid">
+	{% for sponsor in bronze_sponsors %}
+		<a class="img-polaroid company-card" url="{{ sponsor.url }}"><img src="/static/img/{{ sponsor.logo }}" /></a>
+	{% endfor %}
+</div>
+</section>
+{% endif %}
+{% endblock %}
+
+{% block bottom_scripts %}
+<script src="/static/js/jquery.imagesloaded.js"></script>
+<script src="/static/js/masonry.pkgd.min.js"></script>
+<script src="/static/js/app.js"></script>
+{% endblock %}

@@ -1,31 +1,36 @@
-Hi {{ company.first_name }},
+Dear {{ company.first_name }},
 
-We would like to invite {{ company.company_name }} to the Reflections | Projections Conference Job Fair on October 3, 2014. Reflections | Projections is a four day conference held by the Association for Computing Machinery at the University of Illinois Urbana-Champaign. Our job fair is held in the Siebel Center first floor atrium, a highly frequented area where students meet to attend classes and collaborate on projects.
+We're excited to extend an invitation to {{ company.company_name }} to attend this year's annual Reflections | Projections job fair. The job fair will be held on Friday, October 2nd, 2015. Reflections | Projections is one of the largest student run conferences in the US, with over 800 students coming every year to the job fair, and we'd love to have {{ company.company_name }} involved.
 
-The job fair will be held on the Friday of the conference weekend, and serves as a kickoff event for the conference. The price for a job fair booth is $1250.
+We've revamped what sponsorship will look like this year, with three separate tiers to get involved with. We're offering companies more than ever before, and there are some fantastic new ways to get more out of Reflections | Projections. To learn more about our tiered sponsorship, see the following pdf (http://acm.illinois.edu/static/sponsorship.pdf), which breaks down the tiers into more specific detail.
 
-This includes:
+The lowest tier level, Sapphire, will look almost the same as getting a spot at the job fair in the past. The price is the same as years past, at $1250.
 
-- A booth in the Siebel Center Atrium
-- Complementary meals for the entire weekend
-- Help with shipping and logistics
-- Free parking
-- Advertising for {{ company.company_name }} in the Reflections | Projections program and on the website
+The Sapphire sponsorship tier includes the following:
+ - A booth in the Siebel Center Atrium
+ - Meals during the event
+ - Shipping and logistical accommodation
+ - Parking during the event
+ - Advertising for {{ company.company_name }} on the Reflections | Projections website
+ - One-Year sponsorship to ACM@UIUC at the Bronze Sponsor level
 
-Here is the official job fair registration form:
+If you're interested in sponsoring at a higher level than Sapphire, please reach out to us at corporate@acm.uiuc.edu.
+
+The official job fair registration form is linked below:
 http://acm.illinois.edu/conference/jobfair
 
-To login, please use the following information:
+Your company's credentials are as follows:
 Username: {{ company.username }}
 Password: {{ password }}
 
-Before registering, please make note of our cancellation fees:
-- Before September 5th, 2014: Free.
-- September 5th, 2014 - September 18th, 2014: 50% cost.
-- After September 19th, 2014: Full cost.
+Finally, before registering, please take note of our cancellation fees:
+ - Before Friday, September 4th: Free.
+ - Between Saturday, September 5th, and Friday, September 18th: 50% price.
+ - Saturday, September 19th, and onwards: Full price.
 
-We look forward to working with {{ company.company_name }}. If we can help you in any way, please don't hesitate to email us at corporate@acm.illinois.edu.
+We look forward to working with {{ company.company_name }}! Again, if you have any further questions or requests, don't hesitate to contact us at corporate@acm.uiuc.edu.
 
 Thank You,
 {{ user.get_full_name }}
 ACM Corporate
+

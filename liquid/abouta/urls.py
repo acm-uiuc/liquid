@@ -8,6 +8,7 @@ urlpatterns = patterns('',
     url(r'^committees/$', 'abouta.views.committees'),
     url(r'^committees/(?P<id>\d+)$', 'abouta.views.committees_details'),
     url(r'^members/$', 'abouta.views.members'),
+    url(r'^sponsors/$', 'abouta.views.sponsors', name="sponsors"),
 )
 
 

@@ -1,0 +1,32 @@
+{% extends 'intranet/base.html' %}
+{% load bootstrap %}
+
+{% block top_styles %}
+    <link href='/static/css/caffeine-mgr.css' rel='stylesheet'>
+{% endblock %}
+
+{% block intranet_content %}
+<header>
+    <h1>{% if id %} Edit {% else %} Add {% endif %} Soda</h1>
+</header>
+
+<div class='well'>
+    <form method='post' enctype='multipart/form-data'>
+        {% csrf_token %}
+        <div>
+            {{ form }}
+        </div>
+
+        <div class='edit-soda-buttons' >
+            <button type='submit' class='btn btn-primary' >
+                {% if id %} Update {% else %} Add {% endif %}
+            </button>
+            {% if id %}
+                <a href='{% url cm_soda_delete id %}' class='btn btn-danger'>Delete</a>
+            {% endif %}
+            <a href='/intranet/caffeine/{{ from_arg }}' class='btn btn-secondary'>Cancel</a>
+        </div>
+
+    </form>
+</div>
+{% endblock %}
