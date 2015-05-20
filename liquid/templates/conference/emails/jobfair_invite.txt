@@ -2,7 +2,7 @@ Dear {{ company.first_name }},
 
 We're excited to extend an invitation to {{ company.company_name }} to attend this year's annual Reflections | Projections job fair. The job fair will be held on Friday, October 2nd, 2015. Reflections | Projections is one of the largest student run conferences in the US, with over 800 students coming every year to the job fair, and we'd love to have {{ company.company_name }} involved.
 
-We've revamped what sponsorship will look like this year, with three separate tiers to get involved with. We're offering companies more than ever before, and there are some fantastic new ways to get more out of Reflections | Projections. To learn more about our tiered sponsorship, see the following pdf (http://acm.illinois.edu/static/RP_2015_sponsorship_opportunities.pdf), which breaks down the tiers into more specific detail.
+We've revamped what sponsorship will look like this year, with three separate tiers to get involved with. We're offering companies more than ever before, and there are some fantastic new ways to get more out of Reflections | Projections. To learn more about our tiered sponsorship, see the following pdf (http://acm.illinois.edu/static/RP_2015_Sponsorship_Opportunities.pdf), which breaks down the tiers into more specific detail.
 
 The lowest tier level, Sapphire, will look almost the same as getting a spot at the job fair in the past. The price is the same as years past, at $1250.
 
