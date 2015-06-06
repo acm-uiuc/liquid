@@ -4,7 +4,7 @@ My name is {{ user.get_full_name }} and I am part of Founders, a student entrepr
 
 The Reflections | Projections conference is a student-run event which brings together over 800 students from the Midwest to attend a variety of speaking events and computing workshops held throughout the weekend. Past speakers have included Alexis Ohanian, Larry Wall, Stephen Wolfram, Steve Wozniak, Blake Ross (creator of Firefox), Joel Spolsky, Eric Traut, and Ian Murdock (the "Ian" in Debian).
 
-The Startup Fair will be held on October 1st, 2015 from 5-8PM on the first floor of the Siebel Center in the atrium. The price for a Startup Fair booth is $200.
+The Startup Fair will be held on October 1st, 2015 from 5-8PM on the first floor of the Siebel Center in the atrium. Last year, there were 24 companies at the fair, and this year the fair will be even bigger. Here is a video of last year's event: (bit.ly/rpstartupfair). The price for a Startup Fair booth is $400.
 
 Registration ensures:
 
