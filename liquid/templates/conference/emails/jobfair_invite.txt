@@ -14,7 +14,7 @@ The Sapphire sponsorship tier includes the following:
  - Advertising for {{ company.company_name }} on the Reflections | Projections website
  - One-Year sponsorship to ACM@UIUC at the Bronze Sponsor level
 
-If you're interested in sponsoring at a higher level than Sapphire, please reach out to us at corporate@acm.uiuc.edu. Be aware that there are separate waiting lists for each tier.
+If you're interested in sponsoring at a higher level, please reach out to us at corporate@acm.uiuc.edu. Be aware that there are separate waiting lists for each tier.
 
 The official job fair registration form is linked below:
 http://acm.illinois.edu/conference/jobfair
@@ -33,4 +33,3 @@ We look forward to working with {{ company.company_name }}! Again, if you have a
 Thank You,
 {{ user.get_full_name }}
 ACM Corporate
-
