@@ -11,18 +11,19 @@
         <div class="row">
         <div class="span12">
                 <h2>For students:</h2>
-                <p>The Reflections | Projections jobfair is always a great place to look for jobs in CS/ECE fields.  Dress is casual, so don't suit up!
+                <p>The Reflections | Projections job fair is always a great place to look for jobs in CS/ECE fields.  Dress is casual, so don't suit up!
                     We don't have the list of companies up yet, but check back mid-Summer for more information!</p>
                 <h2>For companies:</h2>
                 <p>Hey there! We are glad you are interested in our job fair! Registration for the job fair is done by invitation only.
                     If you would like to be added to our waiting list, please  <a href="mailto:conference-chair@acm.illinois.edu">email us</a>.</p>
                 <div id="loginform">
                     <p>If you have already received an invite, please enter the account credentials emailed to you by our staff to access the registration form.</p>
-                    <form method="post" class="form-horizontal"  action="/conf/jobfair">
+                    <form method="post" class="form-horizontal"
+                        action="/conference/2015/jobfair">
                         {% csrf_token %}
                         {{  form|bootstrap  }}
                         <button type="submit" class="btn-primary">Login</button>
-                        <input type="hidden" name="next" value="/conf/jobfair" />
+                        <input type="hidden" name="next" value="/conference/2015/jobfair" />
                     </form>
                 </div>
             </div>
