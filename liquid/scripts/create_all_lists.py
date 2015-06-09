@@ -108,6 +108,7 @@ lists = [
    List(name='UBD-l'),
    List(name='Vice-chair-l'),
    List(name='Volunteers-c'),
+   List(name='Vrst-l'),
    List(name='Watchdogs-l'),
    List(name='Web-c'),
    List(name='Webmonkeys-l',public=True),
