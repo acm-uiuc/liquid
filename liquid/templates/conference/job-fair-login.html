@@ -19,11 +19,11 @@
                 <div id="loginform">
                     <p>If you have already received an invite, please enter the account credentials emailed to you by our staff to access the registration form.</p>
                     <form method="post" class="form-horizontal"
-                        action="/conference/2015/jobfair">
+                        action="/conf/jobfair">
                         {% csrf_token %}
                         {{  form|bootstrap  }}
                         <button type="submit" class="btn-primary">Login</button>
-                        <input type="hidden" name="next" value="/conference/2015/jobfair" />
+                        <input type="hidden" name="next" value="/conf/jobfair" />
                     </form>
                 </div>
             </div>
