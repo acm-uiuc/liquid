@@ -41,7 +41,7 @@ urlpatterns = patterns('',
     url(r'^mm-irc/$',redirect_to, {'url': 'http://webchat.freenode.net/?channels=%23%23mm20&uio=OT10cnVlde'}),
 
     #mockmania redirects
-    #TODO remove after 10/4/2015
+    #TODO remove once Mockmania's done
     url(r'^mockmania/$',redirect_to, {'url': 'https://docs.google.com/forms/d/1G_k-n9orEpJZ7RVr5JS4CQsDKAGiSAULu26HRuSGJIw/viewform'}),
 
     #sigmusic redirects
