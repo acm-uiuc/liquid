@@ -76,7 +76,6 @@ class List(models.Model):
             if m:
                 msg = m.group(0)
             else:
-                raise Exception(content) # Ace debug
                 raise Exception('Could not find status message')
 
         m = re.search('(?<=<ul>\n<li>).+(?=\n</ul>\n)', content)
