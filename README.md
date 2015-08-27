@@ -63,9 +63,7 @@ Do the following whenever you want to pull in changes from the main repository.
     git checkout master
     git pull acm master
 
-Now you will want to make each independant feature or bug-fix on a different branch. This keeps
-things tidy and lets everyone code review pull requests in small chunks. Let's make a new branch,
-do some work, and commit.
+Now, put each independent feature or bug-fix on a different branch to help organize things. Let's make a new branch, do some work, and commit.
 
     git checkout -b feature
     # make changes ...
@@ -75,22 +73,17 @@ In order to make a pull request, you need to push your changes back up to Github
 
     git push -u origin feature
 
-Now if you go to the [acm-uiuc/liquid](https://github.com/acm-uiuc/liquid) repository and make a pull
-request. After creating it, sit back and wait for the sweet, sweet praise to come in.
+Then, go to [acm-uiuc/liquid](https://github.com/acm-uiuc/liquid) and make a pull
+request.
 
-Sometimes (most of the time), the code reviewers will say "Hey you! You're wrong! Fix this! Change that!".
-Relax, we got this. Checkout your feature branch again, make your changes, and push it back up to Github.
+If you need to make changes, checkout your feature branch again, make them, and push it back up to Github.
 
     git checkout feature
     # make changes ...
     git commit -m "I fixed it, yo."
     git push
 
-Your pull request will be automagically updated.
-
-*Note*: It's important that you don't push commits that are not related to this pull request up to this
-branch. They will be added to the pull request and everything will get very mixed up. To check what branch
-you are on, use `git branch` or `git status`.
+*Note*: Don't push unrelated commits up to this branch. To check what branch you're on, use `git branch` or `git status`.
 
 Troubleshooting
 ---------------
