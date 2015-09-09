@@ -12,20 +12,22 @@
         <div class="span12">
                 <h2>For students:</h2>
                 <p>The Reflections | Projections job fair is always a great place to look for jobs in CS/ECE fields.  Dress is casual, so don't suit up!
-                    We don't have the list of companies up yet, but check back mid-Summer for more information!</p>
+                    We don't have the list of companies up yet, but check back soon for more information!</p>
                 <h2>For companies:</h2>
                 <p>Hey there! We are glad you are interested in our job fair! Registration for the job fair is done by invitation only.
                     If you would like to be added to our waiting list, please  <a href="mailto:conference-chair@acm.illinois.edu">email us</a>.</p>
-                <div id="loginform">
-                    <p>If you have already received an invite, please enter the account credentials emailed to you by our staff to access the registration form.</p>
-                    <form method="post" class="form-horizontal"
-                        action="/conf/jobfair">
-                        {% csrf_token %}
-                        {{  form|bootstrap  }}
-                        <button type="submit" class="btn-primary">Login</button>
-                        <input type="hidden" name="next" value="/conf/jobfair" />
-                    </form>
-                </div>
+                {% if not is_authed %}
+                    <div id="loginform">
+                        <p>If you have already received an invite, please enter the account credentials emailed to you by our staff to access the registration form.</p>
+                        <form method="post" class="form-horizontal"
+                            action="/conf/jobfair">
+                            {% csrf_token %}
+                            {{  form|bootstrap  }}
+                            <button type="submit" class="btn-primary">Login</button>
+                            <input type="hidden" name="next" value="/conf/jobfair" />
+                        </form>
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>

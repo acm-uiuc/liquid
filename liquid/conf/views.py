@@ -16,7 +16,7 @@ def jobfair(request):
     if request.user.is_authenticated() and check_group_admin(['Conference', '!Company'], request):
         return jobfair_invite(request)
     else:
-        return login(request,'conf/job-fair-login.html')
+        return login(request,'conf/job-fair-login.html',extra_context={'is_authed': request.user.is_authenticated()})
 
 @group_admin_required(['Conference', '!Company'])
 def jobfair_invite(request):
