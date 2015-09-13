@@ -40,9 +40,9 @@ urlpatterns = patterns('',
     url(r'^startupfair/$',redirect_to, {'url': 'http://www.acm.uiuc.edu/conference/2014/careerfairs/'}),
     url(r'^mm-irc/$',redirect_to, {'url': 'http://webchat.freenode.net/?channels=%23%23mm20&uio=OT10cnVlde'}),
 
-    #mockmania redirects
-    #TODO remove once Mockmania's done
-    url(r'^mockmania/$',redirect_to, {'url': 'https://docs.google.com/forms/d/1G_k-n9orEpJZ7RVr5JS4CQsDKAGiSAULu26HRuSGJIw/viewform'}),
+    #RP2015 redirects
+    #TODO remove once RP2015's done
+    url(r'^rpvolunteer/$',redirect_to, {'url': 'https://docs.google.com/forms/d/1TbF-2lhdW3leKr9NZqEds8a4R7r8UTte7Hb8t-9W51A/viewform'}),
 
     #sigmusic redirects
     url(r'^chroma/$',redirect_to, {'url': '/sigmusic/chroma'}),
