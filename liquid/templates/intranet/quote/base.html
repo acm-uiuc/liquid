@@ -1,1 +1,6 @@
 {% extends "intranet/base.html" %}
+
+<!-- Only works on the main quote page, since the others override this block -->
+{% block bottom_scripts %}
+<script src="/static/js/duckarmy.js"></script>
+{% endblock %}
