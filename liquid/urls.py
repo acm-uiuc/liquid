@@ -38,7 +38,12 @@ urlpatterns = patterns('',
     url(r'^jobfair/$',redirect_to, {'url': 'http://www.acm.uiuc.edu/conference/2014/careerfairs/'}),
     url(r'^startup/$',redirect_to, {'url': 'http://www.acm.uiuc.edu/conference/2014/careerfairs/'}),
     url(r'^startupfair/$',redirect_to, {'url': 'http://www.acm.uiuc.edu/conference/2014/careerfairs/'}),
-    url(r'^mm-irc/$',redirect_to, {'url': 'http://webchat.freenode.net/?channels=%23%23mm20&uio=OT10cnVlde'}),
+ 
+    # MM21 redirects
+    # TODO remove once MM21's done
+    url(r'^mm-piazza/$',redirect_to, {'url': 'https://piazza.com/class/ieupwjktspnl0'}),
+    url(r'^mm-code/$',redirect_to, {'url': 'https://github.com/acm-uiuc/mm21'}),
+    url(r'^mm-wiki/$',redirect_to, {'url': 'https://www-s.acm.illinois.edu/confluence/display/mm21'}),
 
     #RP2015 redirects
     #TODO remove once RP2015's done
