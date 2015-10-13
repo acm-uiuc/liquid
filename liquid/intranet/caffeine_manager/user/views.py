@@ -14,14 +14,15 @@ def view(request, netid=None):
     is_caffeine_admin=request.user.is_group_admin('Caffeine')
 
     if search_arg:
-        users=Vending.objects.filter(
-          Q(user__first_name=search_arg) | 
-          Q(user__last_name=search_arg) | 
-          Q(user__username=search_arg)
-        ).order_by('-spent', 'balance')
+        users=Member.objects.filter(
+          Q(first_name=search_arg) |
+          Q(last_name=search_arg) |
+          Q(username=search_arg)
+        )
 
         if users:
-            vend_user=users[0].user
+            vend_users = [u.get_vending() for u in users]
+            vend_user = max(vend_users, key=lambda v: (v.spent, -v.balance)).get_user()
 
     elif netid:
         vend_user=get_object_or_404(Member, username=netid)

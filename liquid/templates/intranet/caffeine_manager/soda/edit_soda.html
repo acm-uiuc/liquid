@@ -24,7 +24,7 @@
             {% if id %}
                 <a href='{% url cm_soda_delete id %}' class='btn btn-danger'>Delete</a>
             {% endif %}
-            <a href='/intranet/caffeine/{{ from_arg }}' class='btn btn-secondary'>Cancel</a>
+            <a href='{{ previous_url }}' class='btn btn-secondary'>Cancel</a>
         </div>
 
     </form>

@@ -21,13 +21,13 @@
         <td>{{ s.name }}</td>
         <td>{{ s.calories }}</td>
         <td>{{ s.caffeine }}</td>
-        <td>{{ s.total_sold }}</td>
+        <td>{{ s.dispensed }}</td>
         <td>{{ s.cost }}</td>
-        <td>{{ s.votes.count }}</td>
+        <td>{{ s.voteCount }}</td>
         <td>
             {% if is_caffeine_admin %}
                 <a class='btn btn-primary btn-small' href='{% url cm_soda_edit s.id  %}'>Edit</a>
-                {% if s.votes.count %}
+                {% if s.voteCount %}
                     <a class='btn btn-danger btn-small' href='{% url cm_soda_clearvotes s.id  %}'>Clear votes</a>
                 {% endif %}
             {% endif %}

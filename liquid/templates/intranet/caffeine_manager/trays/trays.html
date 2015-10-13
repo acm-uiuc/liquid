@@ -9,7 +9,7 @@
     <tr>
         <th>ID</th>
         <th>Soda</th>
-        <th>Qty</th>
+        <th>Quantity</th>
         <th>Cost</th>
         {% if is_caffeine_admin %}
             <th>Enabled</th>
@@ -20,13 +20,13 @@
 
     {% for t in trays %}
     <tr>
-        <td>{{ t.tray_number }}</td>
+        <td>{{ t.id }}</td>
         <td>{{ t.soda.name }}</td>
-        <td>{{ t.quantity }}</td>
+        <td>{{ t.qty }}</td>
         <td>{{ t.price }}</td>
         {% if is_caffeine_admin %}
             <td>{{ t.enabled }}</td>
-            <td>{{ t.detect_override }}</td>
+            <td>{{ t.sense_override }}</td>
             <td>
                 <a class="btn btn-small btn-primary" href='{% url cm_trays_edit t.id %}'>Edit Tray</a>
                 {% if t.soda %}

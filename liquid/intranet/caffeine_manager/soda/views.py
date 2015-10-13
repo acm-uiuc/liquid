@@ -9,9 +9,11 @@ from intranet.caffeine_manager.soda.forms import SodaForm
 from intranet.caffeine_manager.views import fromLocations
 
 def allSodas(request):
-    sodas=Soda.objects.all().order_by('-total_sold', 'name')
+    sodas=Soda.objects.all().order_by('-dispensed', 'name')
+    vend = request.user.get_vending()
     for s in sodas:
-        s.votedFor=(s.votes.filter(username=request.user.username).count() == 1)
+        s.votedFor=(vend.votes.filter(id=s.id).count() == 1)
+        s.voteCount=s.vending_set.all().count()
 
     request.session['from'] = fromLocations.ALL_SODAS
 
@@ -66,14 +68,15 @@ def edit(request, sodaId):
     soda_form=None;
     from_arg=request.session.get('from', fromLocations.ALL_SODAS)
 
+    previous_url = reverse('cm_soda_allsodas')
+    if from_arg == fromLocations.TRAYS:
+        previous_url = reverse('cm_trays_view')
+
     if request.method == 'POST':
         soda_form=SodaForm(request.POST, instance=soda)
         if soda_form.is_valid():
             soda_form.save()
-            if from_arg == fromLocations.TRAYS:
-                return redirect(reverse('cm_trays_view'))
-            else:
-                return redirect(reverse('cm_soda_allsodas'))
+            return redirect(previous_url)
     else:
         soda_form=SodaForm(instance=soda)
 
@@ -84,6 +87,7 @@ def edit(request, sodaId):
          'page':'caffeine',
          'form':soda_form,
          'id':sodaId,
+         'previous_url':previous_url,
          'from_arg':from_arg
        }, context_instance=RequestContext(request))
 
@@ -96,19 +100,21 @@ def delete(request, sodaId):
     return redirect(reverse('cm_soda_allsodas'))
 
 def toggleVote(request, sodaId):
-    votes=get_object_or_404(Soda, pk=sodaId).votes
-    has_voted=votes.filter(username=request.user.username).count()
+    votes=request.user.get_vending().votes
+    has_voted=(votes.filter(id=sodaId).count() > 0)
     if has_voted:
-        votes.remove(request.user)
+        votes.remove(sodaId)
         messages.add_message(request, messages.INFO, 'Your vote has been removed!')
     else:
-        votes.add(request.user)
+        votes.add(sodaId)
         messages.add_message(request, messages.SUCCESS, 'Your vote has been recorded!')
 
     return redirect(reverse('cm_soda_allsodas'))
 
 @group_admin_required(['Caffeine'])
 def clearVotes(request, sodaId):
-    get_object_or_404(Soda, pk=sodaId).votes.clear()
+    users = get_object_or_404(Soda, pk=sodaId).vending_set.all()
+    for u in users:
+        u.votes.remove(sodaId)
     messages.add_message(request, messages.INFO, 'Votes cleared.')
     return redirect(reverse('cm_soda_allsodas'))
