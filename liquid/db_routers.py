@@ -7,13 +7,11 @@ class ModelDatabaseRouter(object):
 
     def db_for_read(self, model, **hints):
         if hasattr(model._meta, 'in_db'):
-            print "Foo! " + str((self, model))
             return model._meta.in_db
         return None
 
     def db_for_write(self, model, **hints):
         if hasattr(model._meta, 'in_db'):
-            print "Bar! " + str((self, model))
             return model._meta.in_db        
         return None
 
