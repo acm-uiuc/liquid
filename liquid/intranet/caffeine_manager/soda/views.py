@@ -10,10 +10,10 @@ from intranet.caffeine_manager.views import fromLocations
 
 def allSodas(request):
     sodas=Soda.objects.all().order_by('-dispensed', 'name')
-    # vend = request.user.get_vending()
+    vend = request.user.get_vending()
     for s in sodas:
-        s.votedFor= 0 #(vend.votes.filter(id=s.id).count() == 1)
-        s.voteCount= 0 #s.vending_set.all().count()
+        s.votedFor= (vend.votes.filter(id=s.id).count() == 1)
+        s.voteCount= s.vending_set.all().count()
 
     request.session['from'] = fromLocations.ALL_SODAS
 

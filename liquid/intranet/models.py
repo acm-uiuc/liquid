@@ -125,6 +125,7 @@ class Vending(models.Model):
       return Member.objects.get(pk=self.uid)
 
    class Meta:
+      in_db = 'soda'
       db_table = 'vending'
 
 class Group(models.Model):
