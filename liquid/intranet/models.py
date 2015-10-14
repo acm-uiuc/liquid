@@ -99,9 +99,9 @@ def new_member_post_save(sender, **kwargs):
       user = kwargs['instance']
       ## add vending account
       try:
-         Vending.objects.get(user=user)
+         Vending.objects.get(uid=user.id)
       except Vending.DoesNotExist:
-         v = Vending(user=user,balance=5)
+         v = Vending(uid=user.id,balance=5)
          v.save()
 
 class PreMember(models.Model):
