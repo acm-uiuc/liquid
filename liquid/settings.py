@@ -241,6 +241,7 @@ try:
 except ImportError, exp:
   pass
 
+DATABASE_ROUTERS = ["db_routers.ModelDatabaseRouter"]
 
 if SERVE_STATIC:
   INSTALLED_APPS += ('django.contrib.staticfiles',)
