@@ -24,7 +24,7 @@ class tfBooleanField(models.BooleanField):
     Docs: https://docs.djangoproject.com/en/1.6/howto/custom-model-fields/
     """
     def db_type(self, connection):
-	return None
+        return None
 
     def to_python(self, value):
         if value in (True, False):
