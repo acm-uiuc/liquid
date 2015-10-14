@@ -31,6 +31,8 @@ local_settings =  """DATABASES = {
     }
 }
 
+DATABASE_ROUTERS = ["db_routers.ModelDatabaseRouter"]
+
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = '%s'
 EMAIL_HOST_PASSWORD = '%s'
