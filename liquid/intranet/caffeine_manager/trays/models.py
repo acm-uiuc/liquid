@@ -16,8 +16,15 @@ class tfBooleanField(models.BooleanField):
     def __init__(self, *args, **kwargs):
         super(tfBooleanField, self).__init__(*args, **kwargs)
 
+    """
+    Disabled (using 'return None') because:
+    1) This is only used during migrations to CREATE TABLEs
+    2) "enum('t', 'f')" causes a syntax error in Docker
+    3) The relevant tables already exist anyway
+    Docs: https://docs.djangoproject.com/en/1.6/howto/custom-model-fields/
+    """
     def db_type(self, connection):
-        return "enum('t', 'f')"
+	return None
 
     def to_python(self, value):
         if value in (True, False):
