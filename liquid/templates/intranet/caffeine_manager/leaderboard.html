@@ -21,8 +21,8 @@
         <tr>
             <td>{{ forloop.counter }}</td>
             <td>
-                {{ v.get_user.full_name }}
-                (<a href='{% url cm_user_view v.get_user.username %}'>{{v.get_user.username}}</a>)
+                {{ v.user.full_name }}
+                (<a href='{% url cm_user_view v.user.username %}'>{{v.user.username}}</a>)
             </td>
             <td>{{ v.calories }}</td>
         </tr>
@@ -41,8 +41,8 @@
         <tr>
             <td>{{ forloop.counter }}</td>
             <td>
-                {{ v.get_user.full_name }}
-                (<a href='{% url cm_user_view v.get_user.username %}'>{{v.get_user.username}}</a>)
+                {{ v.user.full_name }}
+                (<a href='{% url cm_user_view v.user.username %}'>{{v.user.username}}</a>)
             </td>
             <td>{{ v.caffeine }}</td>
         </tr>
@@ -61,8 +61,8 @@
         <tr>
             <td>{{ forloop.counter }}</td>
             <td>
-                {{ v.get_user.full_name }}
-                (<a href='{% url cm_user_view v.get_user.username %}'>{{v.get_user.username}}</a>)
+                {{ v.user.full_name }}
+                (<a href='{% url cm_user_view v.user.username %}'>{{v.user.username}}</a>)
             </td>
             <td>{{ v.spent }}</td>
         </tr>
@@ -81,8 +81,8 @@
         <tr>
             <td>{{ forloop.counter }}</td>
             <td>
-                {{ v.get_user.full_name }}
-                (<a href='{% url cm_user_view v.get_user.username %}'>{{v.get_user.username}}</a>)
+                {{ v.user.full_name }}
+                (<a href='{% url cm_user_view v.user.username %}'>{{v.user.username}}</a>)
             </td>
             <td>{{ v.sodas }}</td>
         </tr>

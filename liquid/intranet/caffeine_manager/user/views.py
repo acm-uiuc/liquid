@@ -22,7 +22,7 @@ def view(request, netid=None):
 
         if users:
             vend_users = [u.get_vending() for u in users]
-            vend_user = max(vend_users, key=lambda v: (v.spent, -v.balance)).get_user()
+            vend_user = max(vend_users, key=lambda v: (v.spent, -v.balance)).user
 
     elif netid:
         vend_user=get_object_or_404(Member, username=netid)

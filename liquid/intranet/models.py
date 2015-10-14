@@ -120,7 +120,8 @@ class Vending(models.Model):
    sodas = models.IntegerField(max_length=11,default=0)
    votes = models.ManyToManyField(Soda)
 
-   def get_user(self):
+   @property
+   def user(self):
       return Member.objects.get(pk=self.uid)
 
    class Meta:
