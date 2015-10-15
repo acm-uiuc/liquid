@@ -13,7 +13,7 @@ def allSodas(request):
     vend = request.user.get_vending()
     for s in sodas:
         s.votedFor= (vend.votes.filter(id=s.id).count() == 1)
-        s.voteCount= 0 #s.vending_set.all().count()
+        s.voteCount= s.vending_set.all().count()
 
     request.session['from'] = fromLocations.ALL_SODAS
 
