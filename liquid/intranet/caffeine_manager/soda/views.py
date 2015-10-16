@@ -112,9 +112,9 @@ def toggleVote(request, sodaId):
 
     return redirect(reverse('cm_soda_allsodas'))
 
-@group_admin_required(['Caffeine'])
+# @group_admin_required(['Caffeine'])
 def clearVotes(request, sodaId):
-    users = Vending.objects.filter(votes=sodaId)
+    users = VendingVoter.objects.filter(votes=sodaId)
     for u in users:
         u.votes.remove(sodaId)
     messages.add_message(request, messages.INFO, 'Votes cleared.')
