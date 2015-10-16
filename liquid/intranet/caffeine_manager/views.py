@@ -16,8 +16,8 @@ def leaderboard(request):
     except:
         pass
     
-    subQuery = "SELECT uid from acm_integrate.users WHERE status = 'active'"
-    baseQuery = "SELECT * FROM soda.vending WHERE uid IN (%s)" % subQuery
+    subQuery = "SELECT uid from users WHERE status = 'active'"
+    baseQuery = "SELECT * FROM vending WHERE uid IN (%s)" % subQuery
 
     top_calories=Vending.objects.raw(baseQuery + " ORDER BY -calories LIMIT %d" % count)
     top_caffeine=Vending.objects.raw(baseQuery + " ORDER BY -caffeine LIMIT %d" % count)

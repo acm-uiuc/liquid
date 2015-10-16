@@ -4,16 +4,17 @@ from django.core.paginator import Paginator
 from utils.group_decorator import group_admin_required
 from django.contrib import messages
 from django.core.urlresolvers import reverse
+from intranet.models import VendingVoter
 from intranet.caffeine_manager.soda.models import Soda
 from intranet.caffeine_manager.soda.forms import SodaForm
 from intranet.caffeine_manager.views import fromLocations
 
 def allSodas(request):
     sodas=Soda.objects.all().order_by('-dispensed', 'name')
-    vend = request.user.get_vending()
+    voter=VendingVoter.objects.get(pk=request.user.id)
     for s in sodas:
-        s.votedFor= (vend.votes.filter(id=s.id).count() == 1)
-        s.voteCount= s.vending_set.all().count()
+        s.votedFor=(voter.votes.filter(pk=s.id).count() == 1)
+        s.voteCount=VendingVoter.objects.filter(votes=s).count()
 
     request.session['from'] = fromLocations.ALL_SODAS
 
@@ -100,20 +101,20 @@ def delete(request, sodaId):
     return redirect(reverse('cm_soda_allsodas'))
 
 def toggleVote(request, sodaId):
-    votes=request.user.get_vending().votes
-    has_voted=(votes.filter(id=sodaId).count() > 0)
+    voter=VendingVoter.objects.get(pk=request.user.id)
+    has_voted=(voter.votes.filter(id=sodaId).count() > 0)
     if has_voted:
-        votes.remove(sodaId)
+        voter.votes.remove(sodaId)
         messages.add_message(request, messages.INFO, 'Your vote has been removed!')
     else:
-        votes.add(sodaId)
+        voter.votes.add(sodaId)
         messages.add_message(request, messages.SUCCESS, 'Your vote has been recorded!')
 
     return redirect(reverse('cm_soda_allsodas'))
 
 @group_admin_required(['Caffeine'])
 def clearVotes(request, sodaId):
-    users = get_object_or_404(Soda, pk=sodaId).vending_set.all()
+    users = Vending.objects.filter(votes=sodaId)
     for u in users:
         u.votes.remove(sodaId)
     messages.add_message(request, messages.INFO, 'Votes cleared.')

@@ -103,6 +103,8 @@ def new_member_post_save(sender, **kwargs):
       except Vending.DoesNotExist:
          v = Vending(uid=user.id,balance=5)
          v.save()
+         v2 = VendingVoter(uid=user.id)
+         v2.save()
 
 class PreMember(models.Model):
    first_name = models.CharField(max_length=32)
@@ -111,6 +113,7 @@ class PreMember(models.Model):
    netid = models.CharField(max_length=16,unique=True)
    created_at = models.DateTimeField(auto_now_add=True)
 
+# Must be kept in default DB (since Caffeine depends on it)
 class Vending(models.Model):
    uid = models.IntegerField(max_length=11, primary_key=True)
    balance = models.DecimalField(max_digits=10, decimal_places=2,default=0)
@@ -118,15 +121,26 @@ class Vending(models.Model):
    caffeine = models.FloatField(default=0)
    spent = models.DecimalField(max_digits=10, decimal_places=2,default=0)
    sodas = models.IntegerField(max_length=11,default=0)
-   votes = models.ManyToManyField(Soda)
 
    @property
    def user(self):
       return Member.objects.get(pk=self.uid)
 
+   @property
+   def votes(self):
+      return VendingVoter.objects.get(pk=self.uid).votes
+
+   class Meta:
+      db_table = 'vending'
+
+# Must be kept in Soda DB (to ManyToManyField to Soda objects)
+class VendingVoter(models.Model):
+   uid = models.IntegerField(max_length=11, primary_key=True)
+   votes = models.ManyToManyField(Soda)
+
    class Meta:
       in_db = 'soda'
-      db_table = 'vending'
+      db_table = 'vending_voters'
 
 class Group(models.Model):
    type = models.CharField(max_length=1, choices=GROUP_TYPE_CHOICES)
