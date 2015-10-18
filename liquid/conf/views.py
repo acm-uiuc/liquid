@@ -6,17 +6,17 @@ from django import forms
 from django.forms import ValidationError
 from conf.models import Company
 from utils.django_mailman.models import List
-from utils.group_decorator import group_admin_required
+from utils.group_decorator import group_admin_required, check_group_admin
 import simplejson as json
 
 def main(request):
 	return render_to_response('conf/main.html',{"section":"conf", "page":"main"},context_instance=RequestContext(request))
 
 def jobfair(request):
-    if request.user.is_authenticated():
+    if request.user.is_authenticated() and check_group_admin(['Conference', '!Company'], request):
         return jobfair_invite(request)
     else:
-        return login(request,'conf/job-fair-login.html')
+        return login(request,'conf/job-fair-login.html',extra_context={'is_authed': request.user.is_authenticated()})
 
 @group_admin_required(['Conference', '!Company'])
 def jobfair_invite(request):

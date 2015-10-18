@@ -10,11 +10,9 @@ def check_group_admin(groups,request):
       if request.user.groups.filter(name__in=groups).count() > 0:
          return True
       else:
-         raise PermissionDenied()
          return False
    user_groups = request.user.groupmember_set.filter(is_admin__exact=True).filter(group__name__in=groups)
    if not user_groups:
-      raise PermissionDenied()
       return False
    return True
 
@@ -23,6 +21,8 @@ def group_admin_required(groups=[]):
       def inner_decorator(request,*args, **kwargs):
          if check_group_admin(groups,request):
             return func(request, *args, **kwargs)
+         else:
+            raise PermissionDenied()
       return wraps(func)(inner_decorator)
    return decorator
 
@@ -35,6 +35,8 @@ def specific_group_admin_required(row, extra_groups=[]):
          groups.extend(extra_groups)
          if check_group_admin(groups,request):
             return func(request, *args, **kwargs)
+         else:
+            raise PermissionDenied()
       return wraps(func)(inner_decorator)
    return decorator
 
