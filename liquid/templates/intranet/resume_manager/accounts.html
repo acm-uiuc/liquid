@@ -36,7 +36,8 @@
   </thead>
   <tbody>
   {% for r in recruiters %}
-  <tr>
+  <tr class="{{r.expiry_class}}">
+    <td><a href="/intranet/resume/accounts/edit/{{r.id}}"><i class="icon-edit"></i> Edit</a></td>
     <td>{{r.first_name}}</td>
     <td>{{r.level}}</td>
     <td>{{r.username}}</td>

@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import user_passes_test
 from utils.group_decorator import group_admin_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse, Http404, HttpResponseRedirect
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 from django.contrib.sites.models import Site
 from django.core.mail import EmailMultiAlternatives # Used for sending HTML emails
 from django.template.loader import get_template
@@ -50,7 +50,7 @@ def pdf(request,id):
 
 @group_admin_required(['Corporate'])
 def accounts(request):
-   recruiters = Recruiter.objects.all()
+   recruiters = Recruiter.objects.all().order_by('-expires')
    paginator = Paginator(recruiters, 25) # Show 25 contacts per page
    
    total_recruiters = paginator.count
@@ -64,6 +64,15 @@ def accounts(request):
    except EmptyPage:
       # If page is out of range (e.g. 9999), deliver last page of results.
       recruiters = paginator.page(paginator.num_pages)
+
+   # Mark recruiters with expiry dates
+   expiry_date = date.today()
+   warning_date = date.today() - timedelta(days=60)
+   for r in recruiters:
+      if r.expires < expiry_date:
+         r.expiry_class = "error"
+      elif r.expires < warning_date:
+         r.expiry_class = "warning"
 
    return render_to_response('intranet/resume_manager/accounts.html',{
       "section":"intranet",
