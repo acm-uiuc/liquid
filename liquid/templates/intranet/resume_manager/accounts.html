@@ -26,8 +26,8 @@
 <table class="table table-striped">
   <thead>
   <tr>
-    <th>Edit</th>
     <th>Company</th>
+    <th>Level</th>
     <th>Username</th>
     <th>Email</th>
     <th>Expires</th>
@@ -37,12 +37,15 @@
   <tbody>
   {% for r in recruiters %}
   <tr>
-    <td><a href="/intranet/resume/accounts/edit/{{r.id}}"><i class="icon-edit"></i> Edit</a></td>
     <td>{{r.first_name}}</td>
+    <td>{{r.level}}</td>
     <td>{{r.username}}</td>
     <td>{{r.email}}</td>
     <td>{{r.expires}}</td>
-    <td><a href="/intranet/resume/accounts/delete/{{r.id}}"><i class="icon-trash"></i> Delete</a></td>
+    <td>
+        <a href="/intranet/resume/accounts/edit/{{r.id}}"><i title="Edit" class="icon-edit"></i></a>
+        <a href="/intranet/resume/accounts/delete/{{r.id}}"><i title="Delete" class="icon-trash"></i></a></td>
+    </td>
   </tr>
   {% endfor %}
   </tbody>
