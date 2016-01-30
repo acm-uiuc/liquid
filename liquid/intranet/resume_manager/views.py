@@ -1,4 +1,4 @@
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, get_object_or_404
 from intranet.models import Resume, ResumePerson
 from django.template import RequestContext
 from django.contrib import messages
@@ -29,24 +29,21 @@ def main(request):
 
 @group_admin_required(['Corporate'])
 def thumb(request,id):
-   try:
-      r = Resume.objects.get(id=id)
-      r.generate_thumbnails()
-      image_data = open(r.thumbnail_location(), "rb").read()
-      return HttpResponse(image_data, mimetype="image/png")
-   except:
-      raise Http404
+   r = get_object_or_404(Resume, id=id)
+   r.generate_thumbnails()
+   image_data = open(r.thumbnail_location(), "rb").read()
+   return HttpResponse(image_data, mimetype="image/png")
 
 @group_admin_required(['Corporate'])
 def thumb_top(request,id):
-   r = Resume.objects.get(id=id)
+   r = get_object_or_404(Resume, id=id)
    r.generate_thumbnails()
    image_data = open(r.thumbnail_top_location(), "rb").read()
    return HttpResponse(image_data, mimetype="image/png")
 
 @group_admin_required(['Corporate'])
 def pdf(request,id):
-   r = Resume.objects.get(id=id)
+   r = get_object_or_404(Resume, id=id)
    r.generate_thumbnails()
    pdf_data = open(r.resume.path, "rb").read()
    return HttpResponse(pdf_data, mimetype="application/pdf")
