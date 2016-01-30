@@ -47,15 +47,11 @@ def send_email(addr="jobs-l@acm.illinois.edu"):
   jobs = Job.objects.filter(sent__exact=False).filter(status__exact='approve')
   if jobs:
     email = gen_email(jobs)
-    try:
-      send_mail('ACM@UIUC Weekly Job Postings', email, 'ACM Corporate Committee <corporate@acm.illinois.edu>',[addr], fail_silently=False)
-      for j in jobs:
-        j.sent = True
-        j.save()
-      return "Email sent to " + addr
-    except Exception as inst:
-      print "Error sending email"
-      return "Error in sending email" + inst
+    send_mail('ACM@UIUC Weekly Job Postings', email, 'ACM Corporate Committee <corporate@acm.illinois.edu>',[addr], fail_silently=False)
+    for j in jobs:
+      j.sent = True
+      j.save()
+    return "Email sent to " + addr
 
   else:
     return "No jobs to send"
