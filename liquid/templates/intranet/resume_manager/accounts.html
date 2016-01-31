@@ -36,7 +36,7 @@
   </thead>
   <tbody>
   {% for r in recruiters %}
-  <tr>
+  <tr class="{{r.expiry_class}}">
     <td>{{r.first_name}}</td>
     <td>{{r.level}}</td>
     <td>{{r.username}}</td>
