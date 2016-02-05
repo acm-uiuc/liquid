@@ -69,8 +69,8 @@ def delete_tray(request, trayId):
 
 @group_admin_required(['Caffeine'])
 def force_vend(request, trayId):
-    trayId = int(trayId) # Ensure trayId is an int to prevent command injection
-    ret=subprocess.call(['ssh', 'soda@acm.illinois.edu', "~/bin/force_vend " + str(tray_id)]) # Requires a valid ssh key
+    # Requires a valid ssh key + makes sure trayId is an int (to prevent command injection)
+    ret=subprocess.call(['ssh', 'soda@siebl-1106-05.acm.illinois.edu', '-i', '/config/.ssh/id_rsa', '~/bin/force_vend ' + str(int(trayId))])
     if ret == 0:
         messages.add_message(request, messages.SUCCESS, 'Force vend successful!')
     else:
