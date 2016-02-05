@@ -31,12 +31,6 @@ RUN pip install -r app/requirements.txt
 RUN python app/manage.py syncdb --noinput
 RUN python app/manage.py migrate
 
-# Caffeine SSH key
-RUN mkdir -p /root/.ssh
-ADD id_rsa /root/.ssh/id_rsa
-RUN chmod 700 /root/.ssh/id_rsa
-RUN echo -e "Host acm.illinois.edu\n\tStrictHostKeyChecking no\n" >> /root/.ssh/config
-
 # setup all the configfiles
 RUN ln -s /liquid/nginx-liquid.conf /etc/nginx/sites-enabled/
 RUN ln -s /liquid/supervisor.conf /etc/supervisor/conf.d/
