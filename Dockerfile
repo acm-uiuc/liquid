@@ -12,7 +12,8 @@ RUN apt-get update && apt-get -y install build-essential \
     libmysqlclient-dev \
     libldap2-dev \
     libsasl2-dev \
-    python-pip
+    python-pip \
+    ssh
 
 RUN pip install uwsgi
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
