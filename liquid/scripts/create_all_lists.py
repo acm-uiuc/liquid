@@ -95,6 +95,7 @@ lists = [
    List(name='SIGPony-l',public=True),
    List(name='SIGSAC-L',public=True),
    List(name='SIGSoft-l',public=True),
+   List(name='Sigspatial-l',public=True),
    List(name='SIGUnix-l',public=True),
    List(name='SIGWin-l',public=True),
    List(name='sls-l',public=True),
