@@ -19,15 +19,17 @@ from datetime import date
 def companies(request):
    fair = request.GET.get('filter')
    if fair == 'startup':
-      companies = Company.objects.filter(Q(invited_on__year=15)|Q(invited_on__isnull=True), type=Company.STARTUP)
+      companies = Company.objects.filter(Q(invited_on__year=16)|Q(invited_on__isnull=True), type=Company.STARTUP)
    elif fair == 'jobfair':
-      companies = Company.objects.filter(Q(invited_on__year=15)|Q(invited_on__isnull=True), type=Company.JOBFAIR)
+      companies = Company.objects.filter(Q(invited_on__year=16)|Q(invited_on__isnull=True), type=Company.JOBFAIR)
    elif fair == '13':
       companies = Company.objects.filter(Q(invited_on__year=13))
    elif fair == '14':
       companies = Company.objects.filter(Q(invited_on__year=14))
+   elif fair == '15':
+      companies = Company.objects.filter(Q(invited_on__year=15))
    else:
-      companies = Company.objects.filter(Q(invited_on__year=15)|Q(invited_on__isnull=True))
+      companies = Company.objects.filter(Q(invited_on__year=16)|Q(invited_on__isnull=True))
 
    page = request.GET.get('page')
    paginator = Paginator(companies, 25) # Show 25 invites per page
@@ -61,7 +63,7 @@ def companies_new(request):
       if form.is_valid(): # All validation rules pass
           try:
               company = form.save(commit=False)
-              company.username = slugify("rp15 "+company.company_name)
+              company.username = slugify("rp16 "+company.company_name)
               company.save()
               messages.add_message(request, messages.SUCCESS, 'Company created (%s)'%(company.username))
               return HttpResponseRedirect('/intranet/jobfair_manager/companies') # Redirect after POST
@@ -120,10 +122,10 @@ def companies_invite(request, id):
         c = {"company": e, "password": password}
         if e.type == Company.JOBFAIR:
             body = render_to_string("conf/emails/jobfair_invite.txt", c, context_instance=RequestContext(request))
-            subject = "Invitation to Reflections | Projections 2015 Job Fair"
+            subject = "Invitation to Reflections | Projections 2016 Job Fair"
         else:
             body = render_to_string("conf/emails/startupfair_invite.txt", c, context_instance=RequestContext(request))
-            subject = "Invitation to Reflections | Projections 2015 Startup Fair"
+            subject = "Invitation to Reflections | Projections 2016 Startup Fair"
         form = InviteForm(data={"body":body,
                                 "subject":subject,
                                 "from_email":request.user.email,
