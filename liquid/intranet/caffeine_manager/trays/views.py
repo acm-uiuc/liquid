@@ -67,12 +67,55 @@ def delete_tray(request, trayId):
     get_object_or_404(Tray, pk=trayId).delete()
     return redirect(reverse('cm_trays_view'))
 
+# Helper function to vend a soda
+# Requires a valid SSH key; ensure trayId is an int to prevent command injection
+def do_vend(trayId):
+    return subprocess.call(['ssh', 'soda@siebl-1106-05.acm.illinois.edu', '-o', 'StrictHostKeyChecking no', '-i', '/config/.ssh/id_rsa', '~/bin/force_vend ' + str(int(trayId))])
+
+# Vend a soda without recording the vend (i.e. don't charge anyone)
 @group_admin_required(['Caffeine'])
 def force_vend(request, trayId):
-    # Requires a valid SSH key; ensure trayId is an int to prevent command injection
-    ret=subprocess.call(['ssh', 'soda@siebl-1106-05.acm.illinois.edu', '-o', 'StrictHostKeyChecking no', '-i', '/config/.ssh/id_rsa', '~/bin/force_vend ' + str(int(trayId))])
+    ret=do_vend(trayId)
     if ret == 0:
         messages.add_message(request, messages.SUCCESS, 'Force vend successful!')
     else:
         messages.add_message(request, messages.ERROR, 'Force vend failed (error code ' + str(ret) + ').')
+    return redirect(reverse('cm_trays_view'))
+
+# Vend a soda, and record the vend (i.e. charge people)
+def buy_vend(request, trayId):
+
+    errorMessage = None
+
+    # Validate
+    tray = get_object_or_404(Tray, pk=trayId)
+    vendUser=request.user.get_vending()
+    if tray.qty < 1:
+        errorMessage = 'That tray is empty.'
+    elif tray.price > vendUser.balance:
+        errorMessage = 'You can\'t afford that item.'
+    # TODO add vend-time restriction here
+
+    # Process valid purchase
+    if errorMessage is None:
+
+        # Update DB values
+        tray.qty -= 1
+        vendUser.balance -= tray.price
+        tray.save()
+        vendUser.save()
+
+        # Log purchase
+        # TODO
+
+        # Do vend
+        ret=0 #do_vend(trayId)
+        if ret != 0:
+            errorMessage = 'Script failure: error code ' + str(ret) + '.'
+
+    # Notify user of success/failure
+    if errorMessage is None:
+        messages.add_message(request, messages.SUCCESS, 'Vend successful!')
+    else:
+        messages.add_message(request, messages.ERROR, 'Vend failed: ' + errorMessage)
     return redirect(reverse('cm_trays_view'))
