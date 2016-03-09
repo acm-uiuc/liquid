@@ -49,7 +49,7 @@ def add(request):
         soda_form=SodaForm(request.POST)
         if soda_form.is_valid():
             soda_form.save()
-            return redirect(reverse('cm_soda_all_sodas'))
+            return redirect(reverse('cm_soda_allsodas'))
     else:
         soda_form=SodaForm()
 
