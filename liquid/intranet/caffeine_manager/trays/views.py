@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse
 from intranet.caffeine_manager.trays.models import Tray
 from intranet.caffeine_manager.trays.forms import TrayForm
 from intranet.caffeine_manager.views import fromLocations
-import subprocess
+import subprocess, datetime
 
 def view(request):
     request.session['from']=fromLocations.TRAYS
@@ -89,27 +89,33 @@ def buy_vend(request, trayId):
 
     # Validate
     tray = get_object_or_404(Tray, pk=trayId)
-    vendUser=request.user.get_vending()
+    vendUser = request.user.get_vending()
+    nextVendTime = vendUser.last_vend + datetime.timedelta(seconds=15)
     if tray.qty < 1:
         errorMessage = 'That tray is empty.'
     elif tray.price > vendUser.balance:
         errorMessage = 'You can\'t afford that item.'
-    # TODO add vend-time restriction here
+    elif datetime.datetime.now() < nextVendTime:
+        errorMessage = 'Please wait 15 seconds between vends.'
 
     # Process valid purchase
     if errorMessage is None:
 
-        # Update DB values
+        # Update Vending values
+        soda = tray.soda
+        soda.dispensed += 1
         tray.qty -= 1
         vendUser.balance -= tray.price
+        vendUser.spent += tray.price
+        vendUser.calories += soda.calories
+        vendUser.caffeine += soda.caffeine
+        vendUser.last_vend = datetime.datetime.now()
+        vendUser.sodas += 1
         tray.save()
         vendUser.save()
 
-        # Log purchase
-        # TODO
-
         # Do vend
-        ret=0 #do_vend(trayId)
+        ret=do_vend(trayId)
         if ret != 0:
             errorMessage = 'Script failure: error code ' + str(ret) + '.'
 
