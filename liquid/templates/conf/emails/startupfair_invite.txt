@@ -1,10 +1,10 @@
 Dear {{ company.first_name }},
 
-My name is {{ user.get_full_name }} and I am part of Founders, a student entrepreneurship group at the University of Illinois at Urbana-Champaign. Together with the student chapter of the Association for Computing Machinery, we are hosting an on-campus startup career fair this fall as part of the Reflections | Projections Conference. I am contacting you to see if {{ company.company_name }} is interested in participating.
+My name is {{ user.get_full_name }} and I am Startup fair chair of the Reflections | Projections 2016 Conference. We’re excited to extend an invitation to {{company.company_name}} to attend this year’s annual Reflections | Projections startup fair. The startup fair will be held on Thursday, September 29th, 2016, and we would love to have {{company.company_name}} involved.
 
-The Reflections | Projections conference is a student-run event which brings together over 800 students from the Midwest to attend a variety of speaking events and computing workshops held throughout the weekend. Past speakers have included Alexis Ohanian, Larry Wall, Stephen Wolfram, Steve Wozniak, Blake Ross (creator of Firefox), Joel Spolsky, Eric Traut, and Ian Murdock (the "Ian" in Debian).
+Reflections | Projections is one of the largest student-run tech conferences in the US, which brings together over 1,200 students from the Midwest to attend a variety of speaking events and computing workshops held throughout the weekend. Past speakers have included Alexis Ohanian, Larry Wall, Stephen Wolfram, Steve Wozniak, Blake Ross (creator of Firefox), Joel Spolsky, Eric Traut, and Ian Murdock (the "Ian" in Debian).
 
-The Startup Fair will be held on September 29th, 2016 from 5-8PM on the first floor of the Siebel Center in the atrium. Last year, there were 24 companies at the fair, and this year the fair will be even bigger. Here is a video of last year's event: (bit.ly/rpstartupfair). The price for a Startup Fair booth is $400.
+The Startup Fair will be held on September 29th, 2016 from 2-5:30PM at the Siebel Center in the atrium. Last year, there were 26 companies at the fair, and this year the fair will be even bigger. Here is a video of last year's event: (bit.ly/rpstartupfair). The price for a Startup Fair booth is $400.
 
 Registration ensures:
 
@@ -22,8 +22,8 @@ Username: {{ company.username }}
 Password: {{ password }}
 
 Before registering, please make note of our cancellation fees:
-- Before September 5th, 2015: Free.
-- September 5th, 2015 - September 18th, 2015: 50% cost.
+- Before September 5th, 2016: Free.
+- September 5th, 2016 - September 18th, 2016: 50% cost.
 - After September 19th, 2015: Full cost.
 
 We are excited to have {{ company.company_name }} participate in the Startup Fair. If we can help you in any way, please don't hesitate to email us at corporate@acm.uiuc.edu.
