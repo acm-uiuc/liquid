@@ -3,6 +3,7 @@ from django.template import RequestContext
 from django.contrib import messages
 from utils.group_decorator import group_admin_required
 from django.core.urlresolvers import reverse
+from intranet.models import Vending
 from intranet.caffeine_manager.trays.models import Tray
 from intranet.caffeine_manager.trays.forms import TrayForm
 from intranet.caffeine_manager.views import fromLocations
@@ -90,13 +91,16 @@ def buy_vend(request, trayId):
     # Validate
     tray = get_object_or_404(Tray, pk=trayId)
     vendUser = request.user.get_vending()
-    nextVendTime = vendUser.last_vend + datetime.timedelta(seconds=15)
+    lastVender = Vending.objects.all().order_by('-last_vend')[0]
+    now = datetime.datetime.now()
     if tray.qty < 1:
         errorMessage = 'That tray is empty.'
     elif tray.price > vendUser.balance:
         errorMessage = 'You can\'t afford that item.'
-    elif datetime.datetime.now() < nextVendTime:
-        errorMessage = 'Please wait 15 seconds between vends.'
+    elif now < vendUser.last_vend + datetime.timedelta(seconds=15):
+        errorMessage = 'You can only vend once every 15 seconds.'
+    elif now < lastVender.last_vend + datetime.timedelta(seconds=5):
+        errorMessage = 'Caffeine requires 5 second intervals between vends.'
 
     # Process valid purchase
     if errorMessage is None:
