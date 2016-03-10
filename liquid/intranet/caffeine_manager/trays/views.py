@@ -3,10 +3,11 @@ from django.template import RequestContext
 from django.contrib import messages
 from utils.group_decorator import group_admin_required
 from django.core.urlresolvers import reverse
+from intranet.models import Vending
 from intranet.caffeine_manager.trays.models import Tray
 from intranet.caffeine_manager.trays.forms import TrayForm
 from intranet.caffeine_manager.views import fromLocations
-import subprocess
+import subprocess, datetime
 
 def view(request):
     request.session['from']=fromLocations.TRAYS
@@ -67,12 +68,64 @@ def delete_tray(request, trayId):
     get_object_or_404(Tray, pk=trayId).delete()
     return redirect(reverse('cm_trays_view'))
 
+# Helper function to vend a soda
+# Requires a valid SSH key; ensure trayId is an int to prevent command injection
+def do_vend(trayId):
+    return subprocess.call(['ssh', 'soda@siebl-1106-05.acm.illinois.edu', '-o', 'StrictHostKeyChecking no', '-i', '/config/.ssh/id_rsa', '~/bin/force_vend ' + str(int(trayId))])
+
+# Vend a soda without recording the vend (i.e. don't charge anyone)
 @group_admin_required(['Caffeine'])
 def force_vend(request, trayId):
-    # Requires a valid SSH key; ensure trayId is an int to prevent command injection
-    ret=subprocess.call(['ssh', 'soda@siebl-1106-05.acm.illinois.edu', '-o', 'StrictHostKeyChecking no', '-i', '/config/.ssh/id_rsa', '~/bin/force_vend ' + str(int(trayId))])
+    ret=do_vend(trayId)
     if ret == 0:
         messages.add_message(request, messages.SUCCESS, 'Force vend successful!')
     else:
         messages.add_message(request, messages.ERROR, 'Force vend failed (error code ' + str(ret) + ').')
+    return redirect(reverse('cm_trays_view'))
+
+# Vend a soda, and record the vend (i.e. charge people)
+def buy_vend(request, trayId):
+
+    errorMessage = None
+
+    # Validate
+    tray = get_object_or_404(Tray, pk=trayId)
+    vendUser = request.user.get_vending()
+    lastVender = Vending.objects.all().order_by('-last_vend')[0]
+    now = datetime.datetime.now()
+    if tray.qty < 1:
+        errorMessage = 'That tray is empty.'
+    elif tray.price > vendUser.balance:
+        errorMessage = 'You can\'t afford that item.'
+    elif now < vendUser.last_vend + datetime.timedelta(seconds=15):
+        errorMessage = 'You can only vend once every 15 seconds.'
+    elif now < lastVender.last_vend + datetime.timedelta(seconds=5):
+        errorMessage = 'Caffeine requires 5 second intervals between vends.'
+
+    # Process valid purchase
+    if errorMessage is None:
+
+        # Update Vending values
+        soda = tray.soda
+        soda.dispensed += 1
+        tray.qty -= 1
+        vendUser.balance -= tray.price
+        vendUser.spent += tray.price
+        vendUser.calories += soda.calories
+        vendUser.caffeine += soda.caffeine
+        vendUser.last_vend = datetime.datetime.now()
+        vendUser.sodas += 1
+        tray.save()
+        vendUser.save()
+
+        # Do vend
+        ret=do_vend(trayId)
+        if ret != 0:
+            errorMessage = 'Script failure: error code ' + str(ret) + '.'
+
+    # Notify user of success/failure
+    if errorMessage is None:
+        messages.add_message(request, messages.SUCCESS, 'Vend successful!')
+    else:
+        messages.add_message(request, messages.ERROR, 'Vend failed: ' + errorMessage)
     return redirect(reverse('cm_trays_view'))

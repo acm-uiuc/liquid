@@ -121,6 +121,7 @@ class Vending(models.Model):
    caffeine = models.FloatField(default=0)
    spent = models.DecimalField(max_digits=10, decimal_places=2,default=0)
    sodas = models.IntegerField(max_length=11,default=0)
+   last_vend = models.DateTimeField(auto_now_add=True)
 
    @property
    def user(self):

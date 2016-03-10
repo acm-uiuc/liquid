@@ -3,11 +3,11 @@
 {% block intranet_content %}
     <h2>Caffeine Manager</h2>
     <ul class="nav nav-tabs">
-      <li{% if sub_page == "sodas" %} class="active"{% endif %}>
-        <a href="{% url cm_soda_allsodas %}">Sodas</a>
-      </li>
       <li{% if sub_page == "trays" %} class="active"{% endif %}>
         <a href="{% url cm_trays_view %}">Trays</a>
+      </li>
+      <li{% if sub_page == "sodas" %} class="active"{% endif %}>
+        <a href="{% url cm_soda_allsodas %}">Sodas</a>
       </li>
       <li{% if sub_page == "leaderboard" %} class="active"{% endif %}>
         <a href="{% url cm_stats %}">Leaderboard</a>
