@@ -22,9 +22,9 @@ Username: {{ company.username }}
 Password: {{ password }}
 
 Before registering, please make note of our cancellation fees:
-- Before September 5th, 2016: Free.
-- September 5th, 2016 - September 18th, 2016: 50% cost.
-- After September 19th, 2015: Full cost.
+- Before August 28th, 2016: Free.
+- Between August 29th, 2016 - September 8th, 2016: 50% cost.
+- After September 9th, 2015: Full cost.
 
 We are excited to have {{ company.company_name }} participate in the Startup Fair. If we can help you in any way, please don't hesitate to email us at corporate@acm.uiuc.edu.
 
