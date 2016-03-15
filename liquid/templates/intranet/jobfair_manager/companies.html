@@ -21,6 +21,9 @@
   <li {% if request.GET.filter == "startup" %}class="active"{% endif %}>
     <a href="/intranet/jobfair_manager/companies?filter=startup">Startup Fair</a>
   </li>
+  <li {% if request.GET.filter == "15" %}class="active"{% endif %}>
+ +    <a href="/intranet/jobfair_manager/companies?filter=15">2015 Companies</a>
+ +  </li>
   <li {% if request.GET.filter == "14" %}class="active"{% endif %}>
     <a href="/intranet/jobfair_manager/companies?filter=14">2014 Companies</a>
   </li>
