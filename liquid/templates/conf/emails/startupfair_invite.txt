@@ -1,6 +1,6 @@
 Dear {{ company.first_name }},
 
-My name is {{ user.get_full_name }} and I am Startup fair chair of the Reflections | Projections 2016 Conference. We’re excited to extend an invitation to {{company.company_name}} to attend this year’s annual Reflections | Projections startup fair. The startup fair will be held on Thursday, September 29th, 2016, and we would love to have {{company.company_name}} involved.
+My name is {{ user.get_full_name }} and I'm helping run the Startup Fair at the Reflections | Projections 2016 Conference. We’re excited to extend an invitation to {{company.company_name}} to attend this year’s annual Reflections | Projections startup fair. The startup fair will be held on Thursday, September 29th, 2016, and we would love to have {{company.company_name}} involved.
 
 Reflections | Projections is one of the largest student-run tech conferences in the US, which brings together over 1,200 students from the Midwest to attend a variety of speaking events and computing workshops held throughout the weekend. Past speakers have included Alexis Ohanian, Larry Wall, Stephen Wolfram, Steve Wozniak, Blake Ross (creator of Firefox), Joel Spolsky, Eric Traut, and Ian Murdock (the "Ian" in Debian).
 
