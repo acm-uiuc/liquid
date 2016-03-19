@@ -32,7 +32,7 @@ cook in a messy kitchen, do you?
 
 Now we need to grab all of the Python packages:
 
-    pip install -r liquid/requirements.txt
+    pip2.7 install -r liquid/requirements.txt
 
 Note there is a problem with certain versions of Pip and speciic packages. It works fine on Pip 1.0ish.
 
