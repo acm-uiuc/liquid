@@ -122,7 +122,7 @@ def companies_invite(request, id):
         c = {"company": e, "password": password}
         if e.type == Company.JOBFAIR:
             body = render_to_string("conf/emails/jobfair_invite.txt", c, context_instance=RequestContext(request))
-            subject = "Invitation to Reflections | Projections 2016 Job Fair"
+            subject = "Invitation to Reflections | Projections 2016 Job Fair - " + e.company_name
         else:
             body = render_to_string("conf/emails/startupfair_invite.txt", c, context_instance=RequestContext(request))
             subject = "Invitation to Reflections | Projections 2016 Startup Fair"
