@@ -135,7 +135,7 @@ def companies_invite(request, id):
         if form.is_valid():
             data = form.cleaned_data
             if not settings.DEBUG:
-                cc = ["ACM RP Job Fair <jobfair-l@acm.illinois.edu>"]
+                cc = ["ACM Corporate <corporate@acm.illinois.edu>"]
             else:
                 cc =[]
             email = EmailMessage(subject=data["subject"],
