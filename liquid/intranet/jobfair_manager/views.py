@@ -125,7 +125,7 @@ def companies_invite(request, id):
             subject = "Invitation to Reflections | Projections 2016 Job Fair - " + e.company_name
         else:
             body = render_to_string("conf/emails/startupfair_invite.txt", c, context_instance=RequestContext(request))
-            subject = "Invitation to Reflections | Projections 2016 Startup Fair"
+            subject = "Invitation to Reflections | Projections 2016 Startup Fair - " + e.company_name
         form = InviteForm(data={"body":body,
                                 "subject":subject,
                                 "from_email":request.user.email,
