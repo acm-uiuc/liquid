@@ -5,13 +5,16 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import html
 from intranet.models import Member
+from django.shortcuts import get_object_or_404
 
 # Create your models here.
 class Quote(models.Model):
+
+   # Fields
    quote_text = models.TextField(max_length=700)
    quote_sources = models.CharField(max_length=100) # The sources of the quote (not displayed on the page, purely for recordkeeping)
    quote_source_html = models.CharField(max_length=200) # The HTML that represents the quote source (and is displayed with the quote)
-   quote_posters = models.CharField(max_length=100)
+   quote_posters = models.CharField(max_length=100, blank=True)
    quote_poster_html = models.CharField(max_length=200)
    created_at = models.DateTimeField(auto_now_add=True)
    
@@ -32,14 +35,12 @@ class Quote(models.Model):
       self.quote_source_html = ""
       quote_count = 0
       for author_netid in authors:
-      
+     
          quote_count += 1
       
          # Convert author's netid to their name (if possible)
-         author_obj = Member.objects.get(username=author_netid)
+         author_obj = get_object_or_404(Member, username=author_netid)
          author = author_obj.full_name()
-         if author == None or len(author) == 0:
-            author = author_netid
       
          # ============ In-quote tagged authors ===========          + r"(?=($|(?<=(\.|\s|\:))))"
          self.quote_text = re.sub(r"(^|(?<=(\.|\s|:)))(?P<author>(" + author + "|" + author_obj.first_name + "|" + author_netid + "))", "<a href='/intranet/quote/?author=" + author_netid + "'>\g<author></a>", self.quote_text)  
@@ -56,20 +57,15 @@ class Quote(models.Model):
          self.quote_source_html += "<a href='/intranet/quote/?author=" + author_netid + "'>" + author + "</a>" 
            
       # Hyperlink posters (people who edited the quote but didn't say anything noteworthy)
-      self.quote_posters = "," + html.escape(re.sub(",\s+", ",", self.quote_posters).strip(",")) + ","
-      posters = self.quote_posters.strip(",").split(",")
+      if len(self.quote_posters) != 0: # Posters were not recorded for some earlier quotes
+         self.quote_posters = "," + html.escape(re.sub(",\s+", ",", self.quote_posters).strip(",")) + ","
+         posters = self.quote_posters.strip(",").split(",")
+      else:
+         posters = [] # Posters should contain no elements if self.quote_posters is blank
          
       # If the quote posters are different than the quote authors, create the quote poster HTML
-      posters_are_authors = len(posters) == len(authors);
-      if posters_are_authors:
-         
-         # Poster --> author check (since the counts are equal, we only need to check in one direction)
-         for poster in posters:
-            posters_are_authors = posters_are_authors and poster in authors;
-            if not posters_are_authors:
-               break
-      
-      if not posters_are_authors:
+      posters_are_authors = set(posters) == set(authors)
+      if not posters_are_authors and len(posters) != 0:
       
          # Create quote poster HTML
          self.quote_poster_html = " (Posted by "
@@ -80,10 +76,8 @@ class Quote(models.Model):
             poster_count += 1
             
             # Convert poster's netid to their name (if possible)
-            poster_obj = Member.objects.get(username=poster_netid)
+            poster_obj = get_object_or_404(Poster, username=poster_netid)
             poster = poster_obj.full_name()
-            if poster == None or len(poster) == 0:
-               poster = poster_netid
             
             # Quote separators (commas and ands)
             if poster_count != 1:
